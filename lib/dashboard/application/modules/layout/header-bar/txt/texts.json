@@ -1,0 +1,20 @@
+{
+  "en": {
+    "titles": {
+      "community": "Beyond Community",
+      "cloud": "Go to Cloud Services"
+    },
+    "actions": {
+      "login": "Log In"
+    }
+  },
+  "es": {
+    "titles": {
+      "community": "Beyond Community",
+      "cloud": "Go to Cloud Services"
+    },
+    "actions": {
+      "login": "Log In"
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "en": {
+    "title": "Editor",
+    "controls": {
+      "theme": {
+        "label": "Theme"
+      },
+      "fontSize": {
+        "label": "Font size",
+        "placeholder": "12"
+      },
+      "wordWrap": {
+        "label": "Wordwrap"
+      }
+    },
+    "distribution": {
+      "name": "Nombre",
+      "platform": "Plataforma",
+      "environment": "Ambiente",
+      "port": "Puerto",
+      "ts": "TS",
+      "default": "default",
+      "ssr": "ssr",
+      "titleModal": "Creememos Una nueva distribucion",
+      "modalHeader": "Elige la configuracion para la distribucion",
+      "compress": "Comprimir",
+      "add": "Añadir",
+      "title": "Distribuciones"
+    },
+    "actions": {
+      "save": "Save"
+    }
+  },
+  "es": {
+    "title": "Editor",
+    "controls": {
+      "theme": {
+        "label": "Theme"
+      },
+      "fontSize": {
+        "label": "Font size",
+        "placeholder": "12"
+      },
+      "wordWrap": {
+        "label": "Wordwrap"
+      }
+    },
+    "distribution": {
+      "name": "Nombre",
+      "platform": "Plataforma",
+      "environment": "Ambiente",
+      "port": "Puerto",
+      "ts": "TS",
+      "default": "default",
+      "ssr": "ssr",
+      "titleModal": "Creememos Una nueva distribucion",
+      "modalHeader": "Elige la configuracion para la distribucion",
+      "compress": "Comprimir",
+      "add": "Añadir",
+      "title": "Distribuciones"
+    },
+    "actions": {
+      "save": "Save"
+    }
+  }
+}

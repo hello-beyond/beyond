@@ -1,0 +1,116 @@
+.preload-container {
+
+  .beyond-element-image {
+    opacity: 0;
+    position: absolute;
+    margin: auto;
+  }
+
+  .animation-container {
+    position: relative;
+    height: 50%;
+    transition: all 300ms ease-in;
+    width: 50%;
+    transform: rotate(30deg);
+
+    .animate-svg__container {
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      @include position-absolute();
+
+      .ds-preload__icon {
+        z-index: 20;
+        height: 150px;
+        width: 150px;
+        margin: auto;
+        animation: rotate 2s linear infinite;
+        transform-origin: center;
+        transform-box: fill-box;
+        animation-fill-mode: forwards;
+      }
+
+    }
+
+    .line {
+      position: absolute;
+      height: 100px;
+      width: 2px;
+      border: 2px solid;
+      z-index: 1;
+      margin: 15px;
+      transform: rotate(30deg);
+      animation: move 300ms infinite;
+      animation-fill-mode: forwards;
+
+      &.line-one {
+        margin-top: -100px;
+        margin-left: -200px;
+      }
+
+      &.line-one-two {
+        margin-top: -280px;
+        margin-left: -80px;
+        border-color: rgba(255, 255, 200, .1);
+      }
+
+      &.line-three {
+        margin-left: -20px;
+        border-color: rgba(255, 255, 200, .1);
+        margin-top: -150px;
+        display: none;
+      }
+
+      &.line-two {
+        margin-left: 200px;
+        margin-top: 150px;
+      }
+
+      &.line-two-two {
+        border-color: rgba(255, 255, 200, .1);
+        margin-left: 130px;
+        margin-top: 30px;
+      }
+    }
+
+  }
+
+  @keyframes move {
+    from {
+      transform: translateY(-150px);
+    }
+    to {
+      transform: translateY(150px);
+    }
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    13% {
+      transform: rotate(30deg) scale(1.1);
+    }
+    26% {
+      transform: rotate(45deg) scale(1.01);
+    }
+    39% {
+      transform: rotate(30deg) scale(1);
+    }
+    50% {
+      transform: rotate(0deg) scale(1.1);
+    }
+
+    63% {
+      transform: rotate(-30deg) scale(1.01);
+    }
+    76% {
+      transform: rotate(-45deg) scale(1.02);
+    }
+    89% {
+      transform: rotate(-30deg);
+    }
+
+  }
+}
+

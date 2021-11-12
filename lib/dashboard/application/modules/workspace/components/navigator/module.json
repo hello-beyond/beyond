@@ -1,0 +1,18 @@
+{
+  "code": {
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "dom": true,
+      "path": "scss",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

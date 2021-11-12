@@ -1,0 +1,6 @@
+{
+  "scope": "beyond-js",
+  "name": "backend",
+  "version": "1.0",
+  "environment": "node"
+}

@@ -1,0 +1,30 @@
+{
+  "en": {
+    "actions": {
+      "navigate": "Navegar",
+      "compile": "Compilar",
+      "editDescription": "Edit description",
+      "generatingDeclarations": "Generando...",
+      "publish": "Publish",
+      "update": "Update dependencies",
+      "declarations": "Generar declaraciones",
+      "start": "Play",
+      "stop": "Stop",
+      "restart": "Restart"
+    }
+  },
+  "es": {
+    "actions": {
+      "navigate": "Navegar",
+      "compile": "Compilar",
+      "editDescription": "Edit description",
+      "generatingDeclarations": "Generando...",
+      "publish": "Publish",
+      "update": "Update dependencies",
+      "declarations": "Generar declaraciones",
+      "start": "Play",
+      "stop": "Stop",
+      "restart": "Restart"
+    }
+  }
+}

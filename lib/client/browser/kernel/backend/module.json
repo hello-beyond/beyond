@@ -1,0 +1,5 @@
+{
+  "name": "backend",
+  "bundle": "ts",
+  "files": "*"
+}

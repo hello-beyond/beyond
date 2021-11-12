@@ -1,0 +1,78 @@
+{
+  "en": {
+    "empty": {
+      "title": "Bienvenido a BeyondJS",
+      "subtitle": "Crea tu primera aplicación",
+      "info": "¿Que es esto?"
+    },
+    "header": {
+      "title": "Projects",
+      "projectsTitle": "Projects",
+      "applications": "Applications",
+      "libraries": "Libraries",
+      "elements": "Elements",
+      "titleHeader": "Application name goes here title",
+      "showApps": "Show APP Information",
+      "filtersTitle": "Filters Bundles",
+      "selectView": "Select View",
+      "welcome": "Welcome:",
+      "logIn": "Log In:"
+    },
+    "applications": {
+      "libraries": "Libraries",
+      "libAssoc": "Associated libraries",
+      "modules": "Modules",
+      "modAssoc": "Associated modules"
+    },
+    "application": {
+      "description": "No posee descripcion"
+    },
+    "actions": {
+      "play": "Play",
+      "stop": "Stop",
+      "details": "Details",
+      "compile": "Compile",
+      "publish": "Publish",
+      "create": "Create New App",
+      "download": "Download"
+    }
+  },
+  "es": {
+    "empty": {
+      "title": "Bienvenido a BeyondJS",
+      "subtitle": "Crea tu primera aplicación",
+      "info": "¿Que es esto?"
+    },
+    "header": {
+      "title": "Projects",
+      "projectsTitle": "Projects",
+      "applications": "Applications",
+      "libraries": "Libraries",
+      "elements": "Elements",
+      "titleHeader": "Application name goes here title",
+      "showApps": "Show APP Information",
+      "filtersTitle": "Filters Bundles",
+      "selectView": "Select View",
+      "welcome": "Welcome:",
+      "logIn": "Log In:"
+    },
+    "applications": {
+      "libraries": "Libraries",
+      "libAssoc": "Associated libraries",
+      "modules": "Modules",
+      "modAssoc": "Associated modules"
+    },
+    "application": {
+      "description": "No posee descripcion"
+    },
+    "actions": {
+      "play": "Play",
+      "stop": "Stop",
+      "details": "Details",
+      "compile": "Compile",
+      "publish": "Publish",
+      "create": "Create New App",
+      "download": "Download"
+    }
+  }
+}

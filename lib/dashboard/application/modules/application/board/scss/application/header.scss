@@ -1,0 +1,37 @@
+.application__board > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .actions {
+    display: flex;
+    align-content: center;
+    gap: 10px;
+
+    .beyond-icon-button.bee-action {
+      border: 1px solid $beyond-secondary-color;
+      border-radius: 50%;
+      display: flex;
+      align-content: center;
+      justify-items: center;
+      height: 2.5rem;
+      width: 2.5rem;
+      background: $beyond-secondary-dark-color;
+      fill: $beyond-text-on-primary;
+      transition: all 300ms ease-in;
+
+      &.action--play {
+        fill: green;
+        border: 1px solid green;
+        border: 1px solid rgba(green, .2);
+      }
+
+      &.action--stop {
+        fill: red;
+        border: 1px solid rgba(red, .2);
+        background: rgba(red, .2);
+      }
+
+    }
+  }
+}

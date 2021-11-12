@@ -1,0 +1,36 @@
+{
+  "en": {
+    "favorites": {
+      "title": "Selecciona la lista de favoritos",
+      "actions": {
+        "save": "Guardar en favoritos",
+        "delete": "¿Desea eliminar esta elemento de sus favoritos?",
+        "new": "Nueva Lista",
+        "select": "Seleccionar de la lista existente"
+      },
+      "newList": "Nueva lista",
+      "goToList": "Seleccionar lista existente",
+      "newControl": {
+        "placeholder": "Nombre de la lista",
+        "label": "Nombre de la lista"
+      }
+    }
+  },
+  "es": {
+    "favorites": {
+      "title": "Selecciona la lista de favoritos",
+      "actions": {
+        "save": "Guardar en favoritos",
+        "delete": "¿Desea eliminar esta elemento de sus favoritos?",
+        "new": "Nueva Lista",
+        "select": "Seleccionar de la lista existente"
+      },
+      "newList": "Nueva lista",
+      "goToList": "Seleccionar lista existente",
+      "newControl": {
+        "placeholder": "Nombre de la lista",
+        "label": "Nombre de la lista"
+      }
+    }
+  }
+}

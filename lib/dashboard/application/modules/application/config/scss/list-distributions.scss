@@ -1,0 +1,64 @@
+.workspace__board .container-distributions {
+  .header-distributions {
+    display: flex;
+    justify-content: space-between;
+
+    .beyond-button {
+      width: 7rem;
+      height: 3rem;
+    }
+  }
+
+   .list-distributions {
+    list-style-type: none;
+    padding:0;
+
+    .item-distribution {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid $beyond-text-on-primary;
+      background-color: #0d121a;
+      border-radius: 0.5rem;
+      padding: 2rem;
+      margin-bottom: 1rem;
+
+      .right-box-distributions {
+        display: flex;
+        flex-direction: column;
+        text-transform: capitalize;
+
+        h4 {
+          font-size: 14px;
+        }
+        span {
+          padding-bottom: 1rem;
+          font-size: 12px;
+          margin-left: 0.5rem;
+          color: #ff8056;
+        }
+      }
+
+      .left-box-distributions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-transform: capitalize;
+        margin-right: 2rem;
+        margin-top: 1rem;
+
+        span {
+          margin-bottom: 1rem;
+          background-color: $beyond-secondary-dark-color;
+          color: $beyond-text-on-primary;
+          border-radius: 0.5rem;
+          font-size: 10px;
+          padding: 0.5rem;
+          border: 1px solid $beyond-secondary-dark-color;
+        }
+        &:nth-child(2) {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

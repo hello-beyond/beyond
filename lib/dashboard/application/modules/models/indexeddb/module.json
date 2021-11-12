@@ -1,0 +1,12 @@
+{
+  "id": "beyondIndexedDB",
+  "name": "indexeddb",
+  "code": {
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.ds-create-module .ds-create-module__breadcrumb-form {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  align-items: center;
+  background: $beyond-primary-light-color;
+
+  .beyond-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    transition: 200ms all ease-in;
+
+    a {
+      display: inline-grid;
+      padding: 5px;
+      cursor: pointer;
+      transition: all 200ms linear;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "title": "Landing page",
+  "languages": [
+    "eng"
+  ],
+  "name": "main-app",
+  "description": "APP Básica con menú para empezar el desarrollo",
+  "layout": "basic-layout",
+  "template": "template/template.json",
+  "modules": {
+    "path": "modules",
+    "externals": {
+      "react": {
+        "development": "umd/react.development.js",
+        "production": "umd/react.production.min.js"
+      },
+      "react-dom": {
+        "development": "umd/react-dom.development.js",
+        "production": "umd/react-dom.production.min.js"
+      }
+    }
+  },
+  "deployment": {
+    "distributions": [
+      {
+        "name": "web-development",
+        "platform": "web",
+        "environment": "development",
+        "port": 8080,
+        "default": true
+      }
+    ]
+  }
+}

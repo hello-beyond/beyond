@@ -1,0 +1,9 @@
+{
+  "bundle": "widget",
+  "element": {
+    "name": "beyond-layout-children"
+  },
+  "ts": {
+    "files": "*"
+  }
+}

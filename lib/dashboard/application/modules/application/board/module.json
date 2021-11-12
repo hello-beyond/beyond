@@ -1,0 +1,34 @@
+{
+  "code": {
+    "imports": "imports.js",
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "dom": true,
+      "path": "scss",
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "multilanguage": true,
+    "path": "txt",
+    "files": "*"
+  },
+  "start": {
+    "ts": {
+      "files": "start.ts"
+    }
+  }
+}

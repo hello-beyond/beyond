@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "blank-app",
+  "template": "template/template.json",
+  "modules": {
+    "path": "./modules",
+    "externals": {
+      "react": {
+        "development": "umd/react.development.js",
+        "production": "umd/react.production.min.js"
+      },
+      "react-dom": {
+        "development": "umd/react-dom.development.js",
+        "production": "umd/react-dom.production.min.js"
+      }
+    }
+  },
+  "deployment": {
+  }
+}

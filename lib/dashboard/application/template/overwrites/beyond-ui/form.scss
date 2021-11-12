@@ -1,0 +1,67 @@
+.btn {
+  border-radius: 30px;
+}
+
+.beyond-button {
+  border-radius: 30px;
+  padding: 8px 20px !important;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+
+  &.btn-large {
+    width: 60%;
+    display: grid;
+  }
+
+  &.btn-block {
+    padding: 8px 100px;
+  }
+
+  &.primary {
+    @include gradient-y($beyond-primary-light-color, $beyond-primary-dark-color);
+    color: $beyond-text-on-primary;
+
+    &.icon-on-primary .beyond-icon {
+      margin-left: 8px;
+      background: $beyond-text-on-primary;
+      color: $beyond-primary-color;
+      fill: $beyond-primary-color;
+    }
+
+    &[disabled] {
+      opacity: .7;
+      cursor: not-allowed;
+
+      &:hover {
+        @include gradient-y($beyond-primary-light-color, $beyond-primary-dark-color);
+      }
+    }
+  }
+}
+
+.beyond-element-input {
+  label {
+    font-size: 1.2rem;
+
+  }
+
+  input {
+    border-bottom: 1px solid $beyond-gray-light-color;
+  }
+}
+
+.beyond-element-switch {
+  .switch {
+    input {
+      &:focus + .slider {
+        box-shadow: 0 0 1px $beyond-primary-color;
+      }
+
+      &:checked + .slider {
+        background-color: $beyond-primary-color;
+      }
+    }
+  }
+
+}

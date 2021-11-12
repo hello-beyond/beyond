@@ -1,0 +1,26 @@
+{
+  "layout": {
+    "id": "dashboard",
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*",
+        "test.js"
+      ]
+    },
+    "scss": {
+      "dom": true,
+      "path": "scss",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

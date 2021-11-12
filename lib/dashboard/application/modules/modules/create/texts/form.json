@@ -1,0 +1,76 @@
+{
+  "en": {
+    "form": {
+      "steps": {
+        "first": "Datos Generales",
+        "second": "Detalles del módulo"
+      },
+      "name": "Nombre del modulo",
+      "description": "Descripción",
+      "title": "Titulo",
+      "developer": "Desarrollador",
+      "multilanguage": "¿Archivo de texto?",
+      "server": "¿Código servidor?",
+      "styles": "¿Hojas de estilo?",
+      "url": "URL",
+      "button": "CREAR"
+    },
+    "placeholder": {
+      "name": "Define un nombre con la caracteristica principal de tu modulo",
+      "title": "Mi modulo con beyondJS",
+      "description": "Este modulo tiene potencial",
+      "developer": "Tu nombre de desarrollador",
+      "button": "button"
+    },
+    "help": {
+      "name": "El nombre del modulo define el nombre de la carpeta.",
+      "description": "Una descripción de que hace el modulo",
+      "title": "Titulo a utilizar",
+      "developer": "El desarrollador es el autor, es necesario agregarlo para poder utilizarlo como dependencia en otro modulo.",
+      "url": "Define un nombre para tu ruta por defecto",
+      "styles": "Las hojas de estilo, por defecto se manejan con sass.",
+      "titles": {
+        "text": "Definicion en el module.json para archivos de textos",
+        "server": "Definicion en el module.json para backend del modulo",
+        "styles": "Definicion en el module.json para hojas de estilo con sass"
+      }
+    }
+  },
+  "es": {
+    "form": {
+      "steps": {
+        "first": "Datos Generales",
+        "second": "Detalles del módulo"
+      },
+      "name": "Nombre del modulo",
+      "description": "Descripción",
+      "title": "Titulo",
+      "developer": "Desarrollador",
+      "multilanguage": "¿Archivo de texto?",
+      "server": "¿Código servidor?",
+      "styles": "¿Hojas de estilo?",
+      "url": "URL",
+      "button": "CREAR"
+    },
+    "placeholder": {
+      "name": "Define un nombre con la caracteristica principal de tu modulo",
+      "title": "Mi modulo con beyondJS",
+      "description": "Este modulo tiene potencial",
+      "developer": "Tu nombre de desarrollador",
+      "button": "button"
+    },
+    "help": {
+      "name": "El nombre del modulo define el nombre de la carpeta.",
+      "description": "Una descripción de que hace el modulo",
+      "title": "Titulo a utilizar",
+      "developer": "El desarrollador es el autor, es necesario agregarlo para poder utilizarlo como dependencia en otro modulo.",
+      "url": "Define un nombre para tu ruta por defecto",
+      "styles": "Las hojas de estilo, por defecto se manejan con sass.",
+      "titles": {
+        "text": "Definicion en el module.json para archivos de textos",
+        "server": "Definicion en el module.json para backend del modulo",
+        "styles": "Definicion en el module.json para hojas de estilo con sass"
+      }
+    }
+  }
+}

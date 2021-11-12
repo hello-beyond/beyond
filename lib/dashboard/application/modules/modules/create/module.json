@@ -1,0 +1,32 @@
+{
+  "code": {
+    "route": "/modules/create",
+    "layout": "dashboard",
+    "vdir": 1,
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "path": "scss",
+      "dom": true,
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "multilanguage": true,
+    "path": "texts",
+    "files": "*"
+  }
+}

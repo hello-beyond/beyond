@@ -1,0 +1,11 @@
+@mixin accent-color {
+  color: var(--beyond-primary-accent-color);
+}
+
+@mixin hover-transition($time: 300ms, $properties: all, $type: easy-in) {
+  //transition: $properties $type $time;
+  transition: ease-in all 300ms;
+  &:hover {
+    transition: ease-in all 300ms;
+  }
+}

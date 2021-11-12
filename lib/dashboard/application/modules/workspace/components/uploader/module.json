@@ -1,0 +1,10 @@
+{
+  "code": {
+    "imports": "imports.js",
+    "jsx": {
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

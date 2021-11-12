@@ -1,0 +1,14 @@
+{
+  "en": {
+    "empty": "There is no items",
+    "title": "Notificactions",
+    "item": {
+      "line": "Line",
+      "file": "File"
+    }
+  },
+  "es": {
+    "empty": "There is no items",
+    "title": "Notificactions"
+  }
+}

@@ -1,0 +1,69 @@
+@mixin ds-list_item {
+
+  border-bottom: 1px solid $beyond-gray-lighter-color;
+  padding: 20px;
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 20px;
+  }
+  .right-col {
+    text-align: right;
+    justify-content: flex-end;
+  }
+
+  h3, h4, .p1 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .item-information, .actions {
+    display: flex;
+    gap: 8px;
+
+    .action-icon {
+      &:hover {
+        .beyond-icon {
+          border: 1px solid $beyond-primary-accent-color;
+          background: $beyond-primary-accent-color;
+          transition: all 300ms ease-in;
+        }
+      }
+    }
+
+    .beyond-icon-button.error-icon {
+      .beyond-icon {
+        background: $beyond-error-color;
+      }
+    }
+
+    .beyond-icon-button {
+      border: 1px solid $beyond-secondary-color;
+      border-radius: 50%;
+      padding: 10px;
+      height: 5.2rem;
+      width: 3.2rem;
+      background: $beyond-secondary-dark-color;
+      fill: $beyond-text-on-primary;
+      transition: all 300ms ease-in;
+
+      .beyond-ripple {
+        border-radius: 50%;
+      }
+
+      &.error-icon {
+        background: $beyond-error-color;
+      }
+
+      &.warning-icon {
+        fill: $beyond-warning-color;
+      }
+
+    }
+  }
+
+}

@@ -1,0 +1,91 @@
+import {SingleCall, beyond} from "beyond_libraries/beyond/core/ts";
+import {PageManager} from "./page-manager";
+import {PageContainer} from "../../../abstract-classes/pages/page-container";
+import {PageLegacy} from "../../../abstract-classes/pages/legacy";
+
+export class PageLoader {
+    readonly #pageManager: PageManager;
+
+    // The imported bundle where the Page Manager is exported
+    #bundle: any;
+    get bundle() {
+        return this.#bundle;
+    }
+
+    // The instantiated page
+    #page: PageContainer;
+    get page() {
+        return this.#page;
+    }
+
+    #loaded = false;
+    get loaded() {
+        return this.#loaded;
+    }
+
+    #error = '';
+    get error() {
+        return this.#error;
+    }
+
+    constructor(pageManager: PageManager) {
+        this.#pageManager = pageManager;
+    }
+
+    #pageError = (message: string, exc?: Error) => {
+        this.#error = message;
+        console.error(this.#error);
+        exc && console.error(exc.stack);
+    };
+
+    #createPage = async () => {
+        const {config} = this.#pageManager;
+        try {
+            this.#error = '';
+            const Manager = <typeof PageContainer>(this.#bundle.Manager || this.#bundle.Page);
+            if (!Manager || typeof Manager !== 'function') {
+                return this.#pageError(`Bundle "${config.bundle}" did not return a valid page manager`);
+            }
+
+            // Required for backward compatibility
+            !(Manager.prototype instanceof PageContainer) && (Manager.prototype = new (PageLegacy as any)(this.#pageManager));
+
+            this.#page = new Manager(this.#pageManager);
+            typeof this.#page.render === 'function' && await this.#page.render();
+        } catch (exc) {
+            return this.#pageError(`Error instantiating page on bundle "${config.bundle}"`, exc);
+        }
+    }
+
+    #hmrChangedDetected = async () => {
+        const {config} = this.#pageManager;
+        try {
+            this.#page.destroy();
+        } catch (exc) {
+            console.error(`Error destroying page "${config.bundle}"`);
+        }
+        await this.#createPage();
+    }
+
+    @SingleCall
+    async load() {
+        if (this.#loaded || this.#error) return;
+
+        const {config} = this.#pageManager;
+        const bundle = config.bundle;
+        try {
+            this.#bundle = await beyond.import(bundle);
+        } catch (exc) {
+            return this.#pageError(`Error importing page from bundle "${bundle}"`, exc);
+        }
+
+        await this.#createPage();
+        this.#loaded = true;
+
+        // Function .destroy is required to support HMR
+        typeof this.#page.destroy === 'function' &&
+        this.#bundle.hmr.on('change:ts',
+            () => this.#hmrChangedDetected().catch(exc => console.error(exc.stack))
+        );
+    }
+}

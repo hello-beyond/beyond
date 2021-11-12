@@ -1,0 +1,15 @@
+.hiding-layout-container {
+  @include fadeOut();
+}
+
+.hide-layout-container {
+  display: none !important;
+}
+
+.showed-layout-container {
+
+}
+
+.showing-layout-container {
+  @include fadeIn();
+}

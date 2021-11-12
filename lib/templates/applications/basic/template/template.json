@@ -1,0 +1,15 @@
+{
+  "application": {
+    "processor": "scss",
+    "files": [
+      "variables.scss",
+      "custom-properties.scss",
+      "styles.scss"
+    ]
+  },
+  "processors": {
+    "scss": [
+      "variables.scss"
+    ]
+  }
+}

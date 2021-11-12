@@ -1,0 +1,10 @@
+{
+  "bundle": "js",
+  "files": [
+    "phonegap.js",
+    "splash.js",
+    "push.js"
+  ],
+  "standalone": true,
+  "scoped": true
+}

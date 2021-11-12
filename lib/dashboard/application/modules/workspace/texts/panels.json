@@ -1,0 +1,24 @@
+{
+  "en": {
+    "panels": {
+      "tab": {
+        "actions": {
+          "splitRight": "Split Right",
+          "splitDown": "Split Down",
+          "close": "Close"
+        }
+      }
+    }
+  },
+  "es": {
+    "panels": {
+      "tab": {
+        "actions": {
+          "splitRight": "Split Right",
+          "splitDown": "Split Down",
+          "close": "Close"
+        }
+      }
+    }
+  }
+}
