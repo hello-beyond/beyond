@@ -248,11 +248,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       texts
     } = useCreateModuleContext();
     if (bundle !== 'bridge') return null;
-    const fields = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "item two-columns"
-    }), /*#__PURE__*/React.createElement(BlankFields, {
+    const fields = /*#__PURE__*/React.createElement(BlankFields, {
       state: state
-    }));
+    });
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       className: "item two-columns"
     }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
@@ -549,11 +547,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       texts
     } = useCreateModuleContext();
     if (bundle !== 'ts') return null;
-    const fields = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "item two-columns"
-    }), /*#__PURE__*/React.createElement(BlankFields, {
+    const fields = /*#__PURE__*/React.createElement(BlankFields, {
       state: state
-    }));
+    });
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       className: "item two-columns"
     }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
@@ -664,10 +660,11 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     } = useCreateModuleContext();
     if (!template) return null;
     const [error, setError] = React.useState();
-    const [state, setState] = React.useState({
-      styles: true
-    });
     const [initial, setInitial] = React.useState(true);
+    const noStyles = template !== 'bridge' || template !== 'ts';
+    const [state, setState] = React.useState({
+      styles: !noStyles
+    });
 
     const onSubmit = async event => {
       event.preventDefault();

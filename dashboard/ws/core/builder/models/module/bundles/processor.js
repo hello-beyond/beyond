@@ -4,14 +4,13 @@ module.exports = class Processor extends require('../../file-manager') {
     _name;
     _files = ["*"];
     _path;
-    _dom = true;
     _defaultFiles = [];
     _create;
 
     skeleton = {
         default: ['path', 'files'],
-        scss: ['dom', 'path', 'files'],
-        less: ['dom', 'path', 'files'],
+        scss: ['path', 'files'],
+        less: ['path', 'files'],
         ts: ['transpile', 'path', 'files']
     };
     _DEFAULT_NAME_FILES = {
