@@ -2,7 +2,7 @@
   "version": 1,
   "title": "Landing page",
   "languages": [
-    "eng"
+    "en"
   ],
   "name": "main-app",
   "description": "APP Básica con menú para empezar el desarrollo",
@@ -21,6 +21,7 @@
       }
     }
   },
+  "ssr": {},
   "deployment": {
     "distributions": [
       {

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "title": "Node JS Basic Application",
+  "backend": {},
+  "languages": [
+    "en"
+  ],
+  "name": "node-app",
+  "description": "Node JS Basic application",
+  "modules": {
+    "path": "modules",
+    "externals": {
+      "socket.io": {
+        "development": "client-dist/socket.io.js",
+        "production": "client-dist/socket.io.msgpack.min.js"
+      }
+    }
+  }
+}

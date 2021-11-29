@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "name": "empty-app",
+  "template": "template/template.json",
+  "ssr": {},
+  "modules": {
+    "path": "./modules",
+    "externals": {
+      "socket.io": {
+        "development": "client-dist/socket.io.js",
+        "production": "client-dist/socket.io.msgpack.min.js"
+      }
+    }
+  },
+  "deployment": {
+  }
+}
