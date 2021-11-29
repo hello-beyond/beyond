@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/modal/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/alert/code", "@beyond-js/ui/image/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/context-menu/code", "@beyond-js/dashboard/unnamed/components/select/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _js, _ts, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/modal/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/alert/code", "@beyond-js/ui/image/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/unnamed/components/select/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _js, _ts, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -16,7 +16,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/tree/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/workspace-tree/code', false, {});
   const {
     container
   } = bundle;
@@ -151,16 +151,11 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     const onClick = e => {
       e.stopPropagation();
-      console.log('onClick');
     };
 
     const onSave = async e => {
       e.preventDefault();
-      e.stopPropagation(); // console.log('onSave', widget)
-      // console.log('--------------------------------------------------------------')
-      // console.log(widget, name, route, type, fetching, bundle, submitWithWidget, widgetChange)
-      // console.log(formValues, handleChange, reset, route, errorName, setErrorName, errorRute, setErrorRute)
-      // console.log('--------------------------------------------------------------')
+      e.stopPropagation();
 
       if (widget) {
         setWidgetWidgetChange(true);
@@ -168,14 +163,11 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         return;
       }
 
-      console.log('onSave 2', name.length);
-
       if (widget && name.length === 0) {
         setErrorName(true);
         return;
       }
 
-      console.log('onSave 3', widgetChange);
       setFetching(true);
 
       if (widgetChange) {
@@ -209,8 +201,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         return;
       }
 
-      console.log('onSave 4');
-      console.log('AQUI', bundle);
       await module.addBundle({
         bundle: bundle
       });
@@ -242,7 +232,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const toReturn = () => {
       setWidgetWidgetChange(false);
       setWidget(false);
-      console.log('11', bundle);
     };
 
     const text = widget ? texts.actions.next : texts.actions.save;
@@ -1234,7 +1223,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         await item[confirmAction]();
         setConfirmAction(false);
       } catch (e) {
-        console.log("error", e);
+        console.error("error", e);
       }
     };
 
@@ -1515,7 +1504,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     });
 
     const openErrors = event => {
-      console.log("moduleId", branch.moduleId);
       openBoard('module', {
         moduleId: branch.moduleId
       });
@@ -2460,7 +2448,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }
 
     delete() {
-      console.log("eliminemos", this.object);
       this.object.delete();
     }
 

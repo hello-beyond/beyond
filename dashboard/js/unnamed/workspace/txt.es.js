@@ -23,6 +23,16 @@ define([], function () {
           "splitRight": "Split Right",
           "splitDown": "Split Down",
           "close": "Close"
+        },
+        "labels": {
+          "apps": "Aplicaciones",
+          "navigator": "Navegador",
+          "compile": "Compilador",
+          "static": "Estaticos",
+          "app": "Aplicación",
+          "appConfig": "Configuración",
+          "module": "Modulo",
+          "settings": "Preferencias"
         }
       }
     },
@@ -37,7 +47,11 @@ define([], function () {
       "label": "Ingresa tu código de acceso temprano",
       "action": "Empezar",
       "error": "Código invalido, verifiquelo por favor",
-      "message": "BeyondJS esta siento lanzado en etapas. Actualmente estamos ofreciendo un accceso temprano a aquellos que esten interesados en probarlo y brindarnos retroalimentación. "
+      "message": "BeyondJS esta siento lanzado en etapas. Actualmente estamos ofreciendo un accceso temprano a aquellos que esten interesados en probarlo y brindarnos retroalimentación. ",
+      "inputs": {
+        "name": "Tú nombre",
+        "code": "Código"
+      }
     }
   };
 

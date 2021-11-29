@@ -1,4 +1,4 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/unnamed/workspace/components/editor/code", "@beyond-js/dashboard/unnamed/workspace/components/tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/unnamed/workspace/components/editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -21,150 +21,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   JS PROCESSOR
   ***********/
 
-  /*****************
-  FILE: dashboard.js
-  *****************/
+  /*******************
+  FILE: application.js
+  *******************/
 
-
-  class DSModel extends _js.ReactiveModel {
-    _db;
-
-    get db() {
-      return this._db;
-    }
-
-    ready() {
-      return this.db.initialised;
-    }
-
-    constructor() {
-      super();
-      const database = new DSDatabase();
-      database.initialise();
-      this._db = database;
-    }
-
-    async initialise() {
-      return this.db.initialise();
-    }
-
-    store = name => this.db.store(name);
-  }
-
-  const Dashboard = new DSModel();
-  /***********************
-  FILE: database\config.js
-  ***********************/
-
-  _exports.Dashboard = Dashboard;
-
-  function getConfig() {
-    const CONFIG = Object.freeze({
-      DB: 'beyond.dashboard',
-      VERSION: 4
-    }); //TODO validar uso de tablas list, records, storages y unpublished
-
-    const tables = {
-      favorites: {
-        name: 'favorites',
-        config: {
-          keyPath: 'id',
-          autoIncrement: true
-        },
-        indexes: [['id', 'id', {
-          unique: true
-        }], ['name', 'name', {
-          unique: true
-        }], ['items', 'items', {
-          unique: false
-        }]]
-      },
-      workspace: {
-        name: 'workspace',
-        config: {
-          keyPath: 'id',
-          autoIncrement: true
-        },
-        indexes: [['id', 'id', {
-          unique: true
-        }], ['application', 'application', {
-          unique: true
-        }], ['panels', 'panels'], ['config', 'config']]
-      }
-    };
-    const stores = [];
-
-    for (const store in tables) {
-      stores.push(tables[store]);
-    }
-
-    return {
-      name: CONFIG.DB,
-      version: CONFIG.VERSION,
-      stores: stores
-    };
-  }
-  /************************
-  FILE: database\indexed.js
-  ************************/
-
-
-  function DSDatabase() {
-    'use strict';
-
-    let db, initialised;
-    const config = getConfig();
-    Object.defineProperty(this, 'initialised', {
-      get: () => initialised
-    });
-    Object.defineProperty(this, 'db', {
-      get: () => db
-    });
-    let promise;
-
-    this.initialise = async () => {
-      if (initialised || promise) return promise;
-      promise = new PendingPromise();
-      const {
-        BeyondDB
-      } = await beyond.import('@beyond-js/dashboard/indexeddb/code');
-      db = await BeyondDB.create(config);
-      initialised = true;
-      promise.resolve(db);
-      promise = undefined;
-    };
-
-    this.store = name => db.stores.has(name) ? db.stores.get(name) : false;
-  }
-  /***************
-  FILE: factory.js
-  ***************/
-
-
-  class ApplicationsFactory {
-    _applications = new Map();
-
-    get applications() {
-      return this._applications;
-    }
-
-    constructor() {}
-
-    get(id, moduleId, element) {
-      if (this.applications.has(id)) return this.applications.get(id);
-      const application = new ApplicationModel(id, moduleId, element);
-      this.applications.set(id, application);
-      return application;
-    }
-
-  }
-
-  const applicationsFactory = new ApplicationsFactory();
-  /*************
-  FILE: model.js
-  *************/
-
-  _exports.applicationsFactory = applicationsFactory;
 
   class ApplicationModel extends _js.ReactiveModel {
     _bundles = ['layout', 'page', 'code', 'all', 'widget'];
@@ -342,7 +202,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       }
 
       if (this.element === 'module') {
-        // console.log(0.1, this.moduleManager, this.moduleManager?.active?.ready)
         return this.moduleManager?.active?.ready;
       }
 
@@ -356,11 +215,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
       if (['statics'].includes(this.element)) {
         return this.application.static?.tree.landed;
-      } // TODO: @julio
+      } // TODO: @julio no se esta validando este tab en el ready del modelo
 
 
       return this.application.tree.landed;
-      console.log("no se esta validando este tab en el ready del modelo");
     }
     /**
      *
@@ -506,10 +364,150 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       this.application.am.items.forEach(setNotifications);
     };
   }
+  /*****************
+  FILE: dashboard.js
+  *****************/
+
+
+  class DSModel extends _js.ReactiveModel {
+    _db;
+
+    get db() {
+      return this._db;
+    }
+
+    ready() {
+      return this.db.initialised;
+    }
+
+    constructor() {
+      super();
+      const database = new DSDatabase();
+      database.initialise();
+      this._db = database;
+    }
+
+    async initialise() {
+      return this.db.initialise();
+    }
+
+    store = name => this.db.store(name);
+  }
+
+  const Dashboard = new DSModel();
+  /***********************
+  FILE: database\config.js
+  ***********************/
+
+  _exports.Dashboard = Dashboard;
+
+  function getConfig() {
+    const CONFIG = Object.freeze({
+      DB: 'beyond.dashboard',
+      VERSION: 4
+    }); //TODO validar uso de tablas list, records, storages y unpublished
+
+    const tables = {
+      favorites: {
+        name: 'favorites',
+        config: {
+          keyPath: 'id',
+          autoIncrement: true
+        },
+        indexes: [['id', 'id', {
+          unique: true
+        }], ['name', 'name', {
+          unique: true
+        }], ['items', 'items', {
+          unique: false
+        }]]
+      },
+      workspace: {
+        name: 'workspace',
+        config: {
+          keyPath: 'id',
+          autoIncrement: true
+        },
+        indexes: [['id', 'id', {
+          unique: true
+        }], ['application', 'application', {
+          unique: true
+        }], ['panels', 'panels'], ['config', 'config']]
+      }
+    };
+    const stores = [];
+
+    for (const store in tables) {
+      stores.push(tables[store]);
+    }
+
+    return {
+      name: CONFIG.DB,
+      version: CONFIG.VERSION,
+      stores: stores
+    };
+  }
+  /************************
+  FILE: database\indexed.js
+  ************************/
+
+
+  function DSDatabase() {
+    'use strict';
+
+    let db, initialised;
+    const config = getConfig();
+    Object.defineProperty(this, 'initialised', {
+      get: () => initialised
+    });
+    Object.defineProperty(this, 'db', {
+      get: () => db
+    });
+    let promise;
+
+    this.initialise = async () => {
+      if (initialised || promise) return promise;
+      promise = new PendingPromise();
+      const {
+        BeyondDB
+      } = await beyond.import('@beyond-js/dashboard/indexeddb/code');
+      db = await BeyondDB.create(config);
+      initialised = true;
+      promise.resolve(db);
+      promise = undefined;
+    };
+
+    this.store = name => db.stores.has(name) ? db.stores.get(name) : false;
+  }
+  /***************
+  FILE: factory.js
+  ***************/
+
+
+  class ApplicationsFactory {
+    _applications = new Map();
+
+    get applications() {
+      return this._applications;
+    }
+
+    constructor() {}
+
+    get(id, moduleId, element) {
+      if (this.applications.has(id)) return this.applications.get(id);
+      const application = new ApplicationModel(id, moduleId, element);
+      this.applications.set(id, application);
+      return application;
+    }
+
+  }
+
+  const applicationsFactory = new ApplicationsFactory();
   /*****************************
   FILE: module\bundle-manager.js
   *****************************/
 
+  _exports.applicationsFactory = applicationsFactory;
 
   class BundleManager extends _js.ReactiveModel {
     #tree = new Map();
@@ -622,10 +620,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       const dependencies = new _ts.ProcessorDependencies(specs);
       dependencies.bind('change', this._checkDependencies);
       dependencies.fetch();
-      this.#dependencies = dependencies; //TODO @ftovar test
-      // console.log('hi dependencies', processorId, specs)
-      // processorId === 'application//1917723684//components/button//code//ts' && (window.#dependencies = dependencies);
-      // console.log('hi dependencies collection', dependencies)
+      this.#dependencies = dependencies;
     }
 
     loadConsumers() {
@@ -653,10 +648,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       const collection = new _ts.Consumers(specs);
       collection.bind('change', this._checkConsumers);
       collection.fetch();
-      this.#consumers = collection; //TODO @ftovar test
-      // console.log('hi consumer', this.bundle.id, specs)
-      // this.#bundle.id === 'application//1917723684//components/button//code' && (window.#consumers = collection)
-      // console.log('hi consumer collection', collection)
+      this.#consumers = collection;
     }
 
     _checkConsumers = () => {
@@ -686,7 +678,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       file = file.replace(/\//g, '\\');
 
       if (!this.bundle.processors.has(processorName)) {
-        console.log("NO");
         return;
       }
 
@@ -745,16 +736,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this._active;
     }
 
-    _models = new Map();
+    #models = new Map();
 
     get models() {
-      return this._models;
+      return this.#models;
     }
 
-    _promises = new Map();
+    #promises = new Map();
 
     get promises() {
-      return this._promises;
+      return this.#promises;
     }
 
     get ready() {}
@@ -831,8 +822,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       if (!id) return;
       if (this.promises.has(id)) return this.promises.get(id);
       const promise = new PendingPromise();
-
-      this._promises.set(id, promise);
+      this.#promises.set(id, promise);
 
       if (this.models.has(id)) {
         this.promises.delete(id);
@@ -1196,8 +1186,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
 
     async createFile(params) {
-      const response = await this.#am.createFile(params);
-      console.log('createFile response', response);
+      await this.#am.createFile(params);
     }
 
   }

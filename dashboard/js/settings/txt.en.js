@@ -4,7 +4,7 @@ define([], function () {
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/application/config/txt', true, {
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/settings/txt', true, {
     "txt": {
       "multilanguage": true
     }
@@ -30,22 +30,29 @@ define([], function () {
         "label": "Wordwrap"
       }
     },
+    "tabs": {
+      "general": "General",
+      "apps": "Applications"
+    },
     "distribution": {
-      "name": "Nombre",
-      "platform": "Plataforma",
-      "environment": "Ambiente",
-      "port": "Puerto",
+      "name": "NAme",
+      "platform": "Platform",
+      "environment": "Environment",
+      "port": "Port",
       "ts": "TS",
       "default": "default",
-      "ssr": "ssr",
-      "titleModal": "Creememos Una nueva distribucion",
-      "modalHeader": "Elige la configuracion para la distribucion",
-      "compress": "Comprimir",
-      "add": "Añadir",
-      "title": "Distribuciones"
+      "ssr": "SSR",
+      "titleModal": "Let's add a new distribution",
+      "modalHeader": "Configure",
+      "compress": "Compress",
+      "add": "Add",
+      "title": "Distributions"
     },
     "actions": {
       "save": "Save"
+    },
+    "applications": {
+      "select": "Application"
     }
   };
 

@@ -610,7 +610,6 @@ export const module = <Module>null;
         source.bundles.forEach(bundle => {
           bundle.dependencies?.items.forEach(dependency => {
             if (!dependency.declaration) {
-              console.log("no tiene declaraciones", dependency.id);
               return;
             }
 

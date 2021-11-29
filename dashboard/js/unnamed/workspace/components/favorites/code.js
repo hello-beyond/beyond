@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/workspace/components/tree/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/workspace-tree/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -665,7 +665,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       await this.loadTemplate();
 
       if (item.type === 'processor') {
-        console.log("obtenemos el recurso de un processor");
         return;
       }
 
@@ -728,7 +727,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
         itemToLoad.module = module.module;
         if (type === 'module') return this.getChildren(type, itemToLoad);
-        console.log(17, module, module.module?.tree?.landed);
         const {
           bundle
         } = module.bundles.get(item.bundle.name);
@@ -737,7 +735,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         if (type !== 'bundle') {
           const processor = bundle.processors.get(item.processor.name);
           itemToLoad.processor = processor;
-          itemToLoad.source = type === 'source' ? processor.sources.items.find(s => s.id === item.source.id) : undefined;
+          itemToLoad.source = type === 'source' && processor.sources.items.find(s => s.id === item.source.id);
         }
 
         return this.getChildren(type, itemToLoad);

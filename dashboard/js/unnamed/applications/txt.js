@@ -18,9 +18,9 @@ define([], function () {
 
   __pkg.exports.process = (require, _exports) => _exports.txt = {
     "empty": {
-      "title": "Bienvenido a BeyondJS",
-      "subtitle": "Crea tu primera aplicación",
-      "info": "¿Que es esto?"
+      "title": "Welcome to BeyondJS",
+      "subtitle": "Let's start with your first project",
+      "info": "What's that?"
     },
     "header": {
       "title": "Projects",
@@ -42,7 +42,7 @@ define([], function () {
       "modAssoc": "Associated modules"
     },
     "application": {
-      "description": "No posee descripcion"
+      "description": "Does not have description"
     },
     "actions": {
       "play": "Play",

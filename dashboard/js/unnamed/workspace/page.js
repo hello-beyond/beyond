@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/unnamed/application/config/code", "@beyond-js/dashboard/unnamed/applications/code", "@beyond-js/dashboard/unnamed/application/create/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/unnamed/application/board/code", "@beyond-js/dashboard/unnamed/workspace/components/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/modules/view/code", "@beyond-js/dashboard/unnamed/modules/create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _js, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/settings/code", "@beyond-js/dashboard/unnamed/applications/code", "@beyond-js/dashboard/unnamed/application/create/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/unnamed/application/board/code", "@beyond-js/dashboard/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/modules/view/code", "@beyond-js/dashboard/unnamed/modules/create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _js, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -64,7 +64,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     };
 
     removeApplicationItems() {
-      _code18.DSPreAside.remove(['application', 'module', 'favorites', 'add', 'template', 'statics', 'settings']);
+      _code18.DSPreAside.remove(['application', 'module', 'favorites', 'add', 'template', 'statics']);
     }
 
     addApplicationItems() {
@@ -126,9 +126,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
         },
         settings: {
           action: (name, params) => {
-            // const querystring = new URLSearchParams({...params, panel: name}).toString();
-            // const uri = `/application/${application.id}?${querystring}`;
-            // window.routing.replaceState({}, '', uri);
             this.workspace.openBoard(name, params);
           },
           icon: 'setting',
@@ -210,32 +207,32 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     (() => {
       _code18.DSBoards.add('application', {
         control: _code13.ApplicationBoard,
-        label: 'Aplicación'
+        label: 'app'
       });
 
       _code18.DSBoards.add('applicationConfig', {
         control: _code13.ApplicationConfig,
-        label: 'Aplicación'
+        label: 'appConfig'
       });
 
       _code18.DSBoards.add('module', {
         control: _code19.ModuleBoard,
-        label: 'Module'
+        label: 'module'
       });
 
       _code18.DSBoards.add('static', {
         control: _code13.StaticBoard,
-        label: 'Static'
+        label: 'static'
       });
 
       _code18.DSBoards.add('settings', {
         control: _code8.ConfigBoard,
-        label: 'Configuración'
+        label: 'settings'
       });
 
       _code18.DSBoards.add('applications', {
         control: _code9.ApplicationsBoard,
-        label: 'Aplicaciones'
+        label: 'apps'
       });
 
       _code18.DSBoards.add('navigator', {
@@ -398,8 +395,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
         for (const item of response.data) {
           if (!item.name) continue;
-          const instance = this.getInstance(type, item); // console.log('type', type, item.name, 'instance', instance)
-
+          const instance = this.getInstance(type, item);
           type === 'overwrite' && model.upload({
             origin: model.filename,
             overwrite: item.name
@@ -408,10 +404,8 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
           if (!instance) continue;
 
           const update = async () => {
-            console.log('addImage update ', item.name, instance.landed, type, instance);
             if (!instance.found) return;
-            this.items.set(item.name, instance); // console.log('addImage update 2', instance.landed, type, instance)
-
+            this.items.set(item.name, instance);
             instance.off('change', update);
             this.triggerEvent();
           };
@@ -544,7 +538,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
       this.#aside = new WorkspaceAside(this);
       this.#dashboard = new _ts.Dashboard();
-      this.openApp = this.openApp.bind(this);
       this.openBoard = this.openBoard.bind(this); //we validate the userCode
 
       this.#validate(localStorage.getItem('ds.user.code'));
@@ -573,17 +566,14 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       this._panels.active.add(name, specs);
     }
 
-    openApp(id) {
-      this.active = undefined;
-      this.triggerEvent();
+    openApp = async id => {
+      this.active = await this.getApplication(id);
       const specs = {
         id,
         name: `app.${id}`
       };
-      this.openBoard('application', specs); // window.routing.replaceState({
-      //     applications: [id]
-      // }, '', `/?application_id=${id}`);
-    }
+      this.openBoard('application', specs);
+    };
 
     openNavigator(id, url) {
       this.openBoard('navigator', {
@@ -592,8 +582,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       });
     }
 
-    getApplication(appId, moduleId, element) {
-      return _code11.applicationsFactory.get(appId, moduleId, element);
+    getApplication(id, moduleId, element) {
+      if ([undefined, NaN].includes(id)) return;
+      return _code11.applicationsFactory.get(parseInt(id), moduleId, element);
     }
     /**
      *
@@ -753,7 +744,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
           });
         }, 2000);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       } // reset()
 
     };
@@ -1066,6 +1057,15 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
           placement: 'right'
         },
         action: () => workspace.openBoard('applications')
+      });
+
+      _code18.DSPreAside.addToBottom('settings', {
+        action: (name, params) => workspace.openBoard(name, params),
+        icon: 'setting',
+        title: 'Configuración',
+        tippy: {
+          placement: 'right'
+        }
       });
     }, []);
 

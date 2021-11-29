@@ -9,7 +9,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/context-menu/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/context-menu/code', false, {});
   const {
     container
   } = bundle;

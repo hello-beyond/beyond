@@ -16,6 +16,7 @@ module.exports = class Application extends require('../file-manager') {
     _static;
     _host;
     _backend;
+    _node;
     _fileName = 'application.json';
     _layout;
     _deployment;
@@ -23,13 +24,18 @@ module.exports = class Application extends require('../file-manager') {
     _templates = {
         empty: './applications/empty',
         react: './applications/react',
-        basic: './applications/basic'
+        web: './applications/web',
+        node: './applications/node',
+        backend: './applications/backend',
+        library: './applications/library',
+        express: './applications/express'
     };
 
     skeleton = [
         'version', 'title', 'name', 'description',
         'layout', 'template', 'languages',
-        'modules', 'static', 'backend',
+        'modules', 'static',
+        'backend', 'node',
         'deployment'
     ];
 
@@ -91,13 +97,16 @@ module.exports = class Application extends require('../file-manager') {
     async create(type, specs) {
         const fs = global.utils.fs;
         if (!type) {
-            throw new Error('The type of application was not specified');
+            throw 'The type of application was not specified';
         }
         if (!this._templates.hasOwnProperty(type)) {
-            throw new Error(`Does not exist a ${type} template`).red;
+            /**
+             * @TODO: @julio check with felix and box
+             */
+            throw `Does not exist a ${type} template`;
         }
         if (await fs.exists(this.path)) {
-            throw new Error(`The application is already exists in ${this.path}`);
+            throw `The application is already exists in ${this.path}`;
         }
 
         const tplPath = await this.templatesPath();
@@ -110,7 +119,7 @@ module.exports = class Application extends require('../file-manager') {
             this._deployment = this.#deployment.getProperties();
         }
 
-        await this.save(specs);
+        this.save(specs);
     }
 
     save(values) {

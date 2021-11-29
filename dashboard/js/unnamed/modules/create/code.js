@@ -180,8 +180,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
 
   function BlankFields({
-    state,
-    setState
+    state
   }) {
     const {
       model,
@@ -197,9 +196,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       const target = event.currentTarget;
       const newValue = {};
       newValue[target.name] = target.checked;
-      setState({ ...state,
-        ...newValue
-      });
       model.bundle.set(target.name, target.checked);
     };
 
@@ -238,14 +234,56 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       title: texts.help.titles.server
     })));
   }
-  /************
-  form\code.jsx
-  ************/
+  /**********************
+  form\bundles\bridge.jsx
+  **********************/
+
+
+  function FormBridge({
+    state,
+    handleChange
+  }) {
+    const {
+      bundle,
+      texts
+    } = useCreateModuleContext();
+    if (bundle !== 'bridge') return null;
+    const fields = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item two-columns"
+    }), /*#__PURE__*/React.createElement(BlankFields, {
+      state: state
+    }));
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item two-columns"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      required: true,
+      name: "name",
+      label: texts.form.name,
+      placeholder: texts.placeholder.name,
+      value: state.name,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      required: true,
+      name: "developer",
+      label: texts.form.developer,
+      placeholder: texts.placeholder.developer,
+      value: state.developer,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.developer))), /*#__PURE__*/React.createElement(AdditionalFields, {
+      children: fields
+    }), /*#__PURE__*/React.createElement(FormFooter, null));
+  }
+  /********************
+  form\bundles\code.jsx
+  ********************/
 
 
   function FormCode({
     state,
-    setState,
     handleChange
   }) {
     const {
@@ -272,8 +310,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
     }, texts.help.description))), /*#__PURE__*/React.createElement(BlankFields, {
-      state: state,
-      setState: setState
+      state: state
     }));
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       className: "item two-columns"
@@ -299,132 +336,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }
-  /**************
-  form\footer.jsx
-  **************/
-
-
-  function FormFooter() {
-    const {
-      model,
-      texts
-    } = useCreateModuleContext();
-    const [isValid, setIsValid] = React.useState(model.bundle?.valid);
-    React.useEffect(() => {
-      const onChange = () => setIsValid(model.bundle.valid);
-
-      model.bundle?.bind('change', onChange);
-
-      const unMount = () => {
-        if (model.bundle) model.bundle?.unbind('change', onChange);
-      };
-
-      return unMount;
-    });
-    const attrs = {};
-    if (!isValid) attrs.disabled = true;
-    return /*#__PURE__*/React.createElement("footer", {
-      className: "align-right ds-modal__actions"
-    }, model.fetching ? /*#__PURE__*/React.createElement(_code3.BeyondSpinner, {
-      fetching: true
-    }) : /*#__PURE__*/React.createElement(_code4.BeyondButton, _extends({}, attrs, {
-      className: "btn primary",
-      type: "submit"
-    }), texts.form.button));
-  }
-  /************
-  form\form.jsx
-  ************/
-
-
-  function Form() {
-    const {
-      application,
-      close,
-      model,
-      template,
-      bundle
-    } = useCreateModuleContext(); // console.log('---bundle---', bundle, 'template', template)
-    // console.log('routes ', application.application.routes())
-
-    if (!template) return null;
-    const [error, setError] = React.useState();
-    const [state, setState] = React.useState({
-      styles: true
-    });
-    const [view, setView] = React.useState('basic');
-
-    const onSubmit = async event => {
-      event.preventDefault();
-
-      try {
-        if (application.application.routes().includes(model.bundle.route)) {
-          setError('EPA ERROR de ruta');
-          return;
-        }
-
-        const response = await model.bundle.publish();
-
-        if (response.error) {
-          setError(response.error);
-          return;
-        }
-
-        close();
-        const url = `/application/${application.application.id}`;
-        const qs = new URLSearchParams({
-          aside: 'module',
-          module: model.bundle.moduleId
-        }).toString();
-        routing.replaceState(`${url}?${qs}`);
-      } catch (exc) {
-        setError(exc.error);
-      }
-    };
-
-    const handleChange = event => {
-      const target = event.currentTarget; // console.log('-------------------------------------')
-      // console.log(target.name, target.value)
-
-      const value = {};
-      let fieldValue = target.value;
-
-      if (target.name === 'name') {
-        //TODO: @julio check that the field does not accepts special characters.
-        fieldValue = fieldValue.replace(/ /g, '-');
-      }
-
-      value[target.name] = fieldValue;
-      const newState = { ...state,
-        ...value
-      }; // model.bundle.set(value);
-
-      model.bundle.set(target.name, fieldValue);
-      setState(newState);
-    };
-
-    const props = {
-      state,
-      setState,
-      handleChange
-    };
-    return /*#__PURE__*/React.createElement(React.Fragment, null, error && /*#__PURE__*/React.createElement(_code.BeyondAlert, {
-      type: "error",
-      message: error
-    }), /*#__PURE__*/React.createElement(AsideForm, null), /*#__PURE__*/React.createElement("div", {
-      className: "ds-create-module__template-form"
-    }, /*#__PURE__*/React.createElement(_code4.BeyondForm, {
-      onSubmit: onSubmit
-    }, /*#__PURE__*/React.createElement(FormPage, props), /*#__PURE__*/React.createElement(FormCode, props), /*#__PURE__*/React.createElement(FormLayout, props))));
-  }
-  /**************
-  form\layout.jsx
-  **************/
+  /**********************
+  form\bundles\layout.jsx
+  **********************/
 
 
   function FormLayout({
     state,
-    setState,
     handleChange
   }) {
     const {
@@ -462,8 +380,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
     }, texts.help.developer)), /*#__PURE__*/React.createElement(BlankFields, {
-      state: state,
-      setState: setState
+      state: state
     }));
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       className: "item"
@@ -480,9 +397,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }
-  /*******************
-  form\page\layout.jsx
-  *******************/
+  /***************************
+  form\bundles\page\layout.jsx
+  ***************************/
 
 
   function FormLayoutSection({
@@ -497,7 +414,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       bundle: 'layout'
     });
     const items = layouts.map(layout => {
-      const id = layout.module.layoutId;
+      const id = layout.module.layoutId ?? layout.module.name;
       return /*#__PURE__*/React.createElement("option", {
         key: id,
         "data-layout": id
@@ -516,13 +433,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }, /*#__PURE__*/React.createElement("option", null, "Seleccione"), items));
   }
-  /*****************
-  form\page\page.jsx
-  *****************/
+  /*************************
+  form\bundles\page\page.jsx
+  *************************/
 
 
   function FormPage({
-    state: parentState,
+    state,
     handleChange
   }) {
     const {
@@ -532,7 +449,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     } = useCreateModuleContext();
     if (bundle !== 'page') return null;
     const [route, setRoute] = React.useState('/');
-    const [state, setState] = React.useState(parentState);
 
     const handlePage = event => {
       const target = event.currentTarget; //TODO: check regexp
@@ -580,7 +496,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "help-block"
     }, texts.help.developer)), /*#__PURE__*/React.createElement(BlankFields, {
       state: state,
-      setState: setState
+      setState: handleChange
     }));
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       className: "item"
@@ -613,11 +529,210 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       defaultValue: model.bundle.vdir,
       name: "vdir",
       required: true,
-      value: state.route,
+      value: state.vdir,
       onChange: handleChange
     }))), /*#__PURE__*/React.createElement(AdditionalFields, {
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
+  }
+  /**************************
+  form\bundles\typescript.jsx
+  **************************/
+
+
+  function FormTypescript({
+    state,
+    handleChange
+  }) {
+    const {
+      bundle,
+      texts
+    } = useCreateModuleContext();
+    if (bundle !== 'ts') return null;
+    const fields = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item two-columns"
+    }), /*#__PURE__*/React.createElement(BlankFields, {
+      state: state
+    }));
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item two-columns"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      required: true,
+      name: "name",
+      label: texts.form.name,
+      placeholder: texts.placeholder.name,
+      value: state.name,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      required: true,
+      name: "developer",
+      label: texts.form.developer,
+      placeholder: texts.placeholder.developer,
+      value: state.developer,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.developer))), /*#__PURE__*/React.createElement(AdditionalFields, {
+      children: fields
+    }), /*#__PURE__*/React.createElement(FormFooter, null));
+  }
+  /**********************
+  form\bundles\widget.jsx
+  **********************/
+
+
+  function FormWidget({
+    state,
+    handleChange
+  }) {
+    const {
+      bundle,
+      texts
+    } = useCreateModuleContext();
+    if (bundle !== 'widget') return null;
+    const fields = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item two-columns"
+    }), /*#__PURE__*/React.createElement(BlankFields, {
+      state: state
+    }));
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item two-columns"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      required: true,
+      name: "name",
+      label: texts.form.name,
+      placeholder: texts.placeholder.name,
+      value: state.name,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      required: true,
+      name: "developer",
+      label: texts.form.developer,
+      placeholder: texts.placeholder.developer,
+      value: state.developer,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.developer))), /*#__PURE__*/React.createElement(AdditionalFields, {
+      children: fields
+    }), /*#__PURE__*/React.createElement(FormFooter, null));
+  }
+  /**************
+  form\footer.jsx
+  **************/
+
+
+  function FormFooter() {
+    const {
+      model,
+      texts
+    } = useCreateModuleContext();
+    const [isValid, setIsValid] = React.useState(model.bundle?.valid);
+    React.useEffect(() => {
+      const onChange = () => setIsValid(model.bundle.valid);
+
+      model.bundle?.bind('change', onChange);
+      return () => model.bundle && model.bundle?.unbind('change', onChange);
+    });
+    const attrs = {};
+    if (!isValid) attrs.disabled = true;
+    return /*#__PURE__*/React.createElement("footer", {
+      className: "align-right ds-modal__actions"
+    }, model.fetching ? /*#__PURE__*/React.createElement(_code3.BeyondSpinner, {
+      fetching: true
+    }) : /*#__PURE__*/React.createElement(_code4.BeyondButton, _extends({}, attrs, {
+      className: "btn primary",
+      type: "submit"
+    }), texts.form.button));
+  }
+  /************
+  form\form.jsx
+  ************/
+
+
+  function Form() {
+    const {
+      application,
+      close,
+      model,
+      template,
+      texts
+    } = useCreateModuleContext();
+    if (!template) return null;
+    const [error, setError] = React.useState();
+    const [state, setState] = React.useState({
+      styles: true
+    });
+    const [initial, setInitial] = React.useState(true);
+
+    const onSubmit = async event => {
+      event.preventDefault();
+
+      try {
+        if (application.application.routes().includes(model.bundle.route)) {
+          setError(`${texts.form.errors.route} ${model.bundle.route}`);
+          return;
+        }
+
+        const response = await model.bundle.publish();
+
+        if (response.error) {
+          setError(response.error);
+          return;
+        }
+
+        close();
+        const url = `/application/${application.application.id}`;
+        const qs = new URLSearchParams({
+          aside: 'module',
+          module: model.bundle.moduleId
+        }).toString();
+        routing.replaceState(`${url}?${qs}`);
+      } catch (exc) {
+        setError(exc.error);
+      }
+    };
+
+    const handleChange = event => {
+      const target = event.currentTarget;
+      const value = {};
+      let fieldValue = target.value;
+
+      if (target.name === 'name') {
+        fieldValue = fieldValue.replace(/ /g, '-');
+      } //Seteamos el valor por defecto del estado
+
+
+      if (initial) {
+        model.bundle.set('styles', state.styles);
+        setInitial(false);
+      }
+
+      value[target.name] = fieldValue;
+      const newState = { ...state,
+        ...value
+      };
+      model.bundle.set(target.name, fieldValue);
+      setState(newState);
+    };
+
+    const props = {
+      state,
+      setState,
+      handleChange
+    };
+    return /*#__PURE__*/React.createElement(React.Fragment, null, error && /*#__PURE__*/React.createElement(_code.BeyondAlert, {
+      type: "error",
+      message: error
+    }), /*#__PURE__*/React.createElement(AsideForm, null), /*#__PURE__*/React.createElement("div", {
+      className: "ds-create-module__template-form"
+    }, /*#__PURE__*/React.createElement(_code4.BeyondForm, {
+      onSubmit: onSubmit
+    }, /*#__PURE__*/React.createElement(FormPage, props), /*#__PURE__*/React.createElement(FormWidget, props), /*#__PURE__*/React.createElement(FormLayout, props), /*#__PURE__*/React.createElement(FormCode, props), /*#__PURE__*/React.createElement(FormBridge, props), /*#__PURE__*/React.createElement(FormTypescript, props))));
   }
   /**********
   options.jsx

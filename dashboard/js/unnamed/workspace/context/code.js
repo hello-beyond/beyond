@@ -97,7 +97,7 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
   }); // FILE: preaside.ts
 
   modules.set('./preaside', {
-    hash: 1699062159,
+    hash: 2495865331,
     creator: function (require, exports) {
       "use strict";
 
@@ -119,14 +119,14 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
         }
 
         addToTop(identifier, specs) {
-          this.top.set(identifier, specs);
+          this.#top.set(identifier, specs);
           this.trigger('item.added');
         }
 
         addItemsToTop(items) {}
 
         addToBottom(identifier, specs) {
-          this.bottom.set(identifier, specs);
+          this.#bottom.set(identifier, specs);
           this.trigger('item.added');
         }
 

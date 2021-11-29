@@ -12,14 +12,13 @@ module.exports = function (ipc) {
                 return {status: false, error: `Ya existe una carpeta ${params.name} en su directorio`};
             }
             await app.create(params.type, params);
-
             server.addApplication(app.relativePath());
             server.save();
-
             const applicationId = await ipc.main('ids.path/generate', app.path);
             return {status: true, data: {id: applicationId}};
         }
         catch (exc) {
+            console.error(1, exc);
             return {status: false, error: exc.message}
         }
     };

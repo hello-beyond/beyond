@@ -23,6 +23,16 @@ define([], function () {
           "splitRight": "Split Right",
           "splitDown": "Split Down",
           "close": "Close"
+        },
+        "labels": {
+          "apps": "Applications",
+          "navigator": "navigator",
+          "compile": "Compile app",
+          "static": "Static",
+          "app": "Application",
+          "appConfig": "Application config",
+          "module": "Module",
+          "settings": "Settings"
         }
       }
     },
@@ -40,7 +50,7 @@ define([], function () {
       "message": "BeyondJS is being launched in stages. We are actually offering early access for those who are interested to try  BeyondJS with us and to help with your appreciated  feedback.",
       "inputs": {
         "name": "Your name",
-        "code": "code"
+        "code": "Code"
       }
     }
   };

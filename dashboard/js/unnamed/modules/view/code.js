@@ -244,12 +244,10 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
         setModel(model);
       })();
     }, [specs.moduleId]);
-    if (!specs.moduleId && !moduleManager.active || !ready) return null;
-    const texts = module.texts.value;
-
-    if (!moduleManager.active?.module?.found && !moduleManager.active.module?.fetching) {
-      return /*#__PURE__*/React.createElement("h2", null, "Modulo no conseguido");
-    }
+    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready) return null;
+    const texts = module.texts.value; // if (!moduleManager.active?.module?.found && !moduleManager.active.module?.fetching) {
+    //     return <h2>Modulo no conseguido</h2>
+    // }
 
     return /*#__PURE__*/React.createElement(ModuleContext.Provider, {
       value: {
@@ -271,7 +269,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
 
   function Description() {
     return /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement(EditField, {
-      field: "title"
+      field: "name"
     }), /*#__PURE__*/React.createElement(EditField, {
       field: "description"
     }));

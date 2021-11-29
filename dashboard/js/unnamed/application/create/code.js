@@ -49,57 +49,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
     return _extends.apply(this, arguments);
   }
   /*********
-  blocks.jsx
-  *********/
-
-
-  function Blocks({
-    selectType,
-    texts
-  }) {
-    return /*#__PURE__*/React.createElement("div", {
-      className: "applications__types"
-    }, /*#__PURE__*/React.createElement("h4", {
-      className: ""
-    }, texts.types.empty.title), /*#__PURE__*/React.createElement("ul", {
-      className: "items__list"
-    }, /*#__PURE__*/React.createElement("li", {
-      onClick: selectType,
-      "data-type": "empty",
-      className: "list__item"
-    }, /*#__PURE__*/React.createElement(_code2.BeyondImage, {
-      src: "/images/logos/typescript.png"
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "content"
-    }, /*#__PURE__*/React.createElement("h4", null, texts.types.typescript.title), /*#__PURE__*/React.createElement("p", null, texts.types.typescript.description))), /*#__PURE__*/React.createElement("li", {
-      onClick: selectType,
-      "data-type": "react",
-      className: "list__item"
-    }, /*#__PURE__*/React.createElement(_code2.BeyondImage, {
-      src: "/images/logos/react.png"
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "content"
-    }, /*#__PURE__*/React.createElement("h4", null, texts.types.react.title), /*#__PURE__*/React.createElement("p", null, texts.types.react.description))), /*#__PURE__*/React.createElement("li", {
-      onClick: selectType,
-      "data-type": "node",
-      className: "list__item disabled"
-    }, /*#__PURE__*/React.createElement(_code2.BeyondImage, {
-      src: "/images/logos/node.png"
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "content"
-    }, /*#__PURE__*/React.createElement("h4", null, texts.types.node.title), /*#__PURE__*/React.createElement("p", null, texts.types.node.description)))), /*#__PURE__*/React.createElement("h4", {
-      className: "block_types-title"
-    }, texts.types.basic.title), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", {
-      onClick: selectType,
-      "data-type": "basic",
-      className: "list__item"
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
-      icon: "newApp"
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "content"
-    }, /*#__PURE__*/React.createElement("h4", null, texts.types.list.title), /*#__PURE__*/React.createElement("p", null, texts.types.list.description)))));
-  }
-  /*********
   detail.jsx
   *********/
 
@@ -109,7 +58,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
   }) {
     const {
       texts: {
-        form: texts
+        form: texts,
+        actions
       },
       model,
       fetching
@@ -207,7 +157,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
     }), fetching ? /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
       className: "on-primary",
       fetching: true
-    }) : texts.actions.submit))));
+    }) : actions.submit))));
   }
   /*******
   form.jsx
@@ -215,8 +165,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
 
 
   function Form() {
-    const [type, setType] = React.useState(undefined);
     const {
+      type,
+      setType,
       model,
       texts: {
         form: texts
@@ -226,13 +177,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
     const onSubmit = event => {
       event.preventDefault();
       model.create();
-    };
-
-    const selectType = event => {
-      const target = event.currentTarget;
-      const name = target.dataset.type;
-      model.type = name;
-      setType(name);
     };
 
     const typeIcon = type === 'empty' ? 'appTemplate' : 'newApp';
@@ -247,10 +191,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
       icon: typeIcon
     }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h4", null, texts.types[type].title), /*#__PURE__*/React.createElement("p", null, texts.types[type].description))), /*#__PURE__*/React.createElement(DetailApp, {
       type: type
-    })) : /*#__PURE__*/React.createElement(Blocks, {
-      selectType: selectType,
-      texts: texts
-    })));
+    })) : /*#__PURE__*/React.createElement(Blocks, null)));
   }
   /*********
   header.jsx
@@ -267,15 +208,91 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
       className: "primary-color"
     }, texts.subtitle)));
   });
+  /*****************
+  options\blocks.jsx
+  *****************/
+
+  function Blocks() {
+    const [items, templates] = useModel();
+    const {
+      texts: {
+        form: texts
+      }
+    } = useCreateAppContext();
+    const outputItems = items.map(item => /*#__PURE__*/React.createElement(Item, {
+      key: item,
+      name: item
+    }));
+    const outputTemplates = templates.map(item => /*#__PURE__*/React.createElement(Item, {
+      key: item,
+      name: item
+    }));
+    return /*#__PURE__*/React.createElement("div", {
+      className: "applications__types"
+    }, /*#__PURE__*/React.createElement("h4", {
+      className: ""
+    }, texts.types.titles.empty), /*#__PURE__*/React.createElement("ul", {
+      className: "items__list"
+    }, outputItems), /*#__PURE__*/React.createElement("h4", {
+      className: "block_types-title"
+    }, texts.types.titles.templates), /*#__PURE__*/React.createElement("ul", null, outputTemplates));
+  }
+  /***************
+  options\item.jsx
+  ***************/
+
+
+  function Item({
+    name
+  }) {
+    const {
+      setType,
+      model,
+      texts: {
+        form: texts
+      }
+    } = useCreateAppContext();
+
+    const selectType = event => {
+      const target = event.currentTarget;
+      const name = target.dataset.name;
+      model.type = name;
+      setType(name);
+    };
+
+    const src = `/images/logos/${name}.png`;
+    return /*#__PURE__*/React.createElement("li", {
+      onClick: selectType,
+      "data-algo": "11",
+      "data-name": name,
+      className: "list__item"
+    }, /*#__PURE__*/React.createElement(_code2.BeyondImage, {
+      src: src
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "content"
+    }, /*#__PURE__*/React.createElement("h4", null, texts.types[name].title), /*#__PURE__*/React.createElement("p", null, texts.types[name].description)));
+  }
+  /************
+  use-model.jsx
+  ************/
+
+
+  function useModel() {
+    const items = ['node', 'backend', 'library', 'web'];
+    const templates = ["react", "board", "express"];
+    return [items, templates];
+  }
   /*******
   view.jsx
   *******/
+
 
   const ApplicationCreate = function ({
     show,
     closeModal
   }) {
     const [state, setState] = React.useState({});
+    const [type, setType] = React.useState(undefined);
     React.useEffect(() => {
       const model = new _js2.BuilderApplication();
       const notify = _js.NotifyManager;
@@ -333,6 +350,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
 
     return /*#__PURE__*/React.createElement(CreateAppContext.Provider, {
       value: {
+        type,
+        setType,
         model,
         texts,
         fetching

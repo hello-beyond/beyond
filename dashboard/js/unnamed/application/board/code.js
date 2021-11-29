@@ -8,6 +8,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   _exports.ApplicationConfig = ApplicationConfig;
   _exports.ModulesList = ModulesList;
   _exports.StaticBoard = StaticBoard;
+  _exports.useController = useController;
   //DASHBOARD
   //CONTEXTS
   const {
@@ -33,58 +34,66 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   ******************/
 
 
-  class Controller extends _js.ReactiveModel {
-    _application;
+  const controller = new class Controller extends _js.ReactiveModel {
+    #application;
 
     get application() {
-      return this._application;
+      return this.#application;
     }
+
+    #changed = false;
 
     get ready() {
-      return this.application?.ready && _code9.Dashboard.ready && module.texts.ready && _code12.monacoDependency?.ready;
+      const dependencies = !!module.texts.ready && !!_code12.monacoDependency?.ready;
+      const models = !!this.application?.ready && !!_code9.Dashboard.ready; // console.log(0.1, dependencies, models, this.currentId, this.application?.application?.id, this);
+
+      return dependencies && models && this.currentId === this.application?.application?.id;
     }
 
-    _moduleManager;
+    #moduleManager;
 
     get moduleManager() {
-      return this._moduleManager;
+      return this.#moduleManager;
     }
 
-    _favorites;
+    #favorites;
 
     get favorites() {
-      return this._favorites;
+      return this.#favorites;
     }
 
     get texts() {
       return module.texts.value;
     }
-    /**
-     * @TODO: @julio Check element parameter
-     * @param workspace
-     * @param appId
-     * @param moduleId
-     * @param element
-     */
 
+    #currentId;
 
-    constructor(workspace, appId, moduleId, element) {
-      super();
+    get currentId() {
+      return this.#currentId;
+    }
+
+    start(workspace, appId, moduleId, element) {
+      if (this.#application && this.currentId !== appId) {
+        this.#application.unbind('change', this.triggerEvent);
+        this.#application = undefined;
+      }
+
       const model = workspace.getApplication(appId, moduleId, element);
+      this.#currentId = appId;
       model.bind('change', this.triggerEvent);
-      this._application = model;
       this._workspace = workspace;
-      this._favorites = model.favorites;
-      this._moduleManager = model.moduleManager;
-      this._workspace.active = model;
+      this.#application = model;
+      this.#favorites = model.favorites;
+      this.#moduleManager = model.moduleManager;
       module.texts.bind('change', this.triggerEvent);
 
       _code12.monacoDependency.bind('change', this.triggerEvent);
 
       window.app = this;
+      this.triggerEvent();
     }
 
-  }
+  }();
   /************
   JSX PROCESSOR
   ************/
@@ -93,34 +102,32 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   application.jsx
   **************/
 
-
   function ApplicationBoard(props) {
     const [displayView, setDisplayView] = React.useState(localStorage.getItem('beyond.lists.view') ?? 'table');
     const [state, setState] = React.useState({});
     const {
       panel,
-      workspace,
-      workspace: {
-        application
-      }
+      workspace
     } = (0, _code14.useDSWorkspaceContext)();
+    const {
+      id,
+      moduleId
+    } = props?.specs ?? {};
     React.useEffect(() => {
-      const {
-        id,
-        moduleId
-      } = props?.specs ?? {};
       if (!id) return;
-      const controller = new Controller(workspace, id, moduleId);
 
       const onChange = () => {
-        setState({ ...state,
+        const {
+          ready,
+          texts
+        } = controller;
+        setState(state => ({ ...state,
           controller,
-          ready: controller.ready,
-          texts: controller.texts,
-          application: controller.application
-        });
+          ready,
+          texts
+        }));
 
-        if (controller.ready) {
+        if (ready) {
           let {
             application: {
               application
@@ -130,29 +137,24 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         }
       };
 
+      controller.start(workspace, id, moduleId);
       controller.bind('change', onChange);
       if (controller.ready) onChange();
       return () => {
         controller.unbind('change', onChange);
       };
-    }, [props.specs?.id]);
-    if (!state.ready) return /*#__PURE__*/React.createElement(Preloader, null);
-    const {
-      controller
-    } = state;
+    }, [id]);
+    if (!state.ready || controller.currentId !== id) return /*#__PURE__*/React.createElement(Preloader, null);
+    const value = {
+      application: controller.application,
+      texts: state.texts,
+      displayView,
+      setDisplayView,
+      id
+    };
     return /*#__PURE__*/React.createElement(_code14.AppContext.Provider, {
-      value: {
-        application,
-        texts: state.texts,
-        displayView
-      }
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(ApplicationConfig, null), /*#__PURE__*/React.createElement(Header, {
-      displayView: displayView,
-      setDisplayView: setDisplayView
-    }), /*#__PURE__*/React.createElement(ModulesList, {
-      displayView: displayView,
-      setDisplayView: setDisplayView
-    })));
+      value: value
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(ApplicationConfig, null), /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(ModulesList, null)));
   }
   /*********************
   application\config.jsx
@@ -304,6 +306,23 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: toggleEdit,
       icon: "edit"
     })));
+  }
+  /*****************************
+  application\use-controller.jsx
+  *****************************/
+
+
+  function useController() {
+    const [controller, setController] = React.useState(null);
+    React.useEffect(() => {
+      const controller = new Controller(...arguments);
+
+      const onChange = () => {};
+
+      controller.bind('change', onChange);
+      return () => controller.unbind('change', onChange);
+    }, []);
+    return [controller];
   }
   /*************
   bee-action.jsx
@@ -463,12 +482,11 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   ****************/
 
 
-  function Header({
-    displayView,
-    setDisplayView
-  }) {
+  function Header() {
     let {
-      texts
+      texts,
+      displayView,
+      setDisplayView
     } = (0, _code14.useAppContext)();
     texts = texts.navbar;
     /**
@@ -920,7 +938,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       event.stopPropagation();
       event.preventDefault();
       workspace.openBoard('module', {
-        label: module.pathname
+        label: module.module.pathname,
+        moduleId: module.module.id
       });
     };
 
@@ -977,18 +996,18 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   ************/
 
 
-  function ModulesList({
-    displayView
-  }) {
+  function ModulesList() {
     const {
       filterBundle,
       application
     } = (0, _code14.useAppContext)();
     let {
-      texts
+      texts,
+      displayView
     } = (0, _code14.useAppContext)();
-    const [items, setItems] = React.useState(application.items);
-    (0, _code8.useBinder)([application], () => setItems(application.items));
+    if (!application) return null;
+    const [items, setItems] = React.useState(application?.items ?? []);
+    (0, _code8.useBinder)([application], () => setItems(application?.items));
     texts = texts.modules;
     if (!items.length) return /*#__PURE__*/React.createElement(Empty, {
       texts: texts

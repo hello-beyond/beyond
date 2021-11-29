@@ -38,7 +38,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
 
     const compile = event => {
       event.preventDefault();
-      console.log("coming soon...");
     };
 
     return /*#__PURE__*/React.createElement("article", {
@@ -186,10 +185,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
       AppsController.setApplications(applications);
 
       const onChange = () => {
-        setState({ ...state,
+        setState(state => ({
           controller: AppsController,
-          ready: AppsController.ready
-        });
+          items: applications.items,
+          ready: AppsController.ready,
+          timeUpdated: performance.now()
+        }));
       };
 
       AppsController.bind('change', onChange);
@@ -210,6 +211,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     return /*#__PURE__*/React.createElement(DSApplicationsContext.Provider, {
       value: {
         texts,
+        timeUpdated: state.timeUpdated,
         creteApp: showAppForm
       }
     }, /*#__PURE__*/React.createElement("main", {
@@ -221,7 +223,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     }, /*#__PURE__*/React.createElement("div", {
       className: "link",
       onClick: showAppForm
-    }, "Crear"), /*#__PURE__*/React.createElement("span", null, applications.items.length, " ", headerTexts.title))), apps));
+    }, texts.actions.create), /*#__PURE__*/React.createElement("span", null, applications.items.length, " ", headerTexts.title))), apps));
   }
   /********
   empty.jsx
@@ -416,18 +418,30 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
       this.triggerEvent();
     }
 
-    _applications;
+    #applications;
 
     get applications() {
-      return this._applications;
+      return this.#applications;
     }
 
+    #firstTime;
+
     get ready() {
-      return this.applications?.tree.landed && module.texts.ready;
+      let isReady = (this.#firstTime || this.applications?.tree.landed) && module.texts.ready;
+
+      if (!this.#firstTime && isReady) {
+        this.#firstTime = true;
+      }
+
+      return isReady;
     }
 
     get texts() {
       return module.texts.value;
+    }
+
+    get items() {
+      return this.#applications?.items.length ?? 0;
     }
 
     constructor() {
@@ -436,7 +450,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     }
 
     setApplications(applications) {
-      this._applications = applications;
+      this.#applications = applications;
       applications.bind('change', this.triggerEvent);
     }
 

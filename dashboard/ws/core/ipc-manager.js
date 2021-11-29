@@ -1,36 +1,33 @@
-module.exports = new (class IpcManager {
-    _ready;
-    _server;
-    _application;
+const {ipc} = global.utils;
 
-    constructor() {
-        this._ipc = global.utils.ipc;
-        this._monitor = `main-client`;
+module.exports = new class IpcManager {
+    #ready;
+    #server;
+    #monitor = 'main-client';
+
+    // The working directory
+    #wd;
+    get wd() {
+        return this.#wd;
     }
 
     exec(action, specs = {}) {
-        return this._ipc.exec(this._monitor, action, specs);
+        return ipc.exec(this.#monitor, action, specs);
     }
 
     async getServer() {
-        const WD = await this._ipc.exec(this._monitor, 'server/wd');
-        this._wd = WD;
+        this.#wd = await ipc.exec(this.#monitor, 'server/wd');
         const {Server} = (require('./builder/models'));
-        this._server = new Server(WD);
-        return this._server;
+        this.#server = new Server(this.#wd);
+        return this.#server;
     }
 
     main(action, specs) {
-        return this._ipc.exec('main', action, specs);
+        return ipc.exec('main', action, specs);
     }
 
     async initialise() {
         await this.getServer();
-        this._ready = true;
+        this.#ready = true;
     }
-
-    get wd() {
-        return this._wd;
-    }
-
-})();
+}

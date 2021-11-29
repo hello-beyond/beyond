@@ -88,16 +88,16 @@ define(["exports"], function (_exports) {
 
     _set(property, value) {
       let props = {};
-      if (property && value) props[property] = value;else props = property;
+      if (property && value !== 'undefined') props[property] = value;else props = property;
       let updated = false;
 
       for (const prop in props) {
         const key = `_${prop}`;
+        if (!this.hasOwnProperty(key)) continue; //same value on store
 
-        if (this.hasOwnProperty(key)) {
-          this[key] = props[prop];
-          updated = true;
-        }
+        if (this[key] === props[prop]) continue;
+        this[key] = props[prop];
+        updated = true;
       }
 
       if (updated) this.triggerEvent();
@@ -304,6 +304,7 @@ define(["exports"], function (_exports) {
         base.created = true;
         base.id = response.data.id;
       } catch (error) {
+        console.error("error", error);
         base.created = false;
       } finally {
         base.processed = true;
@@ -366,7 +367,7 @@ define(["exports"], function (_exports) {
     _bundle;
     _applicationId;
     _PROCESSORS = ['scss', 'less'];
-    _BUNDLES = ['layout', 'code', 'page'];
+    _BUNDLES = ['page', 'widget', 'layout', 'code', 'bridge', 'typescript'];
     _TEMPLATES = Object.freeze({
       page: {
         'id': 'page',
@@ -498,8 +499,13 @@ define(["exports"], function (_exports) {
       return this._structure;
     }
 
-    _txt;
     _route;
+
+    get route() {
+      return this._route;
+    }
+
+    _txt;
     _author;
     _developer;
     _title;
@@ -521,10 +527,7 @@ define(["exports"], function (_exports) {
     get valid() {
       const structure = this._structure;
       if (!structure.required) return true;
-      console.log('getter valid', structure.required);
       const keepEmpty = structure.required.filter(property => !this[`_${property}`]);
-      console.log('getter valid keepEmpty', this[`_name`], this[`name`], this[`route`], this[`_route`]);
-      console.log('getter valid keepEmpty', keepEmpty, !keepEmpty.length);
       return !keepEmpty.length;
     }
 
@@ -553,8 +556,6 @@ define(["exports"], function (_exports) {
     }
 
     set(property, value) {
-      console.log('SET MODEL ', property, value);
-
       this._set(property, value);
     }
 
@@ -600,7 +601,6 @@ define(["exports"], function (_exports) {
         params.bundle = this._type;
         params.processors = Array.from(this._processors.keys());
         const action = params.template ? '/builder/module/clone' : '/builder/module/create';
-        console.log(action, params);
         const response = await module.execute(action, params);
 
         if (response.error) {
@@ -648,13 +648,20 @@ define(["exports"], function (_exports) {
       processors: ['ts', 'jsx'],
       dependencies: ['layout']
     },
-    code: {
-      required: ['name', 'developer'],
-      processors: ['ts', 'jsx']
+    widget: {
+      required: ['name'],
+      processors: ['ts', 'scss']
     },
     layout: {
       required: ['name'],
       processors: ['ts', 'jsx']
+    },
+    code: {
+      required: ['name'],
+      processors: ['ts', 'jsx']
+    },
+    bridge: {
+      required: ['name']
     },
     ts: {
       required: ['name']

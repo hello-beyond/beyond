@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/unnamed/context-menu/code", "@beyond-js/dashboard/unnamed/workspace/components/editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/unnamed/workspace/components/editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -441,7 +441,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     const [unpublished, setUnpublished] = React.useState(panel?.editor?.unpublished);
     const [showContextMenu, toggleContextMenu] = React.useState();
     const ref = React.useRef();
-    const [name, setName] = React.useState(typeof item === 'string' ? item : item.label);
+    let label = typeof item === 'string' ? item : item.label;
+    if (item.type !== 'editor' && item.path !== 'module') label = texts.labels[item.label];
+    const [name, setName] = React.useState(label);
     if (panel.activeItem !== id) attrs.onClick = () => changeTab(item);
 
     const changeTab = item => panel.changeTab(item);

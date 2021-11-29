@@ -4,7 +4,7 @@ define(["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.widgets = _exports.beyond = _exports.SingleCall = _exports.PendingPromise = _exports.NodeWidget = _exports.ModuleTexts = _exports.Module = _exports.ListenerFunction = _exports.Events = _exports.Collection = _exports.CancellationToken = _exports.BundleStyles = _exports.Bundle = _exports.BeyondWidgetController = _exports.ActionsBridge = void 0;
+  _exports.widgets = _exports.beyond = _exports.SingleCall = _exports.PendingPromise = _exports.NodeWidget = _exports.ModuleTexts = _exports.Module = _exports.ListenerFunction = _exports.IWidgetRendered = _exports.Events = _exports.Collection = _exports.CancellationToken = _exports.BundleStyles = _exports.Bundle = _exports.BeyondWidgetControllerSSR = _exports.BeyondWidgetControllerBase = _exports.BeyondWidgetController = _exports.ActionsBridge = void 0;
   const amd_require = require;
   const modules = new Map(); // FILE: _prepare-stack-trace\error.ts
 
@@ -442,7 +442,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\bundle.ts
 
   modules.set('./bundles/bundle', {
-    hash: 3859948831,
+    hash: 1089016734,
     creator: function (require, exports) {
       "use strict";
 
@@ -482,7 +482,7 @@ define(["exports"], function (_exports) {
           if (this.#multilanguage && !language) throw new Error('Language not specified');
           if (language && language.length !== 2) throw new Error(`Language "${language}" is invalid`);
           language = this.#multilanguage ? language : '';
-          language = language === undefined ? language : '';
+          language = language === undefined ? '' : language;
           if (this.has(language)) return this.get(language);
           const pkg = new package_1.Package(this, language);
           this.set(language, pkg);
@@ -1064,7 +1064,7 @@ define(["exports"], function (_exports) {
           } // Relative require (internal module)
 
 
-          id = im ? package_1.resolve(im.id, id) : id;
+          id = im ? (0, package_1.resolve)(im.id, id) : id;
           return this.#pkg.ims.require(id, trace, im);
         }
 
@@ -1075,7 +1075,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\package\require\trace.ts
 
   modules.set('./bundles/package/require/trace', {
-    hash: 3935744025,
+    hash: 1932027471,
     creator: function (require, exports) {
       "use strict";
 
@@ -1095,8 +1095,12 @@ define(["exports"], function (_exports) {
             this.forEach(({
               id,
               source
-            }) => traced += `\tSource "${source}" requiring "${id}"\n`);
-            throw new Error(`Recursive module load found.\n` + `Module '${source}' is requiring a module that was previously required: '${id}'\n` + `Trace of required modules:\n${traced}`);
+            }) => {
+              const s = ['initialisation', 'exports.update'].includes(source) ? 'Cycle initiates with source' : `then "${source}" requires`;
+              traced += `\t${s} "${id}"\n`;
+            });
+            traced += `\tthat finally requires "${id}" again.\n`;
+            throw new Error(`Recursive module load found.\n` + `Internal module "${source}" is requiring another internal module that was previously required: "${id}"\n` + `Trace of required modules:\n${traced}`);
           }
 
           this.push({
@@ -1112,7 +1116,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\styles.ts
 
   modules.set('./bundles/styles', {
-    hash: 2045053294,
+    hash: 380901654,
     creator: function (require, exports) {
       "use strict";
 
@@ -1126,6 +1130,22 @@ define(["exports"], function (_exports) {
       class BundleStyles extends events_1.Events {
         processor;
         #bundle;
+
+        get bundle() {
+          return this.#bundle;
+        }
+
+        get id() {
+          return this.#bundle.id;
+        } // Is the stylesheet appended to the DOM of the page (not a shadow dom of a widget)
+
+
+        #dom = false;
+
+        get dom() {
+          return this.#dom;
+        }
+
         #css;
 
         get css() {
@@ -1143,9 +1163,8 @@ define(["exports"], function (_exports) {
           if (this.#appended) {
             document.getElementsByTagName('head')[0].removeChild(this.#css);
             this.#appended = false;
-          }
+          } // Find and replace #host...
 
-          const bundle = this.#bundle; // Find and replace #host...
 
           const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
           const processed = value.replace(regexp, (match, host, resource) => `packages/${resource}`); // Create style element
@@ -1153,15 +1172,16 @@ define(["exports"], function (_exports) {
           const changed = this.#css;
           this.#css = document.createElement('style');
           this.#css.type = 'text/css';
-          this.#css.setAttribute('bundle', bundle.id); // Append styles into the DOM
+          this.#css.setAttribute('bundle', this.id); // Append styles into the DOM
 
           this.#css.appendChild(document.createTextNode(processed));
-          changed && this.trigger('change');
+          changed && this.trigger('change', this);
         }
 
         appendToDOM(is) {
-          if (this.#appended) throw new Error(`CSS of bundle "${this.#bundle.id} was already appended to DOM`);
-          if (!this.#css) throw new Error(`CSS values are not set on bundle "${this.#bundle.id}"`);
+          this.#dom = true;
+          if (this.#appended) throw new Error(`CSS of bundle "${this.id} was already appended to DOM`);
+          if (!this.#css) throw new Error(`CSS values are not set on bundle "${this.id}"`);
           is && this.#css.setAttribute('is', is);
           document.getElementsByTagName('head')[0].appendChild(this.#css);
           this.#appended = true;
@@ -1580,7 +1600,7 @@ define(["exports"], function (_exports) {
   }); // FILE: modules\texts.ts
 
   modules.set('./modules/texts', {
-    hash: 403895888,
+    hash: 3403803633,
     creator: function (require, exports) {
       "use strict";
 
@@ -1685,11 +1705,10 @@ define(["exports"], function (_exports) {
           pkg.hmr.on('change:txt', this.#update);
           this.#value = pkg.exports.values.txt;
         };
-
-        #change() {
+        #change = () => {
           if (!this.#enabled) return;
           this.load().catch(exc => console.error(exc.stack));
-        }
+        };
         /**
          * Module texts constructor
          *
@@ -1697,7 +1716,6 @@ define(["exports"], function (_exports) {
          * @param {string} bundle The bundle name
          * @param {boolean=true} multilanguage
          */
-
 
         constructor(module, bundle, multilanguage = true) {
           super();
@@ -3002,21 +3020,21 @@ define(["exports"], function (_exports) {
 
       typeof window === 'object' && (window.PendingPromise = PendingPromise);
     }
-  }); // FILE: widgets\controller.ts
+  }); // FILE: widgets\controller\base.ts
 
-  modules.set('./widgets/controller', {
-    hash: 24450647,
+  modules.set('./widgets/controller/base', {
+    hash: 78531488,
     creator: function (require, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.BeyondWidgetController = void 0;
+      exports.BeyondWidgetControllerBase = void 0;
 
-      const beyond_1 = require("../beyond");
+      const beyond_1 = require("../../beyond");
 
-      class BeyondWidgetController {
+      class BeyondWidgetControllerBase {
         #specs;
         #bundle;
 
@@ -3040,28 +3058,8 @@ define(["exports"], function (_exports) {
           return this.#specs.layout;
         }
 
-        #component;
-
-        get component() {
-          return this.#component;
-        }
-
-        get node() {
-          return this.#component.node;
-        }
-
-        render() {}
-
-        #render = () => this.render();
-
-        initialise() {
-          this.mount();
-          this.render && this.#bundle.package().hmr.on('change:ts', this.#render);
-        }
-
-        constructor(specs, component) {
+        constructor(specs) {
           this.#specs = specs;
-          this.#component = component;
 
           if (!beyond_1.beyond.bundles.has(specs.id)) {
             throw new Error(`Bundle "${specs.id}" not found on "${specs.name}" widget`);
@@ -3072,7 +3070,76 @@ define(["exports"], function (_exports) {
 
       }
 
+      exports.BeyondWidgetControllerBase = BeyondWidgetControllerBase;
+    }
+  }); // FILE: widgets\controller\controller.ts
+
+  modules.set('./widgets/controller/controller', {
+    hash: 1641971048,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.BeyondWidgetController = void 0;
+
+      const base_1 = require("./base");
+      /**
+       * The client widget react controller
+       */
+
+
+      class BeyondWidgetController extends base_1.BeyondWidgetControllerBase {
+        #component;
+
+        get component() {
+          return this.#component;
+        }
+
+        get node() {
+          return this.#component.node;
+        }
+
+        constructor(specs, component) {
+          super(specs);
+          this.#component = component;
+        }
+
+        render() {}
+
+        #render = () => this.render();
+
+        initialise() {
+          this.mount();
+          this.bundle.package().hmr.on('change:ts', this.#render);
+        }
+
+      }
+
       exports.BeyondWidgetController = BeyondWidgetController;
+    }
+  }); // FILE: widgets\controller\ssr.ts
+
+  modules.set('./widgets/controller/ssr', {
+    hash: 257661608,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.BeyondWidgetControllerSSR = void 0;
+
+      const base_1 = require("./base");
+      /**
+       * The SSR widget react controller
+       */
+
+
+      class BeyondWidgetControllerSSR extends base_1.BeyondWidgetControllerBase {}
+
+      exports.BeyondWidgetControllerSSR = BeyondWidgetControllerSSR;
     }
   }); // FILE: widgets\instances\instances.ts
 
@@ -3167,7 +3234,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\widget.ts
 
   modules.set('./widgets/widget', {
-    hash: 2522302125,
+    hash: 2334231473,
     creator: function (require, exports) {
       "use strict";
 
@@ -3298,7 +3365,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\widgets.ts
 
   modules.set('./widgets/widgets', {
-    hash: 1153398900,
+    hash: 4162376150,
     creator: function (require, exports) {
       "use strict";
 
@@ -3323,7 +3390,7 @@ define(["exports"], function (_exports) {
             }
 
             this.set(name, specs);
-            customElements.define(name, class extends widget_1.BeyondWidget {
+            'customElements' in globalThis && customElements.define(name, class extends widget_1.BeyondWidget {
               constructor() {
                 super(specs);
               }
@@ -3340,10 +3407,13 @@ define(["exports"], function (_exports) {
 
   const __pkg = new __bp.BeyondPackage(modules);
 
-  let beyond, Bundle, BundleStyles, Module, ModuleTexts, ActionsBridge, Collection, Events, ListenerFunction, CancellationToken, SingleCall, PendingPromise, BeyondWidgetController, NodeWidget, widgets;
+  let beyond, Bundle, BundleStyles, Module, ModuleTexts, ActionsBridge, Collection, Events, ListenerFunction, CancellationToken, SingleCall, PendingPromise, BeyondWidgetControllerBase, BeyondWidgetController, IWidgetRendered, BeyondWidgetControllerSSR, NodeWidget, widgets;
   _exports.widgets = widgets;
   _exports.NodeWidget = NodeWidget;
+  _exports.BeyondWidgetControllerSSR = BeyondWidgetControllerSSR;
+  _exports.IWidgetRendered = IWidgetRendered;
   _exports.BeyondWidgetController = BeyondWidgetController;
+  _exports.BeyondWidgetControllerBase = BeyondWidgetControllerBase;
   _exports.PendingPromise = PendingPromise;
   _exports.SingleCall = SingleCall;
   _exports.CancellationToken = CancellationToken;
@@ -3368,7 +3438,10 @@ define(["exports"], function (_exports) {
   _exports.CancellationToken = CancellationToken = __pkg.require('./utils/execution-control/cancellation-token/cancellation-token').CancellationToken;
   _exports.SingleCall = SingleCall = __pkg.require('./utils/execution-control/single-call/single-call').SingleCall;
   _exports.PendingPromise = PendingPromise = __pkg.require('./utils/pending-promise/pending-promise').PendingPromise;
-  _exports.BeyondWidgetController = BeyondWidgetController = __pkg.require('./widgets/controller').BeyondWidgetController;
+  _exports.BeyondWidgetControllerBase = BeyondWidgetControllerBase = __pkg.require('./widgets/controller/base').BeyondWidgetControllerBase;
+  _exports.BeyondWidgetController = BeyondWidgetController = __pkg.require('./widgets/controller/controller').BeyondWidgetController;
+  _exports.IWidgetRendered = IWidgetRendered = __pkg.require('./widgets/controller/ssr').IWidgetRendered;
+  _exports.BeyondWidgetControllerSSR = BeyondWidgetControllerSSR = __pkg.require('./widgets/controller/ssr').BeyondWidgetControllerSSR;
   _exports.NodeWidget = NodeWidget = __pkg.require('./widgets/instances/node').NodeWidget;
   _exports.widgets = widgets = __pkg.require('./widgets/widgets').widgets;
 });

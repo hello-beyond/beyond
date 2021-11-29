@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/select/code", "@beyond-js/dashboard/unnamed/workspace/components/tree/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/components/binder/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4, _js, _code5, _code6, _code7, _code8, _code9, _code10) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/select/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/components/binder/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4, _js, _code5, _code6, _code7, _code8, _code9, _code10) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -12,7 +12,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/aside/code', false, {
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/aside/code', false, {
     "txt": {
       "multilanguage": true
     }
@@ -646,19 +646,24 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
   function PreAside() {
     const bottomNav = [];
     const topNav = [];
-
-    _code5.DSPreAside.top.forEach((item, name) => topNav.push( /*#__PURE__*/React.createElement(PreAsideTab, {
+    const [items, setItems] = React.useState({
+      top: _code5.DSPreAside.top,
+      bottom: _code5.DSPreAside.bottom
+    });
+    items.top.forEach((item, name) => topNav.push( /*#__PURE__*/React.createElement(PreAsideTab, {
       key: name,
       name: name,
       tab: item
     })));
-
-    _code5.DSPreAside.bottom.forEach((item, name) => bottomNav.push( /*#__PURE__*/React.createElement(PreAsideTab, {
+    items.bottom.forEach((item, name) => bottomNav.push( /*#__PURE__*/React.createElement(PreAsideTab, {
       key: name,
       name: name,
       tab: item
     })));
-
+    (0, _code10.useBinder)([_code5.DSPreAside], () => setItems({
+      top: _code5.DSPreAside.top,
+      bottom: _code5.DSPreAside.bottom
+    }), 'item.added');
     return /*#__PURE__*/React.createElement("section", {
       className: "ds__pre-aside"
     }, /*#__PURE__*/React.createElement("ul", {

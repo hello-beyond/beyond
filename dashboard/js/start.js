@@ -78,6 +78,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     }, {
       "package": "@beyond-js/backend",
       "version": "1.0"
+    }, {
+      "package": "@beyond-js/ssr",
+      "version": "1.0"
     }]);
   })();
   /*************
@@ -318,6 +321,11 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     "vdir": true,
     "layout": "dashboard"
   }, {
+    "route": "/test",
+    "bundle": "unnamed/test/page.js",
+    "vdir": false,
+    "layout": "default"
+  }, {
     "route": "/",
     "bundle": "unnamed/workspace/page.js",
     "vdir": true,
@@ -457,29 +465,33 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
       return modules;
     }
   });
-  /********************************
-  MODULE: unnamed/application/board
-  ********************************/
+  /***********************************************
+  MODULE: packages/@beyond-js/dashboard-lib/models
+  ***********************************************/
 
-  bundles.set('@beyond-js/dashboard/unnamed/application/board/start', {
-    hash: 2151585183,
-    specs: {
-      "txt": {
-        "multilanguage": true
-      }
-    },
+  bundles.set('@beyond-js/dashboard-lib/models/start', {
+    hash: 234945529,
+    specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: start.ts
+      const modules = new Map(); // FILE: bees-logs.ts
 
-      modules.set('./start', {
-        hash: 1105747064,
+      modules.set('./bees-logs', {
+        hash: 3637047693,
         creator: function (require, exports) {
-          "use strict"; // import {DSBoards} from 'beyond_modules/application/boards/start';
+          "use strict";
 
-          function test() {// console.log("ESTOY EN TEARING");
-          }
+          Object.defineProperty(exports, "__esModule", {
+            value: true
+          });
 
-          test();
+          const beyond_context_1 = require("beyond_context");
+
+          (async () => {
+            const socket = await beyond_context_1.bundle.container.socket;
+            socket.on('bees.log', message => {
+              console.log('BEE log message received:', message);
+            });
+          })().catch(exc => console.error(exc.stack));
         }
       });
 

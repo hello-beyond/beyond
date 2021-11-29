@@ -18,31 +18,31 @@ define([], function () {
 
   __pkg.exports.process = (require, _exports) => _exports.txt = {
     "actions": {
-      "navigate": "Navegar",
-      "compile": "Compilar",
+      "navigate": "Navigate",
+      "compile": "Compile",
       "editDescription": "Edit description",
-      "generatingDeclarations": "Generando...",
+      "generatingDeclarations": "generating...",
       "publish": "Publish",
       "update": "Update dependencies",
-      "declarations": "Generar declaraciones",
+      "declarations": "Generate declarations",
       "start": "Play",
       "stop": "Stop",
       "restart": "Restart"
     },
     "application": {
       "info": {
-        "description": "Descripción",
-        "title": "Titulo",
-        "name": "Nombre",
+        "description": "Description",
+        "title": "Title",
+        "name": "Name",
         "empty": {
-          "description": "La aplicación no posee descripción",
-          "title": "Agrega un titulo para tu aplicación",
-          "name": "Agrega un nombre para tu aplicación"
+          "description": "The application does not have a description",
+          "title": "Add a title",
+          "name": "Add a name"
         }
       },
       "actions": {
-        "save": "Guardar",
-        "close": "Cerrar"
+        "save": "Save",
+        "close": "Close"
       },
       "error404": "Application not found"
     },
@@ -65,14 +65,14 @@ define([], function () {
         "title": "Backend code",
         "sessions": "Sessions Backend",
         "core": "Core Backend",
-        "description": "BeyondJS permite trabajar de manera simple con acciones en realtime implementadas con websocket, puedes configurarlo si deseas.",
+        "description": "...",
         "action": "Crear",
-        "read": "Leer más"
+        "read": "Read more"
       },
       "declarations": {
-        "title": "Declaraciones",
-        "description": "Las declaraciones permiten que el IDE identifique los objetos utilizados y garantice el buen funcionamiento de typescript",
-        "action": "Actualizar"
+        "title": "Declarations",
+        "description": "...",
+        "action": "Update"
       },
       "static": {
         "title": "Static files"

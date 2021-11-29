@@ -17,7 +17,8 @@ define([], function () {
   const __pkg = bundle.package();
 
   __pkg.exports.process = (require, _exports) => _exports.txt = {
-    "title": "Titulo del modulo",
+    "title": "Module title",
+    "name": "Module name",
     "description": "Descripción",
     "empty": {
       "title": "This module does not have name, add one",

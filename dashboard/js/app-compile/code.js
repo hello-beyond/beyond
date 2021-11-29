@@ -341,9 +341,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
 
     if (!builder.builds || !Object.keys(builder.builds).length) return null;
 
-    const onDelete = event => {
-      //TODO: add delete functionality
-      console.log("deleting...");
+    const onDelete = event => {//TODO: add delete functionality
     };
 
     const builds = [];

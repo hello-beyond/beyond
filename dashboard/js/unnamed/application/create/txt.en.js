@@ -17,54 +17,64 @@ define([], function () {
   const __pkg = bundle.package('en');
 
   __pkg.exports.process = (require, _exports) => _exports.txt = {
-    "title": "Creemos tu aplicación",
-    "subtitle": "Indique que tipo de aplicación desea crear",
+    "subtitle": "Select what you want to do",
+    "actions": {
+      "submit": "Create"
+    },
     "form": {
+      "name": "Application name",
+      "title": "Add a title to your new app",
+      "description": "Description",
       "port": {
-        "label": "Puerto",
-        "error": "El puerto agregado no esta disponible",
-        "success": "Validamos el puerto y está disponible"
+        "label": "Port",
+        "error": "Port isn't available",
+        "success": "Port checked and available"
       },
       "types": {
+        "titles": {
+          "empty": "Blank applications",
+          "templates": "Templates"
+        },
         "empty": {
-          "title": "Aplicaciones en blanco",
-          "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
-        },
-        "basic": {
-          "title": "Plantillas Basicas",
-          "description": "Plantilla básica optimizada para enfocarte en empezar a trabar en los modulos de tu SPA."
-        },
-        "list": {
-          "title": "Task App",
-          "description": "Plantilla básica optimizada para enfocarte en empezar a trabar en los modulos de tu SPA."
-        },
-        "typescript": {
-          "title": "Aplicación typescript",
-          "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
-        },
-        "react": {
-          "title": "Aplicación react",
-          "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
+          "description": "A configured and blank application is created so that you can define what you consider necessary from scratch."
         },
         "node": {
-          "title": "Aplicación Node",
-          "description": "Desarrolla de manera eficiente aplicaciones javascript para servidores aprovechando todas las ventajas del ecosistema typescript"
+          "title": "Node App",
+          "description": " Application that will be compiled to be executed in a Node.js environment."
+        },
+        "backend": {
+          "title": "Backend",
+          "description": "Node.js application that exposes communication interfaces to be consumed by both web clients and other backends"
+        },
+        "web": {
+          "title": "Web",
+          "description": "Web, Android, iOS application. Both the client code and the backend code coexist in the same  application."
+        },
+        "express": {
+          "title": "Express template",
+          "description": "Create an express server in the simplest way possible"
+        },
+        "library": {
+          "title": "Library",
+          "description": " Container of client and server modules to be consumed by other applications.."
+        },
+        "board": {
+          "title": "Board template",
+          "description": "Template with Trello style to start coding."
+        },
+        "react": {
+          "title": "React starter app",
+          "description": "React configured and ready to use."
         },
         "svelte": {
-          "title": "Aplicación Svelte",
-          "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
+          "title": "Svelte",
+          "description": "Svelte configured and ready to use."
         },
         "vue": {
-          "title": "Aplicación Vue",
-          "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
+          "title": "Vue App",
+          "description": "Svelte configured and ready to use."
         }
-      },
-      "name": "Nombre de tu aplicacion",
-      "title": "Titulo de tu aplicacion",
-      "actions": {
-        "submit": "Crear"
-      },
-      "description": "Descripcion"
+      }
     }
   };
 

@@ -182,7 +182,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   }); // FILE: elements\collection\collection.ts
 
   modules.set('./elements/collection/collection', {
-    hash: 2199592321,
+    hash: 199874439,
     creator: function (require, exports) {
       "use strict";
 
@@ -283,7 +283,6 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           } // Continue with tree loading
 
 
-          console.log(this.tree.landed);
           if (!tree || this.tree.landed) return;
           const promises = [];
           promises.push(this.#items.fill(tree));
@@ -421,7 +420,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   }); // FILE: elements\collection\items\items.ts
 
   modules.set('./elements/collection/items/items', {
-    hash: 3157013589,
+    hash: 4004643330,
     creator: function (require, exports) {
       "use strict";
 
@@ -3863,7 +3862,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           super();
           this.#manager = manager; // If the initial identifier is not set, then it is a locally created record
 
-          if (typeof identifier === 'string') this.#localId = uuid_1.createUUID();
+          if (typeof identifier === 'string') this.#localId = (0, uuid_1.createUUID)();
           const initialIdentifier = typeof identifier === 'object' ? identifier : undefined;
           this.#identifiers = new identifiers_1.RecordIdentifiers(this, initialIdentifier);
           this.#fields = new fields_1.Fields(this);

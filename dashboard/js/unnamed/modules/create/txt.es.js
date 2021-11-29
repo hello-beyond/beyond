@@ -30,7 +30,10 @@ define([], function () {
       "server": "¿Código servidor?",
       "styles": "¿Hojas de estilo?",
       "url": "URL",
-      "button": "CREAR"
+      "button": "CREAR",
+      "errors": {
+        "route": "Ya existe un modulo con esta ruta definida:"
+      }
     },
     "placeholder": {
       "name": "Define un nombre con la caracteristica principal de tu modulo",
@@ -93,13 +96,25 @@ define([], function () {
         "title": "Página",
         "description": "Un modulo que puede ser accedigo por medio de una URL."
       }, {
-        "id": "code",
-        "title": "Código",
-        "description": "Tiene multiples funciones. Puede ser un componente react que será utilizado en múltiples páginas y modulos, o puede ser código para manejo de modelos y lógica."
+        "id": "widget",
+        "title": "Widget",
+        "description": "Texto para widget"
       }, {
         "id": "layout",
         "title": "Layout",
         "description": "Permite definir la estructura general de varias páginas y compartir elementos en común de la aplicación"
+      }, {
+        "id": "code",
+        "title": "Código",
+        "description": "Tiene multiples funciones. Puede ser un componente react que será utilizado en múltiples páginas y modulos, o puede ser código para manejo de modelos y lógica."
+      }, {
+        "id": "bridge",
+        "title": "Bridge",
+        "description": "Texto para bridges"
+      }, {
+        "id": "ts",
+        "title": "Typescript",
+        "description": "Texto para typecript"
       }]
     }
   };

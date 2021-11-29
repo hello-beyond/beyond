@@ -1,5 +1,6 @@
+const {ipc} = global.utils;
+
 module.exports = function (io) {
-    const {ipc} = global.utils;
     const ipcManager = require('./ipc-manager');
     this.dashboard = new (require('./dashboard'))();
     this.builder = new (require('./builder'))(ipcManager);
@@ -31,4 +32,6 @@ module.exports = function (io) {
         }
         io.emit(`server:plm/${message.type}`, message);
     });
+
+    ipc.events.on('main', 'bee.log', message => io.emit(`bees.log`, message));
 }

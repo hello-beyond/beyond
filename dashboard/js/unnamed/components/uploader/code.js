@@ -81,7 +81,6 @@ define(["exports"], function (_exports) {
       } = event;
 
       if (!dataTransfer.items.length) {
-        console.log('no hay elementos');
         return;
       }
 
@@ -92,12 +91,10 @@ define(["exports"], function (_exports) {
       }
 
       this.files.getFiles(files);
-      console.log('ejecutando ondrop');
     }
 
     onDragOver(event) {
       event.preventDefault();
-      console.log('ejecutando dragOver');
     }
     /**
      * Add the drag & drop events to the control

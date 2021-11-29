@@ -213,7 +213,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
       const url = specs?.url ? specs.url : application.application.url;
 
       const onChange = () => {
-        console.log(0.2);
         setState({ ...state,
           url,
           application,
@@ -221,7 +220,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
         });
       };
 
-      console.log(0.1, state, application);
       application.bind('change', onChange);
       if (application.ready) onChange();
       return () => application.unbind('change', onChange);
@@ -271,10 +269,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
     React.useEffect(() => {
       refIframe.current.addEventListener('load', () => {
         try {
-          console.log("TODO OK");
           setFetching(false);
         } catch (e) {
-          console.log("HUBO ERROR");
+          console.error("iframe error");
         }
       });
     }, [url]);
