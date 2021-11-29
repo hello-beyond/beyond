@@ -21,7 +21,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   const modules = new Map(); // FILE: application-styles.ts
 
   modules.set('./application-styles', {
-    hash: 1572300719,
+    hash: 409682437,
     creator: function (require, exports) {
       "use strict";
 
@@ -31,19 +31,25 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       const beyond_context_1 = require("beyond_context");
 
-      new class ApplicationStyles {
+      const ts_1 = require("@beyond-js/kernel/core/ts");
+
+      new class ApplicationStyles extends ts_1.Events {
         /**
          * The application styles has changed, therefore it must be updated
          */
-        #update = () => {
-          document.getElementById('beyond-application-styles').setAttribute('href', `/styles.css?updated=${Date.now()}`);
+        #update = is => {
+          const resource = is === 'application' ? 'styles' : 'global';
+          document.getElementById(`beyond-${is}-styles`).setAttribute('href', `/${resource}.css?updated=${Date.now()}`);
+          this.trigger(`${is}:change`);
         };
         #subscribe = async () => {
           const socket = await beyond_context_1.module.socket;
-          socket.on('application-styles', this.#update);
+          socket.on('application-styles', () => this.#update('application'));
+          socket.on('global-styles', () => this.#update('global'));
         };
 
         constructor() {
+          super();
           this.#subscribe().catch(exc => console.error(exc.stack));
         }
 
