@@ -20,6 +20,28 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
+  /***********
+  JS PROCESSOR
+  ***********/
+
+  /*****************
+  FILE: navigator.js
+  *****************/
+
+
+  class Navigator extends HTMLElement {
+    constructor() {
+      super();
+      const shadow = this.attachShadow({
+        mode: 'closed'
+      });
+      this.shadow = shadow;
+      shadow.innerHTML = `<iframe height="500" width="500" src="http://localhost:8080"/>`;
+    }
+
+  }
+
+  window.customElements.define('dashboard-navigator', Navigator);
   /************
   JSX PROCESSOR
   ************/
@@ -27,7 +49,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   /***********
   __iframe.jsx
   ***********/
-
 
   function OLDNavigatorBoard() {
     const {
@@ -150,14 +171,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
       toggleResponsive
     } = useNavigatorContext();
     const input = React.useRef(null);
-    const [value, setValue] = React.useState(![undefined, ''].includes(url) ? url : '/');
+    const [value, setValue] = React.useState(url ? url.replace(application.application.url, '') : '/');
     let placeholder = application.application.url;
 
     const onSearch = event => {
       event.preventDefault();
-      const route = [undefined, ''].includes(input.current.value) ? event.currentTarget.value : '/';
-      setValue(route);
-      let url = `${application.application.url}${route}`;
+      let url = `${application.application.url}${value}`;
       setURL(url);
     };
 
