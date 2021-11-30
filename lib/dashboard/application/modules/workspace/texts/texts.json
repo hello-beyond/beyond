@@ -1,0 +1,79 @@
+{
+  "en": {
+    "footer": {
+      "path": "pathname",
+      "project": "Project",
+      "projectEmpty": "No projects selected"
+    },
+    "early": {
+      "title2": "Introduce your name and access code to start with us",
+      "title": "Welcome to BeyondJS",
+      "label": "Entry your early code access",
+      "action": "Start",
+      "error": "The code is invalid, try again",
+      "message": "BeyondJS is being launched in stages. We are actually offering early access for those who are interested to try  BeyondJS with us and to help with your appreciated  feedback.",
+      "inputs": {
+        "name": "Your name",
+        "code": "Code"
+      }
+    },
+    "panels": {
+      "tab": {
+        "actions": {
+          "splitRight": "Split Right",
+          "splitDown": "Split Down",
+          "close": "Close"
+        },
+        "labels": {
+          "apps": "Applications",
+          "navigator": "navigator",
+          "compile": "Compile app",
+          "static": "Static",
+          "app": "Application",
+          "appConfig": "Application config",
+          "module": "Module",
+          "settings": "Settings"
+        }
+      }
+    }
+  },
+  "es": {
+    "footer": {
+      "path": "pathname",
+      "project": "Project",
+      "projectEmpty": "No projects selected"
+    },
+    "early": {
+      "title2": "Introduzca su nombre y código de acceso para que empieces con nosotros",
+      "title": "Bienvenido a BeyondJS",
+      "label": "Ingresa tu código de acceso temprano",
+      "action": "Empezar",
+      "error": "Código invalido, verifiquelo por favor",
+      "message": "BeyondJS esta siento lanzado en etapas. Actualmente estamos ofreciendo un accceso temprano a aquellos que esten interesados en probarlo y brindarnos retroalimentación. ",
+      "inputs": {
+        "name": "Tú nombre",
+        "code": "Código"
+      }
+    },
+    "panels": {
+      "tab": {
+        "actions": {
+          "splitRight": "Split Right",
+          "splitDown": "Split Down",
+          "close": "Close"
+        },
+        "labels": {
+          "apps": "Aplicaciones",
+          "navigator": "Navegador",
+          "compile": "Compilador",
+          "static": "Estaticos",
+          "app": "Aplicación",
+          "appConfig": "Configuración",
+          "module": "Modulo",
+          "settings": "Preferencias"
+        }
+      }
+    }
+  }
+}
+

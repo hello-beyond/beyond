@@ -8,13 +8,16 @@ type MethodsSpecs = Map<string, {}>;
 export type BridgeSpecs = Map<string, MethodsSpecs>;
 
 class Bridges {
-    async get(module: string): Promise<BridgeSpecs> {
+    async get(module: string): Promise<{ error?: string, classes?: BridgeSpecs }> {
         const response = await __bridges.get(module);
         if (!response) return;
 
-        const classes: BridgeSpecs = new Map(response);
+        const {error} = response;
+        if (error) return {error: error};
+
+        const classes: BridgeSpecs = new Map(response.classes);
         classes.forEach((methods, key) => classes.set(key, new Map(methods)));
-        return classes;
+        return {classes};
     }
 }
 

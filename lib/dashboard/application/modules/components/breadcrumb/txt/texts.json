@@ -1,0 +1,14 @@
+{
+  "en": {
+    "index": "Index",
+    "application": "Application",
+    "library": "Library",
+    "module": "Module"
+  },
+  "es": {
+    "index": "Index",
+    "application": "Application",
+    "library": "Library",
+    "module": "Module"
+  }
+}

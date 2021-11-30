@@ -1,6 +1,6 @@
 import {beyond} from '@beyond-js/kernel/core/ts';
 import {Action, IActionRequest} from "./action";
-import {bridges, BridgeSpecs} from "../../bridges";
+import {bridges} from "../../bridges";
 
 export class Executor {
     /**
@@ -14,8 +14,10 @@ export class Executor {
         if (action.error) return {error: action.error};
 
         const {module, className, method} = action;
-
-        const classes: BridgeSpecs = await bridges.get(module);
+        const {error, classes} = await bridges.get(module);
+        if (error) {
+            throw error;
+        }
         if (!classes) {
             throw `Module "${module}" does not expose an actions bridge`;
         }

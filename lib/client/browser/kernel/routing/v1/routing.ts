@@ -1,10 +1,11 @@
 import {URI} from "./uri/uri";
-import {config} from "./config/config";
+import {config, RoutingConfig} from "./config/config";
 import type {ILayoutConfig} from "./config/layouts";
 import type {IPageConfig} from "./config/pages";
 import {Manager} from "./manager";
 import {widgets, CancellationToken} from "@beyond-js/kernel/core/ts";
 import {BeyondHistory} from "./history/history";
+import type {PageConfig} from "./config/pages";
 
 export enum RoutingMode {Hash, Pathname}
 
@@ -17,7 +18,7 @@ export class Routing {
     }
 
     readonly #config = config;
-    get config() {
+    get config(): RoutingConfig {
         return this.#config
     };
 
@@ -34,7 +35,7 @@ export class Routing {
     missing: (uri: URI) => string;
     redirect: (uri: URI) => string;
 
-    #history = !ssr && new BeyondHistory();
+    #history;
     get history() {
         return this.#history;
     }
@@ -42,6 +43,36 @@ export class Routing {
     #initialised = false;
     get initialised() {
         return this.#initialised;
+    }
+
+    /**
+     * Returns page configuration from an href address
+     *
+     * @param {string} _uri The uri in string format previous to be parsed
+     * @return {Promise<{error?: string, redirected?: string, page?: PageConfig}>}
+     */
+    async page(_uri: string): Promise<{ error?: string, redirected?: string, page?: PageConfig }> {
+        const uri = new URI(_uri);
+
+        // Check if uri has to be redirected
+        const redirected = typeof this.redirect === 'function' && await this.redirect(uri);
+        if (redirected) return {redirected};
+
+        await uri.initialise(); // Parse the uri and check the missing function if the route is not found
+
+        const {route} = uri.route;
+        if (!route) {
+            const error = `Pathname "${uri.pathname}" does not have a page associated to it`;
+            return {error};
+        }
+
+        if (!config.pages.has(route)) {
+            const error = `Route "${route}" not found`;
+            return {error};
+        }
+
+        const page = config.pages.get(route);
+        return {page};
     }
 
     setUp(routingMode: RoutingMode) {
@@ -61,6 +92,8 @@ export class Routing {
         this.#mode = routingMode;
         this.#initialised = true;
 
+        this.#history = !ssr && new BeyondHistory(this, RoutingMode);
+
         let layouts: ILayoutConfig[] = [], pages: IPageConfig[] = [];
         widgets.forEach(specs => {
             specs.is === 'layout' && layouts.push(specs);
@@ -69,7 +102,7 @@ export class Routing {
         this.#config.layouts.register(layouts);
         this.#config.pages.register(pages);
 
-        this.update().catch(exc => console.error(exc.stack));
+        !ssr && this.update().catch(exc => console.error(exc.stack));
     }
 
     #redirect = async (uri: URI): Promise<boolean> => {
@@ -88,13 +121,13 @@ export class Routing {
         return true;
     };
 
-    pushState(url: string, state?: object): void {
-        this.#history.pushState(url, state);
+    pushState(uri: string, state?: object): void {
+        this.#history.pushState(uri, state);
         this.update().catch((exc) => console.error(exc.stack));
     };
 
-    replaceState(state: object, title: string, url?: string): void {
-        this.#history.replaceState(state, title, url);
+    replaceState(state: object, title: string, uri?: string): void {
+        this.#history.replaceState(state, title, uri);
         this.update().catch((exc) => console.error(exc.stack));
     };
 
@@ -105,21 +138,23 @@ export class Routing {
 
         const cancellationTokenId = this.#cancellationToken.reset();
 
-        if (this.#uri && this.#uri.href === location.href) return;
+        const _uri = this.#mode === RoutingMode.Hash ? location.hash.substr(1) :
+            location.pathname + location.search;
+        if (this.#uri?.uri === _uri) return;
 
-        const uri = new URI(location.href);
+        const uri = new URI(_uri);
         this.#uri = uri;
 
         const redirected = await this.#redirect(uri);
         if (!this.#cancellationToken.check(cancellationTokenId)) return;
-        if (redirected) return; // The page was redirected to another url
+        if (redirected) return; // The page was redirected to another uri
 
         await uri.initialise(); // Parse the uri and check the missing function if the route is not found
         if (!this.#cancellationToken.check(cancellationTokenId)) return;
 
         // Verify the state of the history registry to check for possible errors
-        if (uri.url !== this.#history.current) {
-            console.error(`History current ${this.#history.current} is not equal to actual url "${uri.url}"`);
+        if (this.#history && uri.uri !== this.#history.current) {
+            console.error(`History current ${this.#history.current} is not equal to actual uri "${uri.uri}"`);
             return;
         }
 
@@ -131,12 +166,12 @@ export class Routing {
 
 export /*bundle*/ const routing = new Routing;
 
-// Just for backward compatibility
-!ssr && ((<any>window).routing = routing);
+globalThis.routing = routing;
 
+// Just for backward compatibility
 declare const beyond: any;
-!ssr && ((<any>beyond).navigate = (url: string, state?: object) => routing.pushState(url, state));
-!ssr && ((<any>beyond).pushState = (url: string, state?: object) => routing.pushState(url, state));
+!ssr && ((<any>beyond).navigate = (uri: string, state?: object) => routing.pushState(uri, state));
+!ssr && ((<any>beyond).pushState = (uri: string, state?: object) => routing.pushState(uri, state));
 !ssr && ((<any>beyond).back = () => routing.back());
 
 // Only on client side

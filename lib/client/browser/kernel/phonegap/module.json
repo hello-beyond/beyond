@@ -1,5 +1,9 @@
 {
   "bundle": "js",
+  "platforms": [
+    "android",
+    "ios"
+  ],
   "files": [
     "phonegap.js",
     "splash.js",

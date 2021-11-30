@@ -40,3 +40,6 @@
     * BeyondJS execution environment with soft reload.
 * Multilanguage.
 * Templating engine.
+* Easy deployment
+    * Compile and publish: NPM, node application.
+* Transversals

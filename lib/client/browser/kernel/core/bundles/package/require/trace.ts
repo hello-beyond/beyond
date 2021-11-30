@@ -12,10 +12,16 @@ export class Trace extends Array<RequireTrace> {
         // Check for cyclical module require
         if (this.has(id)) {
             let traced = '';
-            this.forEach(({id, source}) => traced += `\tSource "${source}" requiring "${id}"\n`);
+            this.forEach(({id, source}) => {
+                const s = ['initialisation', 'exports.update'].includes(source) ?
+                    'Cycle initiates with source'
+                    : `then "${source}" requires`;
+                traced += `\t${s} "${id}"\n`
+            });
+            traced += `\tthat finally requires "${id}" again.\n`;
 
             throw new Error(`Recursive module load found.\n` +
-                `Module '${source}' is requiring a module that was previously required: '${id}'\n` +
+                `Internal module "${source}" is requiring another internal module that was previously required: "${id}"\n` +
                 `Trace of required modules:\n${traced}`);
         }
 

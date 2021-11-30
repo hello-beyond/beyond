@@ -27,6 +27,9 @@ class Layout extends Events {
      * @param {PageInstanceData} page The page being selected (navigated)
      */
     select(page: PageInstanceData) {
+        const {error, parents} = page.parents;
+        if (error) throw new Error(error);
+
         let changed = false;
         const getChild = (parent: LayoutConfig | PageInstanceData): Child => {
             if (this.#children.has(parent.id)) return this.#children.get(parent.id);
@@ -38,8 +41,8 @@ class Layout extends Events {
         }
 
         let child: Child;
-        if (page.parents && page.parents.length) {
-            const parent = page.parents.shift();
+        if (parents.length) {
+            const parent = parents.shift();
             child = getChild(parent);
             child.layout.select(page, page.parents);
         } else {

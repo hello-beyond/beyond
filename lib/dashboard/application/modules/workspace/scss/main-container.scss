@@ -1,0 +1,13 @@
+.ds__main-container {
+  display: flex;
+  width: 100%;
+  position: relative;
+  flex-grow: 0;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  flex-shrink: 0;
+  grid-area: panel;
+  min-height: 100%;
+  overflow-x: auto;
+  background: $beyond-background-color;
+}

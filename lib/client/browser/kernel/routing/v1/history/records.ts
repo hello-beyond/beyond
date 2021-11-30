@@ -41,11 +41,11 @@ export class HistoryRecords {
     get = (index: number) => this.#records[index];
 
     /**
-     * Push a url to the records stored in the sessionStorage
-     * @param {string} url
+     * Push a uri to the records stored in the sessionStorage
+     * @param {string} uri
      */
-    push(url: string): void {
-        this.#records.push(url);
+    push(uri: string): void {
+        this.#records.push(uri);
         sessionStorage.setItem('__beyond_navigation_records', JSON.stringify(this.#records));
 
         const position = this.#records.length.toString();
@@ -68,9 +68,9 @@ export class HistoryRecords {
             this.#records = this.#records.slice(0, position) : null;
     };
 
-    updateCurrentUrl(url): void {
+    updateCurrentURI(uri): void {
         const position = this.#position.getFromSessionStorage();
-        this.#records[position - 1] = url;
+        this.#records[position - 1] = uri;
         sessionStorage.setItem('__beyond_navigation_records', JSON.stringify(this.#records));
     }
 }

@@ -1,6 +1,5 @@
 import type {URI} from "../uri/uri";
-import type {PageConfig} from "../config/pages";
-import type {LayoutConfig} from "../config/layouts";
+import type {IParents, PageConfig} from "../config/pages";
 
 let id = 0;
 
@@ -24,22 +23,20 @@ export class PageInstanceData {
         return this.#config.route;
     }
 
-    readonly #parents: LayoutConfig[];
-    get parents() {
-        return this.#parents;
+    get parents(): IParents {
+        return this.#config.parents;
     }
 
+    // The uri property is updated on navigation as the same page can have different addresses
     uri: URI;
 
     /**
      * Page instance data constructor
      *
      * @param {PageConfig} config
-     * @param {LayoutConfig[]} parents The list of ascending layouts of the page
      */
-    constructor(config: PageConfig, parents: LayoutConfig[]) {
+    constructor(config: PageConfig) {
         this.#id = ++id;
         this.#config = config;
-        this.#parents = parents;
     }
 }

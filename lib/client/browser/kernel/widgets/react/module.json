@@ -1,6 +1,0 @@
-{
-  "name": "react-widget",
-  "bundle": "ts",
-  "transpile": false,
-  "files": "*"
-}

@@ -1,8 +1,10 @@
 # Welcome to `BeyondJS`
 
-Beyond JS is a modular framework for creating general purpose applications.
+> A universal web technologies development environment
+> for cross platform projects,
+> over a community-scale modular basis design.
 
-> A web technologies development environment for cross platform projects, over a community-scale modular basis design.
+> BeyondJS focuses on making the same coding tools and techniques work for multiple distributions in a simple way.
 
 > Easy development of integrated state-of-the-art technologies, with boosted performance.
 > `BeyondJS` integrates out-of-the-box:
@@ -64,11 +66,12 @@ __screenshot create app__
 
 **`BeyondJS` applications are multi-purpose**:
 
-* **Web application**: You can build both client code as well as backend code in a web application.
+* **Web application**: Web, Android, iOS application. Both the client code and the backend code coexist in the same
+  application.
 * **Node.js application**: Application that will be compiled to be executed in a Node.js environment.
-* **Backend**: Node.js application that exposes backend communication interfaces that can be consumed by both web
-  clients, as well as by other backends or node applications.
-* **Library**: Modules that will be consumed by other applications.
+* **Backend**: Node.js application that exposes communication interfaces to be consumed by both web clients and other
+  backends.
+* **Library**: Container of client and server modules to be consumed by other applications.
 
 # It's all about modules
 

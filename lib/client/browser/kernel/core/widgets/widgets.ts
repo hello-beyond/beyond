@@ -22,7 +22,7 @@ const widgets = new class BeyondWidgets extends Map<string, WidgetSpecs> {
             }
             this.set(name, specs);
 
-            customElements.define(name, class extends BeyondWidget {
+            'customElements' in globalThis && customElements.define(name, class extends BeyondWidget {
                 constructor() {
                     super(specs);
                 }

@@ -1,0 +1,19 @@
+{
+  "page": {
+    "route": "/test",
+    "imports": "imports.js",
+    "layout": "default",
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

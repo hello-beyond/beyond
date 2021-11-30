@@ -26,7 +26,7 @@ class Bundle extends Map<string, Package> {
         if (this.#multilanguage && !language) throw new Error('Language not specified');
         if (language && language.length !== 2) throw new Error(`Language "${language}" is invalid`);
         language = this.#multilanguage ? language : '';
-        language = language === undefined ? language : '';
+        language = language === undefined ? '' : language;
 
         if (this.has(language)) return this.get(language);
         const pkg = new Package(this, language);

@@ -85,7 +85,7 @@ class ModuleTexts<TextsDeclaration> extends Events {
         this.#value = pkg.exports.values.txt;
     }
 
-    #change() {
+    #change = () => {
         if (!this.#enabled) return;
         this.load().catch(exc => console.error(exc.stack));
     }

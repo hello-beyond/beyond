@@ -1,6 +1,6 @@
 import type {widgets, WidgetSpecs} from './widgets';
 import type {beyond} from "../beyond";
-import type {BeyondWidgetController} from "./controller";
+import type {BeyondWidgetController} from "./controller/controller";
 import {instances} from "./instances/instances";
 import type {NodeWidget} from "./instances/node";
 

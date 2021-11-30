@@ -4,7 +4,21 @@ import {Events} from "../utils/events/events";
 export /*bundle*/
 class BundleStyles extends Events {
     processor: string;
+
     readonly #bundle: Bundle;
+    get bundle() {
+        return this.#bundle;
+    }
+
+    get id(): string {
+        return this.#bundle.id;
+    }
+
+    // Is the stylesheet appended to the DOM of the page (not a shadow dom of a widget)
+    #dom = false;
+    get dom() {
+        return this.#dom;
+    }
 
     #css: HTMLStyleElement;
     get css() {
@@ -24,8 +38,6 @@ class BundleStyles extends Events {
             this.#appended = false;
         }
 
-        const bundle = this.#bundle;
-
         // Find and replace #host...
         const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
         const processed = value.replace(regexp, (match, host, resource) => `packages/${resource}`);
@@ -34,16 +46,18 @@ class BundleStyles extends Events {
         const changed = this.#css;
         this.#css = document.createElement('style');
         this.#css.type = 'text/css';
-        this.#css.setAttribute('bundle', bundle.id);
+        this.#css.setAttribute('bundle', this.id);
 
         // Append styles into the DOM
         this.#css.appendChild(document.createTextNode(processed));
-        changed && this.trigger('change');
+        changed && this.trigger('change', this);
     }
 
     appendToDOM(is: string) {
-        if (this.#appended) throw new Error(`CSS of bundle "${this.#bundle.id} was already appended to DOM`);
-        if (!this.#css) throw new Error(`CSS values are not set on bundle "${this.#bundle.id}"`);
+        this.#dom = true;
+
+        if (this.#appended) throw new Error(`CSS of bundle "${this.id} was already appended to DOM`);
+        if (!this.#css) throw new Error(`CSS values are not set on bundle "${this.id}"`);
 
         is && this.#css.setAttribute('is', is);
         document.getElementsByTagName('head')[0].appendChild(this.#css);
