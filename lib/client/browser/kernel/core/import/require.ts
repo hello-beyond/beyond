@@ -5,7 +5,7 @@ declare const amd_require: Require;
 declare function cjs_require(module: string): any;
 
 export class BeyondRequire {
-    #mode: string;
+    readonly #mode: string;
 
     constructor(mode: string) {
         this.#mode = mode;
@@ -42,7 +42,10 @@ export class BeyondRequire {
      * @returns {Promise<any>>}
      */
     require = (module: string) => new Promise<any>((resolve, reject) => {
-        if (this.#mode === 'cjs') return cjs_require(module);
+        if (this.#mode === 'cjs') {
+            resolve(cjs_require(module));
+            return
+        }
 
         if (typeof module !== "string") throw 'Invalid module parameter';
         module = module.endsWith('.js') ? module.substr(0, module.length - 3) : module;

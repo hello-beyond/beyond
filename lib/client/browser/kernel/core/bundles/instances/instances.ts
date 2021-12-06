@@ -19,12 +19,12 @@ export class BundlesInstances extends Map<string, Bundle> {
         const container: Container = ((): Container => {
             const pkg = new PackageData(id);
 
-            const {application} = beyond;
             // Check if the container of the module is the application
+            const {application} = beyond;
             if (application.package?.id === pkg.id) return application.modules.obtain(module, specs);
 
-            const {libraries} = beyond;
             // Check if the container of the module is a library
+            const {libraries} = beyond;
             if (libraries.has(pkg.id)) {
                 const library = libraries.get(pkg.id);
                 return module === pkg.id ? library : library.modules.obtain(module, specs);

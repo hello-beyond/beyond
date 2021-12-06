@@ -14,79 +14,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
   dependencies.set('@beyond-js/kernel/routing/ts', dependency_1);
   const transversal = beyond.transversals.obtain('start', '', dependencies);
-  /************************
-  APPLICATION CONFIGURATION
-  ************************/
-
-  (() => {
-    const config = {
-      "local": false,
-      "environment": "production",
-      "mode": "amd",
-      "baseUrl": "/",
-      "packages": [["socket.io", {
-        "filename": "socket.io"
-      }], ["react", {
-        "filename": "react.production.min"
-      }], ["react-dom", {
-        "filename": "react-dom.production.min"
-      }]]
-    };
-    beyond.setup(config);
-    beyond.application.setup({
-      "package": "@beyond-js/dashboard",
-      "version": "1",
-      "languages": {
-        "default": "en",
-        "supported": ["en", "es"]
-      },
-      "connect": false,
-      "params": {
-        "application": {
-          "name": "BeyondJS - DEV",
-          "id": "58ac31343331342f43ddb303",
-          "key": "2c123deb9ad91f25a26fafa2a0376acf"
-        },
-        "auth": {
-          "facebook": {
-            "appId": "",
-            "version": "v5.0"
-          }
-        },
-        "cloudDomain": "beyondjs.com",
-        "sandbox": {
-          "tokenizationKey": "sandbox_q74w7s9t_prxg5w2dzb24dn87"
-        }
-      }
-    });
-    beyond.libraries.register([{
-      "package": "@beyond-js/plm",
-      "version": "1",
-      "connect": false
-    }, {
-      "package": "@beyond-js/ui",
-      "version": "1",
-      "connect": false
-    }, {
-      "package": "@beyond-js/dashboard-lib",
-      "version": "1",
-      "connect": true,
-      "host": "##beyond-host-namespace-[beyond-js/dashboard-lib]##"
-    }, {
-      "package": "@beyond-js/kernel",
-      "version": "1.0"
-    }, {
-      "package": "@beyond-js/backend",
-      "version": "1.0"
-    }, {
-      "package": "@beyond-js/ssr",
-      "version": "1.0"
-    }]);
-  })();
   /*************
   BUNDLE: WIDGET
   *************/
-
 
   beyond.widgets.register([{
     "name": "beyond-layout-children",

@@ -6,25 +6,21 @@
  * @constructor
  */
 import {URI} from "./uri";
+import type {IPageFound} from "../config/pages/pages";
 
 declare function require(module: string): any;
 
 export class Route {
     readonly #uri: URI;
 
-    #route: string | undefined;
-    get route() {
-        return this.#route;
+    #element: string;
+    get element() {
+        return this.#element;
     }
 
-    #bundle: string | undefined;
-    get bundle() {
-        return this.#bundle;
-    }
-
-    #vdir: string | undefined;
-    get vdir() {
-        return this.#vdir;
+    #vars: Map<string, string>;
+    get vars() {
+        return this.#vars;
     }
 
     #initialised = false;
@@ -43,45 +39,12 @@ export class Route {
         const {pathname} = this.#uri;
 
         const {routing} = require('../routing');
-        if (routing.config.pages.has(pathname)) {
-            this.#route = pathname;
-            this.#vdir = undefined;
-            this.#bundle = routing.config.pages.get(pathname).bundle;
-            return;
+        let found: IPageFound = routing.config.pages.find(pathname);
+        if (!found.element && typeof routing.missing === 'function') {
+            found = await routing.missing(this.#uri);
         }
 
-        let split = pathname.split('/');
-        let vdir = [];
-        let dir;
-
-        while (dir = split.pop()) {
-            vdir.unshift(dir);
-            let route = split.join('/');
-            route = (route) ? route : '/';
-
-            if (routing.config.pages.has(route)) {
-                const config = routing.config.pages.get(route);
-                if (vdir.length && !config.vdir) continue; // The page does not support vdir
-
-                this.#route = route;
-                this.#vdir = vdir.join('/');
-                this.#bundle = config.bundle;
-
-                return;
-            }
-        }
-
-        if (typeof routing.missing !== 'function') return;
-
-        const bundle = await routing.missing(this.#uri);
-        if (!bundle) return;
-
-        if (typeof bundle !== 'string') {
-            console.error(`Invalid bundle value set by custom missing function`, bundle);
-            return;
-        }
-
-        this.#route = this.#uri.pathname;
-        this.#bundle = bundle;
+        this.#element = found.element;
+        this.#vars = found.vars;
     }
 }

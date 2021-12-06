@@ -4,7 +4,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.TemplateProcessorsSources = _exports2.TemplateProcessorsSource = _exports2.TemplateProcessor = _exports2.TemplateOverwrites = _exports2.TemplateOverwrite = _exports2.TemplateApplicationsSources = _exports2.TemplateApplicationsSource = _exports2.TemplateApplication = _exports2.Template = _exports2.ProcessorSources = _exports2.ProcessorSource = _exports2.ProcessorOverwrites = _exports2.ProcessorOverwrite = _exports2.ProcessorDependency = _exports2.ProcessorDependencies = _exports2.ProcessorCompilers = _exports2.ProcessorCompiler = _exports2.Processor = _exports2.Modules = _exports2.ModuleTexts = _exports2.ModuleStatics = _exports2.ModuleStatic = _exports2.ModuleDeclarations = _exports2.Module = _exports2.LibraryModules = _exports2.LibraryModule = _exports2.Library = _exports2.LibrariesStatics = _exports2.LibrariesStatic = _exports2.Libraries = _exports2.GlobalBundles = _exports2.GlobalBundle = _exports2.Declarations = _exports2.Declaration = _exports2.Dashboard = _exports2.Consumers = _exports2.Consumer = _exports2.Bundle = _exports2.Bee = _exports2.Applications = _exports2.ApplicationStatics = _exports2.ApplicationStatic = _exports2.ApplicationModules = _exports2.ApplicationModule = _exports2.ApplicationLibrary = _exports2.ApplicationLibraries = _exports2.ApplicationDistributions = _exports2.ApplicationDistribution = _exports2.ApplicationDeployments = _exports2.ApplicationDeployment = _exports2.ApplicationDeclarations = _exports2.Application = void 0;
+  _exports2.hmr = _exports2.TemplateProcessorsSources = _exports2.TemplateProcessorsSource = _exports2.TemplateProcessor = _exports2.TemplateOverwrites = _exports2.TemplateOverwrite = _exports2.TemplateGlobals = _exports2.TemplateGlobalSources = _exports2.TemplateGlobalSource = _exports2.TemplateGlobal = _exports2.TemplateApplicationsSources = _exports2.TemplateApplicationsSource = _exports2.TemplateApplication = _exports2.Template = _exports2.ProcessorSources = _exports2.ProcessorSource = _exports2.ProcessorOverwrites = _exports2.ProcessorOverwrite = _exports2.ProcessorDependency = _exports2.ProcessorDependencies = _exports2.ProcessorCompilers = _exports2.ProcessorCompiler = _exports2.Processor = _exports2.Modules = _exports2.ModuleTexts = _exports2.ModuleStatics = _exports2.ModuleStatic = _exports2.ModuleDeclarations = _exports2.Module = _exports2.LibraryModules = _exports2.LibraryModule = _exports2.Library = _exports2.LibrariesStatics = _exports2.LibrariesStatic = _exports2.Libraries = _exports2.GlobalBundles = _exports2.GlobalBundle = _exports2.Declarations = _exports2.Declaration = _exports2.Dashboard = _exports2.Consumers = _exports2.Consumer = _exports2.Bundle = _exports2.Bee = _exports2.Applications = _exports2.ApplicationStatics = _exports2.ApplicationStatic = _exports2.ApplicationModules = _exports2.ApplicationModule = _exports2.ApplicationLibrary = _exports2.ApplicationLibraries = _exports2.ApplicationDistributions = _exports2.ApplicationDistribution = _exports2.ApplicationDeployments = _exports2.ApplicationDeployment = _exports2.ApplicationDeclarations = _exports2.Application = void 0;
   const dependencies = new Map();
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
   dependencies.set('@beyond-js/plm/core/ts', dependency_1);
@@ -1657,7 +1657,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: bees\register.ts
 
   modules.set('./bees/register', {
-    hash: 1540619500,
+    hash: 1826232712,
     creator: function (require, exports) {
       "use strict";
 
@@ -1671,7 +1671,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
       const specs = {};
       specs.module = beyond_context_1.module;
-      specs.cache = false;
+      specs.cache = false; //TODO @ftovar agregar field is
+
       specs.fields = ['id', 'path', 'version', 'name', 'enabled', 'status', 'builds', 'exception', 'port', 'pid', 'errors'];
       specs.batch = {
         actions: {
@@ -3812,7 +3813,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: processors\sources\item.ts
 
   modules.set('./processors/sources/item', {
-    hash: 1567589611,
+    hash: 1809354523,
     creator: function (require, exports) {
       "use strict";
 
@@ -3834,6 +3835,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
         get code() {
           return this.fields.get('code').value;
+        }
+
+        get hash() {
+          return this.fields.get('hash').value;
         }
 
         get file() {
@@ -3871,7 +3876,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: processors\sources\register.ts
 
   modules.set('./processors/sources/register', {
-    hash: 1228650569,
+    hash: 930421227,
     creator: function (require, exports) {
       "use strict";
 
@@ -3886,7 +3891,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = beyond_context_1.module;
       specs.cache = false;
-      specs.fields = ['id', 'version', 'code', 'file', 'filename', 'dirname', 'basename', 'extname', 'relative'];
+      specs.fields = ['id', 'version', 'code', 'hash', 'file', 'filename', 'dirname', 'basename', 'extname', 'relative'];
       specs.batch = {
         actions: {
           list: 'applications/modules/bundles/processors/sources/list',
@@ -4288,10 +4293,260 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       };
       ts_1.tables.register('template-application-sources', specs);
     }
+  }); // FILE: templates\global\collection.ts
+
+  modules.set('./templates/global/collection', {
+    hash: 1642872420,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.TemplateGlobals = void 0;
+
+      const ts_1 = require("@beyond-js/plm/core/ts");
+
+      const item_1 = require("./item");
+
+      class TemplateGlobals extends ts_1.Collection {
+        constructor(specs) {
+          super('template-global', item_1.TemplateGlobal, specs);
+        }
+
+      }
+
+      exports.TemplateGlobals = TemplateGlobals;
+    }
+  }); // FILE: templates\global\item.ts
+
+  modules.set('./templates/global/item', {
+    hash: 3769045535,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.TemplateGlobal = void 0;
+
+      const ts_1 = require("@beyond-js/plm/core/ts");
+
+      class TemplateGlobal extends ts_1.Item {
+        get id() {
+          return this.fields.get('id').value;
+        }
+
+        get path() {
+          return this.fields.get('path').value;
+        }
+
+        get processor() {
+          return this.fields.get('processor').value;
+        }
+
+        get files() {
+          return this.fields.get('files').value ?? [];
+        }
+
+        get errors() {
+          return this.fields.get('errors').value ?? [];
+        }
+
+        get warnings() {
+          return this.fields.get('warnings').value ?? [];
+        }
+
+        get sources() {
+          const sources = this.properties.get('sources');
+          return sources && sources.value;
+        }
+
+        constructor(specs) {
+          super('template-global', specs);
+        }
+
+      }
+
+      exports.TemplateGlobal = TemplateGlobal;
+    }
+  }); // FILE: templates\global\register.ts
+
+  modules.set('./templates/global/register', {
+    hash: 1899777398,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+
+      const ts_1 = require("@beyond-js/plm/core/ts");
+
+      const beyond_context_1 = require("beyond_context");
+
+      const collection_1 = require("./sources/collection");
+
+      const specs = {};
+      specs.module = beyond_context_1.module;
+      specs.cache = false;
+      specs.fields = ['id', 'processor', 'path', 'files', 'errors', 'warnings'];
+      specs.properties = {
+        sources: {
+          Collection: collection_1.TemplateGlobalSources,
+          table: 'template-global-sources',
+          filter: [{
+            field: 'application',
+            source: 'id'
+          }]
+        }
+      };
+      specs.batch = {
+        actions: {
+          list: '',
+          data: 'templates/global/data'
+        }
+      };
+      specs.indices = {
+        id: {
+          fields: ['id'],
+          primary: true
+        }
+      };
+      ts_1.tables.register('template-global', specs);
+    }
+  }); // FILE: templates\global\sources\collection.ts
+
+  modules.set('./templates/global/sources/collection', {
+    hash: 2345468065,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.TemplateGlobalSources = void 0;
+
+      const ts_1 = require("@beyond-js/plm/core/ts");
+
+      const item_1 = require("./item");
+
+      class TemplateGlobalSources extends ts_1.Collection {
+        constructor(specs) {
+          super('template-global-sources', item_1.TemplateGlobalSource, specs);
+        }
+
+      }
+
+      exports.TemplateGlobalSources = TemplateGlobalSources;
+    }
+  }); // FILE: templates\global\sources\item.ts
+
+  modules.set('./templates/global/sources/item', {
+    hash: 1681286304,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.TemplateGlobalSource = void 0;
+
+      const source_1 = require("../../../sources/source");
+
+      class TemplateGlobalSource extends source_1.Source {
+        get id() {
+          return this.fields.get('id').value;
+        }
+
+        get version() {
+          return this.fields.get('version').value;
+        }
+
+        get processor() {
+          return this.fields.get('processor').value;
+        }
+
+        get code() {
+          return this.fields.get('code').value;
+        }
+
+        get file() {
+          return this.fields.get('file').value;
+        }
+
+        get filename() {
+          return this.fields.get('filename').value;
+        }
+
+        get dirname() {
+          return this.fields.get('dirname').value;
+        }
+
+        get basename() {
+          return this.fields.get('basename').value;
+        }
+
+        get extname() {
+          return this.fields.get('extname').value;
+        }
+
+        get relative() {
+          return this.fields.get('relative').value;
+        }
+
+        get type() {
+          return 'template';
+        }
+
+        constructor(specs) {
+          super('template-global-sources', specs);
+        }
+
+      }
+
+      exports.TemplateGlobalSource = TemplateGlobalSource;
+    }
+  }); // FILE: templates\global\sources\register.ts
+
+  modules.set('./templates/global/sources/register', {
+    hash: 1192373719,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+
+      const ts_1 = require("@beyond-js/plm/core/ts");
+
+      const beyond_context_1 = require("beyond_context");
+
+      const specs = {};
+      specs.module = beyond_context_1.module;
+      specs.cache = false;
+      specs.fields = ['id', 'version', 'processor', 'code', 'file', 'filename', 'dirname', 'basename', 'extname', 'relative'];
+      specs.batch = {
+        actions: {
+          list: 'templates/global/sources/list',
+          data: 'templates/global/sources/data'
+        }
+      };
+      specs.indices = {
+        id: {
+          fields: ['id'],
+          primary: true
+        },
+        sources: {
+          fields: ['application']
+        }
+      };
+      ts_1.tables.register('template-global-sources', specs);
+    }
   }); // FILE: templates\item.ts
 
   modules.set('./templates/item', {
-    hash: 4001331830,
+    hash: 789131316,
     creator: function (require, exports) {
       "use strict";
 
@@ -4322,6 +4577,11 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         get application() {
           const application = this.properties.get('application');
           return application && application.value;
+        }
+
+        get global() {
+          const global = this.properties.get('global');
+          return global && global.value;
         }
 
         get processors() {
@@ -4696,7 +4956,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: templates\register.ts
 
   modules.set('./templates/register', {
-    hash: 454639242,
+    hash: 1138966643,
     creator: function (require, exports) {
       "use strict";
 
@@ -4708,9 +4968,11 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
       const beyond_context_1 = require("beyond_context");
 
-      const item_1 = require("./processors/item");
+      const item_1 = require("./global/item");
 
-      const item_2 = require("./applications/item");
+      const item_2 = require("./processors/item");
+
+      const item_3 = require("./applications/item");
 
       const collection_1 = require("./overwrites/collection");
 
@@ -4720,15 +4982,23 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       specs.fields = ['id', 'application', 'processors', 'path', 'errors', 'warnings'];
       specs.properties = {
         application: {
-          Item: item_2.TemplateApplication,
+          Item: item_3.TemplateApplication,
           table: 'template-application',
           identifier: [{
             field: 'id',
             source: 'id'
           }]
         },
+        global: {
+          Item: item_1.TemplateGlobal,
+          table: 'template-global',
+          identifier: [{
+            field: 'id',
+            source: 'id'
+          }]
+        },
         processors: {
-          Items: item_1.TemplateProcessor,
+          Items: item_2.TemplateProcessor,
           table: 'template-processors',
           identifier: {
             field: 'id',
@@ -4765,13 +5035,17 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
     this.off = (event, listener) => void 0;
   }();
   _exports2.hmr = hmr;
-  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource;
+  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource;
   _exports2.TemplateProcessorsSource = TemplateProcessorsSource;
   _exports2.TemplateProcessorsSources = TemplateProcessorsSources;
   _exports2.TemplateProcessor = TemplateProcessor;
   _exports2.TemplateOverwrite = TemplateOverwrite;
   _exports2.TemplateOverwrites = TemplateOverwrites;
   _exports2.Template = Template;
+  _exports2.TemplateGlobalSource = TemplateGlobalSource;
+  _exports2.TemplateGlobalSources = TemplateGlobalSources;
+  _exports2.TemplateGlobal = TemplateGlobal;
+  _exports2.TemplateGlobals = TemplateGlobals;
   _exports2.TemplateApplicationsSource = TemplateApplicationsSource;
   _exports2.TemplateApplicationsSources = TemplateApplicationsSources;
   _exports2.TemplateApplication = TemplateApplication;
@@ -4866,6 +5140,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
     _exports2.TemplateApplication = TemplateApplication = _exports.TemplateApplication = require('./templates/applications/item').TemplateApplication;
     _exports2.TemplateApplicationsSources = TemplateApplicationsSources = _exports.TemplateApplicationsSources = require('./templates/applications/sources/collection').TemplateApplicationsSources;
     _exports2.TemplateApplicationsSource = TemplateApplicationsSource = _exports.TemplateApplicationsSource = require('./templates/applications/sources/item').TemplateApplicationsSource;
+    _exports2.TemplateGlobals = TemplateGlobals = _exports.TemplateGlobals = require('./templates/global/collection').TemplateGlobals;
+    _exports2.TemplateGlobal = TemplateGlobal = _exports.TemplateGlobal = require('./templates/global/item').TemplateGlobal;
+    _exports2.TemplateGlobalSources = TemplateGlobalSources = _exports.TemplateGlobalSources = require('./templates/global/sources/collection').TemplateGlobalSources;
+    _exports2.TemplateGlobalSource = TemplateGlobalSource = _exports.TemplateGlobalSource = require('./templates/global/sources/item').TemplateGlobalSource;
     _exports2.Template = Template = _exports.Template = require('./templates/item').Template;
     _exports2.TemplateOverwrites = TemplateOverwrites = _exports.TemplateOverwrites = require('./templates/overwrites/collection').TemplateOverwrites;
     _exports2.TemplateOverwrite = TemplateOverwrite = _exports.TemplateOverwrite = require('./templates/overwrites/item').TemplateOverwrite;

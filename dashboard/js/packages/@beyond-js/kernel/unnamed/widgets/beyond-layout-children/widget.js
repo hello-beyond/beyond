@@ -22,7 +22,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
   const modules = new Map(); // FILE: controller.ts
 
   modules.set('./controller', {
-    hash: 2399876327,
+    hash: 1141722530,
     creator: function (require, exports) {
       "use strict";
 
@@ -38,44 +38,48 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
       class Controller extends ts_1.BeyondWidgetController {
         #layout;
         #active;
-        #mounted = new Map(); // Render the layouts and pages of this container
+        #mounted = new Map(); // Identify the layout of the current widget
 
-        #render = () => {
-          this.#layout.children.forEach(child => {
-            // Create the HTMLElement of the child if it was not already created
-            if (!this.#mounted.has(child.id)) {
-              const element = document.createElement(child.name);
-              element.setAttribute('data-id', element.id);
-              this.component.shadowRoot.append(element);
-              this.#mounted.set(child.id, element);
-            }
-
-            const element = this.#mounted.get(child.id); // Set the active child
-
-            element.hidden = !child.active;
-            child.active && (this.#active = element);
-          });
-        };
-
-        mount() {
-          // Find the ascending branches of parent layouts
+        #identify = () => {
+          // Construct the ascending layouts of the current widget
           let iterate = this.node;
-          const layoutsNodes = [];
+          const layouts = [];
 
           while (iterate?.parent) {
             const {
               parent
             } = iterate;
-            parent.is === 'layout' && layoutsNodes.unshift(parent);
+            parent.is === 'layout' && layouts.unshift(parent);
             iterate = parent;
           }
 
-          if (!layoutsNodes.length || layoutsNodes[0].widget.localName === ts_1.beyond.application.layout) {
+          if (!layouts.length || layouts[0].widget.localName === ts_1.beyond.application.layout) {
             this.#layout = ts_2.routing.manager.main;
           }
+        }; // Render the layouts and pages of this container
 
-          this.#layout.on('change', this.#render);
-          this.#render();
+        render = () => this.#layout.children.forEach(child => {
+          // Create the HTMLElement of the child if it was not already created
+          if (!this.#mounted.has(child.id)) {
+            const element = document.createElement(child.element);
+            element.setAttribute('data-child-id', child.id);
+            this.component.shadowRoot.append(element);
+            this.#mounted.set(child.id, element);
+          }
+
+          const element = this.#mounted.get(child.id); // Set the active child
+
+          element.hidden = !child.active;
+          child.active && (this.#active = element);
+        });
+        #initialised = false;
+
+        initialise() {
+          if (this.#initialised) throw new Error('Already initialised');
+          this.#initialised = true;
+          this.#identify();
+          this.#layout.on('change', this.render);
+          this.render();
         }
 
       }

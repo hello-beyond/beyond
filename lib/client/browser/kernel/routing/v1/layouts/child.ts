@@ -1,5 +1,5 @@
 import type {Layout} from "./layout";
-import type {LayoutConfig} from "../config/layouts";
+import type {LayoutConfig} from "../config/layouts/layout";
 import type {PageInstanceData} from "../pages/data";
 
 declare function require(module: string): any;
@@ -7,8 +7,8 @@ declare function require(module: string): any;
 export class Child {
     readonly #config: LayoutConfig | PageInstanceData;
 
-    get name() {
-        return this.#config.name;
+    get element() {
+        return this.#config.element;
     }
 
     get is(): string {

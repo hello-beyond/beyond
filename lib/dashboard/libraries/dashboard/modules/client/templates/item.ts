@@ -1,6 +1,7 @@
 import {CollectionProperty, Item, ItemProperty, ItemSpecs, ItemsProperty} from "@beyond-js/plm/core/ts";
 import type {Processor} from "../processors/item";
-import type {Application} from "../applications/item";
+import type {TemplateGlobal} from "./global/item";
+import type {TemplateApplication} from "./applications/item";
 import type {TemplateOverwrites} from "./overwrites/collection";
 
 export /*bundle*/
@@ -21,9 +22,14 @@ class Template extends Item {
         return this.fields.get('warnings').value ?? [];
     }
 
-    get application(): Application {
+    get application(): TemplateApplication {
         const application = <ItemProperty>this.properties.get('application');
-        return application && <Application>application.value;
+        return application && <TemplateApplication>application.value;
+    }
+
+    get global(): TemplateGlobal {
+        const global = <ItemProperty>this.properties.get('global');
+        return global && <TemplateGlobal>global.value;
     }
 
     get processors(): Map<string, Processor> {

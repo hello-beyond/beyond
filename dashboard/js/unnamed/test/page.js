@@ -25,7 +25,7 @@ define(["exports", "react", "react-dom"], function (_exports, React, ReactDOM) {
 
 
   function Page() {
-    ReactDOM.render(React.createElement(DSWorkspace, {}), this.container);
+    ReactDOM.render(React.createElement(Test, {}), this.container);
   }
   /************
   JSX PROCESSOR
@@ -36,7 +36,7 @@ define(["exports", "react", "react-dom"], function (_exports, React, ReactDOM) {
   *******/
 
 
-  function DSWorkspace() {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, "Testing Page");
+  function Test() {
+    return /*#__PURE__*/React.createElement("h1", null, "Testing Page");
   }
 });

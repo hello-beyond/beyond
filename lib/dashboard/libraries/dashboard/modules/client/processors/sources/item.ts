@@ -20,6 +20,10 @@ class ProcessorSource extends Source {
         return this.fields.get('code').value;
     }
 
+    get hash(): string {
+        return this.fields.get('hash').value;
+    }
+
     get file(): string {
         return this.fields.get('file').value;
     }

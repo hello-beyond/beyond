@@ -3,7 +3,7 @@ import {BeyondRequire} from "./require";
 
 declare function es6_import(module: string): Promise<any>;
 
-declare function bimport(module: string): Promise<any>;
+declare function bimport(module: string, version?: number): Promise<any>;
 
 export class BeyondImport {
     #require: BeyondRequire;
@@ -36,7 +36,7 @@ export class BeyondImport {
             module = module.substr(1);
         }
 
-        if (this.#mode === 'cjs') return await bimport(module);
+        if (this.#mode === 'cjs') return await bimport(module, version);
         if (this.#mode === 'amd') return await this.#require.require(module);
 
         let url: string;
@@ -59,7 +59,7 @@ export class BeyondImport {
      * @return {Promise<*>}
      */
     async reload(module: string, version: number) {
-        if (this.#mode === 'cjs') return await bimport(module);
+        if (this.#mode === 'cjs') return await bimport(module, version);
         if (this.#mode === 'es6') return await this.import(module, version);
         return await this.#require.reload(module);
     }

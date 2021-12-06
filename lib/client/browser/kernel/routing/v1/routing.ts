@@ -1,11 +1,10 @@
 import {URI} from "./uri/uri";
-import {config, RoutingConfig} from "./config/config";
-import type {ILayoutConfig} from "./config/layouts";
-import type {IPageConfig} from "./config/pages";
+import {config} from "./config/config";
+import type {ILayoutConfig} from "./config/layouts/layout";
+import type {PageConfig, IPageConfig} from "./config/pages/page";
 import {Manager} from "./manager";
 import {widgets, CancellationToken} from "@beyond-js/kernel/core/ts";
 import {BeyondHistory} from "./history/history";
-import type {PageConfig} from "./config/pages";
 
 export enum RoutingMode {Hash, Pathname}
 
@@ -17,9 +16,8 @@ export class Routing {
         return this.#mode;
     }
 
-    readonly #config = config;
-    get config(): RoutingConfig {
-        return this.#config
+    get config(): typeof config {
+        return config
     };
 
     readonly #manager = new Manager();
@@ -49,9 +47,9 @@ export class Routing {
      * Returns page configuration from an href address
      *
      * @param {string} _uri The uri in string format previous to be parsed
-     * @return {Promise<{error?: string, redirected?: string, page?: PageConfig}>}
+     * @return {Promise<{error?: string, redirected?: string, page?: PageConfig, uri?: URI}>}
      */
-    async page(_uri: string): Promise<{ error?: string, redirected?: string, page?: PageConfig }> {
+    async page(_uri: string): Promise<{ error?: string, redirected?: string, page?: PageConfig, uri?: URI }> {
         const uri = new URI(_uri);
 
         // Check if uri has to be redirected
@@ -60,19 +58,14 @@ export class Routing {
 
         await uri.initialise(); // Parse the uri and check the missing function if the route is not found
 
-        const {route} = uri.route;
-        if (!route) {
+        const {element} = uri.route;
+        if (!config.pages.has(element)) {
             const error = `Pathname "${uri.pathname}" does not have a page associated to it`;
             return {error};
         }
 
-        if (!config.pages.has(route)) {
-            const error = `Route "${route}" not found`;
-            return {error};
-        }
-
-        const page = config.pages.get(route);
-        return {page};
+        const page = config.pages.get(element);
+        return {page, uri};
     }
 
     setUp(routingMode: RoutingMode) {
@@ -99,8 +92,8 @@ export class Routing {
             specs.is === 'layout' && layouts.push(specs);
             specs.is === 'page' && pages.push(specs);
         });
-        this.#config.layouts.register(layouts);
-        this.#config.pages.register(pages);
+        config.layouts.register(layouts);
+        config.pages.register(pages);
 
         !ssr && this.update().catch(exc => console.error(exc.stack));
     }

@@ -21,7 +21,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   const modules = new Map(); // FILE: application-styles.ts
 
   modules.set('./application-styles', {
-    hash: 409682437,
+    hash: 3695846442,
     creator: function (require, exports) {
       "use strict";
 
@@ -50,6 +50,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor() {
           super();
+          if (typeof window === 'undefined') return;
           this.#subscribe().catch(exc => console.error(exc.stack));
         }
 
@@ -58,7 +59,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   }); // FILE: local.ts
 
   modules.set('./local', {
-    hash: 3536584647,
+    hash: 752988096,
     creator: function (require, exports) {
       "use strict";
 
@@ -75,7 +76,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       class BeyondLocal extends ts_1.Events {
         #onchange = message => {
-          this.trigger(`change:${message.bundle}`, message.processor);
+          const {
+            bundle,
+            processor,
+            distribution,
+            language
+          } = message;
+          this.trigger(`change:${bundle}//${distribution}//${language}`, processor);
         };
 
         get services() {

@@ -20,8 +20,7 @@ export class HMR extends Events {
         this.#pkg = pkg;
         this.#beyond = <Beyond>(require('../../../beyond')).beyond;
 
-        // HMR is only available in local environment
-        this.#beyond.local && this.#activate().catch(exc => console.error(exc.stack));
+        this.#activate().catch(exc => console.error(exc.stack));
     }
 
     async #onchange(processor: string) {
@@ -33,13 +32,16 @@ export class HMR extends Events {
     }
 
     #activate = async () => {
-        const local = <BeyondLocal>(await this.#beyond.import('@beyond-js/local/main/ts')).local;
+        // HMR is only available in local environment
+        const beyond = this.#beyond;
+        if (!beyond.local) return;
+
+        const local = <BeyondLocal>(await beyond.import('@beyond-js/local/main/ts')).local;
 
         const onchange = (processor: string) => this.#onchange(processor).catch(exc => console.error(exc.stack));
 
-        let event = `change:${this.#pkg.bundle.id}`;
-        event += this.#pkg.multilanguage ? `.${this.#pkg.language}` : '';
-
+        const language = this.#pkg.multilanguage ? this.#pkg.language : '.';
+        const event = `change:${this.#pkg.bundle.id}//${beyond.distribution}//${language}`;
         local.on(event, onchange);
         this.#local = local;
     }

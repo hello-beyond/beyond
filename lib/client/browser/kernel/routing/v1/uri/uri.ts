@@ -7,15 +7,20 @@
 import {Route} from "./route";
 import {QueryString} from "./querystring";
 
-export class URI {
+export /*bundle*/
+class URI {
+    readonly #uri: string;
+    get uri(): string {
+        return this.#uri;
+    }
+
     readonly #route: Route;
     get route() {
         return this.#route;
     }
 
-    readonly #uri: string;
-    get uri(): string {
-        return this.#uri;
+    get vars() {
+        return this.#route.vars;
     }
 
     readonly #pathname: string;

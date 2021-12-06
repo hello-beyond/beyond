@@ -1,7 +1,7 @@
-import {PagesConfig} from "./pages";
-import {LayoutsConfig} from "./layouts";
+import {PagesConfig} from "./pages/pages";
+import {LayoutsConfig} from "./layouts/layouts";
 
-class CRoutingConfig {
+export const config = new class RoutingConfig {
     readonly #layouts = new LayoutsConfig;
     get layouts() {
         return this.#layouts;
@@ -12,7 +12,3 @@ class CRoutingConfig {
         return this.#pages;
     }
 }
-
-export type RoutingConfig = CRoutingConfig;
-
-export const config = new CRoutingConfig;

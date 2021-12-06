@@ -1,5 +1,5 @@
-import {LayoutConfig} from "./layouts";
-import type {RoutingConfig} from "./config";
+import {LayoutConfig} from "../layouts/layout";
+import type {config as tconfig} from "../config";
 
 declare function require(module: string): any;
 
@@ -14,14 +14,14 @@ export interface IParents {
     parents?: LayoutConfig[]
 }
 
-export class PageConfig implements IPageConfig {
+export class PageConfig {
     get is() {
         return 'page';
     }
 
-    readonly #name: string;
-    get name() {
-        return this.#name;
+    readonly #element: string;
+    get element() {
+        return this.#element;
     }
 
     readonly #route: string;
@@ -35,7 +35,7 @@ export class PageConfig implements IPageConfig {
     }
 
     constructor(page: IPageConfig) {
-        this.#name = page.name;
+        this.#element = page.name;
         this.#route = page.route;
         this.#layout = page.layout;
     }
@@ -46,7 +46,7 @@ export class PageConfig implements IPageConfig {
      * @return {{error?: string, parents?: LayoutConfig[]}}
      */
     get parents(): IParents {
-        const config = <RoutingConfig>require('./config');
+        const config = <typeof tconfig>require('../config');
 
         // Ascending list of containers layouts of the page being navigated
         const parents: LayoutConfig[] = [];
@@ -63,13 +63,5 @@ export class PageConfig implements IPageConfig {
         }
 
         return {parents};
-    }
-}
-
-export class PagesConfig extends Map<string, PageConfig> {
-    register(pages: IPageConfig[]) {
-        for (const page of pages) {
-            this.set(page.route, new PageConfig(page));
-        }
     }
 }

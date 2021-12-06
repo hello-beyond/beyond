@@ -1,5 +1,6 @@
 import {module} from 'beyond_context';
 import {Events} from '@beyond-js/kernel/core/ts';
+import type {Socket} from "socket.io";
 
 new class ApplicationStyles extends Events {
     /**
@@ -15,13 +16,14 @@ new class ApplicationStyles extends Events {
     }
 
     #subscribe = async () => {
-        const socket: SocketIOClient.Socket = await module.socket;
+        const socket: Socket = await module.socket;
         socket.on('application-styles', () => this.#update('application'));
         socket.on('global-styles', () => this.#update('global'));
     }
 
     constructor() {
         super();
+        if (typeof window === 'undefined') return;
         this.#subscribe().catch(exc => console.error(exc.stack));
     }
 }

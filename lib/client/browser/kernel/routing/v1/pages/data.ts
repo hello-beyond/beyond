@@ -1,5 +1,8 @@
 import type {URI} from "../uri/uri";
-import type {IParents, PageConfig} from "../config/pages";
+import type {IParents} from "../config/pages/page";
+import type {routing as trouting} from '../routing';
+
+declare function require(module: string): any;
 
 let id = 0;
 
@@ -8,35 +11,30 @@ export class PageInstanceData {
         return 'page';
     }
 
+    readonly #element: string;
+    get element() {
+        return this.#element;
+    }
+
     readonly #id: number;
     get id(): string {
-        return `${this.#config.name}:${this.#id}`;
+        return `${this.#element}:${this.#id}`;
     }
 
-    readonly #config: PageConfig;
-
-    get name(): string {
-        return this.#config.name;
-    }
-
-    get route(): string {
-        return this.#config.route;
+    #config() {
+        const routing = <typeof trouting>require('../routing').routing;
+        return routing.config.pages.get(this.#element);
     }
 
     get parents(): IParents {
-        return this.#config.parents;
+        return this.#config().parents;
     }
 
-    // The uri property is updated on navigation as the same page can have different addresses
+    // The uri property is updated on navigation as the query string of the page can change
     uri: URI;
 
-    /**
-     * Page instance data constructor
-     *
-     * @param {PageConfig} config
-     */
-    constructor(config: PageConfig) {
+    constructor(element: string) {
+        this.#element = element;
         this.#id = ++id;
-        this.#config = config;
     }
 }

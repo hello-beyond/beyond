@@ -7,7 +7,7 @@ specs.module = module;
 specs.cache = false;
 
 specs.fields = [
-    'id', 'version', 'code', 'file', 'filename', 'dirname', 'basename', 'extname', 'relative'
+    'id', 'version', 'code', 'hash', 'file', 'filename', 'dirname', 'basename', 'extname', 'relative'
 ];
 
 specs.batch = {

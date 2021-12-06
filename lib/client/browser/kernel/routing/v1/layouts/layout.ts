@@ -1,5 +1,5 @@
 import type {PageInstanceData} from "../pages/data";
-import type {LayoutConfig} from "../config/layouts";
+import type {LayoutConfig} from "../config/layouts/layout";
 import {Child} from "./child";
 import {Events} from "@beyond-js/kernel/core/ts";
 

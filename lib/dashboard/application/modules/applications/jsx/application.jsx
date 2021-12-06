@@ -1,18 +1,16 @@
 function ApplicationItem({item, texts}) {
+    const application = item;
+    if (!application.landed) return <PreloadItem/>;
 
     const {workspace} = useDSWorkspaceContext();
-
     const modules = () => workspace.openApp(item.id);
-
-    const application = item;
-
-    if (!application.fetched) return <PreloadItem/>;
     const description = application.description ?? texts.description;
     const openNavigator = event => {
         event.preventDefault();
         event.stopPropagation();
         workspace.openNavigator(application.id, event.currentTarget.href);
     }
+
     return (
         <div className="ds-item_list" key={application.id} onClick={modules}>
             <div className="item-info">

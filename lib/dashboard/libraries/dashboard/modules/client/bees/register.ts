@@ -6,6 +6,7 @@ const specs = <TableSpecs>{};
 specs.module = module;
 specs.cache = false;
 
+//TODO @ftovar agregar field is
 specs.fields = [
     'id', 'path', 'version', 'name', 'enabled',
     'status', 'builds', 'exception', 'port', 'pid', 'errors'

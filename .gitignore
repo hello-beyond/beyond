@@ -38,7 +38,6 @@ lib/dashboard/libraries/beyond-community/package-lock.json
 lib/dashboard/libraries/payments/package-lock.json
 lib/dashboard/libraries/beyond-services/pods-templates
 lib/dashboard/application/builds
-logs
 .log
 
 applications/javier/service/build

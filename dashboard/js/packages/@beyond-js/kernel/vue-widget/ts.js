@@ -21,7 +21,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   const modules = new Map(); // FILE: controller.ts
 
   modules.set('./controller', {
-    hash: 3618066497,
+    hash: 2301514893,
     creator: function (require, exports) {
       "use strict";
 
@@ -33,37 +33,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       const ts_1 = require("@beyond-js/kernel/core/ts");
 
       class VueWidgetController extends ts_1.BeyondWidgetController {
-        #styles;
-        #hmrStylesChanged = styles => {
-          const {
-            shadowRoot
-          } = this.component;
-          const previous = shadowRoot.querySelectorAll(`:scope > [bundle="${styles.id}"]`)[0];
-          previous && shadowRoot.removeChild(previous);
-          styles.css && shadowRoot.appendChild(styles.css);
-        };
-
-        render() {}
-
-        mount() {
-          this.render();
-          this.bundle.dependencies.forEach(resource => {
-            if (!ts_1.beyond.bundles.has(resource)) return;
-            const dependency = ts_1.beyond.bundles.get(resource);
-            const {
-              styles
-            } = dependency;
-            if (styles.dom || !styles.css) return;
-            this.component.shadowRoot.appendChild(styles.css);
-            styles.on('change', this.#hmrStylesChanged);
-          }); // Append styles and setup styles HMR
-
-          this.#styles = this.bundle.styles;
-          const {
-            css
-          } = this.#styles;
-          css && this.component.shadowRoot.appendChild(css);
-          this.#styles.on('change', this.#hmrStylesChanged);
+        mount(Widget) {
+          // Render the widget
+          Widget.$mount(this.body);
         }
 
       }

@@ -1,7 +1,6 @@
 {
   "page": {
     "route": "/test",
-    "imports": "imports.js",
     "layout": "default",
     "js": {
       "path": "js",

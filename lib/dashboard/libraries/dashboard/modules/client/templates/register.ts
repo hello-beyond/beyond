@@ -1,5 +1,6 @@
 import {tables, TableSpecs} from "@beyond-js/plm/core/ts";
 import {module} from "beyond_context";
+import {TemplateGlobal} from "./global/item";
 import {TemplateProcessor} from "./processors/item";
 import {TemplateApplication} from "./applications/item";
 import {TemplateOverwrites} from "./overwrites/collection";
@@ -17,6 +18,11 @@ specs.properties = {
     application: {
         Item: TemplateApplication,
         table: 'template-application',
+        identifier: [{field: 'id', source: 'id'}]
+    },
+    global: {
+        Item: TemplateGlobal,
+        table: 'template-global',
         identifier: [{field: 'id', source: 'id'}]
     },
     processors: {

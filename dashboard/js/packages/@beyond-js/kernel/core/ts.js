@@ -285,7 +285,7 @@ define(["exports"], function (_exports) {
   }); // FILE: beyond.ts
 
   modules.set('./beyond', {
-    hash: 3767751865,
+    hash: 3735049903,
     creator: function (require, exports) {
       "use strict";
 
@@ -355,6 +355,12 @@ define(["exports"], function (_exports) {
           return this.#local;
         }
 
+        #distribution;
+
+        get distribution() {
+          return this.#distribution;
+        }
+
         #environment;
 
         get environment() {
@@ -395,15 +401,28 @@ define(["exports"], function (_exports) {
           return collection_1.Collection;
         }
 
-        setup(config) {
-          this.#local = config.local;
-          this.#environment = config.environment;
-          this.#mode = config.mode ? config.mode : 'amd';
-          this.#mode = ['es6', 'cjs'].includes(this.#mode) ? this.#mode : 'amd';
-          this.#baseUrl = config.baseUrl ? config.baseUrl : ''; // Register the externals and the modules that are packages
+        setup(distribution, packages) {
+          const {
+            key,
+            local,
+            baseUrl,
+            environment,
+            mode
+          } = distribution; // The distribution key is only required in local environment to support HMR
 
-          const packages = new Map(config.packages);
-          packages?.forEach(({
+          this.#distribution = local ? key : void 0;
+          this.#environment = environment ? environment : 'production';
+          this.#local = local ? local : false;
+          this.#mode = typeof window === 'object' ? 'amd' : 'cjs';
+
+          if (mode && this.#mode !== mode) {
+            throw new Error(`Expected module packaging type to be "${this.#mode}" instead of "${mode}"`);
+          }
+
+          this.#baseUrl = baseUrl ? baseUrl : ''; // Register the externals and the modules that are packages
+
+          const mpackages = new Map(packages);
+          mpackages?.forEach(({
             errors,
             filename
           }, pkg) => {
@@ -414,7 +433,7 @@ define(["exports"], function (_exports) {
 
             this.#packages.register(pkg, `packages/${pkg}/${filename}`);
           });
-          this.#import = new import_1.BeyondImport(this.#packages, config.mode, config.baseUrl);
+          this.#import = new import_1.BeyondImport(this.#packages, this.#mode, baseUrl);
         } // Required for backward compatibility
 
 
@@ -438,6 +457,23 @@ define(["exports"], function (_exports) {
       exports.Beyond = Beyond;
       exports.beyond = new Beyond();
       globalThis.beyond = exports.beyond;
+      /**
+       * In local environment, beyond set the global variable __beyond_config
+       * In production environments, the beyond configuration is expected to be done by calling the following methods:
+       * beyond.setup, beyond.application.setup and beyond.libraries.register
+       */
+
+      if (typeof __beyond_config === 'object') {
+        const {
+          distribution,
+          packages,
+          application,
+          libraries
+        } = __beyond_config;
+        exports.beyond.setup(distribution, packages);
+        exports.beyond.application.setup(application);
+        exports.beyond.libraries.register(libraries);
+      }
     }
   }); // FILE: bundles\bundle.ts
 
@@ -621,7 +657,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\instances\instances.ts
 
   modules.set('./bundles/instances/instances', {
-    hash: 2111896912,
+    hash: 4071517124,
     creator: function (require, exports) {
       "use strict";
 
@@ -642,15 +678,16 @@ define(["exports"], function (_exports) {
           const module = split.join('/'); // Create the bundle
 
           const container = (() => {
-            const pkg = new data_1.PackageData(id);
+            const pkg = new data_1.PackageData(id); // Check if the container of the module is the application
+
             const {
               application
-            } = beyond; // Check if the container of the module is the application
+            } = beyond;
+            if (application.package?.id === pkg.id) return application.modules.obtain(module, specs); // Check if the container of the module is a library
 
-            if (application.package?.id === pkg.id) return application.modules.obtain(module, specs);
             const {
               libraries
-            } = beyond; // Check if the container of the module is a library
+            } = beyond;
 
             if (libraries.has(pkg.id)) {
               const library = libraries.get(pkg.id);
@@ -719,7 +756,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\package\hmr\hmr.ts
 
   modules.set('./bundles/package/hmr/hmr', {
-    hash: 3992025207,
+    hash: 1821755142,
     creator: function (require, exports) {
       "use strict";
 
@@ -739,9 +776,8 @@ define(["exports"], function (_exports) {
         constructor(pkg) {
           super();
           this.#pkg = pkg;
-          this.#beyond = require('../../../beyond').beyond; // HMR is only available in local environment
-
-          this.#beyond.local && this.#activate().catch(exc => console.error(exc.stack));
+          this.#beyond = require('../../../beyond').beyond;
+          this.#activate().catch(exc => console.error(exc.stack));
         }
 
         async #onchange(processor) {
@@ -752,12 +788,15 @@ define(["exports"], function (_exports) {
         }
 
         #activate = async () => {
-          const local = (await this.#beyond.import('@beyond-js/local/main/ts')).local;
+          // HMR is only available in local environment
+          const beyond = this.#beyond;
+          if (!beyond.local) return;
+          const local = (await beyond.import('@beyond-js/local/main/ts')).local;
 
           const onchange = processor => this.#onchange(processor).catch(exc => console.error(exc.stack));
 
-          let event = `change:${this.#pkg.bundle.id}`;
-          event += this.#pkg.multilanguage ? `.${this.#pkg.language}` : '';
+          const language = this.#pkg.multilanguage ? this.#pkg.language : '.';
+          const event = `change:${this.#pkg.bundle.id}//${beyond.distribution}//${language}`;
           local.on(event, onchange);
           this.#local = local;
         };
@@ -1116,7 +1155,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\styles.ts
 
   modules.set('./bundles/styles', {
-    hash: 380901654,
+    hash: 852636060,
     creator: function (require, exports) {
       "use strict";
 
@@ -1137,19 +1176,38 @@ define(["exports"], function (_exports) {
 
         get id() {
           return this.#bundle.id;
+        }
+
+        #version = 0;
+
+        get version() {
+          return this.#version;
         } // Is the stylesheet appended to the DOM of the page (not a shadow dom of a widget)
 
 
-        #dom = false;
+        #appended = false;
 
-        get dom() {
-          return this.#dom;
+        get appended() {
+          return this.#appended;
         }
 
-        #css;
+        #value;
 
-        get css() {
-          return this.#css;
+        set value(value) {
+          // Find and replace #host...
+          const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
+          this.#value = value.replace(regexp, (match, host, resource) => `packages/${resource}`);
+          this.#version++;
+          this.#version > 1 && this.trigger('change', this);
+        }
+
+        css() {
+          if (!this.#value) return;
+          const css = document.createElement('style');
+          css.type = 'text/css';
+          css.setAttribute('bundle', this.id);
+          css.appendChild(document.createTextNode(this.#value));
+          return css;
         }
 
         constructor(bundle) {
@@ -1157,33 +1215,17 @@ define(["exports"], function (_exports) {
           this.#bundle = bundle;
         }
 
-        #appended = false;
-
-        set value(value) {
-          if (this.#appended) {
-            document.getElementsByTagName('head')[0].removeChild(this.#css);
-            this.#appended = false;
-          } // Find and replace #host...
-
-
-          const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
-          const processed = value.replace(regexp, (match, host, resource) => `packages/${resource}`); // Create style element
-
-          const changed = this.#css;
-          this.#css = document.createElement('style');
-          this.#css.type = 'text/css';
-          this.#css.setAttribute('bundle', this.id); // Append styles into the DOM
-
-          this.#css.appendChild(document.createTextNode(processed));
-          changed && this.trigger('change', this);
-        }
-
         appendToDOM(is) {
-          this.#dom = true;
-          if (this.#appended) throw new Error(`CSS of bundle "${this.id} was already appended to DOM`);
-          if (!this.#css) throw new Error(`CSS values are not set on bundle "${this.id}"`);
-          is && this.#css.setAttribute('is', is);
-          document.getElementsByTagName('head')[0].appendChild(this.#css);
+          if (!this.#value) throw new Error(`CSS values are not set on bundle "${this.id}"`);
+
+          if (this.#appended) {
+            const previous = document.querySelectorAll(`:scope > [bundle="${this.id}"]`)[0];
+            previous && document.removeChild(previous);
+          }
+
+          const css = this.css();
+          is && css.setAttribute('is', is);
+          document.getElementsByTagName('head')[0].appendChild(css);
           this.#appended = true;
         }
 
@@ -1194,7 +1236,7 @@ define(["exports"], function (_exports) {
   }); // FILE: import\import.ts
 
   modules.set('./import/import', {
-    hash: 4182404350,
+    hash: 4123229269,
     creator: function (require, exports) {
       "use strict";
 
@@ -1236,7 +1278,7 @@ define(["exports"], function (_exports) {
             module = module.substr(1);
           }
 
-          if (this.#mode === 'cjs') return await bimport(module);
+          if (this.#mode === 'cjs') return await bimport(module, version);
           if (this.#mode === 'amd') return await this.#require.require(module);
           let url;
 
@@ -1260,7 +1302,7 @@ define(["exports"], function (_exports) {
 
 
         async reload(module, version) {
-          if (this.#mode === 'cjs') return await bimport(module);
+          if (this.#mode === 'cjs') return await bimport(module, version);
           if (this.#mode === 'es6') return await this.import(module, version);
           return await this.#require.reload(module);
         }
@@ -1276,7 +1318,7 @@ define(["exports"], function (_exports) {
   }); // FILE: import\require.ts
 
   modules.set('./import/require', {
-    hash: 4070778709,
+    hash: 1881543725,
     creator: function (require, exports) {
       "use strict";
 
@@ -1326,7 +1368,11 @@ define(["exports"], function (_exports) {
 
 
         require = module => new Promise((resolve, reject) => {
-          if (this.#mode === 'cjs') return cjs_require(module);
+          if (this.#mode === 'cjs') {
+            resolve(cjs_require(module));
+            return;
+          }
+
           if (typeof module !== "string") throw 'Invalid module parameter';
           module = module.endsWith('.js') ? module.substr(0, module.length - 3) : module;
           const error = new Error(`Error loading or processing module "${module}"`);
@@ -2114,7 +2160,7 @@ define(["exports"], function (_exports) {
   }); // FILE: service\service.ts
 
   modules.set('./service/service', {
-    hash: 2186524256,
+    hash: 3323644695,
     creator: function (require, exports) {
       "use strict";
 
@@ -2173,15 +2219,17 @@ define(["exports"], function (_exports) {
           if (this.#socket) return this.#socket; // Check that the service is running, and initiate it if it is not
 
           this.package.id !== '@beyond-js/local' && (await this.#initiator.check());
-          const io = await beyond.require('socket.io');
+          const sio = beyond.mode === 'cjs' ? 'socket.io-client' : 'socket.io';
+          const io = await beyond.require(sio);
           let query = this.#io.querystring && (await this.#io.querystring());
-          this.#socket = io(this.#host, {
+          const host = `http://${this.#host}`;
+          this.#socket = io(host, {
             transports: ['websocket'],
             'query': query
           });
-          this.#socket.on('error', error => console.error('Socket error:', error));
-          this.#socket.on('connect_error', error => console.error('Socket connection error:', error));
-          this.#socket.on('connect_timeout', error => console.error('Socket connection timeout:', error));
+          this.#socket.on('error', error => console.error('Socket error:', this.package.id, host, error));
+          this.#socket.on('connect_error', error => console.error('Socket connection error:', this.package.id, host, error));
+          this.#socket.on('connect_timeout', error => console.error('Socket connection timeout:', this.package.id, host, error));
           return this.#socket;
         }
 
@@ -3023,7 +3071,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\controller\base.ts
 
   modules.set('./widgets/controller/base', {
-    hash: 78531488,
+    hash: 2341052564,
     creator: function (require, exports) {
       "use strict";
 
@@ -3042,7 +3090,7 @@ define(["exports"], function (_exports) {
           return this.#bundle;
         }
 
-        get name() {
+        get element() {
           return this.#specs.name;
         }
 
@@ -3075,7 +3123,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\controller\controller.ts
 
   modules.set('./widgets/controller/controller', {
-    hash: 1641971048,
+    hash: 2296914248,
     creator: function (require, exports) {
       "use strict";
 
@@ -3083,6 +3131,8 @@ define(["exports"], function (_exports) {
         value: true
       });
       exports.BeyondWidgetController = void 0;
+
+      const instances_1 = require("../../bundles/instances/instances");
 
       const base_1 = require("./base");
       /**
@@ -3101,18 +3151,93 @@ define(["exports"], function (_exports) {
           return this.#component.node;
         }
 
+        #body;
+
+        get body() {
+          return this.#body;
+        }
+
         constructor(specs, component) {
           super(specs);
           this.#component = component;
         }
 
-        render() {}
+        #hmrStylesChanged = styles => {
+          const {
+            shadowRoot
+          } = this.component;
+          const previous = shadowRoot.querySelectorAll(`:scope > [bundle="${styles.id}"]`)[0];
+          previous && shadowRoot.removeChild(previous);
+          const css = styles.css();
+          css && shadowRoot.appendChild(css);
+        };
 
-        #render = () => this.render();
+        #setStyles() {
+          // Append styles and setup styles HMR
+          const append = styles => {
+            const css = styles.css();
+            if (!css) return;
+            this.component.shadowRoot.appendChild(css);
+            styles.on('change', this.#hmrStylesChanged);
+          };
+
+          const recursive = bundle => bundle.dependencies.forEach(resource => {
+            if (!instances_1.instances.has(resource)) return;
+            const dependency = instances_1.instances.get(resource);
+            append(dependency.styles);
+            recursive(dependency);
+          });
+
+          append(this.bundle.styles);
+          recursive(this.bundle); // Append the global styles
+
+          const global = document.createElement('link');
+
+          const beyond = require('../../beyond').beyond;
+
+          const {
+            baseUrl
+          } = beyond;
+          global.type = 'text/css';
+          global.href = `${baseUrl}global.css`;
+          global.rel = 'stylesheet';
+          this.component.shadowRoot.appendChild(global);
+        }
+
+        mount(Widget) {
+          void Widget;
+        }
+
+        unmount() {}
+
+        render() {
+          this.#body = document.createElement('span');
+          this.component.shadowRoot.appendChild(this.#body);
+          const {
+            Widget
+          } = this.bundle.package().exports.values;
+
+          if (!Widget) {
+            const message = `Widget "${this.element}" does not export a Widget class`;
+            console.error(message);
+            return;
+          }
+
+          this.mount(Widget);
+        }
+
+        refresh() {
+          this.unmount();
+          this.#body?.remove();
+          this.render();
+        }
+
+        #refresh = () => this.refresh();
 
         initialise() {
-          this.mount();
-          this.bundle.package().hmr.on('change:ts', this.#render);
+          this.#setStyles();
+          this.render();
+          this.bundle.package().hmr.on('change:ts', this.#refresh);
         }
 
       }
@@ -3144,7 +3269,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\instances\instances.ts
 
   modules.set('./widgets/instances/instances', {
-    hash: 1859714086,
+    hash: 1432891200,
     creator: function (require, exports) {
       "use strict";
 
@@ -3156,19 +3281,27 @@ define(["exports"], function (_exports) {
       const node_1 = require("./node"); // To identify which element a shadow root belongs to
 
 
-      const roots = new Map();
+      const roots = new Map(); // Maintains a tree of widget instances
+      // NodeWidget is an object with a tree structure (parent, children)
+
       exports.instances = new class extends Map {
         register(widget) {
-          if (!widget.shadowRoot) throw new Error('Shadow root is not attached');
-          const root = widget.getRootNode();
-          roots.set(widget.shadowRoot, widget);
+          if (!widget.shadowRoot) throw new Error('Shadow root is not attached'); // Register the shadowRoot belonging to the widget that is being registered,
+          // as it will be required to identify this widget as the parent of the future child widgets
 
-          if (root === document) {
-            this.set(widget, new node_1.NodeWidget(widget));
-            return;
-          }
+          roots.set(widget.shadowRoot, widget); // The root node of the current widget is the shadowRoot of the parent widget
+          // that should have been registered previously
 
-          if (!roots.has(root)) return;
+          const root = widget.getRootNode(); // If the root node is the page document, the widget has no parent
+          // If the root is not found, the widget is inside a non BeyondJS web component
+
+          if (root === document || !roots.has(root)) {
+            const node = new node_1.NodeWidget(widget);
+            this.set(widget, node);
+            return node;
+          } // Now the parent widget has been identified
+
+
           const parent = roots.get(root);
           const node = new node_1.NodeWidget(widget, this.get(parent));
           this.get(parent).children.add(node);
@@ -3234,7 +3367,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\widget.ts
 
   modules.set('./widgets/widget', {
-    hash: 2334231473,
+    hash: 3387863006,
     creator: function (require, exports) {
       "use strict";
 
@@ -3266,7 +3399,8 @@ define(["exports"], function (_exports) {
 
         get bundle() {
           return this.#bundle;
-        }
+        } // To identify where the widget is in the widgets tree
+
 
         #node;
 
@@ -3336,6 +3470,7 @@ define(["exports"], function (_exports) {
         }
 
         #render = () => {
+          // Render the widget once the connectedCallback is called and the bundle was imported
           if (this.#holders.size) return;
           const {
             Controller
@@ -3353,7 +3488,8 @@ define(["exports"], function (_exports) {
         };
 
         connectedCallback() {
-          this.#holders.delete('connected');
+          this.#holders.delete('connected'); // Register the widget in the instances registry after connectedCallback is done
+
           this.#node = instances_1.instances.register(this);
           this.#render();
         }
@@ -3365,7 +3501,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\widgets.ts
 
   modules.set('./widgets/widgets', {
-    hash: 4162376150,
+    hash: 2755961066,
     creator: function (require, exports) {
       "use strict";
 
@@ -3376,7 +3512,13 @@ define(["exports"], function (_exports) {
 
       const widget_1 = require("./widget");
 
+      const instances_1 = require("./instances/instances");
+
       exports.widgets = new class BeyondWidgets extends Map {
+        get instances() {
+          return new Set(instances_1.instances.values());
+        }
+
         register(specs) {
           specs.forEach(specs => {
             const {

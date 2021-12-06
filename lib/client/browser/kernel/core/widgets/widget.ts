@@ -31,6 +31,7 @@ export class BeyondWidget extends Element {
         return this.#bundle;
     }
 
+    // To identify where the widget is in the widgets tree
     #node: NodeWidget;
     get node() {
         return this.#node;
@@ -92,6 +93,7 @@ export class BeyondWidget extends Element {
     }
 
     #render = () => {
+        // Render the widget once the connectedCallback is called and the bundle was imported
         if (this.#holders.size) return;
 
         const {Controller} = this.#bundle;
@@ -108,6 +110,8 @@ export class BeyondWidget extends Element {
 
     connectedCallback() {
         this.#holders.delete('connected');
+
+        // Register the widget in the instances registry after connectedCallback is done
         this.#node = instances.register(this);
         this.#render();
     }

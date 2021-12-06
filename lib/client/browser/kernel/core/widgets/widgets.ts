@@ -1,4 +1,6 @@
 import {BeyondWidget} from "./widget";
+import {instances} from "./instances/instances";
+import type {NodeWidget} from "./instances/node";
 
 export interface WidgetSpecs {
     name: string
@@ -12,6 +14,10 @@ type WidgetsSpecs = WidgetSpecs[];
 
 export /*bundle*/
 const widgets = new class BeyondWidgets extends Map<string, WidgetSpecs> {
+    get instances(): Set<NodeWidget> {
+        return new Set(instances.values());
+    }
+
     register(specs: WidgetsSpecs) {
         specs.forEach((specs) => {
             const {name, id} = specs;

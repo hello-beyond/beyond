@@ -57,13 +57,18 @@ export abstract class Service {
         // Check that the service is running, and initiate it if it is not
         this.package.id !== '@beyond-js/local' && await this.#initiator.check();
 
-        const io = await beyond.require('socket.io');
+        const sio = beyond.mode === 'cjs' ? 'socket.io-client' : 'socket.io';
+        const io = await beyond.require(sio);
         let query = this.#io.querystring && await this.#io.querystring();
-        this.#socket = io(this.#host, {transports: ['websocket'], 'query': query});
 
-        this.#socket.on('error', (error: Error) => console.error('Socket error:', error));
-        this.#socket.on('connect_error', (error: Error) => console.error('Socket connection error:', error));
-        this.#socket.on('connect_timeout', (error: Error) => console.error('Socket connection timeout:', error));
+        const host = `http://${this.#host}`;
+        this.#socket = io(host, {transports: ['websocket'], 'query': query});
+        this.#socket.on('error', (error: Error) =>
+            console.error('Socket error:', this.package.id, host, error));
+        this.#socket.on('connect_error', (error: Error) =>
+            console.error('Socket connection error:', this.package.id, host, error));
+        this.#socket.on('connect_timeout', (error: Error) =>
+            console.error('Socket connection timeout:', this.package.id, host, error));
 
         return this.#socket;
     }

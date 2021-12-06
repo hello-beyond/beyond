@@ -1,7 +1,3 @@
-function DSWorkspace() {
-    return (
-        <>
-            Testing Page
-        </>
-    );
+function Test() {
+    return <h1>Testing Page</h1>;
 }

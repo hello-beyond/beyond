@@ -71,14 +71,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     item,
     texts
   }) {
+    const application = item;
+    if (!application.landed) return /*#__PURE__*/React.createElement(PreloadItem, null);
     const {
       workspace
     } = (0, _code6.useDSWorkspaceContext)();
 
     const modules = () => workspace.openApp(item.id);
 
-    const application = item;
-    if (!application.fetched) return /*#__PURE__*/React.createElement(PreloadItem, null);
     const description = application.description ?? texts.description;
 
     const openNavigator = event => {

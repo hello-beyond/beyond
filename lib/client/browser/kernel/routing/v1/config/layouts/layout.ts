@@ -3,20 +3,20 @@ export interface ILayoutConfig {
     layout?: string
 }
 
-export class LayoutConfig implements ILayoutConfig {
+export class LayoutConfig {
     get is() {
         return 'layout';
     }
 
-    readonly #name: string;
-    get name() {
-        return this.#name;
+    readonly #element: string;
+    get element() {
+        return this.#element;
     }
 
     // Since there cannot be more than the same layout in the same container,
     // the identifier can simply be the name
     get id(): string {
-        return this.#name;
+        return this.#element;
     }
 
     readonly #layout: string;
@@ -25,15 +25,7 @@ export class LayoutConfig implements ILayoutConfig {
     }
 
     constructor(config: ILayoutConfig) {
-        this.#name = config.name;
+        this.#element = config.name;
         this.#layout = config.layout;
-    }
-}
-
-export class LayoutsConfig extends Map<string, LayoutConfig> {
-    register(layouts: ILayoutConfig[]) {
-        for (const layout of layouts) {
-            this.set(layout.name, new LayoutConfig(layout));
-        }
     }
 }

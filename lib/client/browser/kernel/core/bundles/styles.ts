@@ -14,15 +14,35 @@ class BundleStyles extends Events {
         return this.#bundle.id;
     }
 
-    // Is the stylesheet appended to the DOM of the page (not a shadow dom of a widget)
-    #dom = false;
-    get dom() {
-        return this.#dom;
+    #version = 0;
+    get version() {
+        return this.#version;
     }
 
-    #css: HTMLStyleElement;
-    get css() {
-        return this.#css;
+    // Is the stylesheet appended to the DOM of the page (not a shadow dom of a widget)
+    #appended = false;
+    get appended() {
+        return this.#appended;
+    }
+
+    #value: string;
+    set value(value: string) {
+        // Find and replace #host...
+        const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
+        this.#value = value.replace(regexp, (match, host, resource) => `packages/${resource}`);
+
+        this.#version++;
+        this.#version > 1 && this.trigger('change', this);
+    }
+
+    css(): HTMLStyleElement {
+        if (!this.#value) return;
+
+        const css = document.createElement('style');
+        css.type = 'text/css';
+        css.setAttribute('bundle', this.id);
+        css.appendChild(document.createTextNode(this.#value));
+        return css;
     }
 
     constructor(bundle: Bundle) {
@@ -30,37 +50,17 @@ class BundleStyles extends Events {
         this.#bundle = bundle;
     }
 
-    #appended = false;
-
-    set value(value: string) {
+    appendToDOM(is: string) {
+        if (!this.#value) throw new Error(`CSS values are not set on bundle "${this.id}"`);
         if (this.#appended) {
-            document.getElementsByTagName('head')[0].removeChild(this.#css);
-            this.#appended = false;
+            const previous = document.querySelectorAll(`:scope > [bundle="${this.id}"]`)[0];
+            previous && document.removeChild(previous);
         }
 
-        // Find and replace #host...
-        const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
-        const processed = value.replace(regexp, (match, host, resource) => `packages/${resource}`);
+        const css = this.css();
+        is && css.setAttribute('is', is);
+        document.getElementsByTagName('head')[0].appendChild(css);
 
-        // Create style element
-        const changed = this.#css;
-        this.#css = document.createElement('style');
-        this.#css.type = 'text/css';
-        this.#css.setAttribute('bundle', this.id);
-
-        // Append styles into the DOM
-        this.#css.appendChild(document.createTextNode(processed));
-        changed && this.trigger('change', this);
-    }
-
-    appendToDOM(is: string) {
-        this.#dom = true;
-
-        if (this.#appended) throw new Error(`CSS of bundle "${this.id} was already appended to DOM`);
-        if (!this.#css) throw new Error(`CSS values are not set on bundle "${this.id}"`);
-
-        is && this.#css.setAttribute('is', is);
-        document.getElementsByTagName('head')[0].appendChild(this.#css);
         this.#appended = true;
     };
 }

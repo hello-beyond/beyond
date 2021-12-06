@@ -11,7 +11,7 @@ abstract class BeyondWidgetControllerBase {
         return this.#bundle;
     }
 
-    get name(): string {
+    get element(): string {
         return this.#specs.name;
     }
 
