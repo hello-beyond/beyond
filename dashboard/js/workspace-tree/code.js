@@ -895,6 +895,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       error: false,
       items: uploader.items
     });
+    const {
+      texts: {
+        static: {
+          form: texts
+        }
+      }
+    } = useDSTreeContext();
 
     const update = () => {
       if (uploader.items < 1) return;
@@ -908,7 +915,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     React.useEffect(() => {
       const getModel = () => {
         if (item.table?.name === 'modules-static') return item;
-        return item.object.table.name === 'applications-static' ? application : item.object.module;
+        return item.object.table.name === 'applications-static' ? application?.application : item.object.module;
       };
 
       uploader.create(btn.current, box.current, getModel());
@@ -919,9 +926,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "ds-static-form"
     }, /*#__PURE__*/React.createElement("header", {
       className: "ds-modal_header"
-    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h4", null, "Agrega un archivo"), /*#__PURE__*/React.createElement("h5", {
+    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h4", null, texts.header.title), /*#__PURE__*/React.createElement("h5", {
       className: "primary-color"
-    }, "Para los estaticos de tu aplicaci\xF3n"))), /*#__PURE__*/React.createElement("section", {
+    }, texts.header.detail))), /*#__PURE__*/React.createElement("section", {
       className: "ds-modal__content"
     }, /*#__PURE__*/React.createElement("div", {
       className: "jd-gallery__drop-zone",
@@ -930,14 +937,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       icon: "upload"
     }), /*#__PURE__*/React.createElement("h3", {
       ref: btn
-    }, "Selecciona una image o arrastrala."), state.error && /*#__PURE__*/React.createElement("div", {
+    }, texts.title), state.error && /*#__PURE__*/React.createElement("div", {
       className: "alert alert-danger"
-    }, "El archivo subido no es v\xE1lido, por favor verifiquelo y vuelva a intentarlo")), /*#__PURE__*/React.createElement(GalleryView, null), /*#__PURE__*/React.createElement("div", {
+    }, texts.errors.invalidFiles)), /*#__PURE__*/React.createElement(GalleryView, null), /*#__PURE__*/React.createElement("div", {
       className: "actions"
     }, /*#__PURE__*/React.createElement(_code6.BeyondButton, {
       onClick: closeModal,
       className: "primary"
-    }, "Cerrar"))));
+    }, texts.actions.close))));
   }
   /******************************
   actions\static\gallery-item.jsx
@@ -1797,17 +1804,21 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     branch,
     level
   }) {
-    const [branchName, setBranchName] = React.useState(branch.label);
+    const [state, setState] = React.useState(branch.getters);
     const {
       panels,
       controller: {
         application
       }
     } = (0, _code13.useDSAsideContext)();
-    if (!branchName) return null;
     const styles = {};
     if (level > 0) styles.paddingLeft = `${level * TREE_TABS}px`;
-    (0, _code11.useBinder)([branch], () => setBranchName(branch.label));
+    (0, _code11.useBinder)([branch], () => setState(branch.getters));
+    const {
+      label,
+      deleted
+    } = state;
+    if (!label || deleted) return null;
     /**
      * Opens a file
      * @param event
@@ -1847,7 +1858,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "item__label"
     }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
       icon: `file.${icon}1`
-    }), /*#__PURE__*/React.createElement("span", null, branchName, " "))), /*#__PURE__*/React.createElement(DSItemHeader, {
+    }), /*#__PURE__*/React.createElement("span", null, label, " "))), /*#__PURE__*/React.createElement(DSItemHeader, {
       item: branch,
       level: level,
       onClick: onClick
@@ -1855,7 +1866,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "item__label"
     }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
       icon: `file.${branch.icon}`
-    }), /*#__PURE__*/React.createElement("span", null, branchName))));
+    }), /*#__PURE__*/React.createElement("span", null, label))));
   }
   /*********
   header.jsx
@@ -3087,6 +3098,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       }];
     }
 
+    #deleted;
+
+    get deleted() {
+      return this.#deleted;
+    }
+
     get extension() {
       return this.item.pathname.split(".").slice(-1)[0];
     }
@@ -3097,6 +3114,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }
 
     get isImage() {}
+
+    get getters() {
+      return {
+        deleted: this.deleted,
+        label: this.label
+      };
+    }
 
     get icons() {
       return {
@@ -3120,8 +3144,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       return this._reader;
     }
 
-    delete() {
-      console.log('delete', this.item);
+    async delete() {
+      try {
+        await this.item.delete();
+        this.#deleted = true;
+        this.triggerEvent();
+      } catch (e) {
+        console.error("error", e);
+      }
     }
 
   }

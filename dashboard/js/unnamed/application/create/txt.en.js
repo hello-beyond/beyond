@@ -21,34 +21,36 @@ define([], function () {
     "actions": {
       "submit": "Create"
     },
+    "created": "Application created",
     "form": {
-      "name": "Application name",
-      "title": "Add a title to your new app",
+      "name": "Project name",
+      "title": "Add a title to your new project",
       "description": "Description",
       "port": {
         "label": "Port",
         "error": "Port isn't available",
-        "success": "Port checked and available"
+        "success": "Port checked and available",
+        "tooltip": "Check port"
       },
       "types": {
         "titles": {
-          "empty": "Blank applications",
+          "empty": "Blank projects",
           "templates": "Templates"
         },
         "empty": {
-          "description": "A configured and blank application is created so that you can define what you consider necessary from scratch."
+          "description": "A configured and blank project is created so that you can define what you consider necessary from scratch."
         },
         "node": {
-          "title": "Node App",
-          "description": " Application that will be compiled to be executed in a Node.js environment."
+          "title": "Node Project",
+          "description": "Project that will be compiled to be executed in a Node.js environment."
         },
         "backend": {
           "title": "Backend",
-          "description": "Node.js application that exposes communication interfaces to be consumed by both web clients and other backends"
+          "description": "Node.js project that exposes communication interfaces to be consumed by both web clients and other backends"
         },
         "web": {
           "title": "Web",
-          "description": "Web, Android, iOS application. Both the client code and the backend code coexist in the same  application."
+          "description": "Web, Android, iOS project. Both the client code and the backend code coexist in the same  project."
         },
         "express": {
           "title": "Express template",
@@ -56,7 +58,7 @@ define([], function () {
         },
         "library": {
           "title": "Library",
-          "description": " Container of client and server modules to be consumed by other applications.."
+          "description": " Container of client and server modules to be consumed by other projects.."
         },
         "board": {
           "title": "Board template",
@@ -75,6 +77,9 @@ define([], function () {
           "description": "Svelte configured and ready to use."
         }
       }
+    },
+    "errors": {
+      "APP_EXISTS": "A folder with this name already exists in your directory"
     }
   };
 

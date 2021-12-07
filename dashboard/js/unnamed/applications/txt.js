@@ -28,7 +28,7 @@ define([], function () {
       "applications": "Applications",
       "libraries": "Libraries",
       "elements": "Elements",
-      "titleHeader": "Application name goes here title",
+      "titleHeader": "Project name goes here title",
       "showApps": "Show APP Information",
       "filtersTitle": "Filters Bundles",
       "selectView": "Select View",
@@ -50,7 +50,7 @@ define([], function () {
       "details": "Details",
       "compile": "Compile",
       "publish": "Publish",
-      "create": "Create New App",
+      "create": "Create project",
       "download": "Download"
     }
   };

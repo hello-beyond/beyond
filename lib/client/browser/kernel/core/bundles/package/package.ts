@@ -63,5 +63,6 @@ export class Package {
     update(ims: Creators) {
         this.#ims.update(ims);
         this.exports.update();
+        this.#ims.initialise();
     }
 }

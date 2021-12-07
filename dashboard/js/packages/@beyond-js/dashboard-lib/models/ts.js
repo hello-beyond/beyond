@@ -2064,7 +2064,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: dashboard\model.ts
 
   modules.set('./dashboard/model', {
-    hash: 3185390277,
+    hash: 486717722,
     creator: function (require, exports) {
       "use strict";
 
@@ -2082,6 +2082,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           });
         }
 
+        cleanCache = () => beyond_context_1.module.execute('/dashboard/cleanCache');
       }
 
       exports.Dashboard = Dashboard;
@@ -2832,7 +2833,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: modules\item.ts
 
   modules.set('./modules/item', {
-    hash: 1475539806,
+    hash: 386513364,
     creator: function (require, exports) {
       "use strict";
 
@@ -2950,6 +2951,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           this.#declarations = new declarations_1.ModuleDeclarations(this);
           this.#declarations.on('change', () => this.node.trigger('change'));
         }
+        /**
+         *  Checks if the folder where files going to be located exist.
+         */
+
 
         checkStatic() {
           const specs = {
@@ -3908,7 +3913,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: realtime\realtime.ts
 
   modules.set('./realtime/realtime', {
-    hash: 2964134587,
+    hash: 197407449,
     creator: function (require, exports) {
       "use strict";
 
@@ -3934,6 +3939,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         socket.on('server:plm/record/delete', message => reports.record.delete(message.table, message.id));
         socket.on('client:plm/record/update', message => reports.record.update(message.table, message.id));
         socket.on('server:plm/record/update', message => reports.record.update(message.table, message.id));
+        socket.on('client:plm/record/field/update', message => reports.record.update(message.table, message.id, message.field, message.value));
+        socket.on('server:plm/record/field/update', message => reports.record.update(message.table, message.id, message.field, message.value));
       })().catch(exc => console.error(exc.stack));
     }
   }); // FILE: server\config.ts

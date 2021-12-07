@@ -8,7 +8,7 @@ export class Reports {
         this.#manager = manager;
     }
 
-    update(pk: string | number) {
+    update(pk: string | number, field?: string, value?: any) {
         const {table} = this.#manager;
         const pkName = table.indices.primary.fields[0];
 
@@ -17,7 +17,22 @@ export class Reports {
 
         const session: string = undefined;
         const record = this.#manager.recordsDataFactory.get(identifier, session);
-        record.landed && record.invalidate();
+
+        if (record.landed) {
+            if (!field) {
+                record.invalidate();
+                return;
+            }
+
+            // Check if field exists in the record
+            if (!record.fields.has(field)) {
+                console.warn(`Record field realtime is invalid. Field "${field}" not found on table "${table.name}"`);
+                return;
+            }
+            record.fields.get(field).published.overwrite(value);
+            record.trigger('change');
+        }
+
         this.#manager.recordsDataFactory.release(identifier, session);
     }
 }

@@ -4,7 +4,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports2.tables = _exports2.realtime = _exports2.hmr = _exports2.auth = _exports2.TableSpecs = _exports2.RecordUpdateFilterReport = _exports2.NotSet = _exports2.ListUpdateFilterReport = _exports2.ItemsProperty = _exports2.ItemSpecs = _exports2.ItemSelectorProperty = _exports2.ItemProperty = _exports2.Item = _exports2.DataSource = _exports2.ConditionOperand = _exports2.CollectionSpecs = _exports2.CollectionProperty = _exports2.Collection = void 0;
+  _exports2.tables = _exports2.realtime = _exports2.hmr = _exports2.auth = _exports2.TableSpecs = _exports2.NotSet = _exports2.ListUpdateFilterReport = _exports2.ItemsProperty = _exports2.ItemSpecs = _exports2.ItemSelectorProperty = _exports2.ItemProperty = _exports2.Item = _exports2.DataSource = _exports2.ConditionOperand = _exports2.CollectionSpecs = _exports2.CollectionProperty = _exports2.Collection = void 0;
   const dependencies = new Map();
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
   const {
@@ -2849,7 +2849,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   }); // FILE: tables\data\realtime\reports\record.ts
 
   modules.set('./tables/data/realtime/reports/record', {
-    hash: 90260031,
+    hash: 2510156693,
     creator: function (require, exports) {
       "use strict";
 
@@ -2863,7 +2863,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       class RecordReport {
         #checkTable = tableName => {
           if (!tables_1.tables.has(tableName)) {
-            console.error('Realtime list update notification arrived with ' + `an invalid table specification "${tableName}"`);
+            console.error('Realtime record update notification arrived with ' + `an invalid table specification "${tableName}"`);
             return false;
           }
 
@@ -2878,10 +2878,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           console.log('record deleted reported', tableName, id);
         }
 
-        update(tableName, pk) {
+        update(tableName, pk, field, value) {
           if (!this.#checkTable(tableName)) return;
           const table = tables_1.tables.get(tableName);
-          table.records.realtime.reports.update(pk);
+          table.records.realtime.reports.update(pk, field, value);
         }
 
       }
@@ -4023,7 +4023,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   }); // FILE: tables\data\records\realtime\reports.ts
 
   modules.set('./tables/data/records/realtime/reports', {
-    hash: 2317752103,
+    hash: 2951830057,
     creator: function (require, exports) {
       "use strict";
 
@@ -4039,7 +4039,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           this.#manager = manager;
         }
 
-        update(pk) {
+        update(pk, field, value) {
           const {
             table
           } = this.#manager;
@@ -4048,7 +4048,23 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           identifier[pkName] = pk;
           const session = undefined;
           const record = this.#manager.recordsDataFactory.get(identifier, session);
-          record.landed && record.invalidate();
+
+          if (record.landed) {
+            if (!field) {
+              record.invalidate();
+              return;
+            } // Check if field exists in the record
+
+
+            if (!record.fields.has(field)) {
+              console.warn(`Record field realtime is invalid. Field "${field}" not found on table "${table.name}"`);
+              return;
+            }
+
+            record.fields.get(field).published.overwrite(value);
+            record.trigger('change');
+          }
+
           this.#manager.recordsDataFactory.release(identifier, session);
         }
 
@@ -6557,10 +6573,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
     this.off = (event, listener) => void 0;
   }();
   _exports2.hmr = hmr;
-  let auth, NotSet, DataSource, CollectionSpecs, Collection, ItemSpecs, Item, CollectionProperty, ItemSelectorProperty, ItemProperty, ItemsProperty, ConditionOperand, realtime, ListUpdateFilterReport, RecordUpdateFilterReport, TableSpecs, tables;
+  let auth, NotSet, DataSource, CollectionSpecs, Collection, ItemSpecs, Item, CollectionProperty, ItemSelectorProperty, ItemProperty, ItemsProperty, ConditionOperand, realtime, ListUpdateFilterReport, TableSpecs, tables;
   _exports2.tables = tables;
   _exports2.TableSpecs = TableSpecs;
-  _exports2.RecordUpdateFilterReport = RecordUpdateFilterReport;
   _exports2.ListUpdateFilterReport = ListUpdateFilterReport;
   _exports2.realtime = realtime;
   _exports2.ConditionOperand = ConditionOperand;
@@ -6591,7 +6606,6 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
     _exports2.ConditionOperand = ConditionOperand = _exports.ConditionOperand = require('./tables/data/filter/filter').ConditionOperand;
     _exports2.realtime = realtime = _exports.realtime = require('./tables/data/realtime/realtime').realtime;
     _exports2.ListUpdateFilterReport = ListUpdateFilterReport = _exports.ListUpdateFilterReport = require('./tables/data/realtime/reports/list').ListUpdateFilterReport;
-    _exports2.RecordUpdateFilterReport = RecordUpdateFilterReport = _exports.RecordUpdateFilterReport = require('./tables/data/realtime/reports/record').RecordUpdateFilterReport;
     _exports2.TableSpecs = TableSpecs = _exports.TableSpecs = require('./tables/table').TableSpecs;
     _exports2.tables = tables = _exports.tables = require('./tables/tables').tables;
   };

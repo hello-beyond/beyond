@@ -21,7 +21,20 @@
       "action": "Actualizar"
     },
     "static": {
-      "title": "Static files"
+      "title": "Static files",
+      "form": {
+        "title": "Selecciona una image o arrastrala.",
+        "errors": {
+          "invalidFile": "The uploaded file is invalid, please verify and try again"
+        },
+        "header": {
+          "title": "Add file",
+          "detail": "As static resource"
+        },
+        "actions": {
+          "close": "Close"
+        }
+      }
     },
     "dependencies": {
       "title": "Dependencies"
@@ -76,7 +89,20 @@
       "action": "Actualizar"
     },
     "static": {
-      "title": "Static files"
+      "title": "Static files",
+      "form": {
+        "title": "Selecciona una image o arrastrala.",
+        "errors": {
+          "invalidFile": " El archivo subido no es válido, por favor verifiquelo y vuelva a intentarlo"
+        },
+        "header": {
+          "title": "Agrega un archivo",
+          "detail": "Selecciona un archivo como recurso estatico"
+        },
+        "actions": {
+          "close": "Cerrar"
+        }
+      }
     },
     "dependencies": {
       "title": "Dependencies"

@@ -5,22 +5,30 @@ module.exports = class Deployment extends require('../file-manager') {
     skeleton = ["distributions"];
 
     #distributions = new Map();
+    #path;
+    #default = {
+        name: 'web-development',
+        platform: 'web',
+        environment: 'development',
+        port: 8080,
+        default: true
+    }
+
     get distributions() {
         return this.#distributions;
     }
 
-    constructor(path, specs, port) {
-        super(path);
-
-        if (specs?.distributions) {
-            specs.distributions.forEach(dist =>
-                this.#distributions.set(`${dist.platform}-${dist.port}`, new Distribution(path, dist))
-            );
-            return;
+    get structure() {
+        return {
+            distributions: Array.from(this.#distributions.values()).map(d => d.getProperties())
         }
+    }
 
-        const dist = this.defaultDistribution(port);
-        this.#distributions.set(`${dist.platform}-${dist.port}`, new Distribution(path, dist));
+    constructor(path, specs) {
+        super(path);
+        this.#path = path;
+        if (specs) this.set(specs);
+        // this.#distributions.set(`${this.#default.platform}-${this.#default.port}`, new Distribution(path, this.#default));
     }
 
     getProperties() {
@@ -29,19 +37,19 @@ module.exports = class Deployment extends require('../file-manager') {
         return json;
     }
 
-    defaultDistribution(port = 8080) {
-        return {
-            name: 'web-development',
-            platform: 'web',
-            environment: 'development',
-            port: port,
-            default: true
-        }
+    getDefault = (specs) => ({...this.#default, ...specs});
+
+    addDistribution = distribution => {
+        const key = `${distribution.platform}-${distribution.port}`;
+        this.#distributions.set(key, new Distribution(this.path, distribution))
     }
 
-    addDistribution(distributions) {
-        distributions.forEach(dist =>
-            this.#distributions.set(`${dist.platform}-${dist.port}`, new Distribution(this.path, dist))
-        );
+    set(data) {
+        if (data.distributions) {
+            data.distributions.forEach(this.addDistribution);
+            delete data.distributions;
+        }
+        Object.keys(data).forEach(property => this[property] = data[property]);
     }
+
 }

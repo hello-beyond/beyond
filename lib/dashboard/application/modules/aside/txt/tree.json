@@ -60,6 +60,22 @@
           "save": "Crear bundle",
           "next": "Continuar"
         }
+      },
+      "static": {
+        "title": "Static files",
+        "form": {
+          "title": "Select an image or drag it.",
+          "errors": {
+            "invalidFile": "The uploaded file is invalid, please verify and try again"
+          },
+          "header": {
+            "title": "Add file",
+            "detail": "As static resource"
+          },
+          "actions": {
+            "close": "Close"
+          }
+        }
       }
     }
   },
@@ -123,6 +139,22 @@
         "actions": {
           "save": "Crear bundle",
           "next": "Continuar"
+        }
+      },
+      "static": {
+        "title": "Static files",
+        "form": {
+          "title": "Selecciona una imagen o arrastrala.",
+          "errors": {
+            "invalidFile": " El archivo subido no es válido, por favor verifiquelo y vuelva a intentarlo"
+          },
+          "header": {
+            "title": "Agrega un archivo",
+            "detail": "Selecciona un archivo como recurso estatico"
+          },
+          "actions": {
+            "close": "Cerrar"
+          }
         }
       }
     }

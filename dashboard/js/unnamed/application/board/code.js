@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/preload-text/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/components/tooltip/code", "@beyond-js/dashboard/unnamed/workspace/components/uploader/code", "@beyond-js/dashboard/unnamed/workspace/components/editor/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/preload-text/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/components/tooltip/code", "@beyond-js/dashboard/unnamed/workspace/components/uploader/code", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -45,7 +45,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     get ready() {
       const dependencies = !!module.texts.ready && !!_code12.monacoDependency?.ready;
-      const models = !!this.application?.ready && !!_code9.Dashboard.ready; // console.log(0.1, dependencies, models, this.currentId, this.application?.application?.id, this);
+      const models = !!this.application?.ready && !!_code9.Dashboard.ready; // console.log(0.1, dependencies, module.texts.ready, monacoDependency, monacoDependency?.ready, models, this.currentId, this.application?.application?.id, this);
 
       return dependencies && models && this.currentId === this.application?.application?.id;
     }
@@ -108,7 +108,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const {
       panel,
       workspace
-    } = (0, _code14.useDSWorkspaceContext)();
+    } = (0, _code15.useDSWorkspaceContext)();
     const {
       id,
       moduleId
@@ -152,7 +152,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       setDisplayView,
       id
     };
-    return /*#__PURE__*/React.createElement(_code14.AppContext.Provider, {
+    return /*#__PURE__*/React.createElement(_code15.AppContext.Provider, {
       value: value
     }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(ApplicationConfig, null), /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(ModulesList, null)));
   }
@@ -167,7 +167,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         actions
       },
       application
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     const model = application?.application;
     const [state, setState] = React.useState({
       fetching: application?.generating
@@ -216,7 +216,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       application: {
         application
       }
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     return /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement(EditField, {
       field: "title"
     }), /*#__PURE__*/React.createElement(EditField, {
@@ -239,7 +239,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       application: {
         application
       }
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     const [value, setValue] = React.useState(application[field] ?? '');
     const label = texts.info[field];
     const fieldValue = application[field] ?? texts.info.empty[field];
@@ -379,7 +379,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   function ContainersFilter() {
     const {
       application
-    } = (0, _code14.useDSWorkspaceContext)();
+    } = (0, _code15.useDSWorkspaceContext)();
     if (!application) return null;
     const containerRef = React.useRef();
     const [container, setContainer] = React.useState('application');
@@ -450,7 +450,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
      */
     const {
       application: model
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     const {
       bundles
     } = model;
@@ -487,7 +487,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       texts,
       displayView,
       setDisplayView
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     texts = texts.navbar;
     /**
      * Changes the view from list view to grid and vice versa
@@ -542,7 +542,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       addModule,
       texts,
       application: model
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
 
     const onChange = event => {
       setToFound(event.currentTarget.value);
@@ -593,7 +593,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   function ServiceActions() {
     let {
       application
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     if (!application.backend) return null;
     const [iconApp, setIconApp] = React.useState('av:stop');
     const runAction = React.useRef(null);
@@ -625,7 +625,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const {
       bundleFilter,
       workspace
-    } = (0, _code14.useDSWorkspaceContext)();
+    } = (0, _code15.useDSWorkspaceContext)();
     const label = bundleFilter ? 'filter' : 'application';
     const title = type === 'all' ? texts.empty[label].title : texts.empty.filter.title;
     const description = type === 'all' ? texts.empty[label].description : texts.empty.filter.description;
@@ -813,7 +813,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const {
       application,
       navigateModule
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     const link = module.route ? `${application.application.url}${module.route.toLowerCase()}` : '';
 
     const navigate = event => {
@@ -849,6 +849,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       modal: false,
       confirm: false
     });
+    const [showContextMenu, toggleContextMenu] = React.useState();
 
     const updateState = newState => setState({ ...state,
       ...newState
@@ -872,19 +873,23 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       fetching: false
     });
 
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code4.BeyondPopover, {
-      options: {
-        modifiers: [{
-          name: 'offset',
-          options: {}
-        }]
-      },
-      placement: "bottom-start",
+    const onClick = event => {
+      event.stopPropagation();
+      event.preventDefault();
+      toggleContextMenu({
+        x: event.clientX,
+        y: event.clientY
+      });
+    };
+
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code13.DsIcon, {
+      icon: "moreVert",
+      className: "actions-icon",
+      onClick: onClick
+    }), showContextMenu && /*#__PURE__*/React.createElement(_code14.DSContextMenu, {
       className: "item-actions",
-      target: /*#__PURE__*/React.createElement(_code13.DsIcon, {
-        icon: "moreVert",
-        className: "actions-icon"
-      })
+      specs: showContextMenu,
+      unmount: () => toggleContextMenu(false)
     }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", {
       onClick: openModal,
       "data-action": "rename"
@@ -932,7 +937,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     } = module.module;
     const {
       workspace
-    } = (0, _code14.useDSWorkspaceContext)();
+    } = (0, _code15.useDSWorkspaceContext)();
 
     const showModule = event => {
       event.stopPropagation();
@@ -1000,11 +1005,11 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const {
       filterBundle,
       application
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     let {
       texts,
       displayView
-    } = (0, _code14.useAppContext)();
+    } = (0, _code15.useAppContext)();
     if (!application) return null;
     const [items, setItems] = React.useState(application?.items ?? []);
     (0, _code8.useBinder)([application], () => setItems(application?.items));
@@ -1207,7 +1212,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       workspace: {
         application
       }
-    } = (0, _code14.useDSWorkspaceContext)();
+    } = (0, _code15.useDSWorkspaceContext)();
 
     if (!application) {
       console.warn("you are trying to access static files without had selected an application");

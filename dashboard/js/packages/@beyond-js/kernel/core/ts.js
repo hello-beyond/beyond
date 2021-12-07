@@ -807,7 +807,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\package\ims\im.ts
 
   modules.set('./bundles/package/ims/im', {
-    hash: 1998980916,
+    hash: 1818451628,
     creator: function (require, exports) {
       "use strict";
 
@@ -852,6 +852,7 @@ define(["exports"], function (_exports) {
 
           const require = id => this.#require.solve(id, trace, this);
 
+          Object.keys(this.#exports).forEach(key => delete this.#exports[key]);
           this.#creator(require, this.#exports);
           this.#created = true;
         };
@@ -873,6 +874,11 @@ define(["exports"], function (_exports) {
           this.#create(trace);
         }
 
+        update(creator) {
+          this.#created = false;
+          this.#creator = creator;
+        }
+
         constructor(pkg, id, hash, creator, require) {
           this.#pkg = pkg;
           this.#id = id;
@@ -888,7 +894,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\package\ims\ims.ts
 
   modules.set('./bundles/package/ims/ims', {
-    hash: 2974928079,
+    hash: 207201640,
     creator: function (require, exports) {
       "use strict";
 
@@ -913,7 +919,7 @@ define(["exports"], function (_exports) {
         }
 
         #register = (id, hash, creator) => {
-          if (this.#ims.has(id) && this.#ims.get(id).hash === hash) return;
+          if (this.#ims.has(id)) throw new Error(`IM "${id}" already registered`);
           const im = new im_1.InternalModule(this.#pkg, id, hash, creator, this.#require);
           this.#ims.set(im.id, im);
         };
@@ -939,8 +945,16 @@ define(["exports"], function (_exports) {
           ims.forEach(({
             creator,
             hash
-          }, id) => this.#register(id, hash, creator));
-          this.#ims.forEach(im => im.initialise());
+          }, id) => {
+            if (!this.#ims.has(id)) {
+              this.#register(id, hash, creator);
+              return;
+            }
+
+            const im = this.#ims.get(id);
+            if (im.hash === hash) return;
+            im.update(creator);
+          });
         }
 
       }
@@ -950,7 +964,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\package\package.ts
 
   modules.set('./bundles/package/package', {
-    hash: 2994574015,
+    hash: 3052002618,
     creator: function (require, exports) {
       "use strict";
 
@@ -1030,6 +1044,7 @@ define(["exports"], function (_exports) {
         update(ims) {
           this.#ims.update(ims);
           this.exports.update();
+          this.#ims.initialise();
         }
 
       }

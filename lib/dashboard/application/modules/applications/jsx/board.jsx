@@ -9,12 +9,12 @@ export function ApplicationsBoard() {
     });
 
     const {showAppForm, applications} = useDSWorkspaceContext();
-
     React.useEffect(() => {
 
         AppsController.setApplications(applications);
         const onChange = () => {
             setState(state => ({
+                ...state,
                 controller: AppsController,
                 items: applications.items,
                 ready: AppsController.ready,

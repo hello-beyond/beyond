@@ -2118,6 +2118,11 @@ progress {
   margin: 0 auto;
   padding: 15px; }
 
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
 html {
   font-size: 62.5%; }
 

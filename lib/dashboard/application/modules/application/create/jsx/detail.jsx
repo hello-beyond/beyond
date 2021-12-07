@@ -1,8 +1,8 @@
 function DetailApp({type}) {
-    const {texts: {form: texts, actions}, model, fetching} = useCreateAppContext();
+    const {texts: {errors, form: texts, actions}, model, fetching} = useCreateAppContext();
 
     const [firstTime, setFirstTime] = React.useState(true);
-    const [state, setState] = React.useState({port: 8080});
+    const [state, setState] = React.useState({port: model.port});
     const [validPort, setValidPort] = React.useState(undefined);
 
     const btnAttrs = {};
@@ -11,7 +11,9 @@ function DetailApp({type}) {
         const target = event.target;
         let {name, value} = target;
         if (pattern) value = value.replace(/ /g, '-');
-        if (model.hasOwnProperty(name)) model[name] = value;
+
+        model[name] = value;
+
         setState({...state, ...{[name]: model[name]}});
 
         //La primera vez que setea el formulario, valida la disponibilidad del puerto por defecto
@@ -34,7 +36,7 @@ function DetailApp({type}) {
     return (
         <div className="ds-create-app__fields">
             {model.error &&
-             <BeyondAlert title="Ha ocurrido un error" type="error">{model.error}</BeyondAlert>
+             <BeyondAlert title="Ha ocurrido un error" type="error">{errors[model.error]}</BeyondAlert>
             }
             <div className="item">
                 <BeyondInput
@@ -52,8 +54,8 @@ function DetailApp({type}) {
                     placeholder={texts.port}
                     onBlur={checkPort}
                     value={state.port} onChange={handleChange}>
-                    <DsIconButton icon="refresh" className="primary" title="Validar puerto"/>
-                    {portText && <span className={clsPortLabel} htmlFor="port">{portText}</span>}
+                    <DsIconButton icon="refresh" className="primary" title={texts.port.tooltip}/>
+                    {portText && <span className={clsPortLabel}>{portText}</span>}
                 </BeyondInput>
                 <BeyondInput
                     value={state.description}

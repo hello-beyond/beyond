@@ -57,7 +57,20 @@ define([], function () {
       "action": "Actualizar"
     },
     "static": {
-      "title": "Static files"
+      "title": "Static files",
+      "form": {
+        "title": "Selecciona una image o arrastrala.",
+        "errors": {
+          "invalidFile": " El archivo subido no es válido, por favor verifiquelo y vuelva a intentarlo"
+        },
+        "header": {
+          "title": "Agrega un archivo",
+          "detail": "Selecciona un archivo como recurso estatico"
+        },
+        "actions": {
+          "close": "Cerrar"
+        }
+      }
     },
     "dependencies": {
       "title": "Dependencies"
@@ -141,6 +154,22 @@ define([], function () {
         "actions": {
           "save": "Crear bundle",
           "next": "Continuar"
+        }
+      },
+      "static": {
+        "title": "Static files",
+        "form": {
+          "title": "Selecciona una imagen o arrastrala.",
+          "errors": {
+            "invalidFile": " El archivo subido no es válido, por favor verifiquelo y vuelva a intentarlo"
+          },
+          "header": {
+            "title": "Agrega un archivo",
+            "detail": "Selecciona un archivo como recurso estatico"
+          },
+          "actions": {
+            "close": "Cerrar"
+          }
         }
       }
     }

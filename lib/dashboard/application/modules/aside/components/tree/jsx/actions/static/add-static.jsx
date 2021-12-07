@@ -4,7 +4,7 @@ function AddStatic({closeModal, item}) {
     const box = React.useRef(null);
     const {workspace: {application, uploader}} = useDSWorkspaceContext();
     const [state, setState] = React.useState({error: false, items: uploader.items});
-
+    const {texts: {static: {form: texts}}} = useDSTreeContext();
     const update = () => {
         if (uploader.items < 1) return;
         setState({...state, ...{items: uploader.items}});
@@ -12,7 +12,7 @@ function AddStatic({closeModal, item}) {
     React.useEffect(() => {
         const getModel = () => {
             if (item.table?.name === 'modules-static') return item;
-            return item.object.table.name === 'applications-static' ? application : item.object.module;
+            return item.object.table.name === 'applications-static' ? application?.application : item.object.module;
         }
         uploader.create(btn.current, box.current, getModel());
     }, []);
@@ -23,25 +23,26 @@ function AddStatic({closeModal, item}) {
         <div className="ds-static-form">
             <header className="ds-modal_header">
                 <section>
-                    <h4>Agrega un archivo</h4>
-                    <h5 className="primary-color">Para los estaticos de tu aplicación</h5>
+                    <h4>{texts.header.title}</h4>
+                    <h5 className="primary-color">{texts.header.detail}</h5>
+
                 </section>
             </header>
 
             <section className="ds-modal__content">
                 <div className="jd-gallery__drop-zone" ref={box}>
                     <BeyondIcon icon="upload"/>
-                    <h3 ref={btn}>Selecciona una image o arrastrala.</h3>
+                    <h3 ref={btn}>{texts.title}</h3>
                     {state.error &&
                      <div className="alert alert-danger">
-                         El archivo subido no es válido, por favor verifiquelo y vuelva a intentarlo
+                         {texts.errors.invalidFiles}
                      </div>
                     }
                 </div>
                 <GalleryView/>
                 <div className="actions">
                     <BeyondButton onClick={closeModal} className="primary">
-                        Cerrar
+                        {texts.actions.close}
                     </BeyondButton>
                 </div>
             </section>

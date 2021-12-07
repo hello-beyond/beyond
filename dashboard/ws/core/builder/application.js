@@ -8,12 +8,13 @@ module.exports = function (ipc) {
             const app = new Application(ipc.wd, params);
 
             const fs = global.utils.fs;
-            if (await fs.exists(app._path)) {
-                return {status: false, error: `Ya existe una carpeta ${params.name} en su directorio`};
+
+            if (await fs.exists(require('path').join(app._path, params.name))) {
+                return {status: false, error: `APP_EXISTS`};
             }
             await app.create(params.type, params);
-            server.addApplication(app.relativePath());
-            server.save();
+
+            await server.addApplication(app.relativePath());
             const applicationId = await ipc.main('ids.path/generate', app.path);
             return {status: true, data: {id: applicationId}};
         }
@@ -37,12 +38,24 @@ module.exports = function (ipc) {
         return new Application(path);
     }
 
+    /**
+     *  Checks if the folder where files going to be located exist.
+     * @param params
+     * @returns {Promise<void>}
+     */
     this.checkStatic = async params => {
+
         const app = await getApp(params);
 
-        if (app._static) return;
+        if (!Array.isArray(app._static.includes)) {
+            throw 'La entrada includes no es un array';
+        }
 
-        app.save(params);
+        if (!app._static.includes.includes(params.static.path)) {
+            app._static.includes.push(params.static.path);
+        }
+
+        app.save();
     };
 
     this.edit = async params => {

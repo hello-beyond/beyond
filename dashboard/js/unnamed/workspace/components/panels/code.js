@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/unnamed/workspace/components/editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {

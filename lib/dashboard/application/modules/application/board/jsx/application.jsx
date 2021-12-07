@@ -24,6 +24,7 @@ export function ApplicationBoard(props) {
             controller.unbind('change', onChange);
         }
     }, [id]);
+
     if (!state.ready || controller.currentId !== id) return <Preloader/>;
     const value = {application: controller.application, texts: state.texts, displayView, setDisplayView, id}
     return (

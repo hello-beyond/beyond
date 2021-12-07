@@ -1,7 +1,8 @@
+$footer-button-bg-color: black;
+$footer-button-text-color-color: #fff;
 .ds-footer-bar {
   grid-area: footer;
   z-index: 8;
-
   position: fixed;
   bottom: 0;
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -18,16 +19,6 @@
     padding: 0;
   }
 
-  .flex-container {
-    display: flex;
-    max-width: 1250px;
-    width: 100%;
-    margin: auto;
-    justify-content: space-between;
-    align-items: center;
-
-  }
-
   p, h1, h2, h3 {
     padding: 0;
     margin: 0;
@@ -40,5 +31,11 @@
 
   .primary-text {
     color: $beyond-primary-color;
+  }
+
+  .beyond-button {
+    background: $footer-button-bg-color;
+    border: 0;
+    color: $footer-button-text-color-color;
   }
 }

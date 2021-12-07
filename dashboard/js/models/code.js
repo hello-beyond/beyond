@@ -1,4 +1,4 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/unnamed/workspace/components/editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {

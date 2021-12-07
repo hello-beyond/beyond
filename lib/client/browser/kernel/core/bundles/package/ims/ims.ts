@@ -20,7 +20,7 @@ export class InternalModules {
     }
 
     #register = (id: string, hash: number, creator: IMWrapperFunction) => {
-        if (this.#ims.has(id) && this.#ims.get(id).hash === hash) return;
+        if (this.#ims.has(id)) throw new Error(`IM "${id}" already registered`);
 
         const im = new InternalModule(this.#pkg, id, hash, creator, this.#require);
         this.#ims.set(im.id, im);
@@ -42,7 +42,15 @@ export class InternalModules {
     }
 
     update(ims: Creators) {
-        ims.forEach(({creator, hash}, id) => this.#register(id, hash, creator));
-        this.#ims.forEach(im => im.initialise());
+        ims.forEach(({creator, hash}, id) => {
+            if (!this.#ims.has(id)) {
+                this.#register(id, hash, creator);
+                return;
+            }
+
+            const im = this.#ims.get(id);
+            if (im.hash === hash) return;
+            im.update(creator);
+        });
     }
 }

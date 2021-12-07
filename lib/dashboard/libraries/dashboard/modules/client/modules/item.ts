@@ -107,6 +107,9 @@ class Module extends Item {
         this.#declarations.on('change', () => this.node.trigger('change'));
     }
 
+    /**
+     *  Checks if the folder where files going to be located exist.
+     */
     checkStatic() {
         const specs = {moduleId: this.id, static: {"path": "./static"}};
         return module.execute('/builder/module/edit', specs);

@@ -6,4 +6,7 @@ class Dashboard {
     validate(hash: string) {
         return module.execute('/dashboard/validate', {hash: hash});
     }
+
+    cleanCache = () => module.execute('/dashboard/cleanCache');
+
 }

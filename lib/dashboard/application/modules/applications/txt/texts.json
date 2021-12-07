@@ -11,7 +11,7 @@
       "applications": "Applications",
       "libraries": "Libraries",
       "elements": "Elements",
-      "titleHeader": "Application name goes here title",
+      "titleHeader": "Project name goes here title",
       "showApps": "Show APP Information",
       "filtersTitle": "Filters Bundles",
       "selectView": "Select View",
@@ -33,7 +33,7 @@
       "details": "Details",
       "compile": "Compile",
       "publish": "Publish",
-      "create": "Create New App",
+      "create": "Create project",
       "download": "Download"
     }
   },
@@ -44,35 +44,35 @@
       "info": "¿Que es esto?"
     },
     "header": {
-      "title": "Projects",
-      "projectsTitle": "Projects",
+      "title": "Projectos",
+      "projectsTitle": "Projectos",
       "applications": "Applications",
-      "libraries": "Libraries",
-      "elements": "Elements",
-      "titleHeader": "Application name goes here title",
-      "showApps": "Show APP Information",
-      "filtersTitle": "Filters Bundles",
-      "selectView": "Select View",
-      "welcome": "Welcome:",
-      "logIn": "Log In:"
+      "libraries": "Librarias",
+      "elements": "Elementos",
+      "titleHeader": "El nombre del proyecto va aquí",
+      "showApps": "Información del proyecto",
+      "filtersTitle": "Filtro",
+      "selectView": "Vista",
+      "welcome": "Bienvenido:",
+      "logIn": "Inicio de sesion:"
     },
     "applications": {
-      "libraries": "Libraries",
+      "libraries": "Librarias",
       "libAssoc": "Associated libraries",
-      "modules": "Modules",
+      "modules": "Moduleos",
       "modAssoc": "Associated modules"
     },
     "application": {
       "description": "No posee descripcion"
     },
     "actions": {
-      "play": "Play",
-      "stop": "Stop",
-      "details": "Details",
-      "compile": "Compile",
-      "publish": "Publish",
-      "create": "Create New App",
-      "download": "Download"
+      "play": "Arrancar",
+      "stop": "Detener",
+      "details": "Detaalles",
+      "compile": "Compilar",
+      "publish": "Publicar",
+      "create": "Crear proyecto",
+      "download": "Descargar"
     }
   }
 }

@@ -2,33 +2,23 @@ export const ApplicationCreate = function ({show, closeModal}) {
 
     const [state, setState] = React.useState({});
     const [type, setType] = React.useState(undefined);
-
-    React.useEffect(() => {
-        const model = new BuilderApplication()
-        const notify = NotifyManager;
-        const onChange = () => {
-            const fetching = model.processing || model.application?.fetching;
-            const {value: texts, ready} = module.texts
-            if (model.created) {
-                closeModal();
-                notify.success('¡Aplicacion creada!');
-                return;
-            }
-            setState(() => ({...state, model, fetching, texts, ready}));
-        };
-        module.texts.bind('change', onChange)
-        const {value: texts, ready} = module.texts;
-        setState({...state, model, texts, ready});
-        model.bind('change', onChange);
-        return () => {
-            model.unbind('change', onChange);
-            module.texts.unbind('change', onChange);
+    const notify = NotifyManager;
+    const model = createController.model;
+    useBinder([createController], () => {
+        const fetching = model.processing || model.application?.fetching;
+        if (model.created) {
+            closeModal();
+            notify.success(texts?.created);
+            return;
         }
+        setState(() => ({...state, fetching}));
 
-    }, []);
-    const {ready, model, texts, fetching} = state;
+    });
+
+    const {fetching} = state;
     const output = [];
-    if (ready) {
+
+    if (createController.ready) {
         output.push(
             <React.Fragment key="content">
                 <Header/>
@@ -36,7 +26,7 @@ export const ApplicationCreate = function ({show, closeModal}) {
             </React.Fragment>
         );
     }
-
+    const texts = createController.texts;
     return (
         <CreateAppContext.Provider value={{type, setType, model, texts, fetching}} key="content">
             <BeyondModal show={show} onClose={closeModal} className="md ds-modal ds-app-create_modal">

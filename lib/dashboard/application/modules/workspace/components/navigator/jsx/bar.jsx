@@ -14,7 +14,8 @@ function NavigatorBar() {
         <section className="ds-navigator__bar">
             <form className="ds-navigator__form" onSubmit={onSearch}>
                 <nav className="left-actions">
-                    <BeyondIconButton icon="refresh" onClick={onSearch}/>
+
+                <BeyondIconButton icon="refresh" onClick={onSearch}/>
                 </nav>
                 <input placeholder={placeholder} onChange={onChange} value={value} type="text" ref={input}/>
                 <nav className="right-actions">

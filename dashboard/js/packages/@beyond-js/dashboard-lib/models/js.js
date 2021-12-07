@@ -4,8 +4,7 @@ define(["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.BuilderApplication = BuilderApplication;
-  _exports.ReactiveModel = _exports.ModuleBundleBuilder = void 0;
+  _exports.ReactiveModel = _exports.ModuleBundleBuilder = _exports.ApplicationBuilder = void 0;
   const {
     beyond
   } = globalThis;
@@ -26,20 +25,20 @@ define(["exports"], function (_exports) {
 
 
   class ReactiveModel {
-    _ready;
+    #ready;
 
     get ready() {
-      return this._ready;
+      return this.#ready;
     }
 
-    _fetching;
+    #fetching;
 
     get fetching() {
-      return this._fetching;
+      return this.#fetching;
     }
 
     set fetching(value) {
-      if (value === this._fetching) return;
+      if (value === this.#fetching) return;
       this._fetching = value;
       this.triggerEvent();
     }
@@ -50,22 +49,46 @@ define(["exports"], function (_exports) {
       return this._fetched;
     }
 
-    _processing;
+    #processing;
 
     get processing() {
-      return this._processing;
+      return this.#processing;
     }
 
-    _processed;
+    set processing(value) {
+      if (value === this.#processing) return;
+      this.#processing = value;
+      this.triggerEvent();
+    }
+
+    #processed;
 
     get processed() {
       return this._processed;
     }
 
-    _loaded;
+    set processed(value) {
+      if (value === this.#processed) return;
+      this.#processed = value;
+      this.triggerEvent();
+    }
+
+    #loaded;
 
     get loaded() {
-      return this._loaded;
+      return this.#loaded;
+    }
+
+    #error;
+
+    get error() {
+      return this.#error;
+    }
+
+    set error(value) {
+      if (value === this.#error || typeof value !== 'string') return;
+      this.#error = value;
+      this.triggerEvent();
     }
 
     constructor() {
@@ -117,15 +140,166 @@ define(["exports"], function (_exports) {
 
   _exports.ReactiveModel = ReactiveModel;
 
-  function BuilderApplication() {
-    const base = new BaseApplication(this);
-    new CreateApplication(this, base);
-    new ApplicationPort(this, base);
+  class ApplicationBuilder extends ReactiveModel {
+    #id;
+
+    get id() {
+      return this.#id;
+    }
+
+    set id(value) {
+      if (value === this.#id || typeof value !== 'string') return;
+      this.triggerEvent();
+    }
+
+    #title;
+
+    get title() {
+      return this.#title;
+    }
+
+    set title(value) {
+      if (value === this.#title || typeof value !== 'string') return;
+      this.#title = value;
+      this.triggerEvent();
+    }
+
+    get version() {
+      return 1;
+    }
+
+    #description;
+
+    get description() {
+      return this.#description;
+    }
+
+    set description(value) {
+      if (value === this.#description || typeof value !== 'string') return;
+      this.#description = value;
+      this.triggerEvent();
+    }
+
+    #created;
+
+    get created() {
+      return this.#created;
+    }
+
+    set created(value) {
+      if (value === this.#created || typeof value !== 'boolean') return;
+      this.#created = value;
+      this.triggerEvent();
+    }
+
+    #identifier;
+
+    get identifier() {
+      return this.#identifier;
+    }
+
+    set identifier(value) {
+      if (value === this.#identifier || typeof value !== 'string') return;
+      this.#identifier = value;
+      this.triggerEvent();
+    }
+
+    #type;
+
+    get type() {
+      return this.#type;
+    }
+
+    set type(value) {
+      if (value === this.#type || typeof value !== 'string') return;
+      this.#type = value;
+      this.triggerEvent();
+    }
+
+    #validPort;
+
+    get validPort() {
+      return this.#validPort;
+    }
+
+    set validPort(value) {
+      if (value === this.#validPort) return;
+      this.#validPort = !!value;
+      this.triggerEvent();
+    }
+
+    #port = 4080;
+
+    get port() {
+      return this.#port;
+    }
+
+    set port(value) {
+      if (value === this.#port || value !== '' && isNaN(parseInt(value))) return;
+      this.#port = value === '' ? value : parseInt(value);
+      this.triggerEvent();
+    }
+
+    #ready;
+
+    get ready() {
+      return this.#ready;
+    }
+
+    get getters() {
+      return {
+        id: this.id,
+        port: this.port,
+        type: this.type,
+        name: this.name,
+        title: this.title,
+        version: this.version,
+        modules: this.modules,
+        created: this.created,
+        processed: this.processed,
+        processing: this.processing,
+        description: this.description
+      };
+    }
+
+    set(specs) {}
+
+    constructor() {
+      super();
+
+      this.create = () => create(this);
+
+      this.checkPort = port => checkPort(this, port);
+
+      this.getInitialPort();
+    }
+
+    async getInitialPort() {
+      let cont = 0;
+      let port = 8080;
+
+      while (cont < 5 || !this.#port) {
+        await this.checkPort(port);
+
+        if (this.#port && this.#validPort) {
+          this.#ready = true;
+          this.triggerEvent();
+          return;
+        }
+
+        port = port - 100;
+        this.#ready = true;
+        cont++;
+      }
+    }
+
   }
   /********************************
   FILE: builder\application\base.js
   ********************************/
 
+
+  _exports.ApplicationBuilder = ApplicationBuilder;
 
   function BaseApplication(parent) {
     const events = new Events({
@@ -284,75 +458,57 @@ define(["exports"], function (_exports) {
   **********************************/
 
 
-  function CreateApplication(parent, base) {
-    'use strict';
+  async function create(parent) {
+    if (!parent.name) throw new Error('Name is required');
+    parent.processing = true;
 
-    async function create() {
-      if (!parent.name) throw new Error('Name is required');
-      base.processing = true;
-      base.processed = false;
-      base.triggerChange();
+    try {
+      const response = await module.execute('builder/application/create', parent.getters);
 
-      try {
-        const response = await module.execute('builder/application/create', parent.getters);
-
-        if (!response?.status) {
-          base.error = response.error;
-          return;
-        }
-
-        base.created = true;
-        base.id = response.data.id;
-      } catch (error) {
-        console.error("error", error);
-        base.created = false;
-      } finally {
-        base.processed = true;
-        base.processing = false;
-        base.triggerChange();
+      if (!response?.status) {
+        parent.error = response.error;
+        return;
       }
-    }
 
-    parent.create = create;
+      parent.created = true;
+      parent.id = response.data.id;
+    } catch (error) {
+      console.error("error", error);
+      parent.created = false;
+    } finally {
+      console.log(90);
+      parent.processed = true;
+      parent.processing = false;
+    }
   }
   /********************************
   FILE: builder\application\port.js
   ********************************/
 
 
-  function ApplicationPort(parent, base) {
-    'use strict';
+  async function checkPort(base, port) {
+    if (!port) throw new Error('port to check is required');
+    base.processing = true;
 
-    async function check(port) {
-      if (!port) throw new Error('port to check is required');
-      base.processing = true;
-      base.processed = false;
-      base.triggerChange();
+    try {
+      const response = await module.execute('builder/application/checkPort', {
+        port: port
+      });
+      base.processing = false;
 
-      try {
-        const response = await module.execute('builder/application/checkPort', {
-          port: port
-        });
-        base.processing = false;
-
-        if (!response.valid) {
-          base.triggerChange();
-          return;
-        }
-
-        base.port = port;
-        base.validPort = true;
+      if (!response.valid) {
         base.triggerChange();
-        return response;
-      } catch (error) {
-        base.processing = false;
-        base.validPort = false;
-        base.processed = true;
-        base.triggerChange();
+        return;
       }
-    }
 
-    parent.checkPort = check;
+      base.port = port;
+      base.validPort = true;
+      return response;
+    } catch (error) {
+      base.processing = false;
+      base.validPort = false;
+      base.processed = true;
+    }
   }
   /************************************
   FILE: builder\bundle\module-bundle.js

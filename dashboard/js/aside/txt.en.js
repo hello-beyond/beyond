@@ -57,7 +57,20 @@ define([], function () {
       "action": "Actualizar"
     },
     "static": {
-      "title": "Static files"
+      "title": "Static files",
+      "form": {
+        "title": "Selecciona una image o arrastrala.",
+        "errors": {
+          "invalidFile": "The uploaded file is invalid, please verify and try again"
+        },
+        "header": {
+          "title": "Add file",
+          "detail": "As static resource"
+        },
+        "actions": {
+          "close": "Close"
+        }
+      }
     },
     "dependencies": {
       "title": "Dependencies"
@@ -141,6 +154,22 @@ define([], function () {
         "actions": {
           "save": "Crear bundle",
           "next": "Continuar"
+        }
+      },
+      "static": {
+        "title": "Static files",
+        "form": {
+          "title": "Select an image or drag it.",
+          "errors": {
+            "invalidFile": "The uploaded file is invalid, please verify and try again"
+          },
+          "header": {
+            "title": "Add file",
+            "detail": "As static resource"
+          },
+          "actions": {
+            "close": "Close"
+          }
         }
       }
     }

@@ -9,7 +9,13 @@ module.exports = class Distribution extends require('../file-manager') {
     _default;
 
     skeleton = [
-        "name", "platform", "environment", "port", "ssr", "ts", "compress", "default"
+        "name", "platform", "environment",
+        {name: "port", type: 'number'},
+        {name: "ssr", type: 'boolean'},
+        {name: "ts", type: 'boolean'},
+        {name: "compress", type: 'boolean'},
+        {name: "default", type: 'boolean'},
+
     ];
 
     constructor(path, specs) {

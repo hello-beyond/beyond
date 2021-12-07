@@ -28,4 +28,9 @@ interface ListReport {
 
     socket.on('client:plm/record/update', (message: RecordReport) => reports.record.update(message.table, message.id));
     socket.on('server:plm/record/update', (message: RecordReport) => reports.record.update(message.table, message.id));
+
+    socket.on('client:plm/record/field/update', (message: RecordReport) =>
+        reports.record.update(message.table, message.id, message.field, message.value));
+    socket.on('server:plm/record/field/update', (message: RecordReport) =>
+        reports.record.update(message.table, message.id, message.field, message.value));
 })().catch(exc => console.error(exc.stack));

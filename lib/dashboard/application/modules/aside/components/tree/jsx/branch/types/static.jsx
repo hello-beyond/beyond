@@ -1,12 +1,12 @@
 function DSStaticBranch({branch, level}) {
-    const [branchName, setBranchName] = React.useState(branch.label);
+    const [state, setState] = React.useState(branch.getters);
     const {panels, controller: {application}} = useDSAsideContext();
-    if (!branchName) return null;
-
     const styles = {};
     if (level > 0) styles.paddingLeft = `${level * TREE_TABS}px`;
-    useBinder([branch], () => setBranchName(branch.label))
+    useBinder([branch], () => setState(branch.getters));
+    const {label, deleted} = state;
 
+    if (!label || deleted) return null;
     /**
      * Opens a file
      * @param event
@@ -35,19 +35,20 @@ function DSStaticBranch({branch, level}) {
     return (
         <li className="item" tabIndex="-1">
             {item.overwrite &&
-            <section className="item__container item__overwrite" style={styles} data-type="overwrite"
-                     onClick={onClick}>
-                <div className="item__label">
-                    <DsIcon icon={`file.${icon}1`}/>
-                    <span>{branchName} </span>
-                </div>
-                {/*<DSInlineActions item={branch}/>*/}
-            </section>
+             <section className="item__container item__overwrite" style={styles}
+                      data-type="overwrite"
+                      onClick={onClick}>
+                 <div className="item__label">
+                     <DsIcon icon={`file.${icon}1`}/>
+                     <span>{label} </span>
+                 </div>
+                 {/*<DSInlineActions item={branch}/>*/}
+             </section>
             }
             <DSItemHeader item={branch} level={level} onClick={onClick}>
                 <div className="item__label">
                     <DsIcon icon={`file.${branch.icon}`}/>
-                    <span>{branchName}</span>
+                    <span>{label}</span>
                 </div>
             </DSItemHeader>
         </li>

@@ -29,7 +29,7 @@ export class InternalModule {
 
     #exports: Exports = {};
 
-    readonly #creator: IMWrapperFunction;
+    #creator: IMWrapperFunction;
     #created = false;
     get created() {
         return this.#created;
@@ -39,6 +39,8 @@ export class InternalModule {
         if (this.#created) throw new Error(`Internal module "${this.#id}" already created`);
 
         const require = (id: string) => this.#require.solve(id, trace, this);
+
+        Object.keys(this.#exports).forEach(key => delete this.#exports[key]);
         this.#creator(require, this.#exports);
         this.#created = true;
     }
@@ -58,6 +60,11 @@ export class InternalModule {
         const trace = new Trace();
         trace.register('initialisation', this.#id);
         this.#create(trace);
+    }
+
+    update(creator: IMWrapperFunction) {
+        this.#created = false;
+        this.#creator = creator;
     }
 
     constructor(pkg: Package, id: string, hash: number, creator: IMWrapperFunction, require: Require) {

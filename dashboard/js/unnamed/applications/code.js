@@ -185,7 +185,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
       AppsController.setApplications(applications);
 
       const onChange = () => {
-        setState(state => ({
+        setState(state => ({ ...state,
           controller: AppsController,
           items: applications.items,
           ready: AppsController.ready,

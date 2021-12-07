@@ -18,17 +18,19 @@ define([], function () {
 
   __pkg.exports.process = (require, _exports) => _exports.txt = {
     "subtitle": "Indique que tipo de aplicación desea crear",
+    "created": "Aplicación creada",
     "actions": {
       "submit": "Crear"
     },
     "form": {
-      "name": "Nombre de tu aplicacion",
-      "title": "Titulo de tu aplicacion",
+      "name": "Nombre de tu proyecto",
+      "title": "Titulo de tu proyecto",
       "description": "Descripcion",
       "port": {
         "label": "Puerto",
         "error": "El puerto agregado no esta disponible",
-        "success": "Validamos el puerto y está disponible"
+        "success": "Validamos el puerto y está disponible",
+        "tooltip": "Validar puerto"
       },
       "types": {
         "titles": {
@@ -45,7 +47,7 @@ define([], function () {
         },
         "backend": {
           "title": "Backend",
-          "description": "Crea un servicio node que pueda ser consumido por aplicaciones via websocket"
+          "description": "Crea un servicio node que pueda ser consumido por proyectos via websocket"
         },
         "web": {
           "title": "Web",
@@ -57,7 +59,7 @@ define([], function () {
         },
         "library": {
           "title": "Library",
-          "description": "Contenedor de módulos cliente y servidor para ser consumidos por otras aplicaciones."
+          "description": "Contenedor de módulos cliente y servidor para ser consumidos por otras proyectos."
         },
         "board": {
           "title": "Plantillas Basicas",
@@ -87,6 +89,9 @@ define([], function () {
       "actions": {
         "submit": "Crear"
       }
+    },
+    "errors": {
+      "APP_EXISTS": "Ya existe una carpeta con ese nombre en su directorio"
     }
   };
 

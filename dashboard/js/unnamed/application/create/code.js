@@ -58,6 +58,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
   }) {
     const {
       texts: {
+        errors,
         form: texts,
         actions
       },
@@ -66,7 +67,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
     } = useCreateAppContext();
     const [firstTime, setFirstTime] = React.useState(true);
     const [state, setState] = React.useState({
-      port: 8080
+      port: model.port
     });
     const [validPort, setValidPort] = React.useState(undefined);
     const btnAttrs = {};
@@ -80,7 +81,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
         value
       } = target;
       if (pattern) value = value.replace(/ /g, '-');
-      if (model.hasOwnProperty(name)) model[name] = value;
+      model[name] = value;
       setState({ ...state,
         ...{
           [name]: model[name]
@@ -110,7 +111,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
     }, model.error && /*#__PURE__*/React.createElement(_code.BeyondAlert, {
       title: "Ha ocurrido un error",
       type: "error"
-    }, model.error), /*#__PURE__*/React.createElement("div", {
+    }, errors[model.error]), /*#__PURE__*/React.createElement("div", {
       className: "item"
     }, /*#__PURE__*/React.createElement(_code6.BeyondInput, {
       name: "name",
@@ -137,10 +138,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
     }, /*#__PURE__*/React.createElement(_code.DsIconButton, {
       icon: "refresh",
       className: "primary",
-      title: "Validar puerto"
+      title: texts.port.tooltip
     }), portText && /*#__PURE__*/React.createElement("span", {
-      className: clsPortLabel,
-      htmlFor: "port"
+      className: clsPortLabel
     }, portText)), /*#__PURE__*/React.createElement(_code6.BeyondInput, {
       value: state.description,
       placeholder: texts.description,
@@ -293,61 +293,33 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
   }) {
     const [state, setState] = React.useState({});
     const [type, setType] = React.useState(undefined);
-    React.useEffect(() => {
-      const model = new _js2.BuilderApplication();
-      const notify = _js.NotifyManager;
+    const notify = _js.NotifyManager;
+    const model = createController.model;
+    (0, _code3.useBinder)([createController], () => {
+      const fetching = model.processing || model.application?.fetching;
 
-      const onChange = () => {
-        const fetching = model.processing || model.application?.fetching;
-        const {
-          value: texts,
-          ready
-        } = module.texts;
+      if (model.created) {
+        closeModal();
+        notify.success(texts?.created);
+        return;
+      }
 
-        if (model.created) {
-          closeModal();
-          notify.success('¡Aplicacion creada!');
-          return;
-        }
-
-        setState(() => ({ ...state,
-          model,
-          fetching,
-          texts,
-          ready
-        }));
-      };
-
-      module.texts.bind('change', onChange);
-      const {
-        value: texts,
-        ready
-      } = module.texts;
-      setState({ ...state,
-        model,
-        texts,
-        ready
-      });
-      model.bind('change', onChange);
-      return () => {
-        model.unbind('change', onChange);
-        module.texts.unbind('change', onChange);
-      };
-    }, []);
+      setState(() => ({ ...state,
+        fetching
+      }));
+    });
     const {
-      ready,
-      model,
-      texts,
       fetching
     } = state;
     const output = [];
 
-    if (ready) {
+    if (createController.ready) {
       output.push( /*#__PURE__*/React.createElement(React.Fragment, {
         key: "content"
       }, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Form, null)));
     }
 
+    const texts = createController.texts;
     return /*#__PURE__*/React.createElement(CreateAppContext.Provider, {
       value: {
         type,
@@ -363,12 +335,44 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
       className: "md ds-modal ds-app-create_modal"
     }, output));
   };
+  /***********
+  JS PROCESSOR
+  ***********/
+
+  /******************
+  FILE: controller.js
+  ******************/
+
+
+  _exports.ApplicationCreate = ApplicationCreate;
+  const createController = new class Controller extends _js2.ReactiveModel {
+    #model;
+
+    get model() {
+      return this.#model;
+    }
+
+    get texts() {
+      return module.texts?.value;
+    }
+
+    get ready() {
+      return module.texts.ready && this.#model.ready;
+    }
+
+    constructor(props) {
+      super(props);
+      const model = new _js2.ApplicationBuilder();
+      this.#model = model;
+      module.texts.bind('change', this.triggerEvent);
+      model.bind('change', this.triggerEvent);
+    }
+
+  }();
   /**********
   SCSS STYLES
   **********/
 
-
-  _exports.ApplicationCreate = ApplicationCreate;
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-modal.ds-app-create_modal .ds-create-app__fields{padding:20px 60px}.ds-app-create_modal .block-selected{display:flex;align-items:center;background:#ffa789;transition:.2s all ease-in;cursor:pointer}.ds-app-create_modal .block-selected:hover{background:#e36152}.ds-app-create_modal .block-selected svg{padding:30px;height:120px;width:120px}.ds-app-create_modal .form__field-port{margin-bottom:10px}.ds-app-create_modal .form__field-port span{position:absolute;bottom:-10px}.ds-app-create_modal .applications__types{padding:20px}.ds-app-create_modal .applications__types>h4{padding:15px}.ds-app-create_modal .applications__types ul{list-style:none;padding:0;margin-top:15px;grid-template-columns:1fr 1fr 1fr;display:grid;flex-wrap:wrap}.ds-app-create_modal .applications__types ul li{padding:10px 15px 10px;display:grid;width:300px;grid-template-columns:auto 1fr;align-items:center;justify-items:center;grid-gap:15px;transition:.2s all ease-in;cursor:pointer}.ds-app-create_modal .applications__types ul li.disabled{opacity:.3}.ds-app-create_modal .applications__types ul li h4{padding:0;font-size:1.1rem;margin-bottom:5px}.ds-app-create_modal .applications__types ul li p{margin:0;font-size:.9rem}.ds-app-create_modal .applications__types ul li .beyond-element-image,.ds-app-create_modal .applications__types ul li .beyond-element-image img{height:30px!important;aspect-ratio:1/1;object-fit:cover}.ds-app-create_modal .applications__types ul li:hover:not(.disabled){background:#f0f0f0}';
   bundle.styles.appendToDOM();
