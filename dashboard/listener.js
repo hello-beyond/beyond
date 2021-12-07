@@ -26,7 +26,7 @@ module.exports = config => function (req, resp) {
             if (plain.includes(contentType)) {
                 let content = await fs.readFile(resource, 'utf8');
 
-                if (url.pathname === '/start.js') {
+                if (url.pathname === '/config.js') {
                     const port = config.service.port;
                     content = content.replace(
                         '##beyond-host-namespace-[beyond-js/dashboard-lib]##',
