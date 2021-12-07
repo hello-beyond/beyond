@@ -12,8 +12,7 @@ specs.cache = false;
 specs.fields = [
     'id', 'path', 'name', 'title', 'description', 'developer',
     'version', 'connect', 'hosts', 'port', 'static',
-    'backend', 'graph',
-    'errors', 'warnings'
+    'bee', 'errors', 'warnings'
 ];
 
 specs.properties = {
@@ -22,11 +21,11 @@ specs.properties = {
         table: 'libraries-modules',
         filter: [{field: 'library', source: 'id'}]
     },
-    backend: {
+    bee: {
         Item: Bee,
         table: 'bees',
         immutable: true,
-        identifier: [{field: 'id', source: 'backend'}]
+        identifier: [{field: 'id', source: 'bee'}]
     },
     static: {
         Items: LibrariesStatic,

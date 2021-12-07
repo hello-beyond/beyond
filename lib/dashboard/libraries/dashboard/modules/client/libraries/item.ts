@@ -46,10 +46,6 @@ class Library extends Item {
         return this.fields.get('static').value;
     }
 
-    get graph(): string {
-        return this.fields.get('graph').value;
-    }
-
     get errors(): string[] {
         return this.fields.get('errors').value ?? [];
     }
@@ -58,9 +54,9 @@ class Library extends Item {
         return this.fields.get('warnings').value ?? [];
     }
 
-    get backend(): Bee {
-        const backend = <ItemProperty>this.properties.get('backend');
-        return backend && <Bee>backend.value;
+    get bee(): Bee {
+        const bee = <ItemProperty>this.properties.get('bee');
+        return bee && <Bee>bee.value;
     }
 
     get modules(): Modules {

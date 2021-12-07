@@ -189,7 +189,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\collection.ts
 
   modules.set('./applications/collection', {
-    hash: 3586274438,
+    hash: 2012231745,
     creator: function (require, exports) {
       "use strict";
 
@@ -525,7 +525,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\item.ts
 
   modules.set('./applications/item', {
-    hash: 1655146479,
+    hash: 2096050607,
     creator: function (require, exports) {
       "use strict";
 
@@ -606,8 +606,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         }
 
         get bee() {
-          const backend = this.properties.get('bee');
-          return backend && backend.value;
+          const bee = this.properties.get('bee');
+          return bee && bee.value;
         }
 
         get template() {
@@ -1217,7 +1217,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\register.ts
 
   modules.set('./applications/register', {
-    hash: 1774975206,
+    hash: 1467085930,
     creator: function (require, exports) {
       "use strict";
 
@@ -1245,7 +1245,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       specs.cache = false;
       specs.module = beyond_context_1.module; //TODO check fields @box 'servers', 'builds','declarations'
 
-      specs.fields = ['id', 'path', 'name', 'title', 'description', 'developer', 'version', 'connect', 'hosts', 'port', 'static', 'modulesPath', 'backend', 'errors', 'warnings', 'servers', 'builds', 'declarations'];
+      specs.fields = ['id', 'path', 'name', 'title', 'description', 'developer', 'version', 'connect', 'hosts', 'port', 'static', 'modulesPath', 'bee', 'errors', 'warnings', 'servers', 'builds', 'declarations'];
       specs.properties = {
         am: {
           Collection: collection_2.ApplicationModules,
@@ -1269,7 +1269,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           immutable: true,
           identifier: [{
             field: 'id',
-            source: 'backend'
+            source: 'bee'
           }]
         },
         template: {
@@ -2319,7 +2319,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: libraries\item.ts
 
   modules.set('./libraries/item', {
-    hash: 4245417514,
+    hash: 2648880293,
     creator: function (require, exports) {
       "use strict";
 
@@ -2373,10 +2373,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('static').value;
         }
 
-        get graph() {
-          return this.fields.get('graph').value;
-        }
-
         get errors() {
           return this.fields.get('errors').value ?? [];
         }
@@ -2385,9 +2381,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('warnings').value ?? [];
         }
 
-        get backend() {
-          const backend = this.properties.get('backend');
-          return backend && backend.value;
+        get bee() {
+          const bee = this.properties.get('bee');
+          return bee && bee.value;
         }
 
         get modules() {
@@ -2552,7 +2548,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: libraries\register.ts
 
   modules.set('./libraries/register', {
-    hash: 2985248473,
+    hash: 897350189,
     creator: function (require, exports) {
       "use strict";
 
@@ -2573,7 +2569,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = beyond_context_1.module;
       specs.cache = false;
-      specs.fields = ['id', 'path', 'name', 'title', 'description', 'developer', 'version', 'connect', 'hosts', 'port', 'static', 'backend', 'graph', 'errors', 'warnings'];
+      specs.fields = ['id', 'path', 'name', 'title', 'description', 'developer', 'version', 'connect', 'hosts', 'port', 'static', 'bee', 'errors', 'warnings'];
       specs.properties = {
         modules: {
           Collection: collection_1.LibraryModules,
@@ -2583,13 +2579,13 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
             source: 'id'
           }]
         },
-        backend: {
+        bee: {
           Item: item_1.Bee,
           table: 'bees',
           immutable: true,
           identifier: [{
             field: 'id',
-            source: 'backend'
+            source: 'bee'
           }]
         },
         static: {

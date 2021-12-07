@@ -278,7 +278,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
             properties: {
               library: {
                 properties: {
-                  backend: true
+                  bee: true
                 }
               }
             }
@@ -289,7 +289,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     LIBRARIES: {
       tree: {
         properties: {
-          backend: true
+          bee: true
         }
       }
     }

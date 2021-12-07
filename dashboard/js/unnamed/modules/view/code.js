@@ -451,7 +451,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
     } = useModuleContext();
     const [open, setOpen] = React.useState(true);
     const [hasBackend, setHasBackend] = React.useState(module.backend);
-    const [fetching, setFetching] = React.useState();
+    const [fetching, setFetching] = React.useState(false);
 
     const onCreate = event => {
       setFetching(true);
@@ -466,9 +466,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
     const cls = `processor_block-data ${!open ? ' hide-block' : ''}`;
     return /*#__PURE__*/React.createElement(_code3.DSCard, {
       header: texts.title
-    }, /*#__PURE__*/React.createElement(React.Fragment, null, hasBackend ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
+    }, /*#__PURE__*/React.createElement(React.Fragment, null, hasBackend ? /*#__PURE__*/React.createElement("p", {
       className: "success--message"
-    }, texts.created)) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", null, texts.empty.description), /*#__PURE__*/React.createElement("div", {
+    }, texts.created) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", null, texts.empty.description), /*#__PURE__*/React.createElement("div", {
       className: "card__actions"
     }, /*#__PURE__*/React.createElement(_code2.BeyondButton, {
       className: "primary",

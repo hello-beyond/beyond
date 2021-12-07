@@ -16,7 +16,7 @@ specs.module = module;
 specs.fields = [
     'id', 'path', 'name', 'title', 'description', 'developer',
     'version', 'connect', 'hosts', 'port', 'static', 'modulesPath',
-    'backend', 'errors', 'warnings',
+    'bee', 'errors', 'warnings',
     'servers', 'builds', 'declarations'
 ];
 
@@ -35,7 +35,7 @@ specs.properties = {
         Item: Bee,
         table: 'bees',
         immutable: true,
-        identifier: [{field: 'id', source: 'backend'}]
+        identifier: [{field: 'id', source: 'bee'}]
     },
     template: {
         Item: Template,

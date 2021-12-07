@@ -3,12 +3,12 @@ import {module} from "beyond_context";
 import {File} from "../file/file";
 import {ApplicationBuilder} from "./builder/builder";
 import {ApplicationDeclarations} from "./declarations";
-import type {ApplicationModule} from "./modules/item";
-import type {ApplicationModules} from "./modules/collection";
 import type {Bee} from "../bees/item";
 import type {Bundle} from "../bundles/item";
 import type {Template} from "../templates/item";
+import type {ApplicationModule} from "./modules/item";
 import type {Libraries} from "../libraries/collection";
+import type {ApplicationModules} from "./modules/collection";
 import type {ApplicationStatics} from "./static/collection";
 import type {ApplicationDeployment} from "./deployments/item";
 
@@ -77,8 +77,8 @@ class Application extends File {
     }
 
     get bee(): Bee {
-        const backend = <ItemProperty>this.properties.get('bee');
-        return backend && <Bee>backend.value;
+        const bee = <ItemProperty>this.properties.get('bee');
+        return bee && <Bee>bee.value;
     }
 
     get template(): Template {
