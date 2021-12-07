@@ -18,7 +18,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/editor/code', false, {
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/ds-editor/code', false, {
     "txt": {
       "multilanguage": true
     }
@@ -86,6 +86,12 @@ export const module = <Module>null;
       this.load();
     }
 
+    #ready;
+
+    get ready() {
+      return this.#ready;
+    }
+
     load() {
       if (this.ready) return true;
       if (!this.ready && this._promise) return this._promise;
@@ -93,7 +99,7 @@ export const module = <Module>null;
 
       require(['vs/editor/editor.main'], monaco => {
         this._monaco = monaco;
-        this._ready = true;
+        this.#ready = true;
 
         this._config();
 

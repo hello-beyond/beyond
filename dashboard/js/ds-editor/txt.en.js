@@ -4,7 +4,7 @@ define([], function () {
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/editor/txt', true, {
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/ds-editor/txt', true, {
     "txt": {
       "multilanguage": true
     }
@@ -14,7 +14,7 @@ define([], function () {
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
-  const __pkg = bundle.package('es');
+  const __pkg = bundle.package('en');
 
   __pkg.exports.process = (require, _exports) => _exports.txt = {
     "tree": {
