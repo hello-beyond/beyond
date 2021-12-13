@@ -34,13 +34,13 @@ define(["exports", "react", "react-dom", "/components/core/code"], function (_ex
       const iconsName = Object.keys(iconsList);
       return /*#__PURE__*/React.createElement("div", {
         className: "icon-container"
-      }, /*#__PURE__*/React.createElement("h1", null, "Icons"), /*#__PURE__*/React.createElement("pre", null, '<DsIcon  icon="Nombre del ícono"/>'), /*#__PURE__*/React.createElement("div", {
+      }, /*#__PURE__*/React.createElement("h1", null, "Icons"), /*#__PURE__*/React.createElement("pre", null, '<DSIcon  icon="Nombre del ícono"/>'), /*#__PURE__*/React.createElement("div", {
         className: "icon-list"
       }, iconsName.map((iconName, index) => {
         return /*#__PURE__*/React.createElement("div", {
           className: "icon-element",
           key: index
-        }, iconName, /*#__PURE__*/React.createElement(_code.DsIcon, {
+        }, iconName, /*#__PURE__*/React.createElement(_code.DSIcon, {
           className: "",
           icon: iconName
         }));

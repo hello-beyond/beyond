@@ -12,14 +12,14 @@ class Control extends React.Component {
             <div className="icon-container">
                 <h1>Icons</h1>
                 <pre>
-                    {'<DsIcon  icon="Nombre del ícono"/>'}
+                    {'<DSIcon  icon="Nombre del ícono"/>'}
                 </pre>
                 <div className="icon-list">
                     {iconsName.map((iconName, index) => {
                         return (
                             <div className="icon-element" key={index}>
                                 {iconName}
-                                <DsIcon className="" icon={iconName}/>
+                                <DSIcon className="" icon={iconName}/>
                             </div>
                         )
                     })}

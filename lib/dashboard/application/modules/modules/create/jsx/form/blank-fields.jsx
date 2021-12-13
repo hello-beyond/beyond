@@ -20,17 +20,17 @@ function BlankFields({state}) {
             <div className="switch-option">
                 <BeyondSwitch name="styles" value={state.styles} onChange={toggleRadio}/>
                 <label>{texts.form.styles}</label>
-                <DsIconButton icon="info" className="gray circle" title={texts.help.titles.styles}/>
+                <DSIconButton icon="info" className="gray circle" title={texts.help.titles.styles}/>
             </div>
             <div className="switch-option">
                 <BeyondSwitch name="multilanguage" value={state.multilanguage} onChange={toggleRadio}/>
                 <label>{texts.form.multilanguage}</label>
-                <DsIconButton icon="info" className="gray circle" title={texts.help.titles.text}/>
+                <DSIconButton icon="info" className="gray circle" title={texts.help.titles.text}/>
             </div>
             <div className="switch-option">
                 <BeyondSwitch name="server" value={state.server} onChange={toggleRadio}/>
                 <label>{texts.form.server}</label>
-                <DsIconButton icon="info" className="gray circle" title={texts.help.titles.server}/>
+                <DSIconButton icon="info" className="gray circle" title={texts.help.titles.server}/>
             </div>
         </div>
 

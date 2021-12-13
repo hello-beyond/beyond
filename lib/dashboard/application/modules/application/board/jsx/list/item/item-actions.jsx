@@ -15,18 +15,18 @@ function ItemActions({module}) {
     };
     return (
         <>
-            <DsIcon icon="moreVert" className="actions-icon" onClick={onClick}/>
+            <DSIcon icon="moreVert" className="actions-icon" onClick={onClick}/>
             {
                 showContextMenu &&
                 <DSContextMenu className="item-actions" specs={showContextMenu}
                                unmount={() => toggleContextMenu(false)}>
                     <ul>
                         <li onClick={openModal} data-action="rename">
-                            <DsIcon icon="edit" data-element="file"/>
+                            <DSIcon icon="edit" data-element="file"/>
                             Duplicar
                         </li>
                         <li onClick={openConfirm} data-action="delete">
-                            <DsIcon icon="delete"/>
+                            <DSIcon icon="delete"/>
                             Eliminar
                         </li>
                     </ul>

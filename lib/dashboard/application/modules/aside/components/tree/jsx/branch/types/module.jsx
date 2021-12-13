@@ -60,8 +60,8 @@ function DSModuleBranch({branch, level = 1}) {
                 fetching={state.fetching}
                 level={level} item={branch} onClick={onClick}>
                 <div className="item__label">
-                    <DsIcon className={clsIcon} icon="arrowDropDown"/>
-                    <DsIcon icon={`bundle.default`}/>
+                    <DSIcon className={clsIcon} icon="arrowDropDown"/>
+                    <DSIcon icon={`bundle.default`}/>
                     <span>{branch.label}</span>
                 </div>
             </DSItemHeader>

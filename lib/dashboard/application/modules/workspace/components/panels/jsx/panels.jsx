@@ -29,7 +29,7 @@ export function Panels() {
         }}>
             <div ref={container} style={panelsCss} className={cls}>
                 <nav className="ds-panels__actions">
-                    <DsIconButton onClick={addPanel} icon="splitView" title="Split editor"/>
+                    <DSIconButton onClick={addPanel} icon="splitView" title="Split editor"/>
                 </nav>
                 {output}
             </div>

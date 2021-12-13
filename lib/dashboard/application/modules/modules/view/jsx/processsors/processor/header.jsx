@@ -23,7 +23,7 @@ function ProcessorHeader({toggleContent, processor}) {
                     </span>
                 }
                 Files {processor.files.items.length}
-                <DsIconButton
+                <DSIconButton
                     onClick={toggleContent}
                     className="circle expand-icon" icon="expandMore"/>
             </div>

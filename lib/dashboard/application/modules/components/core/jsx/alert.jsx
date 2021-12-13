@@ -46,7 +46,7 @@ export function BeyondAlert(props) {
             {icon && align === 'right' && <DashboardIcon className="alert-icon" name={icon}/>}
             {
                 close &&
-                <DsIconButton onClick={onClickClose} className="beyond-alert__close-icon xs" icon="close"/>
+                <DSIconButton onClick={onClickClose} className="beyond-alert__close-icon xs" icon="close"/>
             }
         </div>
     )

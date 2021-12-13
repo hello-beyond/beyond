@@ -1,4 +1,5 @@
 {
+  "name": "ds-select",
   "code": {
     "imports": "imports.js",
     "jsx": {

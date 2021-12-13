@@ -36,7 +36,7 @@ function NotificationItem({item, icon = "error"}) {
 
     return (
         <li className="ds-notification__list-item" onClick={openSource}>
-            <DsIcon className={icon} icon={icon}/>
+            <DSIcon className={icon} icon={icon}/>
             <div className="item__information">
                 <span className="item__title">{item.message}</span>
                 <div className="item__data">

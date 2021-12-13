@@ -29,7 +29,7 @@ function DSSubTree({branch, label, actions, className, level = 1}) {
         <li className={cls}>
             <DSItemHeader item={branch} level={level} onClick={onClick}>
                 <div style={styles} className="item__label">
-                    <DsIcon icon={titleIcon}/>
+                    <DSIcon icon={titleIcon}/>
                     <span>{branch.label}</span>
                 </div>
             </DSItemHeader>

@@ -10,7 +10,7 @@ function Platform() {
                 <h4>{texts.platforms.titleSelected}</h4>
                 <div className="block-options">
                     <figure className="active" data-property="platform" data-value="mobile">
-                        <DsIcon icon="responsive"/>
+                        <DSIcon icon="responsive"/>
                         <h4>{texts.platforms[platform].title}</h4>
                         <button
                             data-property="platform" onClick={changeValue}
@@ -27,12 +27,12 @@ function Platform() {
                 <h4>{texts.platforms.title}</h4>
                 <div className="block-options">
                     <figure onClick={onPlatformSelect} data-property="platform" data-value="mobile">
-                        <DsIcon icon="mobile"/>
+                        <DSIcon icon="mobile"/>
                         <h4>{texts.platforms.mobile.title}</h4>
                         <span>{texts.platforms.mobile.description}</span>
                     </figure>
                     <figure onClick={onPlatformSelect} data-property="platform" data-value="web">
-                        <DsIcon icon="responsive"/>
+                        <DSIcon icon="responsive"/>
                         <h4>{texts.platforms.web.title}</h4>
                         <span>{texts.platforms.web.description}</span>
                     </figure>

@@ -31,7 +31,7 @@ function DSSourceBranch({branch, level}) {
         <li className="item" tabIndex="-1">
             <DSItemHeader item={branch} level={level} style={styles} onClick={onClick}>
                 <div className="item__label">
-                    <DsIcon icon={`file.${branch.icon}`}/>
+                    <DSIcon icon={`file.${branch.icon}`}/>
                     <span>{branchName}</span>
                 </div>
             </DSItemHeader>

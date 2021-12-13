@@ -33,18 +33,18 @@ function DSSubtreeActions({branch, onDelete, onAdd}) {
             <BeyondPopover
                 placement="right-start"
                 className="item-actions"
-                target={<DsIcon icon="moreVert"/>}>
+                target={<DSIcon icon="moreVert"/>}>
                 <ul>
                     {
                         (actions.create !== false) &&
                         <li onClick={onCreate} data-element="folder">
-                            <DsIcon icon="file"/>
+                            <DSIcon icon="file"/>
                             {texts.createFile}
                         </li>
                     }
 
                     <li onClick={showDelete} data-element="folder">
-                        <DsIcon icon="delete"/>
+                        <DSIcon icon="delete"/>
                         {texts.delete}
                     </li>
                 </ul>

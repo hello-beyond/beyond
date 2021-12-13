@@ -26,7 +26,7 @@ function DSDependencyBranch({branch, level = 1}) {
         <li className="item" tabIndex="-1">
             <DSItemHeader item={branch} level={level} onClick={onClick}>
                 <div className="item__label">
-                    <DsIcon icon={`${branch.icon}`}/>
+                    <DSIcon icon={`${branch.icon}`}/>
                     <span>{branch.label}</span>
                 </div>
             </DSItemHeader>

@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/select/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/components/binder/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4, _js, _code5, _code6, _code7, _code8, _code9, _code10) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/ds-select/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/hooks/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4, _js, _code5, _code6, _code7, _code8, _code9, _code10) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -177,7 +177,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
     }, application.application.name ?? application.id)), /*#__PURE__*/React.createElement("div", {
       className: "aside__link",
       onClick: openInfo
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "info"
     }), /*#__PURE__*/React.createElement("span", null, " Information ")), toPrint);
   }
@@ -409,7 +409,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
     } = (0, _code5.useDSAsideContext)();
     return /*#__PURE__*/React.createElement("div", {
       className: "ds-aside__empty"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "project"
     }), texts.empty);
   }
@@ -631,7 +631,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
     if (tab.tippy) datas.tippy = tab.tippy;
     return /*#__PURE__*/React.createElement("li", {
       className: cls
-    }, /*#__PURE__*/React.createElement(_code8.DsIconButton, _extends({
+    }, /*#__PURE__*/React.createElement(_code8.DSIconButton, _extends({
       title: tab.title,
       icon: tab.icon
     }, datas, {
@@ -684,23 +684,23 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
       className: "ds__pre-aside"
     }, /*#__PURE__*/React.createElement("ul", {
       className: "start-list"
-    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DsIconButton, {
+    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DSIconButton, {
       icon: "folder"
     }))), /*#__PURE__*/React.createElement("ul", {
       className: "end-list"
-    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DsIconButton, {
+    }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DSIconButton, {
       icon: "add",
       disabled: true
-    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DsIconButton, {
+    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DSIconButton, {
       icon: "add",
       disabled: true
-    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DsIconButton, {
+    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DSIconButton, {
       icon: "add",
       disabled: true
-    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DsIconButton, {
+    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DSIconButton, {
       icon: "folder",
       disabled: true
-    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DsIconButton, {
+    })), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement(_code8.DSIconButton, {
       icon: "settings",
       disabled: true
     })))), /*#__PURE__*/React.createElement("div", {

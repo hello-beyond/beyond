@@ -13,7 +13,6 @@ module.exports = function (ipc) {
                 return {status: false, error: `APP_EXISTS`};
             }
             await app.create(params.type, params);
-
             await server.addApplication(app.relativePath());
             const applicationId = await ipc.main('ids.path/generate', app.path);
             return {status: true, data: {id: applicationId}};
@@ -30,11 +29,11 @@ module.exports = function (ipc) {
         return appData.path;
     };
 
-    const getApp = async params => {
-        if (!params.applicationId) {
+    const getApp = async id => {
+        if (!id) {
             throw Error('The application id is necessary');
         }
-        const path = await getPath(params.applicationId);
+        const path = await getPath(id);
         return new Application(path);
     }
 
@@ -58,16 +57,21 @@ module.exports = function (ipc) {
         app.save();
     };
 
+    this.setDistribution = async params => {
+        const app = await getApp(params.applicationId);
+        const response = app.setDistribution(params.distribution);
+        if (response.error) {
+            return {status: 'error', error: response.error};
+        }
+        return app.save();
+    }
     this.edit = async params => {
-        const app = await getApp(params);
-        !!params.deployment?.distributions && app.deployment.addDistribution(params.deployment.distributions);
-
+        const app = await getApp(params.applicationId);
         return app.save(params);
     };
 
     this.backend = async params => {
-        const app = await getApp(params);
-
+        const app = await getApp(params.applicationId);
         return app.backend.create();
     }
 

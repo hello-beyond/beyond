@@ -12,8 +12,8 @@ function DSTreeHeader({title, tree, opened, setOpened}) {
     return (
         <DSItemHeader item={tree} onClick={onClick} className="tree__title">
             <div>
-                <DsIcon className="tree__icon-open" icon="arrowDropDown"/>
-                <DsIcon className="title__bundle-icon" icon={icon}/>
+                <DSIcon className="tree__icon-open" icon="arrowDropDown"/>
+                <DSIcon className="title__bundle-icon" icon={icon}/>
             </div>
             <div>
                 <span>{title}</span>

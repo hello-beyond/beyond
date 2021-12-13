@@ -15,7 +15,6 @@ module.exports = class Externals extends require('../file-manager') {
         const structure = {};
         if (this.packages.length) structure.packages = this.#packages;
         this.#custom.forEach((item, key) => structure[key] = item);
-
         return structure;
     }
 
@@ -42,10 +41,9 @@ module.exports = class Externals extends require('../file-manager') {
             this.#packages = data.packages;
             delete data.packages;
         }
+
         if (typeof data === 'object') {
-            Object.keys(data).forEach((property, key) => {
-                this.#custom.set(property, data[property])
-            });
+            Object.keys(data).forEach((property, key) => this.#custom.set(property, data[property]));
         }
     }
 }

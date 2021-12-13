@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/components/core/code"], function (_exports, React, ReactDOM, _code) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/code"], function (_exports, React, ReactDOM, _code) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -43,7 +43,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
       onClick: () => setToggle(!toggle)
     }, /*#__PURE__*/React.createElement("div", {
       className: "icon-button"
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
       icon: "bell",
       className: "icon-bell"
     })))));

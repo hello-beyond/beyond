@@ -34,6 +34,10 @@ export /*bundle */ const useWorkspacePanelsContext = () => React.useContext(Work
  */
 export /*bundle */ const AppContext = React.createContext();
 export /*bundle */ const useAppContext = () => React.useContext(AppContext);
+export /*bundle */  const ConfigContext = React.createContext();
+export /*bundle */  const useConfigContext = () => React.useContext(ConfigContext);
+
+
 /**
  * MODULES
  */

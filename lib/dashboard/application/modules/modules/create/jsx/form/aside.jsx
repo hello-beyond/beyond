@@ -8,7 +8,7 @@ function AsideForm() {
 
     return (
         <aside className="ds-create-module__breadcrumb-form">
-            <DsIcon icon={icon}/>
+            <DSIcon icon={icon}/>
             <div className="breadcrumb">
                 <a onClick={cleanType}>{texts.types[origin].title}</a>
                 \

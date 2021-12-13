@@ -5,15 +5,15 @@ function AsidePreload() {
             <section className="ds__pre-aside">
                 <ul className="start-list">
                     <li>
-                        <DsIconButton icon="folder"/>
+                        <DSIconButton icon="folder"/>
                     </li>
                 </ul>
                 <ul className="end-list">
-                    <li><DsIconButton icon="add" disabled/></li>
-                    <li><DsIconButton icon="add" disabled/></li>
-                    <li><DsIconButton icon="add" disabled/></li>
-                    <li><DsIconButton icon="folder" disabled/></li>
-                    <li><DsIconButton icon="settings" disabled/></li>
+                    <li><DSIconButton icon="add" disabled/></li>
+                    <li><DSIconButton icon="add" disabled/></li>
+                    <li><DSIconButton icon="add" disabled/></li>
+                    <li><DSIconButton icon="folder" disabled/></li>
+                    <li><DSIconButton icon="settings" disabled/></li>
                 </ul>
             </section>
             <div className="ds__aside__detail">

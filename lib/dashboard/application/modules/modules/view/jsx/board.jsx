@@ -22,9 +22,6 @@ export function ModuleBoard(props) {
     if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready) return null;
 
     const texts = module.texts.value;
-    // if (!moduleManager.active?.module?.found && !moduleManager.active.module?.fetching) {
-    //     return <h2>Modulo no conseguido</h2>
-    // }
 
     return (
         <ModuleContext.Provider value={{model, application, texts, navigateModule}}>

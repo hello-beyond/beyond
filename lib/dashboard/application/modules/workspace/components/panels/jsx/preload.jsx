@@ -2,7 +2,7 @@ function Preload() {
     return (
         <main className="panels__container">
             <nav className="ds-editor__actions">
-                <DsIconButton icon="splitView" title="Split editor"/>
+                <DSIconButton icon="splitView" title="Split editor"/>
             </nav>
             <div className="ds__panel">
                 <section className="ds__tabs-container">

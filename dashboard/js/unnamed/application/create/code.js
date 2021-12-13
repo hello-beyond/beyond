@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/ui/image/code", "@beyond-js/dashboard/unnamed/components/notify/js", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard-lib/models/js"], function (_exports, React, ReactDOM, _code, _code2, _js, _code3, _code4, _code5, _code6, _js2) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/image/code", "@beyond-js/dashboard/unnamed/components/notify/js", "@beyond-js/dashboard/hooks/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard-lib/models/js"], function (_exports, React, ReactDOM, _code, _code2, _js, _code3, _code4, _code5, _code6, _js2) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -135,7 +135,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
       onBlur: checkPort,
       value: state.port,
       onChange: handleChange
-    }, /*#__PURE__*/React.createElement(_code.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code.DSIconButton, {
       icon: "refresh",
       className: "primary",
       title: texts.port.tooltip
@@ -187,7 +187,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
     }, type ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       className: "block-types__selected",
       onClick: () => setType(undefined)
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
       icon: typeIcon
     }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h4", null, texts.types[type].title), /*#__PURE__*/React.createElement("p", null, texts.types[type].description))), /*#__PURE__*/React.createElement(DetailApp, {
       type: type

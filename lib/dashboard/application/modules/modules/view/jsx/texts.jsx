@@ -27,7 +27,7 @@ function Texts() {
                     </h6>
                 </div>
                 <div className="col-right">
-                    <DsIconButton
+                    <DSIconButton
                         onClick={toggleContent}
                         className="circle expand-icon" icon="expandMore"/>
                 </div>

@@ -34,25 +34,8 @@ define([], function () {
       "general": "General",
       "apps": "Applications"
     },
-    "distribution": {
-      "name": "NAme",
-      "platform": "Platform",
-      "environment": "Environment",
-      "port": "Port",
-      "ts": "TS",
-      "default": "default",
-      "ssr": "SSR",
-      "titleModal": "Let's add a new distribution",
-      "modalHeader": "Configure",
-      "compress": "Compress",
-      "add": "Add",
-      "title": "Distributions"
-    },
     "actions": {
       "save": "Save"
-    },
-    "applications": {
-      "select": "Application"
     }
   };
 

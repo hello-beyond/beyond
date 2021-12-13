@@ -19,7 +19,7 @@ export function NotificationPanel() {
             <div className="ds-notification__container"
                  onClick={() => setToggle(!toggle)}>
                 <div className={cls}>
-                    <DsIcon icon="bell"/>
+                    <DSIcon icon="bell"/>
                     {
                         state.unread && <span className="ds-notification__badge"/>
                     }

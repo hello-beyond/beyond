@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _ts, _code4, _code5, _code6) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _ts, _code4, _code5, _code6) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -194,7 +194,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
       }, /*#__PURE__*/React.createElement("figure", {
         className: "active",
         "data-environment": "development"
-      }, /*#__PURE__*/React.createElement(_code4.DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code4.DSIcon, {
         icon: "code"
       }), /*#__PURE__*/React.createElement("h4", null, texts.environments.dev.title), /*#__PURE__*/React.createElement("button", {
         "data-property": "environment",
@@ -210,12 +210,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
     }, /*#__PURE__*/React.createElement("figure", {
       onClick: onSelectEnvironment,
       "data-environment": "development"
-    }, /*#__PURE__*/React.createElement(_code4.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code4.DSIcon, {
       icon: "code"
     }), /*#__PURE__*/React.createElement("h4", null, texts.environments.dev.title), /*#__PURE__*/React.createElement("p", null, texts.environments.dev.description)), /*#__PURE__*/React.createElement("figure", {
       onClick: onSelectEnvironment,
       "data-environment": "production"
-    }, /*#__PURE__*/React.createElement(_code4.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code4.DSIcon, {
       icon: "cloudDone"
     }), /*#__PURE__*/React.createElement("h4", null, texts.environments.prod.title), /*#__PURE__*/React.createElement("p", null, texts.environments.prod.description))));
   }
@@ -256,7 +256,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
           key: key
         }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h5", {
           className: "primary-color upper"
-        }, build.platform), /*#__PURE__*/React.createElement("strong", null, texts.builds.path, ":"), " ", /*#__PURE__*/React.createElement("span", null, build.base)), /*#__PURE__*/React.createElement(_code4.DsIconButton, {
+        }, build.platform), /*#__PURE__*/React.createElement("strong", null, texts.builds.path, ":"), " ", /*#__PURE__*/React.createElement("span", null, build.base)), /*#__PURE__*/React.createElement(_code4.DSIconButton, {
           className: "primary",
           icon: "delete",
           onClick: onDelete

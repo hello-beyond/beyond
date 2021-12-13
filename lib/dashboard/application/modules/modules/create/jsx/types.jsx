@@ -33,12 +33,12 @@ function Types() {
         return (
             <div className="block_types">
                 <figure onClick={onClick} data-origin="bundles" className="link">
-                    <DsIcon icon="appTemplate"/>
+                    <DSIcon icon="appTemplate"/>
                     <h4>{texts.types.bundles.title}</h4>
                     <p>{texts.types.bundles.description}</p>
                 </figure>
                 <figure onClick={onClick} data-origin="templates" className="link">
-                    <DsIcon icon="newApp"/>
+                    <DSIcon icon="newApp"/>
                     <h4>{texts.types.templates.title}</h4>
                     <p>{texts.types.templates.description}</p>
                 </figure>
@@ -50,7 +50,7 @@ function Types() {
     return (
         <>
             <figure onClick={cleanType} data-origin="bundles" className="block-types__selected">
-                <DsIcon icon={icon}/>
+                <DSIcon icon={icon}/>
                 <figcaption>
                     <h4>{texts.types[origin].title}</h4>
                     <p>{texts.types[origin].description}</p>

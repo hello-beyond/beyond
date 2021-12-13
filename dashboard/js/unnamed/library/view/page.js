@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/icon/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard/unnamed/modules/list/page", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/ui/form/code"], function (_exports, React, ReactDOM, _ts, _code, _code2, _page, _code3, _code4) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/icon/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard/unnamed/modules/list/page", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/form/code"], function (_exports, React, ReactDOM, _ts, _code, _code2, _page, _code3, _code4) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {

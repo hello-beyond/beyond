@@ -33,7 +33,7 @@ function DSConsumerBranch({branch, level = 1}) {
                 style={styles} className={cls}>
                 <div className="item__label">
                     <ArrowTree opened={opened}/>
-                    <DsIcon icon={`${branch.icon}`}/>
+                    <DSIcon icon={`${branch.icon}`}/>
                     <span>{branch.label}</span>
                 </div>
                 <>

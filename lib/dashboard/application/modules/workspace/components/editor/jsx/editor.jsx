@@ -53,7 +53,7 @@ export class EditorView extends React.Component {
                     this.state.isUnpublished ?
                         <>
                             <div className="ds-editor__icons">
-                                <DsIcon icon="save"/>
+                                <DSIcon icon="save"/>
                             </div>
                         </>
                         : null

@@ -352,13 +352,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
           id: am.id,
           module: am
         };
+        if (am.module.errors.length) console.log(1, am.module.errors);
 
         _code4.DSNotifications.register(am.module.errors, specs);
 
-        am.bundles.forEach(bundle => _code4.DSNotifications.register(bundle.errors, {
-          id: bundle.id,
-          module: am
-        }));
+        am.bundles.forEach(bundle => {
+          _code4.DSNotifications.register(bundle.errors, {
+            id: bundle.id,
+            module: am
+          });
+        });
       };
 
       this.application.am.items.forEach(setNotifications);
@@ -889,14 +892,14 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
             processors: {
               properties: {
                 sources: true,
-                overwrites: true // compiler: true,
-                // dependencies: {
-                //     properties: {
-                //         bundle: true,
-                //         // declaration: true
-                //     }
-                // }
+                overwrites: true,
+                compiler: true,
+                dependencies: {
+                  properties: {
+                    bundle: true // declaration: true
 
+                  }
+                }
               }
             }
           }

@@ -10,7 +10,7 @@ export function DSToolbar({items, children}) {
                 <div>h</div>
                 <div className="box-notifycation" onClick={() => setToggle(!toggle)}>
                     <div className="icon-button">
-                        <DsIcon icon="bell" className="icon-bell"/>
+                        <DSIcon icon="bell" className="icon-bell"/>
                         {/*<span className="icon-button__badge">{objNotyfications.notification.length}</span>*/}
                     </div>
                     {/*<BoxNotifications toggle={toggle}/>*/}

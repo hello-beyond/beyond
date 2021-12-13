@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -164,7 +164,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const icon = origin === 'template' ? 'appTemplate' : 'newApp';
     return /*#__PURE__*/React.createElement("aside", {
       className: "ds-create-module__breadcrumb-form"
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
       icon: icon
     }), /*#__PURE__*/React.createElement("div", {
       className: "breadcrumb"
@@ -208,7 +208,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       name: "styles",
       value: state.styles,
       onChange: toggleRadio
-    }), /*#__PURE__*/React.createElement("label", null, texts.form.styles), /*#__PURE__*/React.createElement(_code.DsIconButton, {
+    }), /*#__PURE__*/React.createElement("label", null, texts.form.styles), /*#__PURE__*/React.createElement(_code.DSIconButton, {
       icon: "info",
       className: "gray circle",
       title: texts.help.titles.styles
@@ -218,7 +218,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       name: "multilanguage",
       value: state.multilanguage,
       onChange: toggleRadio
-    }), /*#__PURE__*/React.createElement("label", null, texts.form.multilanguage), /*#__PURE__*/React.createElement(_code.DsIconButton, {
+    }), /*#__PURE__*/React.createElement("label", null, texts.form.multilanguage), /*#__PURE__*/React.createElement(_code.DSIconButton, {
       icon: "info",
       className: "gray circle",
       title: texts.help.titles.text
@@ -228,7 +228,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       name: "server",
       value: state.server,
       onChange: toggleRadio
-    }), /*#__PURE__*/React.createElement("label", null, texts.form.server), /*#__PURE__*/React.createElement(_code.DsIconButton, {
+    }), /*#__PURE__*/React.createElement("label", null, texts.form.server), /*#__PURE__*/React.createElement(_code.DSIconButton, {
       icon: "info",
       className: "gray circle",
       title: texts.help.titles.server
@@ -788,7 +788,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         onClick: onClick,
         className: "template-list__item",
         key: `${id}-${origin}-${index}`
-      }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code.DSIcon, {
         icon: icon
       }), /*#__PURE__*/React.createElement("h5", null, title), /*#__PURE__*/React.createElement("p", null, description));
     });
@@ -846,13 +846,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         onClick: onClick,
         "data-origin": "bundles",
         className: "link"
-      }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code.DSIcon, {
         icon: "appTemplate"
       }), /*#__PURE__*/React.createElement("h4", null, texts.types.bundles.title), /*#__PURE__*/React.createElement("p", null, texts.types.bundles.description)), /*#__PURE__*/React.createElement("figure", {
         onClick: onClick,
         "data-origin": "templates",
         className: "link"
-      }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code.DSIcon, {
         icon: "newApp"
       }), /*#__PURE__*/React.createElement("h4", null, texts.types.templates.title), /*#__PURE__*/React.createElement("p", null, texts.types.templates.description)));
     }
@@ -862,7 +862,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: cleanType,
       "data-origin": "bundles",
       className: "block-types__selected"
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
       icon: icon
     }), /*#__PURE__*/React.createElement("figcaption", null, /*#__PURE__*/React.createElement("h4", null, texts.types[origin].title), /*#__PURE__*/React.createElement("p", null, texts.types[origin].description))), /*#__PURE__*/React.createElement(Options, null));
   }

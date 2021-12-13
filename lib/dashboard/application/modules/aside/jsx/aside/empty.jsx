@@ -3,7 +3,7 @@ function Empty() {
 
     return (
         <div className="ds-aside__empty">
-            <DsIcon icon="project"/>
+            <DSIcon icon="project"/>
             {texts.empty}
         </div>
     )

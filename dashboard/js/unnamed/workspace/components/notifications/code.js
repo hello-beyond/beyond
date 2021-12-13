@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -100,7 +100,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: () => setToggle(!toggle)
     }, /*#__PURE__*/React.createElement("div", {
       className: cls
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
       icon: "bell"
     }), state.unread && /*#__PURE__*/React.createElement("span", {
       className: "ds-notification__badge"
@@ -183,7 +183,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     return /*#__PURE__*/React.createElement("li", {
       className: "ds-notification__list-item",
       onClick: openSource
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
       className: icon,
       icon: icon
     }), /*#__PURE__*/React.createElement("div", {
@@ -488,7 +488,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }
 
     register(notifications, specs) {
-      window.notifications = this; //No hay notificaciones, limpiamos los mapas
+      window.notifications = this;
+      console.trace(4, notifications, specs); //No hay notificaciones, limpiamos los mapas
 
       if (!notifications || notifications instanceof Array && !notifications.length) {
         if (!this.recent.has(specs.id)) return;

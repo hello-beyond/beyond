@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -485,7 +485,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       };
       if (isUnique) return null;
       if (!isUnique) attrs.onClick = onClose;
-      return /*#__PURE__*/React.createElement(_code3.DsIconButton, _extends({
+      return /*#__PURE__*/React.createElement(_code3.DSIconButton, _extends({
         icon: "close",
         title: texts.actions.close
       }, attrs));
@@ -657,7 +657,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       className: cls
     }, /*#__PURE__*/React.createElement("nav", {
       className: "ds-panels__actions"
-    }, /*#__PURE__*/React.createElement(_code3.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       onClick: addPanel,
       icon: "splitView",
       title: "Split editor"
@@ -673,7 +673,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       className: "panels__container"
     }, /*#__PURE__*/React.createElement("nav", {
       className: "ds-editor__actions"
-    }, /*#__PURE__*/React.createElement(_code3.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       icon: "splitView",
       title: "Split editor"
     })), /*#__PURE__*/React.createElement("div", {

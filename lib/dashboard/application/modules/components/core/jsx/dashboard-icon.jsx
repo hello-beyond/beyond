@@ -12,6 +12,6 @@ export function DashboardIcon(props) {
 
 }
 
-export const DsIcon = DashboardIcon;
+export const DSIcon = DashboardIcon;
 
-<DsIcon icon="error"/>
+<DSIcon icon="error"/>

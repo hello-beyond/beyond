@@ -30,7 +30,7 @@ function ActionBranch({action, openConfirmAction, openModalAction}) {
     return (
         <>
             <li key={name} onClick={manageAction} data-action={name}>
-                <DsIcon icon={icon} data-element={name}/>
+                <DSIcon icon={icon} data-element={name}/>
                 {texts.actions[name]}
             </li>
         </>

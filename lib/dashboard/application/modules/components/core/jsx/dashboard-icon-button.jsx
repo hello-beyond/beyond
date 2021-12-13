@@ -16,6 +16,14 @@ export const DashboardIconButton = React.forwardRef((props, ref) => {
     return <BeyondIconButton ref={ref} {...props} {...properties}/>;
 
 });
-
-export const DsIconButton = DashboardIconButton;
+/**
+ * Android
+ * ios
+ * web
+ * backend
+ * ssr
+ * node
+ * @type {React.ForwardRefExoticComponent<React.PropsWithoutRef<{}> & React.RefAttributes<unknown>>}
+ */
+export const DSIconButton = DashboardIconButton;
 

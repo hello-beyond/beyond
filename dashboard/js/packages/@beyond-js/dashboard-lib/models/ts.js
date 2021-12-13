@@ -4,7 +4,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.TemplateProcessorsSources = _exports2.TemplateProcessorsSource = _exports2.TemplateProcessor = _exports2.TemplateOverwrites = _exports2.TemplateOverwrite = _exports2.TemplateGlobals = _exports2.TemplateGlobalSources = _exports2.TemplateGlobalSource = _exports2.TemplateGlobal = _exports2.TemplateApplicationsSources = _exports2.TemplateApplicationsSource = _exports2.TemplateApplication = _exports2.Template = _exports2.ProcessorSources = _exports2.ProcessorSource = _exports2.ProcessorOverwrites = _exports2.ProcessorOverwrite = _exports2.ProcessorDependency = _exports2.ProcessorDependencies = _exports2.ProcessorCompilers = _exports2.ProcessorCompiler = _exports2.Processor = _exports2.Modules = _exports2.ModuleTexts = _exports2.ModuleStatics = _exports2.ModuleStatic = _exports2.ModuleDeclarations = _exports2.Module = _exports2.LibraryModules = _exports2.LibraryModule = _exports2.Library = _exports2.LibrariesStatics = _exports2.LibrariesStatic = _exports2.Libraries = _exports2.GlobalBundles = _exports2.GlobalBundle = _exports2.Declarations = _exports2.Declaration = _exports2.Dashboard = _exports2.Consumers = _exports2.Consumer = _exports2.Bundle = _exports2.Bee = _exports2.Applications = _exports2.ApplicationStatics = _exports2.ApplicationStatic = _exports2.ApplicationModules = _exports2.ApplicationModule = _exports2.ApplicationLibrary = _exports2.ApplicationLibraries = _exports2.ApplicationDistributions = _exports2.ApplicationDistribution = _exports2.ApplicationDeployments = _exports2.ApplicationDeployment = _exports2.ApplicationDeclarations = _exports2.Application = void 0;
+  _exports2.hmr = _exports2.TemplateProcessorsSources = _exports2.TemplateProcessorsSource = _exports2.TemplateProcessor = _exports2.TemplateOverwrites = _exports2.TemplateOverwrite = _exports2.TemplateGlobals = _exports2.TemplateGlobalSources = _exports2.TemplateGlobalSource = _exports2.TemplateGlobal = _exports2.TemplateApplicationsSources = _exports2.TemplateApplicationsSource = _exports2.TemplateApplication = _exports2.Template = _exports2.ReactiveModel = _exports2.ProcessorSources = _exports2.ProcessorSource = _exports2.ProcessorOverwrites = _exports2.ProcessorOverwrite = _exports2.ProcessorDependency = _exports2.ProcessorDependencies = _exports2.ProcessorCompilers = _exports2.ProcessorCompiler = _exports2.Processor = _exports2.Modules = _exports2.ModuleTexts = _exports2.ModuleStatics = _exports2.ModuleStatic = _exports2.ModuleDeclarations = _exports2.Module = _exports2.LibraryModules = _exports2.LibraryModule = _exports2.Library = _exports2.LibrariesStatics = _exports2.LibrariesStatic = _exports2.Libraries = _exports2.GlobalBundles = _exports2.GlobalBundle = _exports2.Declarations = _exports2.Declaration = _exports2.Dashboard = _exports2.Consumers = _exports2.Consumer = _exports2.Bundle = _exports2.Bee = _exports2.Applications = _exports2.ApplicationStatics = _exports2.ApplicationStatic = _exports2.ApplicationModules = _exports2.ApplicationModule = _exports2.ApplicationLibrary = _exports2.ApplicationLibraries = _exports2.ApplicationDistributions = _exports2.ApplicationDistribution = _exports2.ApplicationDeployments = _exports2.ApplicationDeployment = _exports2.ApplicationDeclarations = _exports2.Application = void 0;
   const dependencies = new Map();
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
   dependencies.set('@beyond-js/plm/core/ts', dependency_1);
@@ -429,7 +429,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\deployments\item.ts
 
   modules.set('./applications/deployments/item', {
-    hash: 3289117182,
+    hash: 1705528945,
     creator: function (require, exports) {
       "use strict";
 
@@ -466,11 +466,17 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         async addDistribution(params) {
           const specs = {
             applicationId: this.id,
-            deployment: {
-              distributions: [params]
+            distribution: { ...params
             }
           };
-          return await beyond_context_1.module.execute('builder/application/edit', specs);
+
+          try {
+            const response = await beyond_context_1.module.execute('builder/application/setDistribution', specs);
+            console.log(1, "response", response);
+            return response;
+          } catch (e) {
+            console.error(e);
+          }
         }
 
       }
@@ -2064,7 +2070,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: dashboard\model.ts
 
   modules.set('./dashboard/model', {
-    hash: 486717722,
+    hash: 177879737,
     creator: function (require, exports) {
       "use strict";
 
@@ -2075,7 +2081,19 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
       const beyond_context_1 = require("beyond_context");
 
-      class Dashboard {
+      const reactive_model_1 = require("../reactive-model");
+
+      class Dashboard extends reactive_model_1.ReactiveModel {
+        get ready() {
+          return true;
+        }
+
+        #validPort;
+
+        get validPort() {
+          return this.#validPort;
+        }
+
         validate(hash) {
           return beyond_context_1.module.execute('/dashboard/validate', {
             hash: hash
@@ -2083,6 +2101,38 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         }
 
         cleanCache = () => beyond_context_1.module.execute('/dashboard/cleanCache');
+
+        async checkPort(port) {
+          if (!port) throw new Error('port to check is required');
+          this.processing = true;
+
+          try {
+            const path = 'builder/application/checkPort';
+            const response = await beyond_context_1.module.execute(path, {
+              port: port
+            });
+            this.processing = false;
+            return response.valid;
+          } catch (error) {
+            this.processing = false;
+            this.#validPort = false;
+            this.processed = true;
+          }
+        }
+
+        async availablePort(intents = 5) {
+          let cont = 0;
+          let port = 8080;
+
+          while (cont < intents) {
+            const available = await this.checkPort(port);
+            if (available) break;
+            port = port - 100;
+          }
+
+          return port;
+        }
+
       }
 
       exports.Dashboard = Dashboard;
@@ -3910,6 +3960,75 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       };
       ts_1.tables.register('processors-sources', specs);
     }
+  }); // FILE: reactive-model.ts
+
+  modules.set('./reactive-model', {
+    hash: 1207418285,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.ReactiveModel = void 0;
+
+      const ts_1 = require("@beyond-js/kernel/core/ts");
+
+      class ReactiveModel extends ts_1.Events {
+        #id;
+        #processing;
+
+        get processing() {
+          return this.#processing;
+        }
+
+        set processing(value) {
+          if (value === this.#processing) return;
+          this.#processing = value;
+          this.triggerEvent();
+        }
+
+        #fetching;
+
+        get fetching() {
+          return this.#fetching;
+        }
+
+        set fetching(value) {
+          if (value === this.#fetching) return;
+          this.#fetching = value;
+          this.triggerEvent();
+        }
+
+        #processed;
+
+        get processed() {
+          return this.#processed;
+        }
+
+        set processed(value) {
+          if (value === this.#processed) return;
+          this.#processed = value;
+          this.triggerEvent();
+        }
+
+        #fetched;
+
+        get fetched() {
+          return this.#fetched;
+        }
+
+        set fetched(value) {
+          if (value === this.#fetched) return;
+          this.#fetched = value;
+          this.triggerEvent();
+        }
+
+        triggerEvent = (event = 'change') => this.trigger(event);
+      }
+
+      exports.ReactiveModel = ReactiveModel;
+    }
   }); // FILE: realtime\realtime.ts
 
   modules.set('./realtime/realtime', {
@@ -5038,7 +5157,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
     this.off = (event, listener) => void 0;
   }();
   _exports2.hmr = hmr;
-  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource;
+  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, ReactiveModel, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource;
   _exports2.TemplateProcessorsSource = TemplateProcessorsSource;
   _exports2.TemplateProcessorsSources = TemplateProcessorsSources;
   _exports2.TemplateProcessor = TemplateProcessor;
@@ -5052,6 +5171,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   _exports2.TemplateApplicationsSource = TemplateApplicationsSource;
   _exports2.TemplateApplicationsSources = TemplateApplicationsSources;
   _exports2.TemplateApplication = TemplateApplication;
+  _exports2.ReactiveModel = ReactiveModel;
   _exports2.ProcessorSource = ProcessorSource;
   _exports2.ProcessorSources = ProcessorSources;
   _exports2.ProcessorOverwrite = ProcessorOverwrite;
@@ -5140,6 +5260,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
     _exports2.ProcessorOverwrite = ProcessorOverwrite = _exports.ProcessorOverwrite = require('./processors/overwrites/item').ProcessorOverwrite;
     _exports2.ProcessorSources = ProcessorSources = _exports.ProcessorSources = require('./processors/sources/collection').ProcessorSources;
     _exports2.ProcessorSource = ProcessorSource = _exports.ProcessorSource = require('./processors/sources/item').ProcessorSource;
+    _exports2.ReactiveModel = ReactiveModel = _exports.ReactiveModel = require('./reactive-model').ReactiveModel;
     _exports2.TemplateApplication = TemplateApplication = _exports.TemplateApplication = require('./templates/applications/item').TemplateApplication;
     _exports2.TemplateApplicationsSources = TemplateApplicationsSources = _exports.TemplateApplicationsSources = require('./templates/applications/sources/collection').TemplateApplicationsSources;
     _exports2.TemplateApplicationsSource = TemplateApplicationsSource = _exports.TemplateApplicationsSource = require('./templates/applications/sources/item').TemplateApplicationsSource;

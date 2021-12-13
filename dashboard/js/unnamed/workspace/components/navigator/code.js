@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _code, _code2, _code3) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _code, _code2, _code3) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {

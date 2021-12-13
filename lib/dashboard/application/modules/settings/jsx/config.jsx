@@ -1,6 +1,3 @@
-const ConfigContext = React.createContext();
-const useConfigContext = () => React.useContext(ConfigContext);
-
 export function ConfigBoard() {
 
     const [state, setState] = React.useState({});
@@ -9,7 +6,7 @@ export function ConfigBoard() {
     const [active, setActive] = React.useState('general');
     const tabs = {
         general: EditorSettings,
-        apps: ApplicationsTab
+        apps: ApplicationsSettings
     }
     React.useEffect(() => {
         const controller = new Controller();
@@ -29,7 +26,7 @@ export function ConfigBoard() {
         <ConfigContext.Provider value={{editorSettings, active, unpublished, texts, tabs, setActive}}>
             <div className="workspace__board">
                 <Tabs/>
-                <ApplicationsTab/>
+                <ApplicationsSettings/>
             </div>
         </ConfigContext.Provider>
 

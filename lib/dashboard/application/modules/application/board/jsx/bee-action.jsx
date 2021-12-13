@@ -24,5 +24,5 @@ function BeeActions({bee, texts}) {
         }
     }
     const cls = `circle bee--action action--${action}`;
-    return (<DsIconButton onClick={onClick} icon={action} className={cls} title={texts[action]}/>)
+    return (<DSIconButton onClick={onClick} icon={action} className={cls} title={texts[action]}/>)
 }

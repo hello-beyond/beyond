@@ -21,7 +21,7 @@ function PreAsideTab({name, tab}) {
 
     return (
         <li className={cls}>
-            <DsIconButton title={tab.title} icon={tab.icon} {...datas} onClick={onClick}/>
+            <DSIconButton title={tab.title} icon={tab.icon} {...datas} onClick={onClick}/>
         </li>
     )
 }

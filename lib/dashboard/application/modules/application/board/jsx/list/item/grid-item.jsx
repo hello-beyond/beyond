@@ -14,8 +14,8 @@ function GridItem({module, application}) {
                     <Processors module={module}/>
                 </div>
                 <div className="item-information col col-end">
-                    {!!warnings.length && <DsIcon icon="warning" className="icon icon--warning"/>}
-                    {!!errors.length && <DsIcon icon="error" className="icon icon--error"/>}
+                    {!!warnings.length && <DSIcon icon="warning" className="icon icon--warning"/>}
+                    {!!errors.length && <DSIcon icon="error" className="icon icon--error"/>}
                 </div>
             </section>
             <ModuleInformation module={module.module}/>

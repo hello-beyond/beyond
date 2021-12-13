@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/components/tooltip/code"], function (_exports, React, ReactDOM, _code, _code2) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/components/tooltip/code"], function (_exports, React, ReactDOM, _code, _code2) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -48,7 +48,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
   }) {
     return /*#__PURE__*/React.createElement("li", {
       onClick: onClick
-    }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
       icon: icon
     }), label);
   }

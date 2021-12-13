@@ -28,7 +28,7 @@ export function FavoriteAction({item}) {
 
     return (
         <>
-            <DsIcon className="bookmark-icon" onClick={toggleFavorite} icon={favoriteIcon}/>
+            <DSIcon className="bookmark-icon" onClick={toggleFavorite} icon={favoriteIcon}/>
             {showModal
              && <AddFavoriteForm
                  item={item}

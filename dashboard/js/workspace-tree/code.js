@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/modal/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/alert/code", "@beyond-js/ui/image/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/unnamed/components/select/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _js, _ts, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/modal/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/alert/code", "@beyond-js/ui/image/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-select/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _js, _ts, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -415,7 +415,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       showModal: !showModal
     }));
 
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       className: "bookmark-icon",
       onClick: toggleFavorite,
       icon: favoriteIcon
@@ -645,7 +645,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     };
 
     inline = item.inlineActions?.concat(inline);
-    let inlineOutput = inline?.map(action => /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    let inlineOutput = inline?.map(action => /*#__PURE__*/React.createElement(_code8.DSIcon, {
       key: `inline-${action.name}`,
       icon: action.icon,
       onClick: event => onClickInlineAction(event, action)
@@ -1008,7 +1008,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     opened
   }) {
     const clsIcon = `tree__icon-open ${opened ? ` tree__icon--opened` : ''}`;
-    return /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    return /*#__PURE__*/React.createElement(_code8.DSIcon, {
       className: clsIcon,
       icon: "arrowDropDown"
     });
@@ -1064,7 +1064,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       key: name,
       onClick: manageAction,
       "data-action": name
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: icon,
       "data-element": name
     }), texts.actions[name]));
@@ -1115,7 +1115,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }, /*#__PURE__*/React.createElement("div", {
       style: styles,
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: titleIcon
     }), /*#__PURE__*/React.createElement("span", null, branch.label))), /*#__PURE__*/React.createElement(BranchList, {
       opened: opened,
@@ -1362,18 +1362,18 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }), /*#__PURE__*/React.createElement(_code2.BeyondPopover, {
       placement: "right-start",
       className: "item-actions",
-      target: /*#__PURE__*/React.createElement(_code8.DsIcon, {
+      target: /*#__PURE__*/React.createElement(_code8.DSIcon, {
         icon: "moreVert"
       })
     }, /*#__PURE__*/React.createElement("ul", null, actions.create !== false && /*#__PURE__*/React.createElement("li", {
       onClick: onCreate,
       "data-element": "folder"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "file"
     }), texts.createFile), /*#__PURE__*/React.createElement("li", {
       onClick: showDelete,
       "data-element": "folder"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "delete"
     }), texts.delete))), showConfirmDelete && /*#__PURE__*/React.createElement(_code.BeyondConfirmModal, {
       show: true,
@@ -1430,7 +1430,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }, /*#__PURE__*/React.createElement("div", {
       style: styles,
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: titleIcon
     }), /*#__PURE__*/React.createElement("span", null, branch.label))), /*#__PURE__*/React.createElement(BranchList, {
       opened: opened,
@@ -1472,10 +1472,10 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: onClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       className: clsIcon,
       icon: "arrowDropDown"
-    }), /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }), /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `bundle.${branch.label}`
     }), /*#__PURE__*/React.createElement("span", null, branch.label))), !!totalItems && /*#__PURE__*/React.createElement(BranchList, {
       opened: opened,
@@ -1533,7 +1533,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "item__label"
     }, /*#__PURE__*/React.createElement(ArrowTree, {
       opened: opened
-    }), /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }), /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `${branch.icon}`
     }), /*#__PURE__*/React.createElement("span", null, branch.label)), /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DSActions, {
       inline: branch.inlineActions,
@@ -1590,7 +1590,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: onClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `${branch.icon}`
     }), /*#__PURE__*/React.createElement("span", null, branch.label))));
   }
@@ -1690,10 +1690,10 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: onClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       className: clsIcon,
       icon: "arrowDropDown"
-    }), /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }), /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `bundle.default`
     }), /*#__PURE__*/React.createElement("span", null, branch.label))), !!state.totalItems && /*#__PURE__*/React.createElement(BranchList, {
       opened: state.opened,
@@ -1731,10 +1731,10 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: onClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       className: clsOpenIcon,
       icon: "arrowDropDown"
-    }), /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }), /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `processor.${branch.label}`
     }), /*#__PURE__*/React.createElement("span", null, branch.label))), !!totalItems && /*#__PURE__*/React.createElement(BranchList, {
       opened: opened,
@@ -1791,7 +1791,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: onClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `file.${branch.icon}`
     }), /*#__PURE__*/React.createElement("span", null, branchName))));
   }
@@ -1856,7 +1856,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: onClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `file.${icon}1`
     }), /*#__PURE__*/React.createElement("span", null, label, " "))), /*#__PURE__*/React.createElement(DSItemHeader, {
       item: branch,
@@ -1864,7 +1864,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onClick: onClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "item__label"
-    }, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: `file.${branch.icon}`
     }), /*#__PURE__*/React.createElement("span", null, label))));
   }
@@ -1894,10 +1894,10 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       item: tree,
       onClick: onClick,
       className: "tree__title"
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       className: "tree__icon-open",
       icon: "arrowDropDown"
-    }), /*#__PURE__*/React.createElement(_code8.DsIcon, {
+    }), /*#__PURE__*/React.createElement(_code8.DSIcon, {
       className: "title__bundle-icon",
       icon: icon
     })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null, title)));

@@ -54,7 +54,7 @@ function DetailApp({type}) {
                     placeholder={texts.port}
                     onBlur={checkPort}
                     value={state.port} onChange={handleChange}>
-                    <DsIconButton icon="refresh" className="primary" title={texts.port.tooltip}/>
+                    <DSIconButton icon="refresh" className="primary" title={texts.port.tooltip}/>
                     {portText && <span className={clsPortLabel}>{portText}</span>}
                 </BeyondInput>
                 <BeyondInput

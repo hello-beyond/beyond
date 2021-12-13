@@ -21,8 +21,8 @@ function DSBundleBranch({branch, level = 1}) {
                 item={branch}
                 level={level} onClick={onClick}>
                 <div className="item__label">
-                    <DsIcon className={clsIcon} icon="arrowDropDown"/>
-                    <DsIcon icon={`bundle.${branch.label}`}/>
+                    <DSIcon className={clsIcon} icon="arrowDropDown"/>
+                    <DSIcon icon={`bundle.${branch.label}`}/>
                     <span>{branch.label}</span>
                 </div>
             </DSItemHeader>

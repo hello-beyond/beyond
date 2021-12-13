@@ -47,7 +47,7 @@ export function PanelTab({panel, item, id}) {
         const attrs = {className: cls};
         if (isUnique) return null;
         if (!isUnique) attrs.onClick = onClose;
-        return <DsIconButton icon="close" title={texts.actions.close} {...attrs}/>
+        return <DSIconButton icon="close" title={texts.actions.close} {...attrs}/>
     }
 
     return (

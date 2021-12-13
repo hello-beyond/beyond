@@ -6,6 +6,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   });
   _exports.BeyondConfirmModal = _exports.BeyondAlertModal = void 0;
   _exports.BeyondModal = BeyondModal;
+  _exports.useBeyondModalContext = _exports.BeyondModalContext = void 0;
   const {
     beyond
   } = globalThis;
@@ -122,6 +123,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
 
 
   _exports.BeyondAlertModal = BeyondAlertModal;
+  const BeyondModalContext = React.createContext();
+  _exports.BeyondModalContext = BeyondModalContext;
+
+  const useBeyondModalContext = () => React.useContext(BeyondModalContext);
+
+  _exports.useBeyondModalContext = useBeyondModalContext;
 
   const Children = ({
     children,
@@ -145,14 +152,18 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
       if (React.isValidElement(child)) {
         const specs = {}; //TODO: check a official way to check the children type
 
-        if (typeof child.type !== 'string' && close) specs.closeModal = close;
         return React.cloneElement(child, specs);
       }
 
       return child;
     });
     output.push(childrenWithProps);
-    return /*#__PURE__*/React.createElement(React.Fragment, null, output);
+    return /*#__PURE__*/React.createElement(BeyondModalContext.Provider, {
+      value: {
+        close,
+        dismiss
+      }
+    }, output);
   };
   /**********
   confirm.jsx

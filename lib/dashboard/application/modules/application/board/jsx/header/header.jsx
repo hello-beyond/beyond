@@ -25,11 +25,11 @@ function Header() {
             </div>
             <div className="right-col">
                 <div className="actions">
-                    <DsIconButton
+                    <DSIconButton
                         onClick={changeView}
                         data-view="grid" icon="thSolid"
                         className={`circle  ${displayView === 'grid' ? 'active' : ''}`}/>
-                    <DsIconButton
+                    <DSIconButton
                         onClick={changeView} data-view="table" icon="barsSolid"
                         className={`circle  ${displayView === 'table' ? 'active' : ''}`}/>
                 </div>

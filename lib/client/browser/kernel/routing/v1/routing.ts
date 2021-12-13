@@ -30,8 +30,8 @@ export class Routing {
         return this.#uri;
     }
 
-    missing: (uri: URI) => string;
-    redirect: (uri: URI) => string;
+    missing: (uri: URI) => Promise<string>;
+    redirect: (uri: URI) => Promise<string>;
 
     #history;
     get history() {

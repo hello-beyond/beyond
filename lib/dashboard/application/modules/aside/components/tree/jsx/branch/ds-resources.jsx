@@ -29,7 +29,7 @@ function DsResourcesBranch({branch, label, actions, className, level = 1}) {
         <li className={cls}>
             <section className="item__container" onClick={onClick}>
                 <div style={styles} className="item__label">
-                    <DsIcon icon={titleIcon}/>
+                    <DSIcon icon={titleIcon}/>
                     <span>{branch.label}</span>
                 </div>
             </section>

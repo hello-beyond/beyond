@@ -77,7 +77,7 @@ define(["exports", "react", "react-dom"], function (_exports, React, ReactDOM) {
     }, output, props.children), icon && align === 'right' && /*#__PURE__*/React.createElement(DashboardIcon, {
       className: "alert-icon",
       name: icon
-    }), close && /*#__PURE__*/React.createElement(DsIconButton, {
+    }), close && /*#__PURE__*/React.createElement(DSIconButton, {
       onClick: onClickClose,
       className: "beyond-alert__close-icon xs",
       icon: "close"

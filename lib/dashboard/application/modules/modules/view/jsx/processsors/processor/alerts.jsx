@@ -7,7 +7,7 @@ function ProcessorAlerts({warnings, errors}) {
     const print = (item, key, type, identifier = undefined) => {
         return (
             <li key={`module-${key}-${type}`}>
-                <DsIcon className={`icon-${type}`} name={type}/>
+                <DSIcon className={`icon-${type}`} name={type}/>
                 <div className="content">
                     {identifier && <strong>{identifier} </strong>}
                     <span>{item}</span>

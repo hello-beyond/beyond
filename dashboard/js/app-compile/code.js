@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code"], function (_exports, React, ReactDOM, _code, _code2, _ts, _js, _code3, _code4) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/core-components/code"], function (_exports, React, ReactDOM, _code, _code2, _ts, _js, _code3, _code4, _code5, _code6, _code7, _code8) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -23,6 +23,163 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
   JSX PROCESSOR
   ************/
 
+  /********
+  board.jsx
+  ********/
+
+
+  const CompilerContext = React.createContext();
+
+  const useCompilerContext = () => React.useContext(CompilerContext);
+
+  function CompileBoard(props) {
+    const [state, setState] = React.useState({});
+    const [ready, setReady] = React.useState(controller.ready);
+    (0, _code6.useBinder)([controller], () => setReady(controller.ready));
+    React.useEffect(() => {
+      if (props.specs.id) controller.getApp([props.specs.id]);
+      setReady(controller.ready);
+    }, [props.specs]);
+    if (!ready) return /*#__PURE__*/React.createElement(_code8.DsFetchingBlock, null);
+    const {
+      texts,
+      application,
+      error
+    } = controller;
+
+    const onSelectEnvironment = event => {
+      const target = event.currentTarget;
+      const {
+        environment
+      } = target.dataset;
+      target.closest('.block-options').querySelectorAll('.active').forEach(item => item.classList.remove('active'));
+      target.classList.toggle('active');
+      setState({
+        environment: environment
+      });
+    };
+
+    function onPlatformSelect(event) {
+      const target = event.currentTarget;
+      const {
+        value
+      } = target.dataset;
+      target.closest('.block-options').querySelectorAll('.active').forEach(item => item.classList.remove('active'));
+      target.classList.toggle('active');
+      const state = {
+        platform: value
+      };
+      if (value === 'web') state.os = false;
+      setState(state);
+    }
+
+    function onOSSelect(event) {
+      const target = event.currentTarget;
+      const {
+        value
+      } = target.dataset;
+      target.closest('.block-options').querySelectorAll('.active').forEach(item => item.classList.remove('active'));
+      target.classList.toggle('active');
+      setState({
+        os: value
+      });
+    }
+
+    function changeValue(event) {
+      const target = event.currentTarget;
+      const {
+        property
+      } = target.dataset;
+      const value = {};
+      value[property] = undefined;
+      setState(value);
+    }
+
+    function setSwitch(event) {
+      const target = event.currentTarget;
+      const value = {};
+      value[target.name] = target.checked;
+      setState({ ...state,
+        value
+      });
+    }
+
+    const togglePrevious = () => setState(state => ({ ...state,
+      openPrevious: !state.openPrevious
+    }));
+
+    function compile(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      setState({ ...state,
+        showCompilation: true
+      });
+      const specs = {
+        environment: state.environment,
+        platform: state.platform === 'web' ? 'web' : state.os,
+        ssr: true,
+        compress: state.compress,
+        icons: state.icons
+      };
+      application.builder.build(specs);
+    }
+
+    function onClose() {
+      setState({ ...state,
+        showCompilation: undefined
+      });
+    }
+
+    const {
+      environment,
+      platform,
+      os
+    } = state;
+    const isValid = environment && platform && (platform === 'web' || !!os);
+    const value = {
+      texts: texts,
+      application,
+      builder: application.builder,
+      ready,
+      ...state,
+      onSelectEnvironment: onSelectEnvironment,
+      onPlatformSelect: onPlatformSelect,
+      onOSSelect: onOSSelect,
+      changeValue: changeValue,
+      isValid: isValid,
+      previousOpened: state.openPrevious,
+      togglePrevious: togglePrevious
+    };
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CompilerContext.Provider, {
+      value: value
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "ds-container app-application-compile-page"
+    }, /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h4", null, texts.title), /*#__PURE__*/React.createElement("h5", null, texts.subtitle)), /*#__PURE__*/React.createElement(PreviousCompilations, {
+      open: state.openPrevious
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "panels"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "form-container"
+    }, /*#__PURE__*/React.createElement(Environment, null), /*#__PURE__*/React.createElement(Platform, null), /*#__PURE__*/React.createElement(OsFields, null))), /*#__PURE__*/React.createElement("hr", null), isValid && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "column__right-content"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex-column"
+    }, /*#__PURE__*/React.createElement(BeyondSwitch, {
+      name: "compress",
+      value: true,
+      onChange: setSwitch
+    }), /*#__PURE__*/React.createElement("label", null, texts.compress))), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("footer", {
+      className: "center-block"
+    }, /*#__PURE__*/React.createElement(BeyondButton, {
+      onClick: compile,
+      className: "primary btn-block"
+    }, texts.actions.compile)))))), state.showCompilation && /*#__PURE__*/React.createElement(CompilationModal, {
+      texts: texts,
+      onClose: onClose,
+      builder: application.builder,
+      openPrevious: togglePrevious
+    }));
+  }
   /**************
   compilation.jsx
   **************/
@@ -193,7 +350,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
       }, /*#__PURE__*/React.createElement("figure", {
         className: "active",
         "data-environment": "development"
-      }, /*#__PURE__*/React.createElement(DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
         icon: "code"
       }), /*#__PURE__*/React.createElement("h4", null, texts.environments.dev.title), /*#__PURE__*/React.createElement("button", {
         "data-property": "environment",
@@ -209,12 +366,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
     }, /*#__PURE__*/React.createElement("figure", {
       onClick: onSelectEnvironment,
       "data-environment": "development"
-    }, /*#__PURE__*/React.createElement(DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "code"
     }), /*#__PURE__*/React.createElement("h4", null, texts.environments.dev.title), /*#__PURE__*/React.createElement("p", null, texts.environments.dev.description)), /*#__PURE__*/React.createElement("figure", {
       onClick: onSelectEnvironment,
       "data-environment": "production"
-    }, /*#__PURE__*/React.createElement(DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "cloudDone"
     }), /*#__PURE__*/React.createElement("h4", null, texts.environments.prod.title), /*#__PURE__*/React.createElement("p", null, texts.environments.prod.description))));
   }
@@ -242,7 +399,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
         className: "active",
         "data-property": "os",
         "data-value": "android"
-      }, /*#__PURE__*/React.createElement(DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
         icon: "mobile"
       }), /*#__PURE__*/React.createElement("h4", null, texts.so[os].title), /*#__PURE__*/React.createElement("button", {
         "data-property": "os",
@@ -259,13 +416,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
       onClick: onOSSelect,
       "data-property": "os",
       "data-value": "android"
-    }, /*#__PURE__*/React.createElement(DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "mobile"
     }), /*#__PURE__*/React.createElement("h4", null, texts.so.android.title), /*#__PURE__*/React.createElement("span", null, texts.so.android.description)), /*#__PURE__*/React.createElement("figure", {
       onClick: onOSSelect,
       "data-property": "os",
       "data-value": "ios"
-    }, /*#__PURE__*/React.createElement(DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "ios"
     }), /*#__PURE__*/React.createElement("h4", null, texts.so.ios.title), /*#__PURE__*/React.createElement("span", null, texts.so.ios.description))));
   }
@@ -293,7 +450,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
         className: "active",
         "data-property": "platform",
         "data-value": "mobile"
-      }, /*#__PURE__*/React.createElement(DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
         icon: "responsive"
       }), /*#__PURE__*/React.createElement("h4", null, texts.platforms[platform].title), /*#__PURE__*/React.createElement("button", {
         "data-property": "platform",
@@ -310,13 +467,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
       onClick: onPlatformSelect,
       "data-property": "platform",
       "data-value": "mobile"
-    }, /*#__PURE__*/React.createElement(DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "mobile"
     }), /*#__PURE__*/React.createElement("h4", null, texts.platforms.mobile.title), /*#__PURE__*/React.createElement("span", null, texts.platforms.mobile.description)), /*#__PURE__*/React.createElement("figure", {
       onClick: onPlatformSelect,
       "data-property": "platform",
       "data-value": "web"
-    }, /*#__PURE__*/React.createElement(DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
       icon: "responsive"
     }), /*#__PURE__*/React.createElement("h4", null, texts.platforms.web.title), /*#__PURE__*/React.createElement("span", null, texts.platforms.web.description)))));
   }
@@ -355,7 +512,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
           key: key
         }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h5", {
           className: "primary-color upper"
-        }, build.platform), /*#__PURE__*/React.createElement("strong", null, texts.builds.path, ":"), " ", /*#__PURE__*/React.createElement("span", null, build.base)), /*#__PURE__*/React.createElement(DsIconButton, {
+        }, build.platform), /*#__PURE__*/React.createElement("strong", null, texts.builds.path, ":"), " ", /*#__PURE__*/React.createElement("span", null, build.base)), /*#__PURE__*/React.createElement(DSIconButton, {
           className: "primary",
           icon: "delete",
           onClick: onDelete
@@ -381,187 +538,57 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/layout/he
       className: "list-builds"
     }, builds))));
   }
-  /*******
-  view.jsx
-  *******/
-
-
-  const CompilerContext = React.createContext();
-
-  const useCompilerContext = () => React.useContext(CompilerContext);
-
-  function CompileBoard() {
-    const {
-      workspace: {
-        application
-      }
-    } = useDSWorkspaceContext();
-    const [state, setState] = React.useState({});
-    React.useEffect(() => {
-      const onChange = () => {
-        setState({ ...state,
-          texts: module.texts.value,
-          ready: module.texts.ready
-        });
-      };
-
-      module.texts.bind('change', onChange);
-      return () => module.texts.unbind('change', onChange);
-    }, []);
-
-    const onSelectEnvironment = event => {
-      const target = event.currentTarget;
-      const {
-        environment
-      } = target.dataset;
-      target.closest('.block-options').querySelectorAll('.active').forEach(item => item.classList.remove('active'));
-      target.classList.toggle('active');
-      setState({
-        environment: environment
-      });
-    };
-
-    function onPlatformSelect(event) {
-      const target = event.currentTarget;
-      const {
-        value
-      } = target.dataset;
-      target.closest('.block-options').querySelectorAll('.active').forEach(item => item.classList.remove('active'));
-      target.classList.toggle('active');
-      const state = {
-        platform: value
-      };
-      if (value === 'web') state.os = false;
-      setState(state);
-    }
-
-    function onOSSelect(event) {
-      const target = event.currentTarget;
-      const {
-        value
-      } = target.dataset;
-      target.closest('.block-options').querySelectorAll('.active').forEach(item => item.classList.remove('active'));
-      target.classList.toggle('active');
-      setState({
-        os: value
-      });
-    }
-
-    function changeValue(event) {
-      const target = event.currentTarget;
-      const {
-        property
-      } = target.dataset;
-      const value = {};
-      value[property] = undefined;
-      setState(value);
-    }
-
-    function setSwitch(event) {
-      const target = event.currentTarget;
-      const value = {};
-      value[target.name] = target.checked;
-      setState({ ...state,
-        value
-      });
-    }
-
-    const togglePrevious = () => setState(state => ({ ...state,
-      openPrevious: !state.openPrevious
-    }));
-
-    function compile(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      setState({ ...state,
-        showCompilation: true
-      });
-      const specs = {
-        environment: state.environment,
-        platform: state.platform === 'web' ? 'web' : state.os,
-        ssr: true,
-        compress: state.compress,
-        icons: state.icons
-      };
-      application.builder.build(specs);
-    }
-
-    function onClose() {
-      setState({ ...state,
-        showCompilation: undefined
-      });
-    }
-
-    if (!state.ready) return /*#__PURE__*/React.createElement(DsFetchingBlock, null);
-    const {
-      texts
-    } = state;
-    const {
-      environment,
-      platform,
-      os
-    } = state;
-    const isValid = environment && platform && (platform === 'web' || !!os);
-    const value = {
-      texts: texts,
-      application: application,
-      builder: application.builder,
-      ready: ready,
-      ...state,
-      onSelectEnvironment: onSelectEnvironment,
-      onPlatformSelect: onPlatformSelect,
-      onOSSelect: onOSSelect,
-      changeValue: changeValue,
-      isValid: isValid,
-      previousOpened: state.openPrevious,
-      togglePrevious: togglePrevious
-    };
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CompilerContext.Provider, {
-      value: value
-    }, /*#__PURE__*/React.createElement(_code.DsHeaderBar, null, /*#__PURE__*/React.createElement("div", {
-      className: "left-col"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "title-col"
-    }, /*#__PURE__*/React.createElement(_code2.DsBreadcrumb, {
-      items: items
-    }), /*#__PURE__*/React.createElement("h2", {
-      className: "title primary-color"
-    }, application.name)))), /*#__PURE__*/React.createElement("div", {
-      className: "ds-container app-application-compile-page"
-    }, /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h4", null, texts.title), /*#__PURE__*/React.createElement("h5", null, texts.subtitle)), /*#__PURE__*/React.createElement(PreviousCompilations, {
-      open: state.openPrevious
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "panels"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "form-container"
-    }, /*#__PURE__*/React.createElement(Environment, null), /*#__PURE__*/React.createElement(Platform, null), /*#__PURE__*/React.createElement(OsFields, null))), /*#__PURE__*/React.createElement("hr", null), isValid && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "column__right-content"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "flex-column"
-    }, /*#__PURE__*/React.createElement(BeyondSwitch, {
-      name: "compress",
-      value: true,
-      onChange: setSwitch
-    }), /*#__PURE__*/React.createElement("label", null, texts.compress))), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("footer", {
-      className: "center-block"
-    }, /*#__PURE__*/React.createElement(BeyondButton, {
-      onClick: compile,
-      className: "primary btn-block"
-    }, texts.actions.compile)))))), state.showCompilation && /*#__PURE__*/React.createElement(CompilationModal, {
-      texts: texts,
-      onClose: onClose,
-      builder: application.builder,
-      openPrevious: togglePrevious
-    }));
-  }
   /***********
   JS PROCESSOR
   ***********/
 
+  /******************
+  FILE: controller.js
+  ******************/
+
+
+  const controller = new class extends _js.ReactiveModel {
+    get texts() {
+      return module.texts.value;
+    }
+
+    get ready() {
+      return module.texts.ready && (this.#application || this.#error);
+    }
+
+    #application;
+
+    get application() {
+      return this.#application.application;
+    }
+
+    #error;
+
+    get error() {
+      return this.#error;
+    }
+
+    constructor() {
+      super();
+      module.texts.bind('change', this.triggerEvent);
+    }
+
+    async getApp(id) {
+      const application = await _code7.applicationsFactory.get(id);
+
+      if (!application) {
+        this.#error = 'APP_NOT_FOUND';
+      }
+
+      this.#application = application;
+      window._app = this.application;
+      this.triggerEvent();
+    }
+
+  }();
   /**********
   SCSS STYLES
   **********/
-
 
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-modal.ds-modal-compilation .beyond-element-spinner{position:absolute;right:20px;top:20px}.ds-modal.ds-modal-compilation .hidden{display:none}.ds-modal.ds-modal-compilation .beyond-button{display:grid;width:70%;margin:auto}.ds-modal.ds-modal-compilation .ds-modal__content{padding:20px;position:relative;display:grid}.ds-modal.ds-modal-compilation .ds-modal__content .compilation__message,.ds-modal.ds-modal-compilation .ds-modal__content .ds-modal__actions{margin:15px 0 0}.ds-modal.ds-modal-compilation .list-builds{list-style:none;padding:20px}.ds-modal.ds-modal-compilation .list-builds li{border-bottom:1px solid #f0f0f0;display:grid;grid-template-columns:1fr auto;padding:8px;align-items:center}.ds-modal.ds-modal-compilation .list-builds li h5{padding:0;color:#ff8056}.ds-modal.ds-modal-compilation .list-builds li:last-child{border-bottom:none}.app-application-compile-page header{padding:15px;margin-bottom:30px}.app-application-compile-page header h4,.app-application-compile-page header h5{padding:0;margin:0}.app-application-compile-page header h5{margin-top:8px;color:#ff8056}.app-application-compile-page .panels{display:grid}.app-application-compile-page .panels .form-container{display:grid;grid-auto-flow:column}.app-application-compile-page .panels .form-section{display:grid;grid-template-rows:50px auto}.app-application-compile-page .panels .form-section:nth-child(2) .block-options figure.active{background:#ff7142}.app-application-compile-page .panels .form-section:nth-child(2) .block-options figure.active:hover{background:#ff612d}.app-application-compile-page .panels .form-section:nth-child(3) .block-options figure.active{background:#ff5a23}.app-application-compile-page .panels .form-section:nth-child(3) .block-options figure.active:hover{background:#ff8056}.app-application-compile-page .block-options{display:flex;display:flex}.app-application-compile-page .block-options p{font-size:12px}.app-application-compile-page .block-options figure{flex:1 1 0;display:grid;flex-direction:column;text-align:center;align-items:center;padding:40px;cursor:pointer;gap:8px;margin:0;justify-content:center;text-align:center;transition:all 150ms ease-in}.app-application-compile-page .block-options figure h4{padding:0 0 8px}.app-application-compile-page .block-options figure svg{height:4rem;width:4rem;margin:auto;fill:#FF8056}.app-application-compile-page .block-options figure.active,.app-application-compile-page .block-options figure:hover{transition:all 150ms ease-in;background:#ff8056;color:#fff}.app-application-compile-page .block-options figure.active svg,.app-application-compile-page .block-options figure:hover svg{fill:#fff}.app-application-compile-page .block-options figure.active:hover,.app-application-compile-page .block-options figure:hover:hover{background:rgba(0,0,0,.5)}.app-application-compile-page .block-options figure.active:hover svg,.app-application-compile-page .block-options figure:hover:hover svg{fill:#FF8056}.app-application-compile-page .block-options figure.active.active:hover,.app-application-compile-page .block-options figure:hover.active:hover{background:#ff6d3d}.app-application-compile-page .block-options figure.active.active:hover svg,.app-application-compile-page .block-options figure:hover.active:hover svg{fill:#fff}.app-application-compile-page .block-options figure{flex:1}.app-application-compile-page .block-options figure:hover h4{color:#ff8056}.app-application-compile-page .block-options figure.active:hover h4{color:#fff}.app-application-compile-page .checkbox-section,.app-application-compile-page .flex-column{display:flex;gap:15px}.app-application-compile-page .flex-column{padding:8px 15px}.app-application-compile-page .flex-column+.app-application-compile-page .flex-column{padding-left:30px}.app-application-compile-page .column__right-content{display:flex;justify-content:flex-end}';

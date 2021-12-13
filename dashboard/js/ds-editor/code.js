@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _code, _js, _code2) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _code, _js, _code2) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -893,7 +893,7 @@ export const module = <Module>null;
         className: cls
       }, this.state.isUnpublished ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
         className: "ds-editor__icons"
-      }, /*#__PURE__*/React.createElement(_code.DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code.DSIcon, {
         icon: "save"
       }))) : null, /*#__PURE__*/React.createElement("div", {
         className: "vs-editor",

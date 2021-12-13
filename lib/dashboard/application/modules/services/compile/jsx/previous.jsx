@@ -29,7 +29,7 @@ function PreviousCompilations({open}) {
                         <h5 className="primary-color upper">{build.platform}</h5>
                         <strong>{texts.builds.path}:</strong> <span>{build.base}</span>
                     </div>
-                    <DsIconButton className="primary" icon="delete" onClick={onDelete}/>
+                    <DSIconButton className="primary" icon="delete" onClick={onDelete}/>
 
                 </li>
             );

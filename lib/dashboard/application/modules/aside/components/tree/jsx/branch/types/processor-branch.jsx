@@ -15,8 +15,8 @@ function DSProcessorBranch({branch, level = 1}) {
         <li className="item" tabIndex="-1">
             <DSItemHeader item={branch} level={level} onClick={onClick}>
                 <div className="item__label">
-                    <DsIcon className={clsOpenIcon} icon="arrowDropDown"/>
-                    <DsIcon icon={`processor.${branch.label}`}/>
+                    <DSIcon className={clsOpenIcon} icon="arrowDropDown"/>
+                    <DSIcon icon={`processor.${branch.label}`}/>
                     <span>{branch.label}</span>
                 </div>
             </DSItemHeader>

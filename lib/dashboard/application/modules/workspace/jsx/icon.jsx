@@ -2,7 +2,7 @@ function IconLogo() {
     return (
 
         <div className="ds-preload__icon-container">
-            <DsIcon className="ds-preload__icon" icon={
+            <DSIcon className="ds-preload__icon" icon={
                 {
                     viewBox: '0 0 51.1 94.341',
                     icon: `<g id="beyond-ales" transform="translate(0 58.014)">

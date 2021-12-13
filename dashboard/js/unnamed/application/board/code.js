@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/preload-text/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/unnamed/components/binder/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/components/tooltip/code", "@beyond-js/dashboard/unnamed/workspace/components/uploader/code", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/unnamed/workspace/context/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15) {
+define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/preload-text/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/components/tooltip/code", "@beyond-js/dashboard/unnamed/workspace/components/uploader/code", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -302,7 +302,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "description-item"
     }, /*#__PURE__*/React.createElement("p", {
       className: "p1 p-0"
-    }, fieldValue), /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }, fieldValue), /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       onClick: toggleEdit,
       icon: "edit"
     })));
@@ -364,7 +364,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     };
 
     const cls = `circle bee--action action--${action}`;
-    return /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    return /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       onClick: onClick,
       icon: action,
       className: cls,
@@ -516,12 +516,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "right-col"
     }, /*#__PURE__*/React.createElement("div", {
       className: "actions"
-    }, /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       onClick: changeView,
       "data-view": "grid",
       icon: "thSolid",
       className: `circle  ${displayView === 'grid' ? 'active' : ''}`
-    }), /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }), /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       onClick: changeView,
       "data-view": "table",
       icon: "barsSolid",
@@ -606,7 +606,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     return /*#__PURE__*/React.createElement("div", {
       className: "actions"
-    }, /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       ref: runAction,
       onClick: toggleApp,
       icon: iconApp,
@@ -783,10 +783,10 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       module: module
     })), /*#__PURE__*/React.createElement("div", {
       className: "item-information col col-end"
-    }, !!warnings.length && /*#__PURE__*/React.createElement(_code13.DsIcon, {
+    }, !!warnings.length && /*#__PURE__*/React.createElement(_code13.DSIcon, {
       icon: "warning",
       className: "icon icon--warning"
-    }), !!errors.length && /*#__PURE__*/React.createElement(_code13.DsIcon, {
+    }), !!errors.length && /*#__PURE__*/React.createElement(_code13.DSIcon, {
       icon: "error",
       className: "icon icon--error"
     }))), /*#__PURE__*/React.createElement(ModuleInformation, {
@@ -882,7 +882,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       });
     };
 
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code13.DsIcon, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code13.DSIcon, {
       icon: "moreVert",
       className: "actions-icon",
       onClick: onClick
@@ -893,13 +893,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", {
       onClick: openModal,
       "data-action": "rename"
-    }, /*#__PURE__*/React.createElement(_code13.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code13.DSIcon, {
       icon: "edit",
       "data-element": "file"
     }), "Duplicar"), /*#__PURE__*/React.createElement("li", {
       onClick: openConfirm,
       "data-action": "delete"
-    }, /*#__PURE__*/React.createElement(_code13.DsIcon, {
+    }, /*#__PURE__*/React.createElement(_code13.DSIcon, {
       icon: "delete"
     }), "Eliminar"))), state.modal && /*#__PURE__*/React.createElement(ItemCloneAction, {
       module: module,
@@ -1059,7 +1059,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       width: "50px"
     })), /*#__PURE__*/React.createElement("div", {
       className: "description-item"
-    }, /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       icon: "edit"
     }))), /*#__PURE__*/React.createElement("div", {
       className: "item-information"
@@ -1068,7 +1068,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       width: "50px"
     })), /*#__PURE__*/React.createElement("div", {
       className: "description-item"
-    }, /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       icon: "edit"
     }))))), /*#__PURE__*/React.createElement("div", {
       className: "ds-board__application application-header"
@@ -1095,11 +1095,11 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "right-col"
     }, /*#__PURE__*/React.createElement("div", {
       className: "actions"
-    }, /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       "data-view": "grid",
       icon: "thSolid",
       className: `circle`
-    }), /*#__PURE__*/React.createElement(_code13.DsIconButton, {
+    }), /*#__PURE__*/React.createElement(_code13.DSIconButton, {
       "data-view": "table",
       icon: "thSolid",
       className: `circle`

@@ -56,7 +56,7 @@ function EditField({field}) {
             <div>{label}</div>
             <div className="description-item">
                 <p className="p1 p-0">{fieldValue}</p>
-                <DsIconButton onClick={toggleEdit} icon="edit"/>
+                <DSIconButton onClick={toggleEdit} icon="edit"/>
             </div>
 
         </div>

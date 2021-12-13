@@ -38,9 +38,16 @@ class ApplicationDeployment extends Item {
     async addDistribution(params: DistributionSpecs) {
         const specs = {
             applicationId: this.id,
-            deployment: {distributions: [params]}
+            distribution: {...params}
         };
 
-        return await module.execute('builder/application/edit', specs);
+        try {
+            const response = await module.execute('builder/application/setDistribution', specs)
+            console.log(1, "response", response)
+            return response;
+        } catch (e) {
+            console.error(e)
+        }
+
     }
 }

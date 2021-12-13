@@ -14,7 +14,7 @@ function ServiceActions() {
 
     return (
         <div className="actions">
-            <DsIconButton
+            <DSIconButton
                 ref={runAction}
                 onClick={toggleApp} icon={iconApp} className="circle secondary active"/>
         </div>

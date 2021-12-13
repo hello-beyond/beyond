@@ -25,7 +25,7 @@ function DSActions({item, fetching, setModalAction, inline = []}) {
 
     inline = item.inlineActions?.concat(inline);
     let inlineOutput = inline?.map(action =>
-        <DsIcon key={`inline-${action.name}`} icon={action.icon} onClick={event => onClickInlineAction(event, action)}/>
+        <DSIcon key={`inline-${action.name}`} icon={action.icon} onClick={event => onClickInlineAction(event, action)}/>
     );
     if (fetching) inlineOutput = <BeyondSpinner active className="primary"/>
     return (

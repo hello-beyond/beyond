@@ -1,4 +1,4 @@
-export function DSSelect({options, value, onSelect}) {
+export function DSSelect({options, value, name, onSelect}) {
     const [opened, toggle] = React.useState();
     const [label, setValue] = React.useState(value)
     const icon = opened ? 'arrowDropUp' : 'arrowDropDown';
@@ -15,7 +15,7 @@ export function DSSelect({options, value, onSelect}) {
         const target = event.currentTarget;
         const ele = map.get(target.dataset.value);
         setValue(ele.label);
-
+        ele.target = {name, value: ele.value};
         if (onSelect) onSelect(ele);
     }
     const items = options.map(item => {

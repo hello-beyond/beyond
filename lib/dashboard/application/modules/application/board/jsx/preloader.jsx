@@ -17,7 +17,7 @@ function Preloader() {
                     <div className="item-information">
                         <div><BeyondPreloadText height="7px" width="50px"/></div>
                         <div className="description-item">
-                            <DsIconButton icon="edit"/>
+                            <DSIconButton icon="edit"/>
                         </div>
 
                     </div>
@@ -25,7 +25,7 @@ function Preloader() {
                         <div><BeyondPreloadText height="7px" width="50px"/></div>
                         <div className="description-item">
 
-                            <DsIconButton icon="edit"/>
+                            <DSIconButton icon="edit"/>
                         </div>
 
                     </div>
@@ -50,8 +50,8 @@ function Preloader() {
                 </div>
                 <div className="right-col">
                     <div className="actions">
-                        <DsIconButton data-view="grid" icon="thSolid" className={`circle`}/>
-                        <DsIconButton data-view="table" icon="thSolid" className={`circle`}/>
+                        <DSIconButton data-view="grid" icon="thSolid" className={`circle`}/>
+                        <DSIconButton data-view="table" icon="thSolid" className={`circle`}/>
                     </div>
                     <div className="actions">
                         <span className="tag"> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>

@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/unnamed/components/core/code", "@beyond-js/dashboard/unnamed/workspace/context/code", "@beyond-js/dashboard/unnamed/components/binder/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4, _code5) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4, _code5) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -245,10 +245,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       })();
     }, [specs.moduleId]);
     if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready) return null;
-    const texts = module.texts.value; // if (!moduleManager.active?.module?.found && !moduleManager.active.module?.fetching) {
-    //     return <h2>Modulo no conseguido</h2>
-    // }
-
+    const texts = module.texts.value;
     return /*#__PURE__*/React.createElement(ModuleContext.Provider, {
       value: {
         model,
@@ -350,7 +347,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       className: "description-item"
     }, /*#__PURE__*/React.createElement("p", {
       className: "p1 p-0"
-    }, fieldValue), /*#__PURE__*/React.createElement(_code3.DsIconButton, {
+    }, fieldValue), /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       onClick: toggleEdit,
       icon: "edit"
     })));
@@ -524,7 +521,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       className: "upper primary-color no-pd"
     }, texts.title)), /*#__PURE__*/React.createElement("div", {
       className: "col-right"
-    }, "Files ", module.dependencies?.files?.length, /*#__PURE__*/React.createElement(_code3.DsIconButton, {
+    }, "Files ", module.dependencies?.files?.length, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       onClick: toggleContent,
       className: "circle expand-icon",
       icon: "expandMore"
@@ -534,7 +531,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       className: "p2 primary-color bundle-processor_title"
     }, texts.subtitle, /*#__PURE__*/React.createElement("div", {
       className: "pull-right"
-    }, /*#__PURE__*/React.createElement(_code3.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       onClick: update,
       icon: "refresh",
       className: "circle small-icon"
@@ -558,7 +555,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
     const print = (item, key, type, identifier = undefined) => {
       return /*#__PURE__*/React.createElement("li", {
         key: `module-${key}-${type}`
-      }, /*#__PURE__*/React.createElement(_code3.DsIcon, {
+      }, /*#__PURE__*/React.createElement(_code3.DSIcon, {
         className: `icon-${type}`,
         name: type
       }), /*#__PURE__*/React.createElement("div", {
@@ -615,7 +612,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
     }, processor.name === 'ts' && /*#__PURE__*/React.createElement("span", {
       className: "btn link",
       onClick: declarations
-    }, texts.actions.declarations), "Files ", processor.files.items.length, /*#__PURE__*/React.createElement(_code3.DsIconButton, {
+    }, texts.actions.declarations), "Files ", processor.files.items.length, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       onClick: toggleContent,
       className: "circle expand-icon",
       icon: "expandMore"
@@ -800,7 +797,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       className: "upper primary-color no-pd"
     }, texts.title)), /*#__PURE__*/React.createElement("div", {
       className: "col-right"
-    }, /*#__PURE__*/React.createElement(_code3.DsIconButton, {
+    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       onClick: toggleContent,
       className: "circle expand-icon",
       icon: "expandMore"

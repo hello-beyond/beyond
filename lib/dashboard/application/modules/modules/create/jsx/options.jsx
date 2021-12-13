@@ -37,7 +37,7 @@ function Options() {
             <section
                 data-template={id} data-index={index} onClick={onClick}
                 className="template-list__item" key={`${id}-${origin}-${index}`}>
-                <DsIcon icon={icon}/>
+                <DSIcon icon={icon}/>
                 <h5>{title}</h5>
                 <p>{description}</p>
             </section>

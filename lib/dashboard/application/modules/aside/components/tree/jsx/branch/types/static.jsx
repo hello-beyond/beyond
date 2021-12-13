@@ -39,7 +39,7 @@ function DSStaticBranch({branch, level}) {
                       data-type="overwrite"
                       onClick={onClick}>
                  <div className="item__label">
-                     <DsIcon icon={`file.${icon}1`}/>
+                     <DSIcon icon={`file.${icon}1`}/>
                      <span>{label} </span>
                  </div>
                  {/*<DSInlineActions item={branch}/>*/}
@@ -47,7 +47,7 @@ function DSStaticBranch({branch, level}) {
             }
             <DSItemHeader item={branch} level={level} onClick={onClick}>
                 <div className="item__label">
-                    <DsIcon icon={`file.${branch.icon}`}/>
+                    <DSIcon icon={`file.${branch.icon}`}/>
                     <span>{label}</span>
                 </div>
             </DSItemHeader>

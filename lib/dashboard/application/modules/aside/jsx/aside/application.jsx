@@ -40,7 +40,7 @@ function ApplicationTree({tree}) {
             </header>
 
             <div className="aside__link" onClick={openInfo}>
-                <DsIcon icon="info"/>
+                <DSIcon icon="info"/>
                 <span> Information </span>
             </div>
             {toPrint}

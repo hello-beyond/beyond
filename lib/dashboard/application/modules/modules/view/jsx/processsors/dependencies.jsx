@@ -23,7 +23,7 @@ function Dependencies({processor}) {
                 </div>
                 <div className="col-right">
                     Files {module.dependencies?.files?.length}
-                    <DsIconButton
+                    <DSIconButton
                         onClick={toggleContent}
                         className="circle expand-icon" icon="expandMore"/>
                 </div>
@@ -33,7 +33,7 @@ function Dependencies({processor}) {
                     <h4 className="p2 primary-color bundle-processor_title">
                         {texts.subtitle}
                         <div className="pull-right">
-                            <DsIconButton
+                            <DSIconButton
                                 onClick={update} icon="refresh" className="circle small-icon"/>
                         </div>
                     </h4>
