@@ -1174,7 +1174,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\styles.ts
 
   modules.set('./bundles/styles', {
-    hash: 3555636179,
+    hash: 746292541,
     creator: function (require, exports) {
       "use strict";
 
@@ -1221,7 +1221,7 @@ define(["exports"], function (_exports) {
 
         set value(value) {
           // Find and replace #host...
-          const regexp = /#host\.(.*)#([^.]*\.[\w\d]*)/g;
+          const regexp = /#host\.([\w\d]*)#([^.]*\.[\w\d]*)/g;
           this.#value = value.replace(regexp, (match, host, resource) => {
             if (host === 'module' || host === 'library') {
               return `${this.#bundle.container.pathname}/static/${resource}`;

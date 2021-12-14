@@ -37,7 +37,7 @@ class BundleStyles extends Events {
     #value: string;
     set value(value: string) {
         // Find and replace #host...
-        const regexp = /#host\.(.*)#([^.]*\.[\w\d]*)/g;
+        const regexp = /#host\.([\w\d]*)#([^.]*\.[\w\d]*)/g;
         this.#value = value.replace(regexp, (match, host, resource) => {
             if (host === 'module' || host === 'library') {
                 return `${this.#bundle.container.pathname}/static/${resource}`;
