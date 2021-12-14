@@ -2,9 +2,10 @@ import {Action} from "../service/action";
 import {ModuleTexts} from "./texts";
 import {Bundles} from "../bundles/bundles";
 import {Application} from "../application/application";
-import {Library} from "../libraries/library";
 import {PackageData} from "../package/data";
+import type {Library} from "../libraries/library";
 import type {Socket} from "socket.io";
+import type {Beyond} from "../beyond";
 
 export type Container = Application | Library;
 
@@ -34,6 +35,18 @@ class Module {
     readonly #id: string;
     get id(): string {
         return this.#id;
+    }
+
+    #beyond: Beyond;
+    get beyond(): Beyond {
+        if (this.#beyond) return this.#beyond;
+        return this.#beyond = require('../beyond').beyond;
+    }
+
+    get pathname(): string {
+        const {beyond} = this;
+        const path = this.id.slice(this.package ? this.package.id.length + 1 : this.container.id.length + 1);
+        return this.#container.id === beyond.application.id ? path : `${(<Library>this.container).pathname}/${path}`;
     }
 
     readonly #bundles = new Bundles(this);

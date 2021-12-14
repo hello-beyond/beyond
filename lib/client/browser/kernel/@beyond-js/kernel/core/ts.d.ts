@@ -12,6 +12,7 @@ declare namespace ns__preparestacktrace_error {
         getLineNumber: () => number;
         getColumnNumber: () => number;
     }
+
     const prepareStackTrace: (Error: any) => void;
 }
 
@@ -24,6 +25,7 @@ declare namespace ns_application_application {
     import PackageData = ns_package_data.PackageData;
     import IServiceConfig = ns_service_service.IServiceConfig;
     import Service = ns_service_service.Service;
+
     interface IApplicationConfig extends IServiceConfig {
         package: string;
         version: string;
@@ -31,18 +33,30 @@ declare namespace ns_application_application {
         params: object;
         languages: ILanguagesConfig;
     }
+
     class Application extends Service {
         #private;
+
         get is(): string;
+
         constructor(beyond: Beyond);
+
         get package(): PackageData;
+
         get id(): string;
+
         get version(): string;
+
         get layout(): string;
+
         get modules(): Modules;
+
         get externals(): Modules;
+
         get params(): object;
+
         get languages(): Languages;
+
         setup(config: IApplicationConfig): void;
     }
 }
@@ -50,16 +64,22 @@ declare namespace ns_application_application {
 // FILE: application\languages.d.ts
 declare namespace ns_application_languages {
     import Events = ns_utils_events_events.Events;
+
     interface ILanguagesConfig {
         default: string;
         supported: string[];
     }
+
     class Languages extends Events {
         #private;
+
         get supported(): Set<string>;
+
         get default(): string;
+
         get current(): string;
         set current(value: string);
+
         constructor(config: ILanguagesConfig);
     }
 }
@@ -67,13 +87,17 @@ declare namespace ns_application_languages {
 // FILE: base\package.d.ts
 declare namespace ns_base_package {
     import IMSpecs = ns_bundles_package_ims_im.IMSpecs;
+
     function resolve(source: string, id: string): string;
+
     /**
      * This class is used only by beyond/core
      */
     class BeyondPackage {
         #private;
+
         constructor(ims?: Map<string, IMSpecs>);
+
         /**
          * Solve the require function
          *
@@ -137,6 +161,7 @@ declare namespace ns_beyond {
             has(name: string, language: string): boolean;
             obtain(name: string, language: string, deps?: ns_bundles_instances_dependencies.IDependencies): ns_transversals_transversal.Transversal;
         };
+
         get dependencies(): Dependencies;
 
         get local(): boolean;
@@ -144,18 +169,25 @@ declare namespace ns_beyond {
         get distribution(): string;
 
         get environment(): string;
+
         get params(): object;
+
         get languages(): ns_application_languages.Languages;
+
         get mode(): string;
+
         get baseUrl(): string;
+
         import: (module: string) => Promise<any>;
         reload: (module: string, version: number) => Promise<any>;
         require: (module: string) => Promise<any>;
+
         get widgets(): typeof widgets;
 
         get Collection(): typeof Collection;
 
         setup(distribution: IBeyondDistribution, packages?: TPackages): void;
+
         rpc: {
             prepare: () => void;
         };
@@ -164,6 +196,7 @@ declare namespace ns_beyond {
         showWarning: (text: string, duration: number) => string;
         removeMessage: (id: string) => void;
     }
+
     const beyond: Beyond;
 }
 
@@ -175,17 +208,27 @@ declare namespace ns_bundles_bundle {
     import Package = ns_bundles_package_package.Package;
     import IDependencies = ns_bundles_instances_dependencies.IDependencies;
     import Dependencies = ns_bundles_dependencies.Dependencies;
+
     class Bundle extends Map<string, Package> {
         #private;
+
         get container(): Container;
+
         get name(): string;
+
         get multilanguage(): boolean;
+
         package(language?: string): Package;
+
         get id(): string;
+
         get dependencies(): Dependencies;
+
         get styles(): BundleStyles;
+
         get widget(): BeyondWidget;
         set widget(value: BeyondWidget);
+
         constructor(container: Container, name: string, multilanguage: boolean, deps?: IDependencies);
     }
 }
@@ -197,10 +240,14 @@ declare namespace ns_bundles_bundles {
     import IDependencies = ns_bundles_instances_dependencies.IDependencies;
     import Bundle = ns_bundles_bundle.Bundle;
     type Container = Module | Library;
+
     class Bundles extends Map<string, Bundle> {
         #private;
+
         get container(): Container;
+
         constructor(container: Container);
+
         obtain(name: string, multilanguage: boolean, deps?: IDependencies): Bundle;
     }
 }
@@ -208,6 +255,7 @@ declare namespace ns_bundles_bundles {
 // FILE: bundles\dependencies.d.ts
 declare namespace ns_bundles_dependencies {
     import IDependencies = ns_bundles_instances_dependencies.IDependencies;
+
     class Dependencies extends Set<string> {
         update(dependencies: IDependencies): void;
     }
@@ -217,9 +265,11 @@ declare namespace ns_bundles_dependencies {
 declare namespace ns_bundles_instances_dependencies {
     type Dependency = Record<string, any>;
     type IDependencies = Map<string, Dependency>;
+
     class Dependencies extends Map<string, Dependency> {
         register(dependencies: IDependencies): void;
     }
+
     const dependencies: Dependencies;
 }
 
@@ -228,9 +278,11 @@ declare namespace ns_bundles_instances_instances {
     import IDependencies = ns_bundles_instances_dependencies.IDependencies;
     import Bundle = ns_bundles_bundle.Bundle;
     import IProcessorsSpecs = ns_modules_module.IProcessorsSpecs;
+
     class BundlesInstances extends Map<string, Bundle> {
         obtain(id: string, multilanguage: boolean, specs: IProcessorsSpecs, dependencies?: IDependencies): Bundle;
     }
+
     const instances: BundlesInstances;
 }
 
@@ -238,11 +290,16 @@ declare namespace ns_bundles_instances_instances {
 declare namespace ns_bundles_package_exports_exports {
     import Require = ns_bundles_package_require_require.Require;
     type ExportedValues = Record<string, any>;
+
     class Exports {
         #private;
+
         get values(): ExportedValues;
+
         constructor(require: Require);
+
         process(require: (id: string) => any, exports: ExportedValues): void;
+
         update(): void;
     }
 }
@@ -251,8 +308,10 @@ declare namespace ns_bundles_package_exports_exports {
 declare namespace ns_bundles_package_hmr_hmr {
     import Package = ns_bundles_package_package.Package;
     import Events = ns_utils_events_events.Events;
+
     class HMR extends Events {
         #private;
+
         constructor(pkg: Package);
     }
 }
@@ -268,12 +327,18 @@ declare namespace ns_bundles_package_ims_im {
         hash: number;
         creator: IMWrapperFunction;
     };
+
     class InternalModule {
         #private;
+
         get package(): Package;
+
         get id(): string;
+
         get hash(): number;
+
         get created(): boolean;
+
         require(trace: Trace, source: InternalModule): Exports;
 
         initialise(): void;
@@ -296,13 +361,20 @@ declare namespace ns_bundles_package_ims_ims {
         hash: number;
         creator: IMWrapperFunction;
     }>;
+
     class InternalModules {
         #private;
+
         constructor(pkg: Package);
+
         set _require(value: Require);
+
         register(ims: Creators): void;
+
         require(id: string, trace: Trace, source: InternalModule): Exports;
+
         initialise(): void;
+
         update(ims: Creators): void;
     }
 }
@@ -314,17 +386,28 @@ declare namespace ns_bundles_package_package {
     import InternalModules = ns_bundles_package_ims_ims.InternalModules;
     import Exports = ns_bundles_package_exports_exports.Exports;
     import HMR = ns_bundles_package_hmr_hmr.HMR;
+
     class Package {
         #private;
+
         get bundle(): Bundle;
+
         get language(): string;
+
         get multilanguage(): boolean;
+
         get ims(): InternalModules;
+
         get hmr(): HMR;
+
         get exports(): Exports;
+
         constructor(bundle: Bundle, language: string);
+
         get initialised(): boolean;
+
         initialise(ims?: Creators): void;
+
         update(ims: Creators): void;
     }
 }
@@ -334,9 +417,12 @@ declare namespace ns_bundles_package_require_require {
     import Package = ns_bundles_package_package.Package;
     import InternalModule = ns_bundles_package_ims_im.InternalModule;
     import Trace = ns_bundles_package_require_trace.Trace;
+
     class Require {
         #private;
+
         constructor(pkg: Package);
+
         /**
          * Solve a cjs require function
          *
@@ -355,8 +441,10 @@ declare namespace ns_bundles_package_require_trace {
         source: string;
         id: string;
     }
+
     class Trace extends Array<RequireTrace> {
         has: (id: string) => RequireTrace;
+
         register(source: string, id: string): void;
     }
 }
@@ -391,9 +479,12 @@ declare namespace ns_bundles_styles {
 // FILE: import\import.d.ts
 declare namespace ns_import_import {
     import Packages = ns_packages_packages.Packages;
+
     class BeyondImport {
         #private;
+
         constructor(packages: Packages, mode: string, baseUrl: string);
+
         /**
          * Import a module with baseURL resolution
          *
@@ -402,6 +493,7 @@ declare namespace ns_import_import {
          * @returns {Promise<*>}
          */
         import(module: string, version?: number): Promise<any>;
+
         /**
          * Used only in local environment to support HMR
          *
@@ -410,6 +502,7 @@ declare namespace ns_import_import {
          * @return {Promise<*>}
          */
         reload(module: string, version: number): Promise<any>;
+
         require(module: string): Promise<any>;
     }
 }
@@ -418,14 +511,18 @@ declare namespace ns_import_import {
 declare namespace ns_import_require {
     class BeyondRequire {
         #private;
+
         constructor(mode: string);
+
         setup(baseUrl: string): void;
+
         /**
          * Require a module
          * @param module {string} The module to be required
          * @returns {Promise<any>>}
          */
         require: (module: string) => Promise<any>;
+
         /**
          * Used only in local environment to support HMR
          *
@@ -440,8 +537,11 @@ declare namespace ns_import_require {
 declare namespace ns_import_requirejs {
     interface Require {
         config: (config: any) => void;
+
         (modules: string[], ready: Function, errback?: Function): void;
+
         onError(err: any, errback?: (err: any) => void): void;
+
         undef(module: string): void;
     }
 }
@@ -451,9 +551,12 @@ declare namespace ns_libraries_libraries {
     import Library = ns_libraries_library.Library;
     import ILibraryConfig = ns_libraries_library.ILibraryConfig;
     import Beyond = ns_beyond.Beyond;
+
     class Libraries extends Map<string, Library> {
         #private;
+
         register(libraries: ILibraryConfig[]): void;
+
         constructor(beyond: Beyond);
     }
 }
@@ -466,18 +569,27 @@ declare namespace ns_libraries_library {
     import Modules = ns_modules_modules.Modules;
     import Bundles = ns_bundles_bundles.Bundles;
     import Beyond = ns_beyond.Beyond;
+
     interface ILibraryConfig extends IServiceConfig {
         package: string;
         version?: string;
     }
+
     class Library extends Service {
         #private;
+
         get is(): string;
+
         get package(): PackageData;
+
         get id(): string;
+
         get version(): string;
+
         get modules(): Modules;
+
         get bundles(): Bundles;
+
         constructor(beyond: Beyond, config: ILibraryConfig);
     }
 }
@@ -491,21 +603,32 @@ declare namespace ns_modules_module {
     import PackageData = ns_package_data.PackageData;
     import Socket = dependency_0.Socket;
     type Container = Application | Library;
+
     interface IProcessorsSpecs {
         txt?: {
             multilanguage: boolean;
         };
     }
+
     class Module {
         #private;
+
         get is(): string;
+
         get container(): Container;
+
         get package(): PackageData;
+
         get id(): string;
+
         get bundles(): Bundles;
+
         get socket(): Promise<Socket>;
+
         get texts(): ModuleTexts<any>;
+
         execute(path: string, params?: object): Promise<unknown>;
+
         /**
          * Module constructor
          *
@@ -522,10 +645,14 @@ declare namespace ns_modules_modules {
     import Module = ns_modules_module.Module;
     import Container = ns_modules_module.Container;
     import IProcessorsSpecs = ns_modules_module.IProcessorsSpecs;
+
     class Modules extends Map<string, Module> {
         #private;
+
         get container(): Container;
+
         constructor(container?: Container);
+
         obtain(id: string, specs: IProcessorsSpecs): Module;
     }
 }
@@ -534,17 +661,27 @@ declare namespace ns_modules_modules {
 declare namespace ns_modules_texts {
     import Module = ns_modules_module.Module;
     import Events = ns_utils_events_events.Events;
+
     class ModuleTexts<TextsDeclaration> extends Events {
         #private;
+
         get id(): string;
+
         get multilanguage(): boolean;
+
         get value(): TextsDeclaration;
+
         get enabled(): boolean;
         set enabled(value: boolean);
+
         get loaded(): boolean;
+
         get loading(): string;
+
         get ready(): boolean;
+
         get language(): string;
+
         /**
          * Module texts constructor
          *
@@ -553,7 +690,9 @@ declare namespace ns_modules_texts {
          * @param {boolean=true} multilanguage
          */
         constructor(module: Module, bundle: string, multilanguage?: boolean);
+
         load(): Promise<void>;
+
         destroy(): void;
     }
 }
@@ -562,9 +701,13 @@ declare namespace ns_modules_texts {
 declare namespace ns_package_data {
     class PackageData {
         #private;
+
         get id(): string;
+
         get scope(): string;
+
         get name(): string;
+
         /**
          * Package data constructor
          *
@@ -585,16 +728,26 @@ declare namespace ns_packages_packages {
 declare namespace ns_service_action {
     import Module = ns_modules_module.Module;
     import PendingPromise = ns_utils_pendingpromise_pendingpromise.PendingPromise;
+
     class Action<Params, Response> {
         #private;
+
         get path(): string;
+
         get params(): Params;
+
         constructor(module: Module, path: string, params?: Params);
+
         get id(): number;
+
         get channel(): string;
+
         get executed(): boolean;
+
         get executing(): boolean;
+
         get error(): boolean;
+
         execute(): PendingPromise<unknown>;
     }
 }
@@ -602,9 +755,12 @@ declare namespace ns_service_action {
 // FILE: service\actions-bridge.d.ts
 declare namespace ns_service_actionsbridge {
     import Module = ns_modules_module.Module;
+
     class ActionsBridge {
         #private;
+
         constructor(module: Module);
+
         execute(action: string, ...params: any[]): any;
     }
 }
@@ -617,9 +773,10 @@ declare namespace ns_service_executionerror {
         line: number;
         column: number;
     }
+
     type Stack = StackFrame[];
     const ExecutionError: {
-        new (message: string, stack: Stack): {
+        new(message: string, stack: Stack): {
             "__#5@#message": string;
             readonly message: string;
             readonly "__#5@#stack": Stack;
@@ -631,12 +788,15 @@ declare namespace ns_service_executionerror {
 // FILE: service\initiator.d.ts
 declare namespace ns_service_initiator {
     import Service = ns_service_service.Service;
+
     /**
      * Service launcher required only in local development environment
      */
     class Initiator {
         #private;
+
         constructor(service: Service);
+
         check(): Promise<void>;
     }
 }
@@ -653,26 +813,37 @@ declare namespace ns_service_service {
     import PackageData = ns_package_data.PackageData;
     import Socket = dependency_0.Socket;
     import ServiceIOConfiguration = ns_service_io.ServiceIOConfiguration;
+
     interface ILocalConfig {
         id: string;
     }
+
     interface IServiceConfig {
         connect?: boolean;
         local?: ILocalConfig;
         host?: string;
     }
+
     interface Service {
         is: string;
         package: PackageData;
     }
+
     abstract class Service {
         #private;
+
         get io(): ServiceIOConfiguration;
+
         get connect(): boolean;
+
         get host(): string;
+
         get local(): ILocalConfig;
+
         getSocket(): Promise<Socket | undefined>;
+
         get socket(): Promise<Socket | undefined>;
+
         setup(config: IServiceConfig): void;
     }
 }
@@ -685,6 +856,7 @@ declare namespace ns_toast_messages {
         "ConnectionError" = 2,
         "Warning" = 3
     }
+
     interface Message {
         id: string;
         type: MessageType;
@@ -693,14 +865,21 @@ declare namespace ns_toast_messages {
         close?: boolean;
         retry?: () => void;
     }
+
     class Messages {
         #private;
+
         get keys(): string[];
+
         get first(): Message;
+
         set(message: Message): void;
+
         has: (id: string) => boolean;
         get: (id: string) => Message;
+
         typeExists(type: MessageType): boolean;
+
         delete(message: Message | string): void;
     }
 }
@@ -710,6 +889,7 @@ declare namespace ns_toast_toast {
     import Events = ns_utils_events_events.Events;
     import Message = ns_toast_messages.Message;
     import MessageType = ns_toast_messages.MessageType;
+
     interface MessageSpecObject {
         id?: string | undefined;
         type: MessageType;
@@ -718,13 +898,20 @@ declare namespace ns_toast_toast {
         close?: boolean;
         retry?: () => void;
     }
+
     type MessageSpec = MessageSpecObject | string;
+
     class Toast extends Events {
         #private;
+
         get MessageType(): typeof MessageType;
+
         showMessage(specs: MessageSpec, duration?: number): string;
+
         removeMessage(id: Message | string): void;
+
         retry(): void;
+
         close(): void;
     }
 }
@@ -741,14 +928,22 @@ declare namespace ns_transversals_bundle {
         hash: number;
         creator: BundleWrapperFnc;
     };
+
     class TransversalBundle {
         #private;
+
         get transversal(): Transversal;
+
         get id(): string;
+
         get hash(): number;
+
         get specs(): IProcessorsSpecs;
+
         get created(): boolean;
+
         initialise(): void;
+
         constructor(transversal: Transversal, id: string, hash: number, specs: IProcessorsSpecs, creator: BundleWrapperFnc);
     }
 }
@@ -764,9 +959,12 @@ declare namespace ns_transversals_bundles {
         specs: IProcessorsSpecs;
         creator: BundleWrapperFnc;
     }>;
+
     class Bundles extends Map<string, TransversalBundle> {
         #private;
+
         constructor(transversal: Transversal);
+
         initialise(bundles: Creators): void;
     }
 }
@@ -776,14 +974,22 @@ declare namespace ns_transversals_transversal {
     import Bundles = ns_transversals_bundles.Bundles;
     import Creators = ns_transversals_bundles.Creators;
     import IDependencies = ns_bundles_instances_dependencies.IDependencies;
+
     class Transversal {
         #private;
+
         get name(): string;
+
         get language(): string;
+
         get multilanguage(): boolean;
+
         get bundles(): Bundles;
+
         get dependencies(): IDependencies;
+
         constructor(name: string, language?: string, dependencies?: IDependencies);
+
         initialise(bundles: Creators): void;
     }
 }
@@ -806,18 +1012,25 @@ declare namespace ns_utils_collection_collection {
      */
     class Collection<V> {
         #private;
+
         get map(): Map<string, V>;
+
         get entries(): IterableIterator<[
             string,
             V
         ]>;
+
         get keys(): IterableIterator<string>;
+
         get values(): IterableIterator<V>;
+
         get size(): number;
+
         has: (key: string) => boolean;
         get: (key: string) => V;
         forEach: (callback: (value: V, key: string, map: Map<string, V>) => void) => void;
         bind: (child: any) => void;
+
         /**
          * Constructor
          * @param {any} child The child instance
@@ -827,6 +1040,7 @@ declare namespace ns_utils_collection_collection {
             string,
             V
         ][]);
+
         set: (key: string, value: V) => Map<string, V>;
         delete: (key: string) => boolean;
         replace: (map: Map<string, V>) => Map<string, V>;
@@ -839,10 +1053,14 @@ declare namespace ns_utils_events_events {
     import EventsSpecs = ns_utils_events_types.EventsSpecs;
     import ListenerFunction = ns_utils_events_types.ListenerFunction;
     import Trigger = ns_utils_events_types.Trigger;
+
     class Events {
         #private;
+
         get destroyed(): boolean;
+
         constructor(specs?: EventsSpecs);
+
         /**
          * Binds an event handler to an event name
          *
@@ -852,7 +1070,9 @@ declare namespace ns_utils_events_events {
          * @returns {this}
          */
         on(event: string, listener: ListenerFunction, priority?: number): this;
+
         bind: (event: string, listener: ListenerFunction, priority?: number) => this;
+
         /**
          * Unbind an event listener
          *
@@ -862,7 +1082,9 @@ declare namespace ns_utils_events_events {
          * @returns {this}
          */
         off(event: string, listener: ListenerFunction, force?: number): this;
+
         unbind: (event: string, listener: ListenerFunction, force?: number) => this;
+
         /**
          * Triggers an event
          *
@@ -871,6 +1093,7 @@ declare namespace ns_utils_events_events {
          * @returns {Promise<any>}
          */
         trigger(event: Trigger, ...rest: any): any;
+
         destroy(): void;
     }
 }
@@ -881,21 +1104,26 @@ declare namespace ns_utils_events_types {
         bind: (event: string, listener: ListenerFunction, priority: number) => void;
         unbind: (event: string, Listener: ListenerFunction) => void;
     }
+
     interface EventsSpecs {
         supported?: [
             string
         ];
         bind?: Inherited;
     }
+
     type ListenerFunction = (...args: any) => void;
+
     interface ListenerSpecs {
         listener: ListenerFunction;
         priority: number;
     }
+
     interface TriggerSpecs {
         name: string;
         async?: boolean;
     }
+
     type Trigger = string | TriggerSpecs;
 }
 
@@ -903,7 +1131,9 @@ declare namespace ns_utils_events_types {
 declare namespace ns_utils_executioncontrol_cancellationtoken_cancellationtoken {
     class CancellationToken {
         #private;
+
         get current(): number;
+
         reset: () => number;
         check: (id: number) => boolean;
     }
@@ -919,6 +1149,7 @@ declare namespace ns_utils_pendingpromise_pendingpromise {
     class PendingPromise<T> extends Promise<T> {
         resolve: any;
         reject: any;
+
         constructor(executor?: (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void);
     }
 }
@@ -927,13 +1158,20 @@ declare namespace ns_utils_pendingpromise_pendingpromise {
 declare namespace ns_widgets_controller_base {
     import WidgetSpecs = ns_widgets_widgets.WidgetSpecs;
     import Bundle = ns_bundles_bundle.Bundle;
+
     abstract class BeyondWidgetControllerBase {
         #private;
+
         get bundle(): Bundle;
+
         get element(): string;
+
         get is(): string;
+
         get route(): string;
+
         get layout(): string;
+
         protected constructor(specs: WidgetSpecs);
     }
 }
@@ -944,19 +1182,29 @@ declare namespace ns_widgets_controller_controller {
     import WidgetSpecs = ns_widgets_widgets.WidgetSpecs;
     import NodeWidget = ns_widgets_instances_node.NodeWidget;
     import BeyondWidgetControllerBase = ns_widgets_controller_base.BeyondWidgetControllerBase;
+
     /**
      * The client widget react controller
      */
     abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
         #private;
+
         get component(): BeyondWidget;
+
         get node(): NodeWidget;
+
         get body(): HTMLSpanElement;
+
         protected constructor(specs: WidgetSpecs, component: BeyondWidget);
+
         mount(Widget: typeof BeyondWidget): void;
+
         unmount(): void;
+
         render(): void;
+
         refresh(): void;
+
         initialise(): void;
     }
 }
@@ -964,6 +1212,7 @@ declare namespace ns_widgets_controller_controller {
 // FILE: widgets\controller\ssr.d.ts
 declare namespace ns_widgets_controller_ssr {
     import BeyondWidgetControllerBase = ns_widgets_controller_base.BeyondWidgetControllerBase;
+
     interface IWidgetRendered {
         errors?: string[];
         warnings?: string[];
@@ -971,6 +1220,7 @@ declare namespace ns_widgets_controller_ssr {
         css?: string;
         exception?: Error;
     }
+
     /**
      * The SSR widget react controller
      */
@@ -1009,14 +1259,22 @@ declare namespace ns_widgets_instances_instances {
 // FILE: widgets\instances\node.d.ts
 declare namespace ns_widgets_instances_node {
     import BeyondWidget = ns_widgets_widget.BeyondWidget;
+
     class NodeWidget {
         #private;
+
         get widget(): BeyondWidget;
+
         get is(): string;
+
         get route(): string;
+
         get layout(): string;
+
         get parent(): NodeWidget;
+
         get children(): Set<NodeWidget>;
+
         constructor(widget: BeyondWidget, parent?: NodeWidget);
     }
 }
@@ -1027,22 +1285,35 @@ declare namespace ns_widgets_widget {
     import BeyondWidgetController = ns_widgets_controller_controller.BeyondWidgetController;
     import NodeWidget = ns_widgets_instances_node.NodeWidget;
     const Element: {
-        new (): HTMLElement;
+        new(): HTMLElement;
         prototype: HTMLElement;
     };
+
     class BeyondWidget extends Element {
         #private;
+
         get is(): string;
+
         get route(): string;
+
         get layout(): string;
+
         get bundle(): any;
+
         get node(): NodeWidget;
+
         get controller(): BeyondWidgetController;
+
         get error(): string;
+
         get id(): string;
+
         get loading(): boolean;
+
         get loaded(): boolean;
+
         constructor(specs: WidgetSpecs);
+
         connectedCallback(): void;
     }
 }
@@ -1050,6 +1321,7 @@ declare namespace ns_widgets_widget {
 // FILE: widgets\widgets.d.ts
 declare namespace ns_widgets_widgets {
     import NodeWidget = ns_widgets_instances_node.NodeWidget;
+
     interface WidgetSpecs {
         name: string;
         id: string;
@@ -1057,6 +1329,7 @@ declare namespace ns_widgets_widgets {
         route?: string;
         layout?: string;
     }
+
     type WidgetsSpecs = WidgetSpecs[];
     const widgets: {
         readonly instances: Set<NodeWidget>;

@@ -38,6 +38,10 @@ class Bundle extends Map<string, Package> {
         return `${this.#container.id}/${this.#name}`;
     }
 
+    get pathname() {
+        return `${this.#container.pathname}/${this.#name}`;
+    }
+
     readonly #dependencies = new Dependencies();
     get dependencies() {
         return this.#dependencies;

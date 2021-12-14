@@ -1,5 +1,8 @@
 import {Bundle} from "./bundle";
 import {Events} from "../utils/events/events";
+import type {Beyond} from "../beyond";
+
+declare function require(mod: string): any;
 
 export /*bundle*/
 class BundleStyles extends Events {
@@ -19,6 +22,12 @@ class BundleStyles extends Events {
         return this.#version;
     }
 
+    #beyond: Beyond;
+    get beyond(): Beyond {
+        if (this.#beyond) return this.#beyond;
+        return this.#beyond = require('../beyond').beyond;
+    }
+
     // Is the stylesheet appended to the DOM of the page (not a shadow dom of a widget)
     #appended = false;
     get appended() {
@@ -28,8 +37,15 @@ class BundleStyles extends Events {
     #value: string;
     set value(value: string) {
         // Find and replace #host...
-        const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
-        this.#value = value.replace(regexp, (match, host, resource) => `packages/${resource}`);
+        const regexp = /#host\.(.*)#([^.]*\.[\w\d]*)/g;
+        this.#value = value.replace(regexp, (match, host, resource) => {
+            if (host === 'module' || host === 'library') {
+                return `${this.#bundle.container.pathname}/static/${resource}`;
+            } else if (host === 'application') {
+                return `${this.beyond.baseUrl}static/${resource}`;
+            }
+            console.warn(`Invalid css host specification on bundle "${this.#bundle.id}"`, match);
+        });
 
         this.#version++;
         this.#version > 1 && this.trigger('change', this);

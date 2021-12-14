@@ -22,12 +22,18 @@ declare namespace ns_config_layouts_layout {
         name: string;
         layout?: string;
     }
+
     class LayoutConfig {
         #private;
+
         get is(): string;
+
         get element(): string;
+
         get id(): string;
+
         get layout(): string;
+
         constructor(config: ILayoutConfig);
     }
 }
@@ -36,6 +42,7 @@ declare namespace ns_config_layouts_layout {
 declare namespace ns_config_layouts_layouts {
     import ILayoutConfig = ns_config_layouts_layout.ILayoutConfig;
     import LayoutConfig = ns_config_layouts_layout.LayoutConfig;
+
     class LayoutsConfig extends Map<string, LayoutConfig> {
         register(layouts: ILayoutConfig[]): void;
     }
@@ -44,22 +51,31 @@ declare namespace ns_config_layouts_layouts {
 // FILE: config\pages\page.d.ts
 declare namespace ns_config_pages_page {
     import LayoutConfig = ns_config_layouts_layout.LayoutConfig;
+
     interface IPageConfig {
         name: string;
         route?: string;
         layout?: string;
     }
+
     interface IParents {
         error?: string;
         parents?: LayoutConfig[];
     }
+
     class PageConfig {
         #private;
+
         get is(): string;
+
         get element(): string;
+
         get route(): string;
+
         get layout(): string;
+
         constructor(page: IPageConfig);
+
         /**
          * Returns the ascending layouts
          *
@@ -73,12 +89,15 @@ declare namespace ns_config_pages_page {
 declare namespace ns_config_pages_pages {
     import IPageConfig = ns_config_pages_page.IPageConfig;
     import PageConfig = ns_config_pages_page.PageConfig;
+
     interface IPageFound {
         element?: string;
         vars?: Map<string, string>;
     }
+
     class PagesConfig extends Map<string, PageConfig> {
         #private;
+
         /**
          * Search for a route (with its vars)
          *
@@ -86,6 +105,7 @@ declare namespace ns_config_pages_pages {
          * @return {{element: *, vars: Map<string, string>} | {}}
          */
         find(pathname: string): IPageFound;
+
         register(pages: IPageConfig[]): void;
     }
 }
@@ -93,21 +113,32 @@ declare namespace ns_config_pages_pages {
 // FILE: history\history.d.ts
 declare namespace ns_history_history {
     import RoutingMode = ns_routing.RoutingMode;
+
     /**
      * Beyond keeps its own history list
      * @constructor
      */
     class BeyondHistory {
         #private;
+
         get initial(): number;
+
         get records(): string[];
+
         get length(): number;
+
         get position(): number;
+
         get current(): string;
+
         get previous(): string;
+
         get following(): string;
+
         replaceState(state: any, title: any, uri: any): void;
+
         pushState(uri: string, state: any): void;
+
         constructor(routing: any, Mode: typeof RoutingMode);
     }
 }
@@ -123,12 +154,15 @@ declare namespace ns_history_position {
      */
     class HistoryPosition {
         #private;
+
         get valid(): boolean;
+
         /**
          * Returns the position from the history.state
          * @returns {number | undefined}
          */
         get value(): number | undefined;
+
         /**
          * Check if the position is already stored in the history.state.
          * If it is not, then an error message is shown.
@@ -136,6 +170,7 @@ declare namespace ns_history_position {
          * @returns {boolean}
          */
         get checkStateIsSet(): boolean;
+
         /**
          * Set the position in the history.state
          *
@@ -144,15 +179,18 @@ declare namespace ns_history_position {
          * @param {number} position
          */
         updateState(state: any, position?: number): void;
+
         /**
          * Stores in the sessionStorage the position getting its value from the history.state
          */
         updateSessionStorageFromState(): void;
+
         /**
          * Returns the position of the navigation flow from the sessionStorage
          * @returns {string}
          */
         getFromSessionStorage(): number | undefined;
+
         /**
          * Returns the position of the navigation flow from the history.state.
          * It is equivalent to obtaining this same value directly from the .state property,
@@ -167,20 +205,30 @@ declare namespace ns_history_position {
 // FILE: history\records.d.ts
 declare namespace ns_history_records {
     import HistoryPosition = ns_history_position.HistoryPosition;
+
     class HistoryRecords {
         #private;
+
         get data(): string[];
+
         get length(): number;
+
         get current(): string;
+
         get previous(): string;
+
         get following(): string;
+
         constructor(position: HistoryPosition);
+
         get: (index: number) => string;
+
         /**
          * Push a uri to the records stored in the sessionStorage
          * @param {string} uri
          */
         push(uri: string): void;
+
         /**
          * Reset the list of records from the current position
          * This is required when:
@@ -192,6 +240,7 @@ declare namespace ns_history_records {
          * execution, the navigation flow can push page3
          */
         resetFromPosition(): void;
+
         updateCurrentURI(uri: any): void;
     }
 }
@@ -200,16 +249,26 @@ declare namespace ns_history_records {
 declare namespace ns_layouts_child {
     import LayoutConfig = ns_config_layouts_layout.LayoutConfig;
     import PageInstanceData = ns_pages_data.PageInstanceData;
+
     class Child {
         #private;
+
         get element(): string;
+
         get is(): string;
+
         get id(): string;
+
         get layout(): any;
+
         get children(): any;
+
         get active(): boolean;
+
         constructor(config: LayoutConfig | PageInstanceData);
+
         show(): void;
+
         hide(): void;
     }
 }
@@ -219,10 +278,14 @@ declare namespace ns_layouts_layout {
     import PageInstanceData = ns_pages_data.PageInstanceData;
     import Child = ns_layouts_child.Child;
     import Events = dependency_0.Events;
+
     class Layout extends Events {
         #private;
+
         get children(): Map<string, Child>;
+
         constructor(parent?: Layout);
+
         /**
          * Selects a page
          *
@@ -237,10 +300,14 @@ declare namespace ns_manager {
     import Layout = ns_layouts_layout.Layout;
     import Pages = ns_pages_pages.Pages;
     import URI = ns_uri_uri.URI;
+
     class Manager {
         #private;
+
         get main(): Layout;
+
         get pages(): Pages;
+
         set(uri: URI): void;
     }
 }
@@ -249,13 +316,20 @@ declare namespace ns_manager {
 declare namespace ns_pages_data {
     import URI = ns_uri_uri.URI;
     import IParents = ns_config_pages_page.IParents;
+
     class PageInstanceData {
         #private;
+
         get is(): string;
+
         get element(): string;
+
         get id(): string;
+
         get parents(): IParents;
+
         uri: URI;
+
         constructor(element: string);
     }
 }
@@ -265,8 +339,10 @@ declare namespace ns_pages_pages {
     import URI = ns_uri_uri.URI;
     import PageInstanceData = ns_pages_data.PageInstanceData;
     type pathname = string;
+
     class Pages extends Map<pathname, PageInstanceData> {
         find(id: string): PageInstanceData;
+
         register(uri: URI, element: string): PageInstanceData;
     }
 }
@@ -277,6 +353,7 @@ declare namespace ns_routing {
     import config = ns_config_config.config;
     import PageConfig = ns_config_pages_page.PageConfig;
     import Manager = ns_manager.Manager;
+
     enum RoutingMode {
         Hash = 0,
         Pathname = 1
@@ -312,12 +389,17 @@ declare namespace ns_routing {
             page?: PageConfig;
             uri?: URI;
         }>;
+
         setUp(routingMode: RoutingMode): void;
+
         pushState(uri: string, state?: object): void;
+
         replaceState(state: object, title: string, uri?: string): void;
+
         update: () => Promise<void>;
         back: () => void;
     }
+
     const routing: Routing;
 }
 
@@ -331,12 +413,18 @@ declare namespace ns_uri_querystring {
 // FILE: uri\route.d.ts
 declare namespace ns_uri_route {
     import URI = ns_uri_uri.URI;
+
     class Route {
         #private;
+
         get element(): string;
+
         get vars(): Map<string, string>;
+
         get initialised(): boolean;
+
         constructor(uri: URI);
+
         initialise(): Promise<void>;
     }
 }
@@ -345,16 +433,26 @@ declare namespace ns_uri_route {
 declare namespace ns_uri_uri {
     import Route = ns_uri_route.Route;
     import QueryString = ns_uri_querystring.QueryString;
+
     class URI {
         #private;
+
         get uri(): string;
+
         get route(): Route;
+
         get vars(): Map<string, string>;
+
         get pathname(): string;
+
         get search(): string;
+
         get qs(): QueryString;
+
         get hashtag(): any;
+
         constructor(uri: string);
+
         initialise: () => Promise<void>;
     }
 }

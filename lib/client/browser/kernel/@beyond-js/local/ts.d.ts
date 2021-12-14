@@ -2,9 +2,12 @@
 declare namespace ns_local {
     class BeyondLocal {
         #private;
+
         test(): Promise<void>;
+
         constructor();
     }
+
     const local: BeyondLocal;
 }
 

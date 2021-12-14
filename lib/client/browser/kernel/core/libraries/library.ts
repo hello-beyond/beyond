@@ -23,6 +23,10 @@ export class Library extends Service {
         return this.#package.id;
     }
 
+    get pathname(): string {
+        return `packages/${this.id}`;
+    }
+
     readonly #version: string;
     get version() {
         return this.#version;
