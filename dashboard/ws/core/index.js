@@ -17,11 +17,11 @@ module.exports = function (io) {
 
     ipc.events.on('main-client', 'builder-notification', message => {
         const {type} = message;
-        if (!['build/application/message', 'build/application/finished', 'build/application/error'].includes(type)) {
+        if (!['build/application/message', 'build/application/error'].includes(type)) {
             console.error(`Invalid application builder-notification type "${type}"`);
             return;
         }
-        io.emit(`client:build-application-${message.application}-client`, message);
+        io.emit(`builder:${message.application}`, message);
     });
 
     ipc.events.on('main', 'data-notification', message => {

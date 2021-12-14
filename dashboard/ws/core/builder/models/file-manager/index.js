@@ -1,5 +1,3 @@
-const {join} = require('path');
-
 class Index {
     _id;
     _fileName;
@@ -96,7 +94,7 @@ class Index {
      */
     save(values) {
         if (typeof values === 'object') this._checkProperties(values);
-        console.log(16, this.getProperties())
+        // console.log(16, this.getProperties())
         this.#file.writeJSON(this.#file.getPath(this._fileName), this.getProperties());
     }
 

@@ -131,8 +131,8 @@ export class Routing {
 
         const cancellationTokenId = this.#cancellationToken.reset();
 
-        const _uri = this.#mode === RoutingMode.Hash ? location.hash.substr(1) :
-            location.pathname + location.search;
+        const {hash, pathname, search} = location;
+        const _uri = this.#mode === RoutingMode.Hash ? `/${hash.slice(1)}` : pathname + search;
         if (this.#uri?.uri === _uri) return;
 
         const uri = new URI(_uri);
@@ -147,7 +147,7 @@ export class Routing {
 
         // Verify the state of the history registry to check for possible errors
         if (this.#history && uri.uri !== this.#history.current) {
-            console.error(`History current ${this.#history.current} is not equal to actual uri "${uri.uri}"`);
+            console.error(`History current "${this.#history.current}" is not equal to actual uri "${uri.uri}"`);
             return;
         }
 

@@ -488,8 +488,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }
 
     register(notifications, specs) {
-      window.notifications = this;
-      console.trace(4, notifications, specs); //No hay notificaciones, limpiamos los mapas
+      window.notifications = this; //No hay notificaciones, limpiamos los mapas
 
       if (!notifications || notifications instanceof Array && !notifications.length) {
         if (!this.recent.has(specs.id)) return;

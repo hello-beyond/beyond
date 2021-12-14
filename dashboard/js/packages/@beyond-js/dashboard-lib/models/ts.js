@@ -22,7 +22,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   const modules = new Map(); // FILE: applications\builder\builder.ts
 
   modules.set('./applications/builder/builder', {
-    hash: 699427414,
+    hash: 4269016551,
     creator: function (require, exports) {
       "use strict";
 
@@ -51,22 +51,16 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.#messages;
         }
 
-        #error;
-
-        get error() {
-          return this.#error;
-        }
-
         #processing;
 
         get processing() {
           return this.#processing;
         }
 
-        #finished;
+        #completed;
 
-        get finished() {
-          return this.#finished;
+        get completed() {
+          return this.#completed;
         }
         /**
          * @param application {object} The application
@@ -80,30 +74,22 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         }
 
         onMessage = message => {
-          if (message.type === 'build/application/error') {
-            this.#error = message.text;
-            this.#processing = false;
-            this.trigger('change');
-            return;
-          }
-
-          if (message.type === 'build/application/finished') {
-            this.#finished = true;
-            this.#processing = false;
-          }
-
+          if (message.type !== 'build/application/message') return;
+          console.log(message.text);
+          this.#processing = false;
           this.#messages.push(message);
           this.trigger('change');
+          return;
         };
+        #prepared = false;
 
         async prepare() {
+          if (this.#prepared) return;
+          this.#prepared = true;
+
           try {
-            //TODO validar con @box la para importar beyond
-            // await beyond.rpc.prepare();
             const socket = await beyond_context_1.module.socket;
-            const appId = this.#application.id;
-            const event = `client:build-application-${appId}-client`;
-            socket.on(event, this.onMessage);
+            socket.on(`builder:${this.#application.id}`, this.onMessage);
           } catch (exc) {
             console.error(exc.stack);
           }
@@ -113,46 +99,30 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           if (typeof distribution !== 'object') throw new Error('Invalid distribution parameter');
           if (!['web', 'android', 'ios'].includes(distribution.platform)) throw new Error(`Invalid parameters, platform "${distribution.platform}" is invalid`);
           if (!['development', 'production'].includes(distribution.environment)) throw new Error('Parameter "environment" is invalid');
-
-          try {
-            await this.prepare();
-          } catch (exc) {
-            console.error(exc.stack);
-          }
-
+          await this.prepare();
           const specs = {
-            name: `${distribution.platform}-${distribution.environment}`,
+            name: distribution.name ? distribution.name : 'unnamed',
             platform: distribution.platform,
             ssr: distribution.ssr,
             environment: distribution.environment,
             compress: !!distribution.compress,
             icons: distribution.icons
           };
-          await beyond_context_1.module.execute('/build/application', {
-            path: this.#application.path,
+          await beyond_context_1.module.execute('/build', {
+            application: this.#application.path,
             distribution: specs
           });
-        }
-
-        async delete(params) {
-          if (!params.platform) throw new Error('Parameter "platform" is not defined');
-          if (!params.environment) throw new Error('Parameter "environment" is not defined');
-          const specs = { ...params,
-            applicationId: this.#application.id
-          };
-          await beyond_context_1.module.execute('/build/deleteApplication', specs);
+          console.log('Application build is done');
+          this.#completed = true;
+          this.#processing = false;
         }
 
         clean() {
-          this.#error = undefined;
+          this.#completed = false;
           this.#messages = [];
           this.trigger('change');
         }
 
-        cleanError = () => {
-          this.#error = undefined;
-          this.trigger('change');
-        };
       }
 
       exports.ApplicationBuilder = ApplicationBuilder;
@@ -396,7 +366,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\deployments\distributions\register.ts
 
   modules.set('./applications/deployments/distributions/register', {
-    hash: 2193455078,
+    hash: 906694623,
     creator: function (require, exports) {
       "use strict";
 
@@ -4382,7 +4352,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: templates\applications\sources\register.ts
 
   modules.set('./templates/applications/sources/register', {
-    hash: 3766595913,
+    hash: 3823324052,
     creator: function (require, exports) {
       "use strict";
 

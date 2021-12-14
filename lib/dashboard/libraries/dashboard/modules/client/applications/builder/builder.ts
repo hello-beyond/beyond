@@ -3,7 +3,8 @@ import {module} from "beyond_context";
 import type {Application} from "../item";
 import {ApplicationBuilds} from "./builds";
 
-interface BuilderSpecs {
+interface DistributionSpecs {
+    name: string
     platform: string
     ssr: boolean
     environment: string
@@ -28,19 +29,14 @@ export class ApplicationBuilder extends Events {
         return this.#messages;
     }
 
-    #error: string | undefined;
-    get error() {
-        return this.#error;
-    }
-
     #processing: boolean;
     get processing() {
         return this.#processing;
     }
 
-    #finished: boolean;
-    get finished() {
-        return this.#finished;
+    #completed: boolean;
+    get completed() {
+        return this.#completed;
     }
 
     /**
@@ -53,37 +49,31 @@ export class ApplicationBuilder extends Events {
     }
 
     private onMessage = (message: MessageSpecs) => {
-        if (message.type === 'build/application/error') {
-            this.#error = message.text;
-            this.#processing = false;
-            this.trigger('change');
-            return;
-        }
+        if (message.type !== 'build/application/message') return;
 
-        if (message.type === 'build/application/finished') {
-            this.#finished = true;
-            this.#processing = false;
-        }
+        console.log(message.text);
 
+        this.#processing = false;
         this.#messages.push(message);
         this.trigger('change');
+        return;
     };
 
-    private async prepare() {
-        try {
-            //TODO validar con @box la para importar beyond
-            // await beyond.rpc.prepare();
+    #prepared = false;
 
+    private async prepare() {
+        if (this.#prepared) return;
+        this.#prepared = true;
+
+        try {
             const socket = await module.socket;
-            const appId = this.#application.id;
-            const event = `client:build-application-${appId}-client`;
-            socket.on(event, this.onMessage);
+            socket.on(`builder:${this.#application.id}`, this.onMessage);
         } catch (exc) {
             console.error(exc.stack);
         }
     }
 
-    async build(distribution: BuilderSpecs) {
+    async build(distribution: DistributionSpecs) {
         if (typeof distribution !== 'object')
             throw new Error('Invalid distribution parameter');
         if (!['web', 'android', 'ios'].includes(distribution.platform))
@@ -91,39 +81,26 @@ export class ApplicationBuilder extends Events {
         if (!['development', 'production'].includes(distribution.environment))
             throw new Error('Parameter "environment" is invalid');
 
-        try {
-            await this.prepare();
-        } catch (exc) {
-            console.error(exc.stack);
-        }
+        await this.prepare();
 
         const specs = {
-            name: `${distribution.platform}-${distribution.environment}`,
+            name: distribution.name ? distribution.name : 'unnamed',
             platform: distribution.platform,
             ssr: distribution.ssr,
             environment: distribution.environment,
             compress: !!distribution.compress,
             icons: distribution.icons
         };
-        await module.execute('/build/application', {path: this.#application.path, distribution: specs});
+        await module.execute('/build', {application: this.#application.path, distribution: specs});
+        console.log('Application build is done');
+
+        this.#completed = true;
+        this.#processing = false;
     };
 
-    async delete(params: BuilderSpecs) {
-        if (!params.platform) throw new Error('Parameter "platform" is not defined');
-        if (!params.environment) throw new Error('Parameter "environment" is not defined');
-
-        const specs = {...params, applicationId: this.#application.id};
-        await module.execute('/build/deleteApplication', specs);
-    }
-
     clean() {
-        this.#error = undefined;
+        this.#completed = false;
         this.#messages = [];
-        this.trigger('change');
-    }
-
-    cleanError = () => {
-        this.#error = undefined;
         this.trigger('change');
     }
 }

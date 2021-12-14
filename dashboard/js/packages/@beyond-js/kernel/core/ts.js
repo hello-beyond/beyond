@@ -478,7 +478,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\bundle.ts
 
   modules.set('./bundles/bundle', {
-    hash: 1089016734,
+    hash: 2574096761,
     creator: function (require, exports) {
       "use strict";
 
@@ -527,6 +527,10 @@ define(["exports"], function (_exports) {
 
         get id() {
           return `${this.#container.id}/${this.#name}`;
+        }
+
+        get pathname() {
+          return `${this.#container.pathname}/${this.#name}`;
         }
 
         #dependencies = new dependencies_2.Dependencies();
@@ -1170,7 +1174,7 @@ define(["exports"], function (_exports) {
   }); // FILE: bundles\styles.ts
 
   modules.set('./bundles/styles', {
-    hash: 852636060,
+    hash: 3555636179,
     creator: function (require, exports) {
       "use strict";
 
@@ -1197,6 +1201,13 @@ define(["exports"], function (_exports) {
 
         get version() {
           return this.#version;
+        }
+
+        #beyond;
+
+        get beyond() {
+          if (this.#beyond) return this.#beyond;
+          return this.#beyond = require('../beyond').beyond;
         } // Is the stylesheet appended to the DOM of the page (not a shadow dom of a widget)
 
 
@@ -1210,8 +1221,16 @@ define(["exports"], function (_exports) {
 
         set value(value) {
           // Find and replace #host...
-          const regexp = /#host\.(.*?)#(.*?)[)\s]/g;
-          this.#value = value.replace(regexp, (match, host, resource) => `packages/${resource}`);
+          const regexp = /#host\.(.*)#([^.]*\.[\w\d]*)/g;
+          this.#value = value.replace(regexp, (match, host, resource) => {
+            if (host === 'module' || host === 'library') {
+              return `${this.#bundle.container.pathname}/static/${resource}`;
+            } else if (host === 'application') {
+              return `${this.beyond.baseUrl}${resource}`;
+            }
+
+            console.warn(`Invalid css host specification on bundle "${this.#bundle.id}"`, match);
+          });
           this.#version++;
           this.#version > 1 && this.trigger('change', this);
         }
@@ -1469,7 +1488,7 @@ define(["exports"], function (_exports) {
   }); // FILE: libraries\library.ts
 
   modules.set('./libraries/library', {
-    hash: 4286163297,
+    hash: 3822010233,
     creator: function (require, exports) {
       "use strict";
 
@@ -1499,6 +1518,10 @@ define(["exports"], function (_exports) {
 
         get id() {
           return this.#package.id;
+        }
+
+        get pathname() {
+          return `packages/${this.id}`;
         }
 
         #version;
@@ -1535,7 +1558,7 @@ define(["exports"], function (_exports) {
   }); // FILE: modules\module.ts
 
   modules.set('./modules/module', {
-    hash: 1657005403,
+    hash: 3756599822,
     creator: function (require, exports) {
       "use strict";
 
@@ -1574,6 +1597,21 @@ define(["exports"], function (_exports) {
 
         get id() {
           return this.#id;
+        }
+
+        #beyond;
+
+        get beyond() {
+          if (this.#beyond) return this.#beyond;
+          return this.#beyond = require('../beyond').beyond;
+        }
+
+        get pathname() {
+          const {
+            beyond
+          } = this;
+          const path = this.id.slice(this.package ? this.package.id.length + 1 : this.container.id.length + 1);
+          return this.#container.id === beyond.application.id ? path : `${this.container.pathname}/${path}`;
         }
 
         #bundles = new bundles_1.Bundles(this);

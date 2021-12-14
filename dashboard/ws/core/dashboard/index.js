@@ -7,13 +7,10 @@ module.exports = function () {
 
     this.cleanCache = async () => {
         try {
-
-            const server = await ipcManager.getServer();
             const path = require('path').join(ipcManager.wd, '.beyond');
             if (!await fs.exists(path)) return {status: true};
-            await fs.rm(path, {recursive: true});
+            await fs.promises.rmdir(path, {recursive: true});
             return {status: true}
-
         }
         catch (e) {
             return {status: false, error: e};

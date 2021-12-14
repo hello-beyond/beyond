@@ -1,7 +1,7 @@
 module.exports = function (service) {
     const actions = new (require('./actions'));
 
-    this.build = new (require('./build'));
+    this.build = require('./build');
     this.server = new (require('./server'));
     this.bees = new (require('./bees'))(actions);
     this.builder = new (require('./builder'))(service);

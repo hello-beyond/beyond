@@ -42,7 +42,7 @@ class BundleStyles extends Events {
             if (host === 'module' || host === 'library') {
                 return `${this.#bundle.container.pathname}/static/${resource}`;
             } else if (host === 'application') {
-                return `${this.beyond.baseUrl}static/${resource}`;
+                return `${this.beyond.baseUrl}${resource}`;
             }
             console.warn(`Invalid css host specification on bundle "${this.#bundle.id}"`, match);
         });
