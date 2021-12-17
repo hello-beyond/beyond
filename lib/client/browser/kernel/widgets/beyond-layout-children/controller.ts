@@ -34,10 +34,22 @@ class Controller extends BeyondWidgetController {
         }
 
         const element = this.#mounted.get(child.id);
+        const page: any = element;
 
-        // Set the active child
+        // The show and hide methods are defined in the page controller
+        if (child.active && element !== this.#active) {
+            this.#active = element;
+
+            const show = () => {
+                page.removeEventListener('bundle.loaded', show);
+                this.#active === element && page.controller.show?.();
+            }
+            page.controller ? page.controller.show?.() : page.addEventListener('bundle.loaded', show);
+        } else if (!element.hidden && !child.active) {
+            page.controller?.hide?.();
+        }
+
         element.hidden = !child.active;
-        child.active && (this.#active = element);
     });
 
     #initialised = false;

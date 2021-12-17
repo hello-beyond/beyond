@@ -31,7 +31,7 @@ export class BeyondRequire {
                 console.log('Retrying to load AMD modules:', modules);
                 amd_require(modules, (): null => null);
             } else {
-                console.log(error.stack);
+                console.error(error.stack);
             }
         };
     }
@@ -41,24 +41,25 @@ export class BeyondRequire {
      * @param module {string} The module to be required
      * @returns {Promise<any>>}
      */
-    require = (module: string) => new Promise<any>((resolve, reject) => {
+    require(module: string): any | Promise<any> {
         if (this.#mode === 'cjs') {
-            resolve(cjs_require(module));
-            return
+            return cjs_require(module);
         }
 
-        if (typeof module !== "string") throw 'Invalid module parameter';
-        module = module.endsWith('.js') ? module.substr(0, module.length - 3) : module;
+        return new Promise<any>((resolve, reject) => {
+            if (typeof module !== "string") throw 'Invalid module parameter';
+            module = module.endsWith('.js') ? module.substr(0, module.length - 3) : module;
 
-        const error = new Error(`Error loading or processing module "${module}"`);
-        amd_require([module],
-            (returned: any) => resolve(returned),
-            (exc: Error) => {
-                console.error(`Error loading module "${module}."`, exc.stack);
-                reject(error);
-            }
-        );
-    });
+            const error = new Error(`Error loading or processing module "${module}"`);
+            amd_require([module],
+                (returned: any) => resolve(returned),
+                (exc: Error) => {
+                    console.error(`Error loading module "${module}."`, exc.stack);
+                    reject(error);
+                }
+            );
+        });
+    }
 
     /**
      * Used only in local environment to support HMR

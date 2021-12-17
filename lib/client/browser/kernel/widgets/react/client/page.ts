@@ -11,6 +11,12 @@ class PageReactWidgetController extends ReactWidgetController {
         return this.#uri;
     }
 
+    show() {
+    }
+
+    hide() {
+    }
+
     mount(Widget: any) {
         // Render the widget
         ReactDOM.render(React.createElement(Widget, {uri: this.uri}), this.body);

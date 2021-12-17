@@ -1270,7 +1270,7 @@ define(["exports"], function (_exports) {
   }); // FILE: import\import.ts
 
   modules.set('./import/import', {
-    hash: 4123229269,
+    hash: 2930579115,
     creator: function (require, exports) {
       "use strict";
 
@@ -1312,8 +1312,8 @@ define(["exports"], function (_exports) {
             module = module.substr(1);
           }
 
-          if (this.#mode === 'cjs') return await bimport(module, version);
-          if (this.#mode === 'amd') return await this.#require.require(module);
+          if (this.#mode === 'cjs' && typeof bimport !== 'undefined') return await bimport(module, version);
+          if (this.#mode !== 'es6') return await this.#require.require(module);
           let url;
 
           if (/^https?:\/\/.*$/.test(module)) {
@@ -1352,7 +1352,7 @@ define(["exports"], function (_exports) {
   }); // FILE: import\require.ts
 
   modules.set('./import/require', {
-    hash: 1881543725,
+    hash: 1334565985,
     creator: function (require, exports) {
       "use strict";
 
@@ -1390,7 +1390,7 @@ define(["exports"], function (_exports) {
               console.log('Retrying to load AMD modules:', modules);
               amd_require(modules, () => null);
             } else {
-              console.log(error.stack);
+              console.error(error.stack);
             }
           };
         }
@@ -1401,26 +1401,28 @@ define(["exports"], function (_exports) {
          */
 
 
-        require = module => new Promise((resolve, reject) => {
+        require(module) {
           if (this.#mode === 'cjs') {
-            resolve(cjs_require(module));
-            return;
+            return cjs_require(module);
           }
 
-          if (typeof module !== "string") throw 'Invalid module parameter';
-          module = module.endsWith('.js') ? module.substr(0, module.length - 3) : module;
-          const error = new Error(`Error loading or processing module "${module}"`);
-          amd_require([module], returned => resolve(returned), exc => {
-            console.error(`Error loading module "${module}."`, exc.stack);
-            reject(error);
+          return new Promise((resolve, reject) => {
+            if (typeof module !== "string") throw 'Invalid module parameter';
+            module = module.endsWith('.js') ? module.substr(0, module.length - 3) : module;
+            const error = new Error(`Error loading or processing module "${module}"`);
+            amd_require([module], returned => resolve(returned), exc => {
+              console.error(`Error loading module "${module}."`, exc.stack);
+              reject(error);
+            });
           });
-        });
+        }
         /**
          * Used only in local environment to support HMR
          *
          * @param {string} module
          * @return {Promise<*>}
          */
+
 
         async reload(module) {
           const mode = this.#mode;
@@ -2213,7 +2215,7 @@ define(["exports"], function (_exports) {
   }); // FILE: service\service.ts
 
   modules.set('./service/service', {
-    hash: 3323644695,
+    hash: 2347152819,
     creator: function (require, exports) {
       "use strict";
 
@@ -2275,7 +2277,7 @@ define(["exports"], function (_exports) {
           const sio = beyond.mode === 'cjs' ? 'socket.io-client' : 'socket.io';
           const io = await beyond.require(sio);
           let query = this.#io.querystring && (await this.#io.querystring());
-          const host = `http://${this.#host}`;
+          const host = this.#host;
           this.#socket = io(host, {
             transports: ['websocket'],
             'query': query
@@ -3420,7 +3422,7 @@ define(["exports"], function (_exports) {
   }); // FILE: widgets\widget.ts
 
   modules.set('./widgets/widget', {
-    hash: 3387863006,
+    hash: 2300198111,
     creator: function (require, exports) {
       "use strict";
 
@@ -3501,6 +3503,11 @@ define(["exports"], function (_exports) {
             this.#loaded = true;
             this.#holders.delete('loaded');
             this.#render();
+            const event = new CustomEvent('bundle.loaded', {
+              bubbles: true,
+              composed: true
+            });
+            this.dispatchEvent(event);
           }).catch(exc => {
             console.log(`Error loading widget "${this.#id}"`, exc.stack);
             this.#error = exc.message;

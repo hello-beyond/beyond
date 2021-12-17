@@ -36,8 +36,8 @@ export class BeyondImport {
             module = module.substr(1);
         }
 
-        if (this.#mode === 'cjs') return await bimport(module, version);
-        if (this.#mode === 'amd') return await this.#require.require(module);
+        if (this.#mode === 'cjs' && typeof bimport !== 'undefined') return await bimport(module, version);
+        if (this.#mode !== 'es6') return await this.#require.require(module);
 
         let url: string;
         if (/^https?:\/\/.*$/.test(module)) {

@@ -22,7 +22,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   const modules = new Map(); // FILE: applications\builder\builder.ts
 
   modules.set('./applications/builder/builder', {
-    hash: 4269016551,
+    hash: 3335004613,
     creator: function (require, exports) {
       "use strict";
 
@@ -97,7 +97,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
         async build(distribution) {
           if (typeof distribution !== 'object') throw new Error('Invalid distribution parameter');
-          if (!['web', 'android', 'ios'].includes(distribution.platform)) throw new Error(`Invalid parameters, platform "${distribution.platform}" is invalid`);
           if (!['development', 'production'].includes(distribution.environment)) throw new Error('Parameter "environment" is invalid');
           await this.prepare();
           const specs = {

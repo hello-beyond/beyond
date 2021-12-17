@@ -76,8 +76,6 @@ export class ApplicationBuilder extends Events {
     async build(distribution: DistributionSpecs) {
         if (typeof distribution !== 'object')
             throw new Error('Invalid distribution parameter');
-        if (!['web', 'android', 'ios'].includes(distribution.platform))
-            throw new Error(`Invalid parameters, platform "${distribution.platform}" is invalid`);
         if (!['development', 'production'].includes(distribution.environment))
             throw new Error('Parameter "environment" is invalid');
 

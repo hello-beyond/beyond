@@ -72,6 +72,9 @@ export class BeyondWidget extends Element {
             this.#loaded = true;
             this.#holders.delete('loaded');
             this.#render();
+
+            const event = new CustomEvent('bundle.loaded', {bubbles: true, composed: true});
+            this.dispatchEvent(event);
         }).catch(exc => {
             console.log(`Error loading widget "${this.#id}"`, exc.stack);
             this.#error = exc.message;

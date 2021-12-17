@@ -30,7 +30,7 @@ module.exports = config => function (req, resp) {
                     const port = config.service.port;
                     content = content.replace(
                         '##beyond-host-namespace-[beyond-js/dashboard-lib]##',
-                        `localhost:${port}/beyond-js/dashboard-lib`);
+                        `http://localhost:${port}/beyond-js/dashboard-lib`);
                 }
 
                 resp.writeHead(200, {

@@ -22,7 +22,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
   const modules = new Map(); // FILE: controller.ts
 
   modules.set('./controller', {
-    hash: 1141722530,
+    hash: 158981409,
     creator: function (require, exports) {
       "use strict";
 
@@ -67,10 +67,23 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
             this.#mounted.set(child.id, element);
           }
 
-          const element = this.#mounted.get(child.id); // Set the active child
+          const element = this.#mounted.get(child.id);
+          const page = element; // The show and hide methods are defined in the page controller
+
+          if (child.active && element !== this.#active) {
+            this.#active = element;
+
+            const show = () => {
+              page.removeEventListener('bundle.loaded', show);
+              this.#active === element && page.controller.show?.();
+            };
+
+            page.controller ? page.controller.show?.() : page.addEventListener('bundle.loaded', show);
+          } else if (!element.hidden && !child.active) {
+            page.controller?.hide?.();
+          }
 
           element.hidden = !child.active;
-          child.active && (this.#active = element);
         });
         #initialised = false;
 

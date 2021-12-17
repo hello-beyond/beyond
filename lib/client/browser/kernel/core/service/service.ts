@@ -61,7 +61,7 @@ export abstract class Service {
         const io = await beyond.require(sio);
         let query = this.#io.querystring && await this.#io.querystring();
 
-        const host = `http://${this.#host}`;
+        const host = this.#host;
         this.#socket = io(host, {transports: ['websocket'], 'query': query});
         this.#socket.on('error', (error: Error) =>
             console.error('Socket error:', this.package.id, host, error));
