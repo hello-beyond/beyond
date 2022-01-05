@@ -288,7 +288,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
 
 
   const ApplicationCreate = function ({
-    show,
     closeModal
   }) {
     const [state, setState] = React.useState({});
@@ -299,8 +298,10 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
       const fetching = model.processing || model.application?.fetching;
 
       if (model.created) {
+        console.log(5, "ENTRO ACA");
         closeModal();
         notify.success(texts?.created);
+        window.setTimeout(model.clean(), 100);
         return;
       }
 
@@ -330,7 +331,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
       },
       key: "content"
     }, /*#__PURE__*/React.createElement(_code4.BeyondModal, {
-      show: show,
+      show: true,
       onClose: closeModal,
       className: "md ds-modal ds-app-create_modal"
     }, output));

@@ -1,5 +1,5 @@
 function FormLayoutSection({handleChange}) {
-    const {application, origin} = useCreateModuleContext();
+    const {application, origin, texts} = useCreateModuleContext();
     if (origin === 'templates') return null;
 
     const layouts = application.modules.getItems({bundle: 'layout'});
@@ -12,12 +12,13 @@ function FormLayoutSection({handleChange}) {
 
     return (
         <div className="item layout-selection">
-            <label htmlFor="">Seleccione el layout</label>
+            <label htmlFor="">{texts.page.layout}</label>
             <select
-                name="layout" required
+                name="layout"
+                required
                 className="form-select"
                 title={`Selecciona un layout`} onChange={handleChange}>
-                <option>Seleccione</option>
+                <option>{texts.page.input.layout.placeholder}</option>
                 {items}
             </select>
         </div>

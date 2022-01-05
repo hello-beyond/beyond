@@ -9,7 +9,7 @@ const specs = <TableSpecs>{};
 specs.module = module;
 specs.cache = false;
 
-specs.fields = ['id', 'application', 'module', 'bundles',];
+specs.fields = ['id', 'application', 'module', 'bundles'];
 
 specs.properties = {
     application: {

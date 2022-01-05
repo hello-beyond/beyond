@@ -115,14 +115,101 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       tree: tree
     }))));
   }
-  /**********************
-  actions\bundle\form.jsx
-  **********************/
+  /************************
+  actions\bundle\action.jsx
+  ************************/
 
+
+  function FormAction({
+    children
+  }) {
+    const {
+      texts: {
+        actions
+      },
+      formValues,
+      fetching,
+      object,
+      errors,
+      setFetching,
+      reset,
+      closeModal
+    } = useAddBundleContext();
+    const totalErrors = Object.keys(errors).length;
+    const {
+      name,
+      type,
+      route,
+      bundle,
+      layoutId
+    } = formValues;
+
+    const saveBundle = async specs => {
+      setFetching(true);
+      await object.addBundle(specs);
+      setFetching(false);
+      reset();
+      closeModal(false);
+    };
+
+    const onClick = e => e.stopPropagation();
+
+    const onSave = async e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const specs = {
+        bundles: bundle
+      };
+
+      if (bundle === 'widget') {
+        specs.element = {
+          name: name
+        };
+        if (type === 'layout') specs.id = layoutId;
+        if (type === 'page') specs.route = route;
+      }
+
+      saveBundle(specs);
+    };
+
+    const attrs = {};
+    const isWidgetValid = bundle === 'widget' && !!name && !!type;
+    const isPageValid = isWidgetValid && type === 'page' && !!route;
+    const isBundleValid = !!bundle && (isWidgetValid || bundle !== 'widget');
+    if (fetching || !isWidgetValid && !isBundleValid) attrs.disabled = true;
+    if (isWidgetValid && type === 'page' && !isPageValid) attrs.disabled = true;
+    if (totalErrors) attrs.disabled = true;
+    return /*#__PURE__*/React.createElement("div", {
+      onClick: onClick,
+      className: "ds-modal__content"
+    }, /*#__PURE__*/React.createElement("form", {
+      onSubmit: onSave
+    }, children, /*#__PURE__*/React.createElement("div", {
+      className: `actions end`
+    }, /*#__PURE__*/React.createElement(_code6.BeyondButton, _extends({
+      type: "submit"
+    }, attrs, {
+      onClick: onSave,
+      className: "primary"
+    }), fetching ? /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
+      fetching: true,
+      className: "on-primary"
+    }) : actions.save))));
+  }
+  /*********************************
+  actions\bundle\add-bundle-form.jsx
+  *********************************/
+
+
+  const AddBundleContext = React.createContext();
+
+  const useAddBundleContext = () => React.useContext(AddBundleContext);
 
   function AddBundleForm({
-    setShowModal,
-    module
+    closeModal,
+    item: {
+      object
+    }
   }) {
     const {
       texts: {
@@ -131,192 +218,134 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         }
       }
     } = (0, _code13.useDSAsideContext)();
-    const [widget, setWidget] = React.useState(false);
-    const [type, setType] = React.useState("widget");
     const [fetching, setFetching] = React.useState(false);
-    const [bundle, setBundle] = React.useState(undefined);
-    const [submitWithWidget, setSubmitWithWidget] = React.useState({});
-    const [widgetChange, setWidgetWidgetChange] = React.useState(false);
-    const [formValues, handleChange, reset, route, errorName, setErrorName, errorRute, setErrorRute] = useForm({
-      name: '',
-      route: ''
-    });
-    const props = {};
-    if (!bundle) props.disabled = true;
-
-    const onClose = () => {
-      setBundle(undefined);
-      setShowModal(false);
-    };
-
-    const onClick = e => {
-      e.stopPropagation();
-    };
-
-    const onSave = async e => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (widget) {
-        setWidgetWidgetChange(true);
-        setWidget(false);
-        return;
-      }
-
-      if (widget && name.length === 0) {
-        setErrorName(true);
-        return;
-      }
-
-      setFetching(true);
-
-      if (widgetChange) {
-        if (type === 'page') {
-          if (route.length === 0) {
-            setErrorRute(true);
-            return;
-          }
-
-          setSubmitWithWidget({
-            name: name,
-            type: type,
-            route: route
-          });
-          await module.addBundle({
-            bundle: submitWithWidget
-          });
-        } else {
-          setSubmitWithWidget({
-            name: name,
-            type: type
-          });
-          await module.addBundle({
-            bundle: submitWithWidget
-          });
+    const specs = {
+      state: {
+        name: '',
+        route: '',
+        type: false,
+        layoudId: ''
+      },
+      validations: {
+        name: {
+          validation: value => !!value.match(/[a-z]+-[a-z]+/g),
+          message: texts.widget.inputs.name.error
+        },
+        layoudId: {
+          validation: value => !!value.match(/[a-z]+-*/g),
+          message: texts.widget.inputs.layoutId.error
+        },
+        route: {
+          validation: value => !!value.match(/^\/[a-z_-]+(\/\$\{[a-z]+\})*/g),
+          message: texts.widget.inputs.route.error
         }
-
-        setFetching(false);
-        reset();
-        onClose();
-        return;
       }
-
-      await module.addBundle({
-        bundle: bundle
-      });
-      setFetching(false);
-      reset();
-      onClose();
     };
+    const [formValues, handleChange, reset, errors, setValue] = (0, _code8.useForm)(specs);
+    const {
+      bundle
+    } = formValues;
+    const Control = bundle === 'widget' ? WidgetForm : MainForm;
+    return /*#__PURE__*/React.createElement(AddBundleContext.Provider, {
+      value: {
+        closeModal,
+        fetching,
+        setFetching,
+        object,
+        setValue,
+        reset,
+        errors,
+        texts,
+        handleChange,
+        formValues
+      }
+    }, /*#__PURE__*/React.createElement(Control, null));
+  }
+  /************************
+  actions\bundle\header.jsx
+  ************************/
+
+
+  const Header = ({
+    title,
+    back
+  }) => {
+    return /*#__PURE__*/React.createElement("header", {
+      className: "ds-modal_header"
+    }, back && /*#__PURE__*/React.createElement(_code8.DSIconButton, {
+      icon: "backArrow",
+      onClick: back,
+      className: "circle secondary"
+    }), /*#__PURE__*/React.createElement("h4", null, title));
+  };
+  /***************************
+  actions\bundle\main-form.jsx
+  ***************************/
+
+
+  function MainForm() {
+    const {
+      formValues,
+      texts,
+      setValue
+    } = useAddBundleContext();
+    const {
+      bundle
+    } = formValues;
 
     const onHandleChange = (e, item) => {
       e.stopPropagation();
       const target = e.currentTarget;
       const parent = target.closest('ul');
-      setBundle(item);
-      parent.querySelectorAll('li.selected').forEach(li => li.classList.remove('selected'));
-      e.currentTarget.classList.add('selected');
-      setWidget(item === 'widget');
-    };
-
-    const items = [];
-    ['widget', 'code', 'start', 'backend'].forEach(item => {
-      items.push( /*#__PURE__*/React.createElement("li", {
-        key: item,
-        onClick: e => onHandleChange(e, item)
-      }, /*#__PURE__*/React.createElement("span", {
-        className: "circle"
-      }), /*#__PURE__*/React.createElement("span", null, item)));
-    });
-
-    const toReturn = () => {
-      setWidgetWidgetChange(false);
-      setWidget(false);
-    };
-
-    const text = widget ? texts.actions.next : texts.actions.save;
-    const CONTROLS = {
-      widget: WidgetFields,
-      default: WidgetFields
-    };
-    const Control = widgetChange ? WidgetFields : CONTROLS.default;
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
-      onClick: onClick,
-      className: "ds-modal_header"
-    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h4", null, widgetChange ? texts.widget.title : texts.title))), /*#__PURE__*/React.createElement("div", {
-      onClick: onClick,
-      className: "ds-modal__content"
-    }, /*#__PURE__*/React.createElement("form", {
-      onSubmit: onSave
-    }, widgetChange ? /*#__PURE__*/React.createElement(Control, {
-      setType: setType,
-      type: type,
-      fetching: fetching,
-      formValues: formValues,
-      errorRute: errorRute,
-      errorName: errorName,
-      handleChange: handleChange
-    }) : /*#__PURE__*/React.createElement("ul", {
-      className: "selectable__list"
-    }, items), /*#__PURE__*/React.createElement("div", {
-      className: widgetChange ? 'actions between' : 'actions end'
-    }, widgetChange && /*#__PURE__*/React.createElement(_code6.BeyondButton, {
-      className: "boton-left",
-      onClick: toReturn
-    }, "Volver"), /*#__PURE__*/React.createElement(_code6.BeyondButton, _extends({}, props, {
-      onClick: onSave,
-      className: "primary roundell"
-    }), fetching ? /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
-      fetching: true,
-      className: "on-primary"
-    }) : text)))));
-  }
-  /*************************
-  actions\bundle\useForm.jsx
-  *************************/
-
-
-  const useForm = (initialState = {}) => {
-    const [values, setValues] = React.useState(initialState);
-    const [errorName, setErrorName] = React.useState(false);
-    const [errorRute, setErrorRute] = React.useState(false);
-
-    const reset = () => {
-      setValues(initialState);
-    };
-
-    const handleInputChange = ({
-      target
-    }) => {
-      setValues({ ...values,
-        [target.name]: target.value
+      const selected = parent.querySelector('li.selected');
+      if (selected) selected.classList.remove('selected');
+      target.classList.add('selected');
+      setValue({
+        bundle: item
       });
-      setErrorName(false);
-      setErrorRute(false);
     };
 
-    return [values, handleInputChange, reset, errorName, setErrorName, errorRute, setErrorRute];
-  };
-  /*******************************
-  actions\bundle\widget-fields.jsx
-  *******************************/
+    const props = {};
+    if (!bundle) props.disabled = true;
+    const items = ['widget', 'code', 'start', 'backend'].map(item => /*#__PURE__*/React.createElement("li", {
+      key: item,
+      onClick: e => onHandleChange(e, item)
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "circle"
+    }), /*#__PURE__*/React.createElement("span", null, item)));
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, {
+      title: texts.widget.title
+    }), /*#__PURE__*/React.createElement(FormAction, null, /*#__PURE__*/React.createElement("ul", {
+      className: "selectable__list"
+    }, items)));
+  }
+  /*****************************
+  actions\bundle\widget-form.jsx
+  *****************************/
 
 
-  function WidgetFields({
-    formValues,
-    type,
-    setType,
-    fetching,
-    errorRute,
-    errorName,
-    handleChange
-  }) {
+  function WidgetForm() {
+    const {
+      handleChange,
+      texts: {
+        widget: texts
+      },
+      fetching,
+      setValue,
+      formValues,
+      reset,
+      errors
+    } = useAddBundleContext();
     const {
       name,
-      route
+      route,
+      layoutId,
+      type
     } = formValues;
 
-    const handleChangeSelect = ele => setType(ele.value);
+    const handleChangeSelect = ele => setValue({
+      type: ele.value
+    });
 
     const options = [{
       value: 'page',
@@ -328,31 +357,57 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       value: 'widget',
       label: 'Widget'
     }];
-    return /*#__PURE__*/React.createElement("div", {
+
+    const toReturn = () => reset();
+
+    const attrs = {
+      onChange: handleChange
+    };
+    if (fetching) attrs.disabled = true;
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, {
+      back: toReturn,
+      title: texts.title
+    }), /*#__PURE__*/React.createElement(FormAction, null, /*#__PURE__*/React.createElement("div", {
       className: "group-inputs"
-    }, /*#__PURE__*/React.createElement(_code6.BeyondInput, {
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "input-field"
+    }, /*#__PURE__*/React.createElement("input", _extends({
       name: "name",
-      label: "Nombre",
-      placeholder: "Nombre del bundle",
-      value: name,
-      onChange: handleChange,
+      placeholder: texts.inputs.name.label,
+      value: name
+    }, attrs, {
       required: true,
       disabled: fetching
-    }), errorName && /*#__PURE__*/React.createElement("span", null, "Ingrese un Nombre"), /*#__PURE__*/React.createElement("div", {
+    })), errors.name && /*#__PURE__*/React.createElement("span", {
+      className: "error-message"
+    }, texts.inputs.name.error)), /*#__PURE__*/React.createElement("div", {
       className: "form-select"
-    }, /*#__PURE__*/React.createElement("label", null, "Tipo de widget"), /*#__PURE__*/React.createElement(_code10.DSSelect, {
+    }, /*#__PURE__*/React.createElement("label", null, texts.inputs.type.label), /*#__PURE__*/React.createElement("div", {
+      className: "relative__container"
+    }, /*#__PURE__*/React.createElement(_code10.DSSelect, {
+      label: texts.inputs.type.placeholder,
       options: options,
       value: type,
       onSelect: handleChangeSelect
-    })), type === 'page' && /*#__PURE__*/React.createElement(_code6.BeyondInput, {
+    }))), type === 'page' && /*#__PURE__*/React.createElement("div", {
+      className: "input-field"
+    }, /*#__PURE__*/React.createElement("label", null, texts.inputs.route.label), /*#__PURE__*/React.createElement("input", _extends({
       required: true,
       name: "route",
       value: route,
-      label: "Ruta de la P\xE1gina",
-      placeholder: "Ruta de la P\xE1gina",
-      disabled: fetching,
-      onChange: handleChange
-    }), errorRute && /*#__PURE__*/React.createElement("span", null, "Ingrese una url"));
+      placeholder: texts.inputs.route.label
+    }, attrs)), errors.route && /*#__PURE__*/React.createElement("span", {
+      className: "error-message"
+    }, texts.inputs.route.error)), type === 'layout' && /*#__PURE__*/React.createElement("div", {
+      className: "input-field"
+    }, /*#__PURE__*/React.createElement("label", null, texts.inputs.layoutId.label), /*#__PURE__*/React.createElement("input", _extends({
+      required: true,
+      name: "layoutId",
+      value: layoutId ?? '',
+      placeholder: texts.inputs.layoutId.label
+    }, attrs)), errors.route && /*#__PURE__*/React.createElement("span", {
+      className: "error-message"
+    }, texts.inputs.layoutId.error)))));
   }
   /*****************************
   actions\favorites\favorite.jsx
@@ -2173,7 +2228,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
         throw new Error("Can't instantiate abstract class!");
       }
 
-      if (application === undefined) console.trace(300, application);
       this._module = module;
       this._application = application;
       this._elements = elements;
@@ -2481,7 +2535,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       return [{
         name: 'addBundle',
         modal: true,
-        icon: 'add'
+        icon: 'add',
+        className: "ds-modal md md-modal"
       }];
     }
 
@@ -2489,7 +2544,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       return [{
         name: 'addBundle',
         modal: true,
-        icon: 'add'
+        icon: 'add',
+        className: "ds-modal md md-modal"
       }];
     }
 
@@ -3243,7 +3299,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }
 
     async create(name) {
-      console.trace('create ', name);
       const extension = name.split(["."]).slice(-1)[0];
 
       if (!this.extensions[this.name]?.includes(extension)) {
@@ -3887,7 +3942,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     get actions() {
       return [{
         name: 'create',
-        icon: 'add'
+        icon: 'add',
+        className: 'md modal-md '
       }, {
         name: 'rename',
         icon: 'edit'
@@ -4019,6 +4075,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
   _exports.branchFactory = branchFactory;
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-tree__container .tree__icon-open{fill:#fff;height:18px;width:18px;padding:0;transform:rotate(270deg)}.ds-tree__container .tree__icon-open.tree__icon--opened{transform:rotate(0)}.ds-tree__container .ds-tree{width:100%;transition:all .3s ease-in}.ds-tree__container .ds-tree .ds-branches.ds-branches--hidden{display:none}.ds-tree__container .ds-tree ul{padding:0;margin:0;list-style:none;cursor:pointer}.ds-tree__container .ds-tree .tree__toggle-icon{fill:#fff}.ds-tree__container svg.beyond-icon{height:15px;width:15px}.ds-tree__container>.tree__title{display:grid;grid-template-columns:auto 1fr auto;align-items:center;justify-content:space-between;border-bottom:.5px solid #050910;cursor:pointer;gap:10px;padding:4px 8px;font-size:13px}.ds-tree__container>.tree__title .title__bundle-icon{fill:#FFA789}.ds-tree__container>.tree__title:hover{background:#0c1423}.ds-tree__container.is-hidden .ds-tree,.ds-tree__container.is-hidden>.ds-tree__container{display:none;transition:all .3s ease-in}.ds-tree__container .item__container .branch__actions .beyond-icon,.ds-tree__container .tree__title .branch__actions .beyond-icon{transition:all .2s ease-in-out;opacity:.8;fill:#fff;stroke:#fff;opacity:.3}.ds-tree__container .item__container .branch__actions .beyond-icon:hover,.ds-tree__container .tree__title .branch__actions .beyond-icon:hover{opacity:1}.ds-tree .ds-tree__branches-list{position:relative}.ds-tree .ds-tree__branches-list.tree__list--hidden{display:none}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-0{background:#0f1b2e}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-1{background:#0d1627}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-2{background:#0a121f}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-3{background:#080d17}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-4{background:#050910}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-5{background:#030508}.beyond-element-modal.ds-modal.ds-tree__forms .close-icon{z-index:2}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content{padding:20px}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content input{margin-top:5px;border:1px solid #e4e5dc;padding:8px;width:100%;outline:0}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content input:focus{border-color:#cdcfbf}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content label{display:block!important}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .actions{margin-top:15px;border-top:1px solid #e4e5dc;padding-top:15px;display:flex}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .actions .roundell{border-radius:.6rem;padding:.6rem}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .between{justify-content:space-between}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .between .boton-left{display:inline-block;width:20%;color:#fff;background-color:#313c50;border:none;text-transform:uppercase;padding:.6rem;border-radius:.6rem;font-size:1rem;border-color:#010042;box-shadow:2px 2px 2px 1px rgba(29,24,24,.2);transition:all .4s ease-in-out}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .between .boton-left:hover{background-color:#050910;color:#e4e5dc;border-color:#121f36;box-shadow:2px 2px 2px 1px #333}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .end{justify-content:flex-end}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content form .group-inputs .beyond-element-input{border:none;border-bottom:1px solid #333!important}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content form .group-inputs .opacity{opacity:.4}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content form .group-inputs .form-select label{font-size:15px}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content form .group-inputs .form-select .form__select .form__select__options{z-index:10}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content form .group-inputs .form-select .form__select .form__select__options div{color:var(--beyond-text-color)}.ds-tree__container.no-header .first-tree>li .item__container{border-bottom:.5px solid #050910}.ds-tree__container .empty-tree{padding:4px 8px;text-align:center}.ds-tree__container .ds-tree__branches-list .item.item--action-processing>.item__container:after,.ds-tree__container .ds-tree__branches-list .item.item--fetching>.item__container:after{left:-10px;top:-20px;height:200%;width:30%;border-width:10px;background-size:10px;content:" ";background-color:rgba(255,255,255,.2);transform:rotate(8deg)}.ds-tree__container .ds-tree__branches-list .item.item--action-processed>.item__container:after{left:0;right:0;width:200%;height:200%;background-size:10px;content:" ";background-color:rgba(255,255,255,.2);transform:rotate(1deg)}.ds-tree__container .ds-tree__branches-list .item .item__container{display:flex;width:100%;justify-content:space-between;padding:4px 8px;transition:all .3s ease-in;position:relative;overflow:hidden}.ds-tree__container .ds-tree__branches-list .item .item__container:after{position:absolute;content:" ";width:0;transition:all .2s ease-in}.ds-tree__container .ds-tree__branches-list .item .item__container .item__label{display:flex;align-items:center;gap:3px}.ds-tree__container .ds-tree__branches-list .item .item__container .item__errors{color:#fff!important;padding:1px 3px;font-size:.8rem;display:flex;align-items:center;justify-content:center;position:relative;z-index:2}.ds-tree__container .ds-tree__branches-list .item .item__container .item__errors:after{content:" ";background:#d2281e;opacity:.3;position:absolute;top:0;left:0;bottom:0;right:0;z-index:1}.ds-tree__container .ds-tree__branches-list .item .item__container.has__errors *{color:#d2281e}.ds-tree__container .ds-tree__branches-list .item .item__container:hover{background:rgba(0,0,0,.2)}.ds-tree__container .ds-tree__branches-list .item .tree__actions .beyond-popover__target svg{fill:#fff}.ds-tree__branches-list .beyond-popover__content{box-shadow:0 1px 2px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.07),0 4px 8px rgba(0,0,0,.07),0 8px 16px rgba(0,0,0,.07),0 16px 32px rgba(0,0,0,.07),0 32px 64px rgba(0,0,0,.07)}.ds-tree__branches-list .beyond-popover__content ul{padding:0}.ds-tree__branches-list .beyond-popover__content ul li{min-width:180px;padding:5px 8px;display:flex;gap:8px;align-items:center;transition:all .2s ease-in-out}.ds-tree__branches-list .beyond-popover__content ul li:hover{background:#ffa789}.ds-static-form .jd-gallery__drop-zone{cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.2s all ease-in;margin:15px;width:calc(100% - 30px);height:100px;padding:30px;outline:2px dashed #E36152;outline-offset:10px}.ds-static-form .jd-gallery__drop-zone:hover{background:#f0f0f0;color:#050910}.ds-static-form .jd-gallery__drop-zone .beyond-icon{height:60px;width:60px;fill:#E4E5DC}.ds-static-form .jd-gallery__list{width:100%;margin-top:20px}.ds-static-form .jd-gallery__list ul{display:flex;flex-wrap:wrap;width:100%;list-style:none;padding:0;gap:8px}.ds-static-form .jd-gallery__list li{flex:20%;max-width:20%;padding:0;cursor:pointer;transition:all .2s ease-in}.ds-static-form .jd-gallery__list li:hover{opacity:.8;transition:all .2s ease-in}.ds-static-form .jd-gallery__list li .beyond-element-image{width:100%;aspect-ratio:16/9;height:100px;position:relative}.ds-static-form .jd-gallery__list li .beyond-element-image img{object-fit:cover;z-index:1;aspect-ratio:16/9;height:100%;width:100%}.ds-static-form .jd-gallery__list li .beyond-element-image figcaption{position:absolute;transition:all .2s ease-in;display:none}.ds-static-form .jd-gallery__list li .beyond-element-image:hover figcaption{transition:all .2s ease-in-out;background:rgba(227,97,82,.7);display:flex;position:absolute;top:0;left:0;right:0;bottom:0;align-items:center;z-index:99;justify-content:center}.ds-static-form .jd-gallery__list li .beyond-element-image:hover figcaption .beyond-icon-button svg{fill:#fff}.ds-static-form{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.ds-static-form 0%{opacity:0}.ds-static-form 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.ds-static-form .beyond-element-input input{height:2.2rem}.ds-static-form .hidden-input{display:none}.ds-static-form .alert{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.ds-static-form .alert 0%{opacity:0}.ds-static-form .alert 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.ds-static-form form{display:block}.ds-static-form .jd-uploader-form{display:flex;width:100%;align-items:center;flex-direction:column;justify-content:center}.ds-static-form .jd-uploader-form .alert{width:100%}.ds-static-form .modal-content .actions{margin:15px;border-top:1px solid #e4e5dc;padding-top:15px;display:flex}.ds-static-form .modal-content .actions .roundell{border-radius:.6rem;padding:.6rem}.ds-tree__container .ds-tree .item.item--subtree{fill:#fff}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-tree__container .tree__icon-open{fill:#fff;height:18px;width:18px;padding:0;transform:rotate(270deg)}.ds-tree__container .tree__icon-open.tree__icon--opened{transform:rotate(0)}.ds-tree__container .ds-tree{width:100%;transition:all .3s ease-in}.ds-tree__container .ds-tree .ds-branches.ds-branches--hidden{display:none}.ds-tree__container .ds-tree ul{padding:0;margin:0;list-style:none;cursor:pointer}.ds-tree__container .ds-tree .tree__toggle-icon{fill:#fff}.ds-tree__container svg.beyond-icon{height:15px;width:15px}.ds-tree__container>.tree__title{display:grid;grid-template-columns:auto 1fr auto;align-items:center;justify-content:space-between;border-bottom:.5px solid #050910;cursor:pointer;gap:10px;padding:4px 8px;font-size:13px}.ds-tree__container>.tree__title .title__bundle-icon{fill:#FFA789}.ds-tree__container>.tree__title:hover{background:#0c1423}.ds-tree__container.is-hidden .ds-tree,.ds-tree__container.is-hidden>.ds-tree__container{display:none;transition:all .3s ease-in}.ds-tree__container .item__container .branch__actions .beyond-icon,.ds-tree__container .tree__title .branch__actions .beyond-icon{transition:all .2s ease-in-out;fill:#fff;stroke:#fff;opacity:.3}.ds-tree__container .item__container .branch__actions .beyond-icon:hover,.ds-tree__container .tree__title .branch__actions .beyond-icon:hover{opacity:1}.ds-tree .ds-tree__branches-list{position:relative}.ds-tree .ds-tree__branches-list.tree__list--hidden{display:none}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-0{background:#0f1b2e}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-1{background:#0d1627}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-2{background:#0a121f}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-3{background:#080d17}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-4{background:#050910}.ds-tree .ds-tree__branches-list.ds-tree__branches-list.tree__list-level-5{background:#030508}.beyond-element-modal.ds-modal.ds-tree__forms .close-icon{z-index:2}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content{padding:20px}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content input{margin-top:5px;border:1px solid #e4e5dc;padding:8px;width:100%;outline:0}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content input:focus{border-color:#cdcfbf}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content label{display:block!important}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .end{justify-content:flex-end}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .group-inputs .input-field{display:grid;position:relative;padding:10px 0 20px}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .group-inputs .input-field span.error-message{position:absolute;bottom:0;color:var(--beyond-error-color)}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .group-inputs .form-select label{font-size:15px}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .group-inputs .form-select .form__select .form__select__options{z-index:10}.beyond-element-modal.ds-modal.ds-tree__forms .ds-modal__content .group-inputs .form-select .form__select .form__select__options div{color:var(--beyond-text-color)}.ds-tree__container.no-header .first-tree>li .item__container{border-bottom:.5px solid #050910}.ds-tree__container .empty-tree{padding:4px 8px;text-align:center}.ds-tree__container .ds-tree__branches-list .item.item--action-processing>.item__container:after,.ds-tree__container .ds-tree__branches-list .item.item--fetching>.item__container:after{left:-10px;top:-20px;height:200%;width:30%;border-width:10px;background-size:10px;content:" ";background-color:rgba(255,255,255,.2);transform:rotate(8deg)}.ds-tree__container .ds-tree__branches-list .item.item--action-processed>.item__container:after{left:0;right:0;width:200%;height:200%;background-size:10px;content:" ";background-color:rgba(255,255,255,.2);transform:rotate(1deg)}.ds-tree__container .ds-tree__branches-list .item .item__container{display:flex;width:100%;justify-content:space-between;padding:4px 8px;transition:all .3s ease-in;position:relative;overflow:hidden}.ds-tree__container .ds-tree__branches-list .item .item__container:after{position:absolute;content:" ";width:0;transition:all .2s ease-in}.ds-tree__container .ds-tree__branches-list .item .item__container .item__label{display:flex;align-items:center;gap:3px}.ds-tree__container .ds-tree__branches-list .item .item__container .item__errors{color:#fff!important;padding:1px 3px;font-size:.8rem;display:flex;align-items:center;justify-content:center;position:relative;z-index:2}.ds-tree__container .ds-tree__branches-list .item .item__container .item__errors:after{content:" ";background:#d2281e;opacity:.3;position:absolute;top:0;left:0;bottom:0;right:0;z-index:1}.ds-tree__container .ds-tree__branches-list .item .item__container.has__errors *{color:#d2281e}.ds-tree__container .ds-tree__branches-list .item .item__container:hover{background:rgba(0,0,0,.2)}.ds-tree__container .ds-tree__branches-list .item .tree__actions .beyond-popover__target svg{fill:#fff}.ds-tree__branches-list .beyond-popover__content{box-shadow:0 1px 2px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.07),0 4px 8px rgba(0,0,0,.07),0 8px 16px rgba(0,0,0,.07),0 16px 32px rgba(0,0,0,.07),0 32px 64px rgba(0,0,0,.07)}.ds-tree__branches-list .beyond-popover__content ul{padding:0}.ds-tree__branches-list .beyond-popover__content ul li{min-width:180px;padding:5px 8px;display:flex;gap:8px;align-items:center;transition:all .2s ease-in-out}.ds-tree__branches-list .beyond-popover__content ul li:hover{background:#ffa789}.ds-static-form .jd-gallery__drop-zone{cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.2s all ease-in;margin:15px;width:calc(100% - 30px);height:100px;padding:30px;outline:2px dashed #E36152;outline-offset:10px}.ds-static-form .jd-gallery__drop-zone:hover{background:#f0f0f0;color:#050910}.ds-static-form .jd-gallery__drop-zone .beyond-icon{height:60px;width:60px;fill:#E4E5DC}.ds-static-form .jd-gallery__list{width:100%;margin-top:20px}.ds-static-form .jd-gallery__list ul{display:flex;flex-wrap:wrap;width:100%;list-style:none;padding:0;gap:8px}.ds-static-form .jd-gallery__list li{flex:20%;max-width:20%;padding:0;cursor:pointer;transition:all .2s ease-in}.ds-static-form .jd-gallery__list li:hover{opacity:.8;transition:all .2s ease-in}.ds-static-form .jd-gallery__list li .beyond-element-image{width:100%;aspect-ratio:16/9;height:100px;position:relative}.ds-static-form .jd-gallery__list li .beyond-element-image img{object-fit:cover;z-index:1;aspect-ratio:16/9;height:100%;width:100%}.ds-static-form .jd-gallery__list li .beyond-element-image figcaption{position:absolute;transition:all .2s ease-in;display:none}.ds-static-form .jd-gallery__list li .beyond-element-image:hover figcaption{transition:all .2s ease-in-out;background:rgba(227,97,82,.7);display:flex;position:absolute;top:0;left:0;right:0;bottom:0;align-items:center;z-index:99;justify-content:center}.ds-static-form .jd-gallery__list li .beyond-element-image:hover figcaption .beyond-icon-button svg{fill:#fff}.ds-static-form{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.ds-static-form 0%{opacity:0}.ds-static-form 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.ds-static-form .beyond-element-input input{height:2.2rem}.ds-static-form .hidden-input{display:none}.ds-static-form .alert{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.ds-static-form .alert 0%{opacity:0}.ds-static-form .alert 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.ds-static-form form{display:block}.ds-static-form .jd-uploader-form{display:flex;width:100%;align-items:center;flex-direction:column;justify-content:center}.ds-static-form .jd-uploader-form .alert{width:100%}.ds-static-form .modal-content .actions{margin:15px;border-top:1px solid #e4e5dc;padding-top:15px;display:flex}.ds-static-form .modal-content .actions .roundell{border-radius:.6rem;padding:.6rem}.ds-tree__container .ds-tree .item.item--subtree{fill:#fff}';
   bundle.styles.appendToDOM();
 });

@@ -183,7 +183,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\declarations.ts
 
   modules.set('./applications/declarations', {
-    hash: 868949629,
+    hash: 2659045424,
     creator: function (require, exports) {
       "use strict";
 
@@ -192,52 +192,97 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       });
       exports.ApplicationDeclarations = void 0;
 
-      const beyond_context_1 = require("beyond_context");
-
       const ts_1 = require("@beyond-js/kernel/core/ts");
 
-      class ApplicationDeclarations extends ts_1.Events {
-        #parent;
+      const beyond_context_1 = require("beyond_context");
+
+      const reactive_model_1 = require("../reactive-model");
+
+      class ApplicationDeclarations extends reactive_model_1.ReactiveModel {
+        #application;
         #error;
 
         get error() {
           return this.#error;
         }
 
-        get value() {
-          return this.#parent.fields.get('declarations')?.value;
+        #currentDeclaration;
+
+        get currentDeclaration() {
+          return this.#currentDeclaration;
         }
 
-        get updating() {
-          return this.#parent.fields.get('declarations')?.value?.updating;
+        #total;
+
+        get total() {
+          return this.#total;
         }
 
-        constructor(parent) {
+        #count;
+
+        get count() {
+          return this.#count;
+        }
+
+        clean() {
+          this.#total = 0;
+          this.#count = 0;
+          this.#error = '';
+          this.#currentDeclaration = '';
+          this.processed = false;
+          this.triggerEvent();
+        }
+
+        onDeclarationSave(message) {
+          void this;
+          this.#error = '';
+          this.#total = message.total;
+          this.#count = message.count;
+          this.#currentDeclaration = message.id;
+          this.processed = this.count === this.total;
+          this.processing = this.count !== this.total; //when the process finished current declaration is clean
+
+          this.processed && (this.#currentDeclaration = '');
+          this.triggerEvent();
+        }
+
+        async initialise() {
+          const socket = await ts_1.beyond.libraries.get('@beyond-js/dashboard-lib').getSocket();
+          socket.on(`declaration-save:${this.#application.id}`, this.onDeclarationSave);
+        }
+
+        constructor(application) {
           super();
-          this.#parent = parent;
+          this.#application = application;
+          this.initialise().catch(exc => console.error(exc.stack));
+          this.clean = this.clean.bind(this);
+          this.onDeclarationSave = this.onDeclarationSave.bind(this);
         }
 
-        async update() {
+        async update(id = false) {
           try {
-            if (!this.#parent.id) {
+            if (!this.#application.id) {
               console.warn('the application id is not defined');
               return;
             }
 
-            const action = '/applications/declarations/update';
-            const response = await beyond_context_1.module.execute(action, {
-              applicationId: this.#parent.id
-            });
+            this.clean();
+            this.processing = true;
+            const action = id ? '/applications/declarations/update' : '/applications/declarations/updateAll';
+            const specs = {
+              id: id,
+              applicationId: this.#application.id
+            };
+            const response = await beyond_context_1.module.execute(action, specs);
 
             if (response?.error) {
               this.#error = response.error;
               console.error('Error Creating module: ', response.error);
-              return;
             }
           } catch (error) {
             this.#error = error;
           } finally {
-            this.trigger('change');
+            this.triggerEvent();
           }
         }
 
@@ -954,7 +999,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\modules\item.ts
 
   modules.set('./applications/modules/item', {
-    hash: 1534245629,
+    hash: 407570627,
     creator: function (require, exports) {
       "use strict";
 
@@ -998,14 +1043,15 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
          */
 
 
-        get developer() {
-          const module = this.module;
-          return module?.developer ?? undefined;
-        }
-
         get name() {
           const module = this.module;
-          return module?.name ?? undefined;
+          return module?.name;
+        }
+
+        get route() {
+          const bundles = this.properties.get('bundles');
+          const widget = bundles.get(`${this.id}//widget`);
+          return widget?.route;
         }
         /**
          * Metodos migrados desde modulo
@@ -1073,7 +1119,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         }
 
         clone(name) {
-          return beyond_context_1.module.execute('/sources/clone', {
+          return beyond_context_1.module.execute('/builder/module/clone', {
             name: name,
             moduleId: this.id
           });
@@ -1085,7 +1131,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
             return;
           }
 
-          return beyond_context_1.module.execute('/sources/delete', {
+          return beyond_context_1.module.execute('/builder/module/delete', {
             target: this.module.path
           });
         }
@@ -1120,7 +1166,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\modules\register.ts
 
   modules.set('./applications/modules/register', {
-    hash: 54966619,
+    hash: 2966258795,
     creator: function (require, exports) {
       "use strict";
 
@@ -1799,7 +1845,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: bundles\globals\item.ts
 
   modules.set('./bundles/globals/item', {
-    hash: 858039601,
+    hash: 1304775341,
     creator: function (require, exports) {
       "use strict";
 
@@ -1815,6 +1861,18 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('id').value;
         }
 
+        get name() {
+          return this.fields.get('name').value;
+        }
+
+        get processors() {
+          return this.fields.get('processors').value;
+        }
+
+        get multilanguage() {
+          return !!this.fields.get('multilanguage').value;
+        }
+
         constructor(specs) {
           super('global-bundles', specs);
         }
@@ -1826,7 +1884,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: bundles\globals\register.ts
 
   modules.set('./bundles/globals/register', {
-    hash: 4183665742,
+    hash: 3706387622,
     creator: function (require, exports) {
       "use strict";
 
@@ -1841,11 +1899,11 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = beyond_context_1.module;
       specs.cache = false;
-      specs.fields = ['id'];
+      specs.fields = ['id', 'name', 'processors', 'multilanguage'];
       specs.batch = {
         actions: {
-          list: '/list',
-          data: '/data'
+          list: 'bundles/list',
+          data: 'bundles/data'
         }
       };
       specs.indices = {
@@ -1859,7 +1917,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: bundles\item.ts
 
   modules.set('./bundles/item', {
-    hash: 768066218,
+    hash: 4189868111,
     creator: function (require, exports) {
       "use strict";
 
@@ -1889,6 +1947,18 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('pathname').value;
         }
 
+        get route() {
+          return this.fields.get('route').value;
+        }
+
+        get layout() {
+          return this.fields.get('layout').value;
+        }
+
+        get type() {
+          return this.fields.get('is').value ?? this.name;
+        }
+
         get updated() {
           return this.fields.get('updated').value;
         }
@@ -1905,8 +1975,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('warnings').value ?? [];
         }
 
-        get additional() {
-          return this.fields.get('additional').value;
+        get element() {
+          return this.fields.get('element').value;
         }
 
         get processors() {
@@ -1960,7 +2030,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: bundles\register.ts
 
   modules.set('./bundles/register', {
-    hash: 2222037934,
+    hash: 31367235,
     creator: function (require, exports) {
       "use strict";
 
@@ -1981,7 +2051,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = beyond_context_1.module;
       specs.cache = false;
-      specs.fields = ['id', 'name', 'errors', 'warnings', 'processors', 'updated', 'destroyed', 'extname', 'pathname', 'additional'];
+      specs.fields = ['id', 'name', 'errors', 'warnings', 'processors', 'updated', 'destroyed', 'extname', 'pathname', 'is', 'route', 'layout', 'element'];
       specs.properties = {
         processors: {
           Items: item_1.Processor,
@@ -2852,7 +2922,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: modules\item.ts
 
   modules.set('./modules/item', {
-    hash: 386513364,
+    hash: 2869266178,
     creator: function (require, exports) {
       "use strict";
 
@@ -2874,10 +2944,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
         get declarations() {
           return this.#declarations;
-        }
-
-        get developer() {
-          return this.fields.get('developer').value;
         }
 
         get id() {
@@ -2920,20 +2986,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           this.#description = value;
         }
 
-        get route() {
-          return this.fields.get('route').value;
-        }
-
-        get vdir() {
-          return this.fields.get('vdir').value;
-        }
-
         get hmr() {
           return this.fields.get('hmr').value;
-        }
-
-        get layoutId() {
-          return this.fields.get('layoutId').value;
         }
 
         get errors() {
@@ -2992,7 +3046,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: modules\register.ts
 
   modules.set('./modules/register', {
-    hash: 4081033071,
+    hash: 2836517847,
     creator: function (require, exports) {
       "use strict";
 
@@ -3015,7 +3069,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = beyond_context_1.module;
       specs.cache = false;
-      specs.fields = ['id', 'name', 'tu', 'path', 'pathname', 'developer', 'title', 'description', 'route', 'hmr', 'vdir', 'layoutId', 'bundles', 'container', 'errors', 'warnings'];
+      specs.fields = ['id', 'name', 'tu', 'path', 'pathname', 'title', 'description', 'hmr', 'bundles', 'container', 'errors', 'warnings'];
       specs.properties = {
         bundles: {
           Items: item_1.Bundle,
@@ -3932,7 +3986,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: reactive-model.ts
 
   modules.set('./reactive-model', {
-    hash: 1207418285,
+    hash: 1181350949,
     creator: function (require, exports) {
       "use strict";
 
@@ -3944,7 +3998,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const ts_1 = require("@beyond-js/kernel/core/ts");
 
       class ReactiveModel extends ts_1.Events {
-        #id;
         #processing;
 
         get processing() {
@@ -3957,18 +4010,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           this.triggerEvent();
         }
 
-        #fetching;
-
-        get fetching() {
-          return this.#fetching;
-        }
-
-        set fetching(value) {
-          if (value === this.#fetching) return;
-          this.#fetching = value;
-          this.triggerEvent();
-        }
-
         #processed;
 
         get processed() {
@@ -3978,6 +4019,18 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         set processed(value) {
           if (value === this.#processed) return;
           this.#processed = value;
+          this.triggerEvent();
+        }
+
+        #fetching;
+
+        get fetching() {
+          return this.#fetching;
+        }
+
+        set fetching(value) {
+          if (value === this.#fetching) return;
+          this.#fetching = value;
           this.triggerEvent();
         }
 

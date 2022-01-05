@@ -15,10 +15,8 @@ interface SourceSpecs {
     source: string
 }
 
-interface AdditionalSpecs {
-    name: string,
-    is: string,
-    route: string
+interface ElementSpecs {
+    name: string
 }
 
 export /*bundle*/
@@ -39,6 +37,18 @@ class Bundle extends Item {
         return this.fields.get('pathname').value;
     }
 
+    get route(): string {
+        return this.fields.get('route').value;
+    }
+
+    get layout(): string {
+        return this.fields.get('layout').value;
+    }
+
+    get type(): string {
+        return this.fields.get('is').value ?? this.name;
+    }
+
     get updated(): boolean {
         return this.fields.get('updated').value;
     }
@@ -55,8 +65,8 @@ class Bundle extends Item {
         return this.fields.get('warnings').value ?? [];
     }
 
-    get additional(): AdditionalSpecs {
-        return this.fields.get('additional').value;
+    get element(): ElementSpecs {
+        return this.fields.get('element').value;
     }
 
     get processors(): Map<string, Processor> {

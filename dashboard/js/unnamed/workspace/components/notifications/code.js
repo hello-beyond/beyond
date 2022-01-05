@@ -445,6 +445,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     setNotifications() {
       this.notifications.clear();
+      return null;
       this.recent.forEach((recent, key) => {
         const iterator = recent.values().next().value;
 

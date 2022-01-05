@@ -26,6 +26,7 @@ define([], function () {
       "description": "Descripción",
       "title": "Titulo",
       "developer": "Desarrollador",
+      "webcomponent": "Web Component name",
       "multilanguage": "¿Archivo de texto?",
       "server": "¿Código servidor?",
       "styles": "¿Hojas de estilo?",
@@ -40,6 +41,7 @@ define([], function () {
       "title": "Mi modulo con beyondJS",
       "description": "Este modulo tiene potencial",
       "developer": "Tu nombre de desarrollador",
+      "webcomponent": "web-component",
       "button": "button"
     },
     "help": {
@@ -49,6 +51,7 @@ define([], function () {
       "developer": "El desarrollador es el autor, es necesario agregarlo para poder utilizarlo como dependencia en otro modulo.",
       "url": "Define un nombre para tu ruta por defecto",
       "styles": "Las hojas de estilo, por defecto se manejan con sass.",
+      "webcomponent": "Es el nombre de la etiqueta HTML que se utilizará para incluirlo. Debe estar en minúsculas y con dos palabras separadas por '-'",
       "titles": {
         "text": "Definicion en el module.json para archivos de textos",
         "server": "Definicion en el module.json para backend del modulo",
@@ -57,6 +60,7 @@ define([], function () {
     },
     "title": "Creación de un nuevo módulo",
     "subtitle": "Indica que tipo de modulo desea crear",
+    "aditionalFeatures": "Configuración adicional",
     "types": {
       "bundles": {
         "title": "Modulo en blanco",
@@ -116,6 +120,14 @@ define([], function () {
         "title": "Typescript",
         "description": "Texto para typecript"
       }]
+    },
+    "page": {
+      "layout": "Layout",
+      "input": {
+        "layout": {
+          "placeholder": "Seleccione."
+        }
+      }
     }
   };
 

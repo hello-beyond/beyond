@@ -149,10 +149,28 @@ define([], function () {
       "bundle": {
         "title": "Selecciona un tipo de bundle",
         "widget": {
-          "title": "Titulo bundle"
+          "title": "Titulo bundle",
+          "inputs": {
+            "route": {
+              "label": "Page Route",
+              "error": "invalid URL"
+            },
+            "type": {
+              "label": "Widget Type",
+              "placeholder": "Select..."
+            },
+            "name": {
+              "label": "Web Component Name",
+              "error": "The web component name must be has the next structure: 'web-component'"
+            },
+            "layoutId": {
+              "label": "Layout identifier",
+              "error": "The layout identifier is not valid"
+            }
+          }
         },
         "actions": {
-          "save": "Crear bundle",
+          "save": "Add bundle",
           "next": "Continuar"
         }
       },

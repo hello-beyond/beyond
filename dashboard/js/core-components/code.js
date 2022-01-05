@@ -15,7 +15,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
   _exports.DsFetchingBlock = DsFetchingBlock;
   _exports.FadeIn = _exports.DsSpinner = void 0;
   _exports.Link = Link;
-  _exports.TREE_ICONS = void 0;
+  _exports.useForm = _exports.TREE_ICONS = void 0;
   const {
     beyond
   } = globalThis;
@@ -986,11 +986,59 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
 
   _exports.DsSpinner = DsSpinner;
   const DSSpinner = DsSpinner;
+  /***********
+  use-form.jsx
+  ***********/
+
+  _exports.DSSpinner = DSSpinner;
+
+  const useForm = ({
+    state,
+    validations
+  }) => {
+    const [values, setValues] = React.useState(state);
+    const [errors, setErrors] = React.useState({});
+
+    const reset = () => setValues(state);
+
+    const handleChange = ({
+      target
+    }) => {
+      const {
+        name,
+        value
+      } = target;
+
+      if (validations.hasOwnProperty(name)) {
+        const {
+          validation,
+          message
+        } = validations[name];
+        const result = validation(value);
+        let update = { ...errors
+        };
+        if (!result) update[name] = message;else delete update[name];
+        setErrors({ ...update
+        });
+      }
+
+      setValues({ ...values,
+        [target.name]: target.value
+      });
+    };
+
+    const setValue = specs => setValues({ ...values,
+      ...specs
+    });
+
+    return [values, handleChange, reset, errors, setValue];
+  };
   /**********
   SCSS STYLES
   **********/
 
-  _exports.DSSpinner = DSSpinner;
+
+  _exports.useForm = useForm;
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-alert{padding:15px;color:#fff;position:relative;display:grid;align-items:center;align-content:center;border-radius:2px;box-shadow:0 10px 13px -7px #000,0 2px 11px 3px transparent}.beyond-alert.alert-icon,.beyond-alert.alert-icon-left{grid-template-columns:auto 1fr}.beyond-alert.alert-icon-right{grid-template-columns:1fr auto}.beyond-alert .alert-icon{padding:0 10px;display:flex}.beyond-alert h3{margin:0;text-transform:uppercase}.beyond-alert p{margin:0;text-transform:uppercase}.beyond-alert.alert-info{background-color:var(--beyond-info-color)}.beyond-alert.alert-success{background:var(--beyond-success-color)}.beyond-alert.alert-danger,.beyond-alert.alert-error{background:#d2281e}.beyond-alert.alert-warning{background:#f7d994}.beyond-alert .beyond-alert__close-icon{height:.8rem;width:.8rem;position:absolute;top:15px;right:15px}.beyond-alert .beyond-alert__close-icon svg{height:.6rem;width:.6rem}.beyond-alert.hiding-component{opacity:0;transition:all .3s ease-in-out}.beyond-alert.hiding-component *{display:none;transition:all 150ms ease-in-out}.ds-cards__container{margin:15px 0;display:flex;flex-wrap:wrap;gap:15px;--multiplier:calc(40rem - 100%)}.ds-cards__container .ds-cards__card{padding:30px;display:flex;min-width:33%;max-width:100%;flex-grow:1;flex-basis:calc(var(--multiplier) * 999);flex-direction:column;background:#050910;border-radius:5px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.ds-cards__container .ds-cards__card:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.ds-cards__container .ds-cards__card header{font-size:1.2rem;text-align:center;color:#ffa789;margin-bottom:15px}.ds-cards__container .ds-cards__card .card__actions{display:flex;justify-content:center;margin-top:30px}.ds-cards__container .ds-cards__card .card__actions .beyond-button{width:60%}.module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;align-items:center;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.ds-spinner__container{padding:60px}.ds-spinner__container .beyond-element-spinner{width:110px;height:110px}.cssload-container{position:relative}.cssload-whirlpool,.cssload-whirlpool::after,.cssload-whirlpool::before{position:absolute;top:50%;left:50%;border:1px solid #ccc;border-left-color:#000;border-radius:974px;-o-border-radius:974px;-ms-border-radius:974px;-webkit-border-radius:974px;-moz-border-radius:974px}.cssload-whirlpool{margin:-24px 0 0 -24px;height:49px;width:49px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::before{content:"";margin:-22px 0 0 -22px;height:43px;width:43px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::after{content:"";margin:-28px 0 0 -28px;height:55px;width:55px;animation:cssload-rotate 2.3s linear infinite;-o-animation:cssload-rotate 2.3s linear infinite;-ms-animation:cssload-rotate 2300ms linear infinite;-webkit-animation:cssload-rotate 2.3s linear infinite;-moz-animation:cssload-rotate 2.3s linear infinite}@keyframes cssload-rotate{100%{transform:rotate(360deg)}}@-o-keyframes cssload-rotate{100%{-o-transform:rotate(360deg)}}@-ms-keyframes cssload-rotate{100%{-ms-transform:rotate(360deg)}}@-webkit-keyframes cssload-rotate{100%{-webkit-transform:rotate(360deg)}}@-moz-keyframes cssload-rotate{100%{-moz-transform:rotate(360deg)}}';
   bundle.styles.appendToDOM();

@@ -7,13 +7,13 @@ specs.module = module;
 specs.cache = false;
 
 specs.fields = [
-    'id'
+    'id', 'name', 'processors', 'multilanguage'
 ];
 
 specs.batch = {
     actions: {
-        list: '/list',
-        data: '/data'
+        list: 'bundles/list',
+        data: 'bundles/data'
     }
 };
 

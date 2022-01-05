@@ -52,11 +52,15 @@ export function DSWorkspace({workspace}) {
                     <FooterBar/>
                 </div>
             </DSWorkspaceContext.Provider>
-            {showModal && <ApplicationCreate show closeModal={() => setShowModal(false)}/>}
+            {showModal && <ApplicationCreate closeModal={() => {
+                setShowModal(false)
+            }}/>}
             {state.addModule &&
              <CreateModuleForm
                  workspace={workspace}
-                 onClose={() => setState({...state, ...{addModule: false}})}/>}
+                 onClose={() => {
+                     workspace.setState({addModule: false})
+                 }}/>}
         </>
     );
 }

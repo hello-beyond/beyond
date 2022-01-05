@@ -1,5 +1,5 @@
 /**
- * Represents the Beyond Server
+ * Represents the Beyond Server (beyond.json file)
  *
  * @type {module.FileManager|{}}
  */
@@ -7,9 +7,9 @@ module.exports = class BeyondServer extends require('../file-manager') {
     _monitor;
     _fileName = 'beyond.json';
 
-    #applications;
-    get applications() {
-        return this.#applications;
+    #projects;
+    get projects() {
+        return this.#projects;
     }
 
     _libraries = [];
@@ -17,30 +17,34 @@ module.exports = class BeyondServer extends require('../file-manager') {
         return this._libraries;
     }
 
+    #defaultTPL = {applications: 'projects.json', bundles: {}};
+
     constructor(path) {
-        super(path);
-        this.validate();
-        this._load(path, this._fileName);
-        this.#applications = new (require('./applications'))(this.path, this.file.json.applications);
+        super(path, 'beyond.json');
+        const exists = this.validate();
+        if (exists) this.load();
+        else {
+            this.file.content = this.#defaultTPL;
+            this.#projects = new (require('./projects'))(this.file.dirname, this.file.json.applications);
+        }
+
+    }
+
+    async load() {
+        await this._load(this.file.file);
+        this.#projects = new (require('./projects'))(this.file.dirname, this.file.json.applications);
     }
 
     async save() {
-        if (this.#applications.isFile) await this.#applications.save();
-
-        const specs = {applications: this.#applications.value, libraries: this._libraries};
-        return this.file.writeJSON(this.file.getPath(this._fileName), {...this.file.json, ...specs});
+        if (this.#projects.isFile) await this.#projects.save();
+        const specs = {applications: this.#projects.value, libraries: this._libraries};
+        return this.file.writeJSON({...this.file.json, ...specs});
     }
 
-    addApplication = app => {
-        this.applications.add(app);
-        if (!this.applications.isFile) {
-            return this.save();
-        }
-        return this.applications.save();
-
+    addProject = app => {
+        this.projects.add(app);
+        if (!this.projects.isFile) return this.save();
+        return this.projects.save();
     }
 
-    addLibrary(library) {
-        this._libraries.push(library);
-    }
 }

@@ -19,36 +19,36 @@ define([], function () {
   __pkg.exports.process = (require, _exports) => _exports.txt = {
     "form": {
       "steps": {
-        "first": "Datos Generales",
-        "second": "Detalles del módulo"
+        "first": "General data",
+        "second": "Module details"
       },
-      "name": "Nombre del modulo",
-      "description": "Descripción",
-      "title": "Titulo",
-      "developer": "Desarrollador",
-      "multilanguage": "¿Archivo de texto?",
-      "server": "¿Código servidor?",
-      "styles": "¿Hojas de estilo?",
+      "name": "Module name",
+      "description": "Description",
+      "title": "Title",
+      "multilanguage": "translations?",
+      "webcomponent": "Web Component name",
+      "server": "Server code",
+      "styles": "Styles",
       "url": "URL",
-      "button": "CREAR",
+      "button": "Create",
       "errors": {
-        "route": "Ya existe un modulo con esta ruta definida:"
+        "route": "There is already a module with this defined path:"
       }
     },
     "placeholder": {
-      "name": "Define un nombre con la caracteristica principal de tu modulo",
-      "title": "Mi modulo con beyondJS",
-      "description": "Este modulo tiene potencial",
-      "developer": "Tu nombre de desarrollador",
-      "button": "button"
+      "name": "Define a semantic name for your module",
+      "title": "My beyondJs module",
+      "description": "Add a description of your module",
+      "button": "button",
+      "webcomponent": "web-component"
     },
     "help": {
-      "name": "El nombre del modulo define el nombre de la carpeta.",
-      "description": "Una descripción de que hace el modulo",
-      "title": "Titulo a utilizar",
-      "developer": "El desarrollador es el autor, es necesario agregarlo para poder utilizarlo como dependencia en otro modulo.",
-      "url": "Define un nombre para tu ruta por defecto",
-      "styles": "Las hojas de estilo, por defecto se manejan con sass.",
+      "name": "The module name defines the folder name and the import path.",
+      "description": "A description of what the module does",
+      "title": "A title to use",
+      "url": "The URL to navigate to your module in the app",
+      "styles": "The style sheets, by default, are handled with sass.",
+      "webcomponent": "Is the name of the HTML tag which going to be used to include it. Must be in lowercase and with two words separated by '-'",
       "titles": {
         "text": "Definicion en el module.json para archivos de textos",
         "server": "Definicion en el module.json para backend del modulo",
@@ -57,6 +57,7 @@ define([], function () {
     },
     "title": "Creación de un nuevo módulo",
     "subtitle": "Indica que tipo de modulo desea crear",
+    "aditionalFeatures": "Additional Configuration",
     "types": {
       "bundles": {
         "title": "Modulo en blanco",
@@ -90,7 +91,7 @@ define([], function () {
       }]
     },
     "bundles": {
-      "title": "Tipo de modulo",
+      "title": "Bundle type",
       "options": [{
         "id": "page",
         "title": "Página",
@@ -116,6 +117,14 @@ define([], function () {
         "title": "Typescript",
         "description": "Texto para typecript"
       }]
+    },
+    "page": {
+      "layout": "Layout",
+      "input": {
+        "layout": {
+          "placeholder": "Select."
+        }
+      }
     }
   };
 

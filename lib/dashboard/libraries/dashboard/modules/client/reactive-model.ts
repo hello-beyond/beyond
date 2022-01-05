@@ -2,9 +2,6 @@ import {Events} from "@beyond-js/kernel/core/ts";
 
 export /*bundle*/
 class ReactiveModel extends Events {
-    #id: number;
-
-
     #processing: boolean;
     get processing(): boolean {
         return this.#processing;
@@ -13,17 +10,6 @@ class ReactiveModel extends Events {
     set processing(value: boolean) {
         if (value === this.#processing) return;
         this.#processing = value;
-        this.triggerEvent();
-    }
-
-    #fetching: boolean;
-    get fetching(): boolean {
-        return this.#fetching;
-    }
-
-    set fetching(value: boolean) {
-        if (value === this.#fetching) return;
-        this.#fetching = value;
         this.triggerEvent();
     }
 
@@ -38,6 +24,16 @@ class ReactiveModel extends Events {
         this.triggerEvent();
     }
 
+    #fetching: boolean;
+    get fetching(): boolean {
+        return this.#fetching;
+    }
+
+    set fetching(value: boolean) {
+        if (value === this.#fetching) return;
+        this.#fetching = value;
+        this.triggerEvent();
+    }
 
     #fetched: boolean;
     get fetched(): boolean {
@@ -51,6 +47,4 @@ class ReactiveModel extends Events {
     }
 
     triggerEvent = (event = 'change'): void => this.trigger(event);
-
-
 }

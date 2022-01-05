@@ -893,13 +893,13 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
               properties: {
                 sources: true,
                 overwrites: true,
-                compiler: true,
-                dependencies: {
-                  properties: {
-                    bundle: true // declaration: true
+                compiler: true // dependencies: {
+                //     properties: {
+                //         bundle: true,
+                //         // declaration: true
+                //     }
+                // }
 
-                  }
-                }
               }
             }
           }

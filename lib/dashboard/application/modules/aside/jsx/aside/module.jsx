@@ -8,7 +8,7 @@
 
 export function ModuleTree({module, hideTitle = false}) {
     let {application: {moduleManager: {active}}} = useDSAsideContext();
-    let {texts} = useDSAsideContext();
+    let {texts: {tree: texts}} = useDSAsideContext();
 
     const model = module ?? active;
 

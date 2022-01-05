@@ -11,12 +11,12 @@ module.exports = function (ipc) {
             const {applicationId} = params;
             const applicationPath = await getPath(applicationId);
 
-            const {Application, Module} = (require('./models'));
+            const {Project, Module} = (require('./models'));
 
-            const app = new Application(applicationPath);
+            const app = new Project(applicationPath);
             const name = params.bundle === 'layout' ? `layouts/${params.name}` : params.name;
 
-            const module = new Module(app.modulesPath, name);
+            const module = new Module(app.modules.path, name);
 
             if (module.exists) {
                 return {status: 'ok', error: 'The module already exists'};
@@ -32,26 +32,32 @@ module.exports = function (ipc) {
     };
 
     this.clone = async (params, session) => {
+        const {fs} = global.utils;
+        const appId = params.moduleId.split('//')[1];
+        let application = await ipc.exec('applications/get', [appId]);
+        application = application[appId];
+
+        let module = await ipc.exec('modules/get', [params.moduleId]);
+        module = module[params.moduleId];
+
+        const current = module.file.dirname;
+        const toCreate = require('path').join(application.modulesPath, params.name);
         try {
-            const {applicationId} = params;
-            const applicationPath = await getPath(applicationId);
-            const {Application, Module} = (require('./models'));
-            const app = new Application(applicationPath);
-
-            const name = params.bundle === 'layout' ? `layouts/${params.name}` : params.name;
-            const module = new Module(app.modulesPath, name);
-
-            if (module.exists) {
-                console.error({status: 'ok', error: 'The module already exists'}.cyan);
-                return {status: 'ok', error: 'The module already exists'};
+            if (!await fs.exists(current)) {
+                console.error({error: true, code: 'FILE_NOT_FOUND'})
+                return {error: true, code: 'FILE_NOT_FOUND'};
             }
-            await module.clone(params);
 
-            return {status: 'ok', data: true};
+            await fs.copy(current, toCreate);
+
+            const {Module} = (require('../builder/models'));
+            const module = new Module(toCreate);
+            await module.save({name: params.name});
+
+            return {status: true};
         }
         catch (e) {
-            console.error(e);
-            return {error: e.message};
+            return {error: true, code: e};
         }
     }
 
@@ -71,13 +77,21 @@ module.exports = function (ipc) {
     };
 
     this.addBundle = async (params, session) => {
-        let data = await ipc.exec('modules/get', [params.moduleId]);
-        data = data[params.moduleId];
-        const {Module} = (require('./models'));
-        const module = new Module(data.dirname ?? data.path);
 
-        await module.addBundle(params);
+        try {
+            let data = await ipc.exec('modules/get', [params.moduleId]);
+            data = data[params.moduleId];
+            const {Module} = (require('./models'));
+            const module = new Module(data.path);
+            await module.load();
+            await module.bundles.add(params);
+            await module.bundles.build();
+            module.save();
+            return {status: 'ok', data: true};
+        }
+        catch (e) {
+            return {error: e.message};
+        }
 
-        return {status: 'ok', data: true};
     }
 }

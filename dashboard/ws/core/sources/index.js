@@ -3,7 +3,6 @@ module.exports = function (ipcManager) {
     new (require('./save'))(this);
     new (require('./rename'))(this);
     new (require('./delete'))(this);
-    new (require('./clone'))(this, ipcManager);
 
     this.create = async (specs) => {
         const {path, filename} = specs;

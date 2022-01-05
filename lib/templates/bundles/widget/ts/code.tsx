@@ -5,7 +5,7 @@ class Widget extends React.Component {
     render() {
         return (
             <div>
-                Im widget
+                Im widget 1
             </div>
         );
     }

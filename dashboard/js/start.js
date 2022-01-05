@@ -179,8 +179,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   }, {
     "route": "/beyond/ui/toast",
     "bundle": "packages/@beyond-js/ui/unnamed/toast/page/page.js",
-    "vdir": false,
-    "layout": "beyond-ui"
+    "vdir": false
   }, {
     "route": "/beyond/ui/toolbar",
     "bundle": "packages/@beyond-js/ui/unnamed/toolbar/page/page.js",

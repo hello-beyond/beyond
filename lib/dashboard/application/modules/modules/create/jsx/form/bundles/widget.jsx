@@ -26,13 +26,12 @@ function FormWidget({state, handleChange}) {
                 </div>
                 <div>
                     <BeyondInput
-                        required
-                        name="developer"
-                        label={texts.form.developer}
-                        placeholder={texts.placeholder.developer}
-                        value={state.developer}
+                        name="element"
+                        label={texts.form.webcomponent}
+                        placeholder={texts.placeholder.webcomponent}
+                        value={state.element}
                         onChange={handleChange}/>
-                    <span className="help-block">{texts.help.developer}</span>
+                    <span className="help-block">{texts.help.webcomponent}</span>
                 </div>
             </div>
             <AdditionalFields children={fields}/>

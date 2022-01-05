@@ -1,4 +1,4 @@
-export const ApplicationCreate = function ({show, closeModal}) {
+export const ApplicationCreate = function ({closeModal}) {
 
     const [state, setState] = React.useState({});
     const [type, setType] = React.useState(undefined);
@@ -7,8 +7,10 @@ export const ApplicationCreate = function ({show, closeModal}) {
     useBinder([createController], () => {
         const fetching = model.processing || model.application?.fetching;
         if (model.created) {
+            console.log(5, "ENTRO ACA");
             closeModal();
             notify.success(texts?.created);
+            window.setTimeout(model.clean(), 100);
             return;
         }
         setState(() => ({...state, fetching}));
@@ -29,7 +31,7 @@ export const ApplicationCreate = function ({show, closeModal}) {
     const texts = createController.texts;
     return (
         <CreateAppContext.Provider value={{type, setType, model, texts, fetching}} key="content">
-            <BeyondModal show={show} onClose={closeModal} className="md ds-modal ds-app-create_modal">
+            <BeyondModal show onClose={closeModal} className="md ds-modal ds-app-create_modal">
                 {output}
             </BeyondModal>
         </CreateAppContext.Provider>

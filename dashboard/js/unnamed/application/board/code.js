@@ -45,8 +45,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     get ready() {
       const dependencies = !!module.texts.ready && !!_code12.monacoDependency?.ready;
-      const models = !!this.application?.ready && !!_code9.Dashboard.ready; // console.log(0.1, dependencies, module.texts.ready, monacoDependency, monacoDependency?.ready, models, this.currentId, this.application?.application?.id, this);
-
+      const models = !!this.application?.ready && !!_code9.Dashboard.ready;
       return dependencies && models && this.currentId === this.application?.application?.id;
     }
 
@@ -169,25 +168,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       application
     } = (0, _code15.useAppContext)();
     const model = application?.application;
-    const [state, setState] = React.useState({
-      fetching: application?.generating
-    });
     if (!model) return null;
     const {
-      fetching
-    } = state;
-    (0, _code8.useBinder)([model], () => setState({
-      timeUpdated: performance.now()
-    }));
+      declarations
+    } = model;
+    const [state, setState] = React.useState({});
+    (0, _code8.useBinder)([model, declarations], () => setState({}));
 
-    const generateDeclarations = () => {
-      setState({
-        fetching: true
-      });
-      window.setTimeout(() => setState({
-        fetching: false
-      }), 1000);
-    };
+    const generateDeclarations = () => declarations.update();
 
     return /*#__PURE__*/React.createElement("div", {
       className: "workspace__board ds-board__application application__board"
@@ -199,9 +187,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }), /*#__PURE__*/React.createElement(_code.BeyondButton, {
       onClick: generateDeclarations,
       className: "btn primary"
-    }, fetching ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
+    }, !declarations.processing ? /*#__PURE__*/React.createElement(React.Fragment, null, actions.declarations) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
       className: "on-primary"
-    }), actions.generatingDeclarations) : /*#__PURE__*/React.createElement(React.Fragment, null, actions.declarations)))), /*#__PURE__*/React.createElement(Description, null));
+    }), `${actions.generatingDeclarations} ${declarations.count}/${declarations.total}`)))), /*#__PURE__*/React.createElement(Description, null));
   }
   /**************************
   application\description.jsx
@@ -855,9 +843,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       ...newState
     });
 
-    const openModal = () => updateState({
-      modal: true
-    });
+    const openModal = e => {
+      e.stopPropagation();
+      console.log(1, module);
+      updateState({
+        modal: true
+      });
+    };
 
     const openConfirm = () => updateState({
       confirm: true

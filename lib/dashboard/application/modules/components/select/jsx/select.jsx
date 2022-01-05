@@ -1,6 +1,6 @@
-export function DSSelect({options, value, name, onSelect}) {
+export function DSSelect({options, value, name, label, onSelect}) {
     const [opened, toggle] = React.useState();
-    const [label, setValue] = React.useState(value)
+    const [labelText, setValue] = React.useState(value ? value : label)
     const icon = opened ? 'arrowDropUp' : 'arrowDropDown';
     const map = new Map();
 
@@ -30,9 +30,9 @@ export function DSSelect({options, value, name, onSelect}) {
 
     const cls = `form__select ${opened ? ' opened' : ''}`;
     return (
-        <div className={cls} onClick={onClick}>
+        <div tabIndex="0" className={cls} onClick={onClick} onFocus={onClick}>
             <div className="label">
-                {label ?? 'Seleccione...'}
+                <span>{labelText}</span>
                 <BeyondIcon icon={icon}/>
             </div>
             <div className="form__select__options">

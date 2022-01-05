@@ -5,5 +5,5 @@
 module.exports = function (service) {
     this.module = new (require('./module'))(service);
     this.template = new (require('./template'))(service);
-    this.application = new (require('./application'))(service);
+    this.project = new (require('./project'))(service);
 };

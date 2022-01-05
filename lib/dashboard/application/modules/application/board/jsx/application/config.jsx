@@ -1,15 +1,14 @@
 export function ApplicationConfig() {
     let {texts: {actions}, application} = useAppContext();
     const model = application?.application;
-    const [state, setState] = React.useState({fetching: application?.generating});
     if (!model) return null;
-    const {fetching} = state;
 
-    useBinder([model], () => setState({timeUpdated: performance.now()}));
-    const generateDeclarations = () => {
-        setState({fetching: true});
-        window.setTimeout(() => setState({fetching: false}), 1000);
-    };
+    const {declarations} = model;
+    const [state, setState] = React.useState({});
+
+    useBinder([model, declarations], () => setState({}));
+    const generateDeclarations = () => declarations.update();
+
     return (
         <div className="workspace__board ds-board__application application__board">
             <header>
@@ -19,15 +18,13 @@ export function ApplicationConfig() {
                     <BeyondButton
                         onClick={generateDeclarations}
                         className="btn primary">
-                        {
-                            fetching ?
-                                <>
-                                    <BeyondSpinner className="on-primary"/>
-                                    {actions.generatingDeclarations}
-                                </> :
-                                <>{actions.declarations}</>
+                        {!declarations.processing ?
+                         <>{actions.declarations}</> :
+                         <>
+                             <BeyondSpinner className="on-primary"/>
+                             {`${actions.generatingDeclarations} ${declarations.count}/${declarations.total}`}
+                         </>
                         }
-
                     </BeyondButton>
                 </div>
             </header>

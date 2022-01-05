@@ -13,17 +13,14 @@ class Index {
         return this.#file;
     }
 
-    constructor(path) {
-        if (path) this.#path = path;
-        this.#file = new (require('./file'))(path);
-        this.#templates = (require('../templates')).get();
-    }
-
     get exists() {
         return this._exists;
     }
 
     #path;
+    /**
+     * @deprecated
+     */
     get path() {
         return this.#path;
     }
@@ -34,6 +31,16 @@ class Index {
 
     set encoding(encoding) {
         this._enconding = encoding;
+    }
+
+    constructor(dirname, basename) {
+        if (dirname) this.#path = dirname;
+        this.loadFile(dirname, basename);
+        this.#templates = (require('../templates')).get();
+    }
+
+    loadFile(dirname, basename) {
+        this.#file = new (require('./file'))(dirname, basename);
     }
 
     ipc() {
@@ -56,10 +63,11 @@ class Index {
      * exists a file for the object instanced and get his content.
      * @private
      */
-    _load() {
+    async _load() {
         if (!this.validate()) return;
-        const content = this.#file.readJSON();
+        const content = await this.#file.readJSON();
         this._checkProperties(content);
+
     }
 
     /**
@@ -67,10 +75,8 @@ class Index {
      */
     validate(file = undefined) {
         if (!file) file = this._fileName;
-
         const {existsSync} = require('fs');
         this._exists = existsSync(this.#file.getPath(file));
-
         return this._exists;
     }
 
@@ -78,12 +84,11 @@ class Index {
      * Set a property of the object
      * @param property
      * @param value
+     * @TODO: Julio Check if is required
      */
     set(property, value) {
-        const key = `_${property}`;
-        if (this.hasOwnProperty(key)) {
-            this[key] = value;
-        }
+        if (!this.hasOwnProperty(property)) return;
+        this[property] = value;
     }
 
     /**
@@ -94,8 +99,8 @@ class Index {
      */
     save(values) {
         if (typeof values === 'object') this._checkProperties(values);
-        // console.log(16, this.getProperties())
-        this.#file.writeJSON(this.#file.getPath(this._fileName), this.getProperties());
+
+        this.#file.writeJSON(this.getProperties(), this.#file.file);
     }
 
     /**
@@ -106,6 +111,7 @@ class Index {
      */
     _checkProperties(specs) {
         if (!specs) return;
+
         const types = {
             boolean: value => !!value,
             string: value => String(value),

@@ -2414,6 +2414,9 @@ body .no-pd {
 body .mt-15 {
   margin-top: 15px; }
 
+body .relative__container {
+  position: relative; }
+
 .badge-list {
   display: flex;
   gap: 8px; }
@@ -2802,7 +2805,9 @@ html {
   width: 100%;
   margin: 0;
   align-items: center;
-  text-align: left; }
+  display: flex;
+  text-align: left;
+  gap: 15px; }
   .beyond-element-modal.ds-modal .modal-content .ds-modal_header .badge-list {
     margin-bottom: 30px; }
   .beyond-element-modal.ds-modal .modal-content .ds-modal_header * {

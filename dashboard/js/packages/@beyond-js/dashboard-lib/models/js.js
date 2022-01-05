@@ -274,6 +274,16 @@ define(["exports"], function (_exports) {
       this.getInitialPort();
     }
 
+    clean() {
+      this.getInitialPort();
+      this.created = false;
+      this.title = undefined;
+      this.description = undefined;
+      this.identifier = undefined;
+      this.error = undefined;
+      console.log(6, "elemina");
+    }
+
     async getInitialPort() {
       let cont = 0;
       let port = 8080;
@@ -306,7 +316,7 @@ define(["exports"], function (_exports) {
     parent.processing = true;
 
     try {
-      const response = await module.execute('builder/application/create', parent.getters);
+      const response = await module.execute('builder/project/create', parent.getters);
 
       if (!response?.status) {
         parent.error = response.error;
@@ -319,7 +329,6 @@ define(["exports"], function (_exports) {
       console.error("error", error);
       parent.created = false;
     } finally {
-      console.log(90);
       parent.processed = true;
       parent.processing = false;
     }
@@ -334,7 +343,7 @@ define(["exports"], function (_exports) {
     base.processing = true;
 
     try {
-      const response = await module.execute('builder/application/checkPort', {
+      const response = await module.execute('builder/project/checkPort', {
         port: port
       });
       base.processing = false;
@@ -410,16 +419,6 @@ define(["exports"], function (_exports) {
       this.triggerEvent();
     }
 
-    setTemplate(name) {
-      if (!this._TEMPLATES.hasOwnProperty(name)) {
-        console.warn('the template does not exists');
-      }
-
-      const template = this._TEMPLATES[name];
-      this._bundle.type = template.bundle;
-      this._bundle.template = template.id;
-    }
-
     get bundle() {
       return this._bundle;
     }
@@ -430,6 +429,16 @@ define(["exports"], function (_exports) {
       this._bundle = new ModuleBundle(this._applicationId);
 
       this._bundle.bind('change', this.triggerEvent);
+    }
+
+    setTemplate(name) {
+      if (!this._TEMPLATES.hasOwnProperty(name)) {
+        console.warn('the template does not exists');
+      }
+
+      const template = this._TEMPLATES[name];
+      this._bundle.type = template.bundle;
+      this._bundle.template = template.id;
     }
 
     getStructure(bundle) {
@@ -465,7 +474,7 @@ define(["exports"], function (_exports) {
     }
 
     get moduleId() {
-      return `application//${this._applicationId}//${this.name.replace(/ /g, '-')}`;
+      return `project//${this._applicationId}//${this.name.replace(/ /g, '-')}`;
     }
 
     _type;
@@ -512,6 +521,7 @@ define(["exports"], function (_exports) {
     _styles;
     _fields;
     _layoutId;
+    _element;
     _applicationId;
     _server = false;
     _multilanguage = false;
@@ -588,6 +598,10 @@ define(["exports"], function (_exports) {
         if (this[key]) params[field] = this[key];
       });
 
+      if (params.element) params.element = {
+        name: params.element
+      };
+      console.log(11, params);
       if (this._type === 'layout') params.id = params.name;
 
       try {
@@ -597,7 +611,7 @@ define(["exports"], function (_exports) {
         });
 
         params.applicationId = this._applicationId;
-        params.bundle = this._type;
+        params.bundles = [this._type];
         params.processors = Array.from(this._processors.keys());
         const action = params.template ? '/builder/module/clone' : '/builder/module/create';
         const response = await module.execute(action, params);
@@ -642,17 +656,19 @@ define(["exports"], function (_exports) {
       fields: ['id', 'name', 'title', 'description', 'developer', 'author', 'template', 'styles', 'server', 'multilanguage']
     },
     page: {
-      fields: ['vdir', 'route', 'layoutId'],
-      required: ['route', 'name'],
+      fields: ['vdir', 'route', 'layoutId', 'element'],
+      required: ['route', 'name', 'element'],
       processors: ['ts', 'jsx'],
       dependencies: ['layout']
     },
     widget: {
-      required: ['name'],
+      fields: ["element"],
+      required: ['name', 'element'],
       processors: ['ts', 'scss']
     },
     layout: {
-      required: ['name'],
+      fields: ["element"],
+      required: ['name', 'element'],
       processors: ['ts', 'jsx']
     },
     code: {

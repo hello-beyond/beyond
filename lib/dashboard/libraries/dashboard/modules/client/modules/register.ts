@@ -11,9 +11,8 @@ specs.module = module;
 specs.cache = false;
 
 specs.fields = [
-    'id', 'name', 'tu', 'path', 'pathname', 'developer', 'title', 'description',
-    'route', 'hmr', 'vdir', 'layoutId', 'bundles', 'container',
-    'errors', 'warnings'
+    'id', 'name', 'tu', 'path', 'pathname', 'title', 'description',
+    'hmr', 'bundles', 'container', 'errors', 'warnings'
 ];
 
 specs.properties = {

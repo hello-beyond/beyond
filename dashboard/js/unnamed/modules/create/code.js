@@ -133,6 +133,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     children
   }) {
     const [additional, setAdditional] = React.useState(false);
+    const {
+      texts
+    } = useCreateModuleContext();
 
     const onAdditional = () => setAdditional(!additional);
 
@@ -140,7 +143,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h5", {
       className: "link title-separator",
       onClick: onAdditional
-    }, "Configuraci\xF3n Adicional"), /*#__PURE__*/React.createElement("div", {
+    }, texts.additionalFeatures), /*#__PURE__*/React.createElement("div", {
       className: `additional-config ${cls}`
     }, children));
   }
@@ -252,8 +255,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       state: state
     });
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "item two-columns"
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      className: "item"
+    }, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
       required: true,
       name: "name",
       label: texts.form.name,
@@ -262,16 +265,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
-      required: true,
-      name: "developer",
-      label: texts.form.developer,
-      placeholder: texts.placeholder.developer,
-      value: state.developer,
-      onChange: handleChange
-    }), /*#__PURE__*/React.createElement("span", {
-      className: "help-block"
-    }, texts.help.developer))), /*#__PURE__*/React.createElement(AdditionalFields, {
+    }, texts.help.name)), /*#__PURE__*/React.createElement(AdditionalFields, {
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }
@@ -311,8 +305,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       state: state
     }));
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "item two-columns"
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      className: "item"
+    }, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
       required: true,
       name: "name",
       label: texts.form.name,
@@ -321,16 +315,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
-      required: true,
-      name: "developer",
-      label: texts.form.developer,
-      placeholder: texts.placeholder.developer,
-      value: state.developer,
-      onChange: handleChange
-    }), /*#__PURE__*/React.createElement("span", {
-      className: "help-block"
-    }, texts.help.developer))), /*#__PURE__*/React.createElement(AdditionalFields, {
+    }, texts.help.name)), /*#__PURE__*/React.createElement(AdditionalFields, {
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }
@@ -366,23 +351,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.description))), /*#__PURE__*/React.createElement("div", {
-      className: "item"
-    }, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
-      required: true,
-      name: "developer",
-      label: texts.form.developer,
-      placeholder: texts.placeholder.developer,
-      value: state.developer,
-      onChange: handleChange
-    }), /*#__PURE__*/React.createElement("span", {
-      className: "help-block"
-    }, texts.help.developer)), /*#__PURE__*/React.createElement(BlankFields, {
+    }, texts.help.description))), /*#__PURE__*/React.createElement(BlankFields, {
       state: state
     }));
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "item"
-    }, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      className: "item two-columns"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
       required: true,
       name: "name",
       label: texts.form.name,
@@ -391,7 +365,15 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.name)), /*#__PURE__*/React.createElement(AdditionalFields, {
+    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      name: "element",
+      label: texts.form.webcomponent,
+      placeholder: texts.placeholder.webcomponent,
+      value: state.element,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.webcomponent))), /*#__PURE__*/React.createElement(AdditionalFields, {
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }
@@ -405,7 +387,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   }) {
     const {
       application,
-      origin
+      origin,
+      texts
     } = useCreateModuleContext();
     if (origin === 'templates') return null;
     const layouts = application.modules.getItems({
@@ -423,13 +406,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "item layout-selection"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: ""
-    }, "Seleccione el layout"), /*#__PURE__*/React.createElement("select", {
+    }, texts.page.layout), /*#__PURE__*/React.createElement("select", {
       name: "layout",
       required: true,
       className: "form-select",
       title: `Selecciona un layout`,
       onChange: handleChange
-    }, /*#__PURE__*/React.createElement("option", null, "Seleccione"), items));
+    }, /*#__PURE__*/React.createElement("option", null, texts.page.input.layout.placeholder), items));
   }
   /*************************
   form\bundles\page\page.jsx
@@ -482,23 +465,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.description))), /*#__PURE__*/React.createElement("div", {
-      className: "item"
-    }, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
-      name: "developer",
-      label: texts.form.developer,
-      placeholder: texts.placeholder.developer,
-      value: state.developer,
-      onChange: handleChange
-    }), /*#__PURE__*/React.createElement("span", {
-      className: "help-block"
-    }, texts.help.developer)), /*#__PURE__*/React.createElement(BlankFields, {
+    }, texts.help.description))), /*#__PURE__*/React.createElement(BlankFields, {
       state: state,
       setState: handleChange
     }));
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "item"
-    }, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      className: "item two-columns"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
       required: true,
       name: "name",
       label: texts.form.name,
@@ -507,7 +480,15 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.name)), /*#__PURE__*/React.createElement("div", {
+    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      name: "element",
+      label: texts.form.webcomponent,
+      placeholder: texts.placeholder.webcomponent,
+      value: state.element,
+      onChange: handleChange
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.webcomponent))), /*#__PURE__*/React.createElement("div", {
       className: "item two-columns"
     }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
       name: "route",
@@ -551,8 +532,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       state: state
     });
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "item two-columns"
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
+      className: "item"
+    }, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
       required: true,
       name: "name",
       label: texts.form.name,
@@ -561,16 +542,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
-      required: true,
-      name: "developer",
-      label: texts.form.developer,
-      placeholder: texts.placeholder.developer,
-      value: state.developer,
-      onChange: handleChange
-    }), /*#__PURE__*/React.createElement("span", {
-      className: "help-block"
-    }, texts.help.developer))), /*#__PURE__*/React.createElement(AdditionalFields, {
+    }, texts.help.name)), /*#__PURE__*/React.createElement(AdditionalFields, {
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }
@@ -605,15 +577,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
     }, texts.help.name)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code4.BeyondInput, {
-      required: true,
-      name: "developer",
-      label: texts.form.developer,
-      placeholder: texts.placeholder.developer,
-      value: state.developer,
+      name: "element",
+      label: texts.form.webcomponent,
+      placeholder: texts.placeholder.webcomponent,
+      value: state.element,
       onChange: handleChange
     }), /*#__PURE__*/React.createElement("span", {
       className: "help-block"
-    }, texts.help.developer))), /*#__PURE__*/React.createElement(AdditionalFields, {
+    }, texts.help.webcomponent))), /*#__PURE__*/React.createElement(AdditionalFields, {
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }

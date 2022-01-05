@@ -1130,15 +1130,16 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     }, /*#__PURE__*/React.createElement(Toolbar, null), /*#__PURE__*/React.createElement(AppErrors, null), /*#__PURE__*/React.createElement(_code14.WorspaceAside, null), /*#__PURE__*/React.createElement("div", {
       className: "ds__main-container"
     }, /*#__PURE__*/React.createElement(_code16.Panels, null)), /*#__PURE__*/React.createElement(FooterBar, null))), showModal && /*#__PURE__*/React.createElement(_code10.ApplicationCreate, {
-      show: true,
-      closeModal: () => setShowModal(false)
+      closeModal: () => {
+        setShowModal(false);
+      }
     }), state.addModule && /*#__PURE__*/React.createElement(_code20.CreateModuleForm, {
       workspace: workspace,
-      onClose: () => setState({ ...state,
-        ...{
+      onClose: () => {
+        workspace.setState({
           addModule: false
-        }
-      })
+        });
+      }
     }));
   }
   /**********

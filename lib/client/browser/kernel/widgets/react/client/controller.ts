@@ -7,7 +7,7 @@ export /*bundle*/
 class ReactWidgetController extends BeyondWidgetController {
     mount(Widget: any) {
         // Render the widget
-        ReactDOM.render(React.createElement(Widget), this.body);
+        ReactDOM.render(React.createElement(Widget, {component: this.component}), this.body);
     }
 
     unmount() {
@@ -15,7 +15,7 @@ class ReactWidgetController extends BeyondWidgetController {
     }
 
     initialise() {
-        retargetEvents(this.component.shadowRoot);
+        this.component.localName === 'main-layout' && retargetEvents(this.component.shadowRoot);
         super.initialise();
     }
 }

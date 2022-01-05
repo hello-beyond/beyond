@@ -40,8 +40,6 @@ body {
     }
   }
 
- 
-
   h1, h2, h3, h4, h5, h6, .p1, .p2 {
 
     font-family: $beyond-title-font;
@@ -104,7 +102,6 @@ body {
 
   }
 
-
   .p1 {
     font-size: 14px;
 
@@ -146,5 +143,9 @@ body {
 
   .mt-15 {
     margin-top: 15px;
+  }
+
+  .relative__container {
+    position: relative;
   }
 }

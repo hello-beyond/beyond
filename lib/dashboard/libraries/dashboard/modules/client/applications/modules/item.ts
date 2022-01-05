@@ -12,13 +12,12 @@ interface CreateSpecs {
 }
 
 interface BundleSpecs {
-    bundle: string,
+    bundles: string,
     name: string,
-    vdir?: string,
     route?: string,
     styles?: string,
     layout?: string,
-    layoutId?: string,
+    layoutId?: string
 }
 
 interface EditSpecs {
@@ -60,14 +59,15 @@ class ApplicationModule extends Item {
     /*
      * Module shortcuts
      */
-    get developer(): string {
-        const module = this.module;
-        return module?.developer ?? undefined;
-    }
-
     get name(): string {
         const module = this.module;
-        return module?.name ?? undefined;
+        return module?.name;
+    }
+
+    get route(): string {
+        const bundles = <ItemsProperty>this.properties.get('bundles');
+        const widget = bundles.get(`${this.id}//widget`);
+        return widget?.route;
     }
 
     /**
@@ -129,7 +129,7 @@ class ApplicationModule extends Item {
     }
 
     clone(name: string) {
-        return module.execute('/sources/clone', {
+        return module.execute('/builder/module/clone', {
             name: name,
             moduleId: this.id
         });
@@ -140,7 +140,7 @@ class ApplicationModule extends Item {
             console.error('The module not have dirname associate it')
             return;
         }
-        return module.execute('/sources/delete', {target: this.module.path});
+        return module.execute('/builder/module/delete', {target: this.module.path});
     }
 
     createFile(specs: CreateSpecs) {

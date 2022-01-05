@@ -6,27 +6,15 @@ function FormTypescript({state, handleChange}) {
 
     return (
         <>
-            <div className="item two-columns">
-                <div>
-                    <BeyondInput
-                        required
-                        name="name"
-                        label={texts.form.name}
-                        placeholder={texts.placeholder.name}
-                        value={state.name}
-                        onChange={handleChange}/>
-                    <span className="help-block">{texts.help.name}</span>
-                </div>
-                <div>
-                    <BeyondInput
-                        required
-                        name="developer"
-                        label={texts.form.developer}
-                        placeholder={texts.placeholder.developer}
-                        value={state.developer}
-                        onChange={handleChange}/>
-                    <span className="help-block">{texts.help.developer}</span>
-                </div>
+            <div className="item">
+                <BeyondInput
+                    required
+                    name="name"
+                    label={texts.form.name}
+                    placeholder={texts.placeholder.name}
+                    value={state.name}
+                    onChange={handleChange}/>
+                <span className="help-block">{texts.help.name}</span>
             </div>
             <AdditionalFields children={fields}/>
             <FormFooter/>

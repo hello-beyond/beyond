@@ -95,7 +95,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     React.useEffect(() => {
       const onChange = event => console.log(1, `total: `, selected.deployment.distributions.size);
 
-      selected.deployment.bind.bind('change', onChange);
+      selected.deployment.bind('change', onChange);
       return () => selected.deployment.unbind('change', onChange);
     });
     const output = [];

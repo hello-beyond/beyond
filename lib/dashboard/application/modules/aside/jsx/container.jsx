@@ -43,6 +43,7 @@ export function WorspaceAside() {
     }, []);
 
     if (!state.ready) return <AsidePreload/>;
+
     return (
         <DSAsideContext.Provider value={{...state, panels}}>
             <aside className={cls} ref={ref}>

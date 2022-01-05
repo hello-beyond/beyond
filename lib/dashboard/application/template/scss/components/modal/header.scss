@@ -4,7 +4,9 @@
   width: 100%;
   margin: 0;
   align-items: center;
+  display: flex;
   text-align: left;
+  gap: 15px;
 
   .badge-list {
     margin-bottom: 30px;

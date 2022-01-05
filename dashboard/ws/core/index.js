@@ -24,6 +24,10 @@ module.exports = function (io) {
         io.emit(`builder:${message.application}`, message);
     });
 
+    ipc.events.on('main-client', 'declarations-save', message =>
+        io.emit(`declaration-save:${message.applicationId}`, message)
+    );
+
     ipc.events.on('main', 'data-notification', message => {
         const {type} = message;
         if (!['record/update', 'list/update', 'record/field/update'].includes(type)) {

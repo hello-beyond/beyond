@@ -2,6 +2,7 @@
   "en": {
     "title": "Creación de un nuevo módulo",
     "subtitle": "Indica que tipo de modulo desea crear",
+    "aditionalFeatures": "Additional Configuration",
     "types": {
       "bundles": {
         "title": "Modulo en blanco",
@@ -39,7 +40,7 @@
       ]
     },
     "bundles": {
-      "title": "Tipo de modulo",
+      "title": "Bundle type",
       "options": [
         {
           "id": "page",
@@ -72,11 +73,20 @@
           "description": "Texto para typecript"
         }
       ]
+    },
+    "page": {
+      "layout": "Layout",
+      "input": {
+        "layout": {
+          "placeholder": "Select."
+        }
+      }
     }
   },
   "es": {
     "title": "Creación de un nuevo módulo",
     "subtitle": "Indica que tipo de modulo desea crear",
+    "aditionalFeatures": "Configuración adicional",
     "types": {
       "bundles": {
         "title": "Modulo en blanco",
@@ -147,6 +157,14 @@
           "description": "Texto para typecript"
         }
       ]
+    },
+    "page": {
+      "layout": "Layout",
+      "input": {
+        "layout": {
+          "placeholder": "Seleccione."
+        }
+      }
     }
   }
 }

@@ -14,10 +14,6 @@ class Module extends Item {
         return this.#declarations;
     }
 
-    get developer(): string {
-        return this.fields.get('developer').value;
-    }
-
     get id(): string {
         return this.fields.get('id').value;
     }
@@ -56,20 +52,8 @@ class Module extends Item {
         this.#description = value;
     }
 
-    get route(): string {
-        return this.fields.get('route').value;
-    }
-
-    get vdir(): string {
-        return this.fields.get('vdir').value;
-    }
-
     get hmr(): boolean {
         return this.fields.get('hmr').value;
-    }
-
-    get layoutId(): string {
-        return this.fields.get('layoutId').value;
     }
 
     get errors(): string[] {

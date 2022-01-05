@@ -3,7 +3,11 @@ function ItemActions({module}) {
     const [showContextMenu, toggleContextMenu] = React.useState();
 
     const updateState = newState => setState({...state, ...newState});
-    const openModal = () => updateState({modal: true});
+    const openModal = (e) => {
+        e.stopPropagation();
+        console.log(1, module)
+        updateState({modal: true});
+    }
     const openConfirm = () => updateState({confirm: true});
     const closeModal = () => updateState({modal: false, fetching: false});
     const closeConfirm = () => updateState({confirm: false, fetching: false});
