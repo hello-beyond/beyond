@@ -1,0 +1,31 @@
+.ds-app-create_modal {
+
+  .block-selected {
+    display: flex;
+    align-items: center;
+    background: $beyond-primary-light-color;
+    transition: 200ms all ease-in;
+    cursor: pointer;
+
+    &:hover {
+      background: $beyond-primary-dark-color;
+    }
+
+    svg {
+      padding: 30px;
+      height: 120px;
+      width: 120px;
+    }
+  }
+
+  .form__field-port {
+
+    margin-bottom: 10px;
+    // span to show messages of the port validation
+    span {
+      position: absolute;
+      bottom: -10px;
+    }
+
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "page": {
+    "layout": "dashboard",
+    "route": "/beyond/uploader",
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "path": "scss",
+      "dom": true,
+      "files": [
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

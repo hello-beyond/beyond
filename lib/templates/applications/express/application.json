@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "title": "Node JS Basic Application",
+  "scope": "unknown",
+  "node": {},
+  "languages": [
+    "en"
+  ],
+  "name": "node-app",
+  "description": "Node JS Basic application",
+  "modules": {
+    "path": "modules"
+  }
+}

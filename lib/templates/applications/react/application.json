@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "name": "react-first-app",
+  "template": "template/template.json",
+  "modules": {
+    "path": "./modules",
+    "externals": {
+      "react": {
+        "development": "umd/react.development.js",
+        "production": "umd/react.production.min.js"
+      },
+      "react-dom": {
+        "development": "umd/react-dom.development.js",
+        "production": "umd/react-dom.production.min.js"
+      },
+      "socket.io": {
+        "development": "client-dist/socket.io.js",
+        "production": "client-dist/socket.io.msgpack.min.js"
+      }
+    }
+  },
+  "deployment": {
+  }
+}

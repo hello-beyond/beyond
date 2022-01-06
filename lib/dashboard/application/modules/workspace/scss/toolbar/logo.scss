@@ -1,0 +1,26 @@
+.dashboard-layout {
+
+  .ds-toolbar {
+
+    .toolbar__aside__logo {
+      background: url("/images/logo.png") no-repeat center center $beyond-secondary-light-color;;
+      background-size: 50%;
+      width: 274px; // aside width + borders width.
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      height: 50px;
+    }
+
+  }
+
+  &.aside-hidden {
+    .ds-toolbar .toolbar__aside__logo {
+      width: 54px;
+      background-image: url('/images/beyond-iso.png');
+      background-size: 35%;
+      overflow: hidden;
+    }
+  }
+}

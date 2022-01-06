@@ -1,0 +1,38 @@
+.ds-navigator__container {
+
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-rows: auto 1fr;
+  position: relative;
+  overflow-x: auto;
+
+  grid-gap: 0;
+
+  .ds-navigator__iframe__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: max-content;
+
+    iframe {
+      height: 100%;
+      width: 100%;
+
+      &.iframe--responsive {
+        height: 142mm;
+        width: 72.5mm;
+      }
+    }
+
+    align-items: center;
+
+  }
+
+  .ds-navigator__iframe__container {
+
+    align-items: center;
+
+  }
+
+}

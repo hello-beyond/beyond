@@ -1,0 +1,46 @@
+.ds-navigator__container {
+
+  &.is-fetching {
+
+    .ds-navigator__bar .ds-navigator__form input {
+      background: rgba(255, 255, 255, .1);
+    }
+  }
+
+  .ds-navigator__bar {
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+    z-index: 1000;
+
+    .ds-navigator__form {
+      width: 100%;
+      display: grid;
+      padding: 5px 0;
+      grid-gap: 5px;
+      grid-template-columns: auto 1fr auto;
+
+      input {
+        width: 100%;
+
+        padding: 8px;
+        color: $beyond-text-on-primary;
+        outline: 0;
+        border: none;
+        background: darken($beyond-gray-darker-color, 20%);
+        box-shadow: none;
+      }
+
+      .beyond-icon-button {
+        background: lighten($beyond-gray-darker-color, 0);
+
+        svg {
+          fill: $beyond-text-on-primary
+        }
+      }
+    }
+
+  }
+}
+

@@ -1,0 +1,8 @@
+{
+  "bundle": "page",
+  "route": "/application/create",
+  "layout": "dashboard",
+  "imports": "imports.js",
+  "jsx": "view.jsx",
+  "js": "page.js"
+}

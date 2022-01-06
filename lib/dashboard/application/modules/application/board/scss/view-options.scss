@@ -1,0 +1,12 @@
+.ds-board__application.application-header {
+  .actions {
+    .beyond-icon-button {
+      transition: all 200ms ease-in;
+
+      &.active {
+        background: $beyond-primary-accent-color;
+      }
+    }
+  }
+
+}

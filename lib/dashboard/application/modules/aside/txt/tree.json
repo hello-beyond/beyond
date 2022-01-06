@@ -1,0 +1,198 @@
+{
+  "en": {
+    "tree": {
+      "actions": {
+        "delete": "Delete",
+        "create": "Create",
+        "addBundle": "Add bundle",
+        "rename": "Rename",
+        "save": "Save"
+      },
+      "confirm": {
+        "delete": "Do you really want to remove this element?"
+      },
+      "modules": "Modules",
+      "delete": "Delete",
+      "rename": "Rename",
+      "errors": {
+        "EXT_INVALID": "Extensión no válida",
+        "default": "Ha ocurrido un error, reinicie el servicio y vuelva a intentarlo"
+      },
+      "itemActions": {
+        "create": {
+          "title": "Crear archivo",
+          "placeholder": "/path/file.ext",
+          "action": "Guardar",
+          "label": "Nombre del archivo"
+        }
+      },
+      "files": {
+        "delete": "¿Realmente deseas eliminar el archivo?",
+        "actions": {
+          "save": "Guardar",
+          "create": "Crear",
+          "delete": "Eliminar",
+          "new": "Nueva Lista",
+          "select": "Seleccionar de la lista existente"
+        }
+      },
+      "favorites": {
+        "title": "Selecciona la lista de favoritos",
+        "actions": {
+          "save": "Guardar en favoritos",
+          "delete": "¿Desea eliminar esta elemento de sus favoritos?",
+          "new": "Nueva Lista",
+          "select": "Seleccionar de la lista existente"
+        },
+        "newList": "Nueva lista",
+        "goToList": "Seleccionar lista existente",
+        "newControl": {
+          "placeholder": "Nombre de la lista",
+          "label": "Nombre de la lista"
+        }
+      },
+      "bundle": {
+        "title": "Selecciona un tipo de bundle",
+        "widget": {
+          "title": "Titulo bundle",
+          "inputs": {
+            "route": {
+              "label": "Page Route",
+              "error": "invalid URL"
+            },
+            "type": {
+              "label": "Widget Type",
+              "placeholder": "Select..."
+            },
+            "name": {
+              "label": "Web Component Name",
+              "error": "The web component name must be has the next structure: 'web-component'"
+            },
+            "layoutId": {
+              "label": "Layout identifier",
+              "error": "The layout identifier is not valid"
+            }
+          }
+        },
+        "actions": {
+          "save": "Add bundle",
+          "next": "Continuar"
+        }
+      },
+      "static": {
+        "title": "Static files",
+        "form": {
+          "title": "Select an image or drag it.",
+          "errors": {
+            "invalidFile": "The uploaded file is invalid, please verify and try again"
+          },
+          "header": {
+            "title": "Add file",
+            "detail": "As static resource"
+          },
+          "actions": {
+            "close": "Close"
+          }
+        }
+      }
+    }
+  },
+  "es": {
+    "tree": {
+      "actions": {
+        "delete": "Delete",
+        "create": "Create",
+        "addBundle": "Add bundle",
+        "rename": "Rename",
+        "save": "Save"
+      },
+      "confirm": {
+        "delete": "Do you really want to remove this element?"
+      },
+      "modules": "Modules",
+      "delete": "Delete",
+      "rename": "Rename",
+      "errors": {
+        "EXT_INVALID": "Extensión no válida",
+        "default": "Ha ocurrido un error, reinicie el servicio y vuelva a intentarlo"
+      },
+      "itemActions": {
+        "create": {
+          "title": "Crear archivo",
+          "placeholder": "/path/file.ext",
+          "action": "Guardar",
+          "label": "Nombre del archivo"
+        }
+      },
+      "files": {
+        "delete": "¿Realmente deseas eliminar el archivo?",
+        "actions": {
+          "save": "Guardar",
+          "create": "Crear",
+          "delete": "Eliminar",
+          "new": "Nueva Lista",
+          "select": "Seleccionar de la lista existente"
+        }
+      },
+      "favorites": {
+        "title": "Selecciona la lista de favoritos",
+        "actions": {
+          "save": "Guardar en favoritos",
+          "delete": "¿Desea eliminar esta elemento de sus favoritos?",
+          "new": "Nueva Lista",
+          "select": "Seleccionar de la lista existente"
+        },
+        "newList": "Nueva lista",
+        "goToList": "Seleccionar lista existente",
+        "newControl": {
+          "placeholder": "Nombre de la lista",
+          "label": "Nombre de la lista"
+        }
+      },
+      "bundle": {
+        "title": "Selecciona un tipo de bundle",
+        "widget": {
+          "title": "Titulo bundle",
+          "inputs": {
+            "route": {
+              "label": "Page Route",
+              "error": "invalid URL"
+            },
+            "type": {
+              "label": "Widget Type",
+              "placeholder": "Select..."
+            },
+            "name": {
+              "label": "Web Component Name",
+              "error": "Invalid Name"
+            },
+            "layoutId": {
+              "label": "Identificador del Layout",
+              "error": "El identificador no es valido"
+            }
+          }
+        },
+        "actions": {
+          "save": "Agregar bundle",
+          "next": "Continuar"
+        }
+      },
+      "static": {
+        "title": "Static files",
+        "form": {
+          "title": "Selecciona una imagen o arrastrala.",
+          "errors": {
+            "invalidFile": " El archivo subido no es válido, por favor verifiquelo y vuelva a intentarlo"
+          },
+          "header": {
+            "title": "Agrega un archivo",
+            "detail": "Selecciona un archivo como recurso estatico"
+          },
+          "actions": {
+            "close": "Cerrar"
+          }
+        }
+      }
+    }
+  }
+}

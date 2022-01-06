@@ -1,0 +1,8 @@
+{
+  "scope": "beyond-js",
+  "name": "kernel",
+  "version": "1.0",
+  "static": {
+    "includes": "vendor"
+  }
+}

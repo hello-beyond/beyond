@@ -1,0 +1,27 @@
+{
+  "page": {
+    "route": "/library",
+    "layout": "dashboard",
+    "vdir": 1,
+    "jsx": {
+      "path": "jsx",
+      "files": "*"
+    },
+    "js": {
+      "path": "js",
+      "files": "*"
+    },
+    "scss": {
+      "path": "scss",
+      "dom": true,
+      "files": [
+        "*"
+      ]
+    },
+    "imports": "imports.js"
+  },
+  "txt": {
+    "multilanguage": true,
+    "files": "texts.json"
+  }
+}

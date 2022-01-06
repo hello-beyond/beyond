@@ -1,0 +1,151 @@
+html {
+  font-size: 62.5%; // 10px by default
+}
+
+body {
+  //  background: red !important;
+
+  .fade-in {
+    @include fadeIn();
+  }
+
+  .fade-out {
+    @include fadeOut();
+  }
+
+  .flex-container {
+    display: flex;
+    gap: $ds-column-grid-gap;
+    flex-wrap: wrap;
+
+    &.flex-space-x {
+      justify-content: space-between;
+    }
+
+  }
+
+  .p-0 {
+    padding: 0;
+  }
+
+  .center-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lower {
+    &, &:first-letter {
+      text-transform: lowercase;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6, .p1, .p2 {
+
+    font-family: $beyond-title-font;
+    margin: 0;
+    padding: 12px 0;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+
+    @include default-styles;
+
+  }
+
+  .p-60 {
+    padding-top: 60px;
+  }
+
+  @include default-styles;
+
+  .text-center {
+    text-align: center;
+  }
+
+  .align-right {
+    align-items: end;
+    justify-content: end;
+    text-align: right;
+  }
+
+  .container-fluid {
+    padding: 20px;
+  }
+
+  h1, .h1 {
+    font-size: 32px;
+  }
+
+  h2, .h2 {
+    font-size: 26px;
+  }
+
+  h3, .h3 {
+    font-size: 18px;
+
+  }
+
+  h4, .h4 {
+    font-size: 16px;
+
+  }
+
+  h5, .h5 {
+    font-size: 14px;
+
+  }
+
+  h6, .h6 {
+    font-size: 11px;
+
+  }
+
+  .p1 {
+    font-size: 14px;
+
+  }
+
+  .p2 {
+    font-size: 12px;
+
+  }
+
+  $colors: (
+                  ("primary", $beyond-primary-color, $beyond-text-on-primary),
+                  ("secondary", $beyond-secondary-color, $beyond-text-on-secondary)
+  );
+
+  @each $color in $colors {
+
+    .content-on-#{nth($color,1)}, .on-#{nth($color,1)}, .bg-#{nth($color,1)} {
+
+      color: nth($color, 3);
+
+      h1, h2, h3, h4, h5, h6, p, .p1, .p2, section, article, header, footer {
+        color: nth($color, 3);
+      }
+
+    }
+
+  }
+
+  .self-center {
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+  }
+
+  .no-pd {
+    padding: 0;
+  }
+
+  .mt-15 {
+    margin-top: 15px;
+  }
+
+  .relative__container {
+    position: relative;
+  }
+}
