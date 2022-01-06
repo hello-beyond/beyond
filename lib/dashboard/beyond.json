@@ -1,7 +1,0 @@
-{
-  "environment": "development",
-  "applications": [
-    "application/application.json"
-  ],
-  "libraries": "libraries/libraries.json"
-}

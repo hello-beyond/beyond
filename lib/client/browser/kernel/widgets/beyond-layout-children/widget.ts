@@ -1,3 +1,0 @@
-export /*bundle*/
-class Widget {
-}
