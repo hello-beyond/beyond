@@ -2120,8 +2120,13 @@ progress {
 
 .flex-container {
   display: flex;
-  justify-content: center;
   align-items: center; }
+
+.columns-container {
+  display: grid;
+  grid-gap: 1rem; }
+  .columns-container.two-columns {
+    grid-template-columns: 1fr 1fr; }
 
 html {
   font-size: 62.5%; }

@@ -468,7 +468,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\deployments\item.ts
 
   modules.set('./applications/deployments/item', {
-    hash: 1705528945,
+    hash: 3851394870,
     creator: function (require, exports) {
       "use strict";
 
@@ -511,7 +511,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
           try {
             const response = await beyond_context_1.module.execute('builder/application/setDistribution', specs);
-            console.log(1, "response", response);
             return response;
           } catch (e) {
             console.error(e);

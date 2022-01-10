@@ -14,14 +14,6 @@ $ds-notifications-panel-border-color: $beyond-secondary-color !default;
   transition: 300ms ease-in all;
   border-radius: 5px;
 
-  header {
-    padding: 5px 15px;
-
-    .title {
-      color: $beyond-secondary-light-color;
-    }
-  }
-
   &.is-opened {
     display: flex;
     flex-direction: column;

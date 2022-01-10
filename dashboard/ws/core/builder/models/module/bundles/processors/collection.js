@@ -21,7 +21,6 @@ module.exports = class {
         const keys = Object.keys(specs);
         keys.forEach(property => {
             if (this.#types.has(property)) {
-                console.log("AGREGAMOS A ", property, specs[property]);
                 this.add(property, specs[property]);
             }
         })

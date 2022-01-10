@@ -1,7 +1,12 @@
 {
   "en": {
     "empty": "There is no items",
-    "title": "Notificactions",
+    "title": "Notifications",
+    "projects": {
+      "title": "Projects",
+      "scanned": "scanned",
+      "noName": "unknown project"
+    },
     "item": {
       "line": "Line",
       "file": "File"
@@ -9,6 +14,15 @@
   },
   "es": {
     "empty": "There is no items",
-    "title": "Notificactions"
+    "title": "Notificaciones",
+    "projects": {
+      "title": "Proyectos",
+      "scanned": "revisados",
+      "noName": "proyecto no reconodido"
+    },
+    "item": {
+      "line": "Línea",
+      "file": "Fila"
+    }
   }
 }

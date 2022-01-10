@@ -25,6 +25,13 @@ define([], function () {
       "description": "Add a description"
     },
     "hmr": "HMR",
+    "path": "Path",
+    "labels": {
+      "consumers": "Consumers",
+      "dependencies": "Dependencies",
+      "totalFiles": "total Files",
+      "bundles": "Bundles"
+    },
     "diagnostics": {
       "title": "Errors and warnings in bundle ",
       "general": "General",
@@ -33,6 +40,7 @@ define([], function () {
       "dependencies": "Dependencies"
     },
     "processors": {
+      "label": "Processors",
       "alerts": "Errors and Warnings",
       "jsx": "JSX Code",
       "js": "JS / Javascript Code",

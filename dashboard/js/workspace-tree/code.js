@@ -144,17 +144,21 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       layoutId
     } = formValues;
 
-    const saveBundle = async specs => {
-      setFetching(true);
-      await object.addBundle(specs);
-      setFetching(false);
-      reset();
-      closeModal(false);
-    };
-
     const onClick = e => e.stopPropagation();
 
-    const onSave = async e => {
+    const saveBundle = async specs => {
+      try {
+        setFetching(true);
+        await object.addBundle(specs);
+        setFetching(false);
+        closeModal(false);
+        reset();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    const onSave = e => {
       e.preventDefault();
       e.stopPropagation();
       const specs = {

@@ -601,7 +601,6 @@ define(["exports"], function (_exports) {
       if (params.element) params.element = {
         name: params.element
       };
-      console.log(11, params);
       if (this._type === 'layout') params.id = params.name;
 
       try {

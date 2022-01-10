@@ -4,6 +4,14 @@
 
 .flex-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+}
+
+.columns-container {
+  display: grid;
+  grid-gap: 1rem;
+
+  &.two-columns {
+    grid-template-columns: 1fr 1fr;
+  }
 }

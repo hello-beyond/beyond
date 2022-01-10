@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/settings/code", "@beyond-js/dashboard/applications-board/code", "@beyond-js/dashboard/unnamed/application/create/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/unnamed/application/board/code", "@beyond-js/dashboard/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/unnamed/modules/view/code", "@beyond-js/dashboard/unnamed/modules/create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _js, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/settings/code", "@beyond-js/dashboard/applications-board/code", "@beyond-js/dashboard/unnamed/application/create/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/unnamed/application/board/code", "@beyond-js/dashboard/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/unnamed/modules/view/code", "@beyond-js/dashboard/unnamed/modules/create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _js, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -226,12 +226,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       });
 
       _code18.DSBoards.add('settings', {
-        control: _code8.ConfigBoard,
+        control: _code9.ConfigBoard,
         label: 'settings'
       });
 
       _code18.DSBoards.add('applications', {
-        control: _code9.ApplicationsBoard,
+        control: _code10.ApplicationsBoard,
         label: 'apps'
       });
 
@@ -274,22 +274,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       tree: {
         properties: {
           bee: true,
-          libraries: {
-            properties: {
-              library: {
-                properties: {
-                  bee: true
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    LIBRARIES: {
-      tree: {
-        properties: {
-          bee: true
+          am: true
         }
       }
     }
@@ -506,7 +491,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     #firstTime = true;
 
     get ready() {
-      if (this.#firstTime && this.applications.tree.landed) this.#firstTime = false;
+      if (this.#dsmodel?.ready && this.#firstTime && this.applications.tree.landed) this.#firstTime = false;
       const isReady = this.#validated && (!this.#firstTime || this.applications.tree.landed);
       return isReady && module.texts.ready;
     }
@@ -527,6 +512,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       return this.#dashboard;
     }
 
+    #dsmodel;
+
+    get dsmodel() {
+      return this.#dsmodel;
+    }
+
     #aside;
 
     get aside() {
@@ -535,6 +526,20 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
     constructor(board, specs = {}) {
       super();
+      this._applications = new _ts.Applications(TREE.APPS);
+      this.#dashboard = new _ts.Dashboard();
+      this.applications.bind('change', this.triggerEvent);
+      module.texts.bind('change', this.triggerEvent);
+
+      this._applications.fetch();
+
+      console.log(0.1, this.applications);
+      this.#dsmodel = _code8.DSModel;
+      this.#load(board, specs);
+    }
+
+    async #load(board, specs) {
+      await this.#dsmodel.initialise();
       this._contextMenu = new ContextMenu();
       this._panels = new _code16.PanelsManager(_code18.DSBoards, this);
       this._uploader = new UploaderController(this);
@@ -542,19 +547,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       this._panels.add(board, specs);
 
       this.#aside = new WorkspaceAside(this);
-      this.#dashboard = new _ts.Dashboard();
       this.openBoard = this.openBoard.bind(this); //we validate the userCode
 
       this.#validate(localStorage.getItem('ds.user.code'));
-      this.listenApplications = this.listenApplications.bind(this);
-      this._applications = new _ts.Applications(TREE.APPS);
-      this.applications.bind('change', this.triggerEvent);
-      this.applications.bind('change', this.listenApplications);
-      module.texts.bind('change', this.triggerEvent);
-
-      this._applications.fetch();
-
-      window._w = this;
     }
 
     setState = state => {
@@ -589,7 +584,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
     getApplication(id, moduleId, element) {
       if ([undefined, NaN].includes(id)) return;
-      return _code11.applicationsFactory.get(parseInt(id), moduleId, element);
+      return _code8.applicationsFactory.get(parseInt(id), moduleId, element);
     }
     /**
      *
@@ -604,18 +599,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       specs.application = this.application.application;
       this.panels.active.openFile(specs);
     };
-
-    listenApplications() {
-      this.applications.items.forEach(app => {
-        if (_code11.applicationsFactory.applications.has(app.id)) return;
-
-        _code17.DSNotifications.register(app.errors, {
-          id: app.id,
-          application: app
-        });
-      });
-    }
-
     register = async (name, code) => {
       const response = await this.#validate(code);
 
@@ -1129,7 +1112,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       className: "ds-application-view-layout"
     }, /*#__PURE__*/React.createElement(Toolbar, null), /*#__PURE__*/React.createElement(AppErrors, null), /*#__PURE__*/React.createElement(_code14.WorspaceAside, null), /*#__PURE__*/React.createElement("div", {
       className: "ds__main-container"
-    }, /*#__PURE__*/React.createElement(_code16.Panels, null)), /*#__PURE__*/React.createElement(FooterBar, null))), showModal && /*#__PURE__*/React.createElement(_code10.ApplicationCreate, {
+    }, /*#__PURE__*/React.createElement(_code16.Panels, null)), /*#__PURE__*/React.createElement(FooterBar, null))), showModal && /*#__PURE__*/React.createElement(_code11.ApplicationCreate, {
       closeModal: () => {
         setShowModal(false);
       }

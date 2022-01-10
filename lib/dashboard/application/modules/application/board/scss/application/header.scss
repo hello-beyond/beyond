@@ -1,37 +1,64 @@
-.application__board > header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.application__board .application__detail {
 
-  .actions {
+  padding: 20px;
+
+  .header {
     display: flex;
-    align-content: center;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
 
-    .beyond-icon-button.bee-action {
-      border: 1px solid $beyond-secondary-color;
-      border-radius: 50%;
+    .pathname {
+      color: $beyond-primary-accent-color;
+    }
+
+    .f-center {
+      align-self: center;
+      align-items: center;
+    }
+
+    .scanned__section {
+      gap: 10px;
+    }
+
+    .d-flex {
+      display: flex;
+    }
+
+    .actions {
       display: flex;
       align-content: center;
-      justify-items: center;
-      height: 2.5rem;
-      width: 2.5rem;
-      background: $beyond-secondary-dark-color;
-      fill: $beyond-text-on-primary;
-      transition: all 300ms ease-in;
+      justify-content: center;
+      gap: 10px;
 
-      &.action--play {
-        fill: green;
-        border: 1px solid green;
-        border: 1px solid rgba(green, .2);
+      .bee--action {
+        align-self: center;
       }
 
-      &.action--stop {
-        fill: red;
-        border: 1px solid rgba(red, .2);
-        background: rgba(red, .2);
-      }
+      .beyond-icon-button {
+        border: 1px solid $beyond-secondary-color;
+        border-radius: 50%;
+        display: flex;
+        align-content: center;
+        justify-items: center;
+        height: 2.5rem;
+        width: 2.5rem;
+        background: $beyond-secondary-dark-color;
+        fill: $beyond-text-on-primary;
+        transition: all 300ms ease-in;
 
+        &.action--play {
+          fill: green;
+          border: 1px solid rgba(green, .2);
+        }
+
+        &.action--stop {
+          fill: red;
+          border: 1px solid rgba(red, .2);
+          background: rgba(red, .2);
+        }
+
+      }
     }
   }
+
 }

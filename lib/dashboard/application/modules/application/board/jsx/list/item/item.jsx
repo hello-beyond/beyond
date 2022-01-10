@@ -33,6 +33,11 @@ function Item({module, application}) {
                 {!!errors.length && <DashboardIcon icon="error" className='error-icon'/>}
             </div>
             <div className="col  actions right-col">
+                {/*<DSIconButton*/}
+                {/*    icon="scan" title={`total: ${application.errors.length}`}*/}
+                {/*    className="circle"*/}
+                {/*    onClick={onScan}/>*/}
+
                 <div className="processors__list">
                     <Processors module={module}/>
                 </div>

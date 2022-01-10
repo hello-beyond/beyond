@@ -10,7 +10,9 @@
       "declarations": "Generate declarations",
       "start": "Play",
       "stop": "Stop",
-      "restart": "Restart"
+      "restart": "Restart",
+      "scanAll": "Scan all",
+      "scan": "Scan"
     }
   },
   "es": {
@@ -24,7 +26,9 @@
       "declarations": "Generar declaraciones",
       "start": "Play",
       "stop": "Stop",
-      "restart": "Restart"
+      "restart": "Restart",
+      "scanAll": "Scan all",
+      "scan": "Scan"
     }
   }
 }

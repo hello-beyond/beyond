@@ -11,26 +11,33 @@ function FormAction({children}) {
     } = useAddBundleContext();
     const totalErrors = Object.keys(errors).length;
     const {name, type, route, bundle, layoutId} = formValues;
-    const saveBundle = async specs => {
-        setFetching(true);
-        await object.addBundle(specs);
-        setFetching(false);
-        reset();
-        closeModal(false);
-    }
     const onClick = e => e.stopPropagation();
-    const onSave = async e => {
+
+    const saveBundle = async specs => {
+        try {
+            setFetching(true);
+            await object.addBundle(specs);
+            setFetching(false);
+            closeModal(false);
+            reset();
+        }
+        catch (e) {
+            console.error(e)
+        }
+    };
+
+    const onSave = e => {
         e.preventDefault();
         e.stopPropagation();
-        const specs = {bundles: bundle}
+        const specs = {bundles: bundle};
         if (bundle === 'widget') {
             specs.element = {name: name};
             if (type === 'layout') specs.id = layoutId;
             if (type === 'page') specs.route = route;
         }
-
         saveBundle(specs);
     };
+
     const attrs = {};
     const isWidgetValid = bundle === 'widget' && !!name && !!type;
     const isPageValid = isWidgetValid && type === 'page' && !!route;
