@@ -4,9 +4,11 @@ export function ApplicationConfig() {
     if (!model) return null;
 
     const {declarations} = model;
-    const [state, setState] = React.useState({});
+    const {itemsProcessed, total} = declarations;
 
+    const [state, setState] = React.useState({});
     useBinder([model, declarations], () => setState({}));
+
     const generateDeclarations = () => declarations.update();
 
     return (
@@ -22,7 +24,7 @@ export function ApplicationConfig() {
                          <>{actions.declarations}</> :
                          <>
                              <BeyondSpinner className="on-primary"/>
-                             {`${actions.generatingDeclarations} ${declarations.count}/${declarations.total}`}
+                             {`${actions.generatingDeclarations} ${itemsProcessed}/${total}`}
                          </>
                         }
                     </BeyondButton>

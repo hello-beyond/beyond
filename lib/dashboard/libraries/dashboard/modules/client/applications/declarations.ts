@@ -4,9 +4,8 @@ import type {Application} from "./item";
 import {ReactiveModel} from "../reactive-model";
 
 interface DeclarationMessage {
-    id: string,
-    count: number,
     total: number,
+    item?: { id: string, valid: boolean }
 }
 
 export /*bundle*/
@@ -18,42 +17,64 @@ class ApplicationDeclarations extends ReactiveModel {
         return this.#error;
     }
 
-    #currentDeclaration: string;
-    get currentDeclaration(): string {
-        return this.#currentDeclaration;
-    }
-
-    #total: number;
-    get total(): number {
+    #total = 0;
+    get total() {
         return this.#total;
     }
 
-    #count: number;
-    get count(): number {
-        return this.#count;
+    #itemsProcessed = 0;
+    get itemsProcessed() {
+        return this.#itemsProcessed;
+    }
+
+    #onProcess: string;
+    get onProcess(): string {
+        return this.#onProcess;
+    }
+
+    #success = new Set();
+    get success() {
+        return this.#success;
+    }
+
+    #errors = new Set();
+    get errors() {
+        return this.#errors;
     }
 
     clean() {
         this.#total = 0;
-        this.#count = 0;
         this.#error = '';
-        this.#currentDeclaration = '';
+        this.#onProcess = '';
+        this.#itemsProcessed = 0;
+        this.#errors.clear();
+        this.#success.clear();
         this.processed = false;
+        this.processing = false;
+
         this.triggerEvent();
     }
 
     onDeclarationSave(message: DeclarationMessage) {
         void this;
 
-        this.#error = '';
-        this.#total = message.total;
-        this.#count = message.count;
-        this.#currentDeclaration = message.id;
-        this.processed = this.count === this.total;
-        this.processing = this.count !== this.total;
+        const {item, total} = message;
+        this.#total = total;
 
-        //when the process finished current declaration is clean
-        this.processed && (this.#currentDeclaration = '');
+        if (!item) {
+            this.triggerEvent();
+            return;
+        }
+
+        this.#onProcess = item.id;
+        item.valid ? this.#success.add(item.id) : this.#errors.add(item.id);
+
+        this.#itemsProcessed = this.#success.size + this.#errors.size;
+        this.processed = this.#itemsProcessed === this.#total;
+        this.processing = this.#itemsProcessed !== this.#total;
+
+        //when the process finished the declaration in process is cleaned
+        this.processed && (this.#onProcess = '');
         this.triggerEvent();
     }
 
@@ -81,15 +102,16 @@ class ApplicationDeclarations extends ReactiveModel {
             this.processing = true;
             const action = id ? '/applications/declarations/update' : '/applications/declarations/updateAll';
             const specs = {id: id, applicationId: this.#application.id};
+
             const response: any = await module.execute(action, specs);
 
             if (response?.error) {
                 this.#error = response.error;
-                console.error('Error Creating module: ', response.error);
+                console.error(response.error);
             }
 
-        } catch (error) {
-            this.#error = error;
+        } catch (exc) {
+            this.#error = exc;
         } finally {
             this.triggerEvent();
         }

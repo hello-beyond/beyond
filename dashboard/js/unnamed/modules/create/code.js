@@ -5,10 +5,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     value: true
   });
   _exports.CreateModuleForm = void 0;
-  const CreateModuleContext = React.createContext();
-
-  const useCreateModuleContext = () => React.useContext(CreateModuleContext);
-
   const {
     beyond
   } = globalThis;

@@ -8,10 +8,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
   //  APP
   //  Library Beyond-UI
   //  Library beyond-Dashboard
-  const CreateAppContext = React.createContext();
-
-  const useCreateAppContext = () => React.useContext(CreateAppContext);
-
   const {
     beyond
   } = globalThis;

@@ -11,7 +11,10 @@
     },
     "jsx": {
       "path": "jsx",
-      "files": "*"
+      "files": [
+        "context.js",
+        "*"
+      ]
     },
     "scss": {
       "path": "scss",

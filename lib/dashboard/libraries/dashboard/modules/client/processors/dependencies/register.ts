@@ -10,7 +10,7 @@ specs.cache = false;
 
 specs.fields = [
     'id', 'is', 'version', 'external', 'resource', 'errors', 'warnings',
-    'bundle_id', 'declaration'
+    'bundle_id', 'declaration', 'sources'
 ];
 specs.properties = {
     bundle: {
@@ -22,7 +22,8 @@ specs.properties = {
         Item: Declaration,
         table: 'declarations',
         identifier: [{field: 'id', source: 'declaration'}]
-    }
+    },
+    //TODO agregar propiedad con acceso al file sources:{}
 };
 
 

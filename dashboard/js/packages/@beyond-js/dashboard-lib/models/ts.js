@@ -183,7 +183,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: applications\declarations.ts
 
   modules.set('./applications/declarations', {
-    hash: 2659045424,
+    hash: 889764594,
     creator: function (require, exports) {
       "use strict";
 
@@ -206,43 +206,68 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.#error;
         }
 
-        #currentDeclaration;
-
-        get currentDeclaration() {
-          return this.#currentDeclaration;
-        }
-
-        #total;
+        #total = 0;
 
         get total() {
           return this.#total;
         }
 
-        #count;
+        #itemsProcessed = 0;
 
-        get count() {
-          return this.#count;
+        get itemsProcessed() {
+          return this.#itemsProcessed;
+        }
+
+        #onProcess;
+
+        get onProcess() {
+          return this.#onProcess;
+        }
+
+        #success = new Set();
+
+        get success() {
+          return this.#success;
+        }
+
+        #errors = new Set();
+
+        get errors() {
+          return this.#errors;
         }
 
         clean() {
           this.#total = 0;
-          this.#count = 0;
           this.#error = '';
-          this.#currentDeclaration = '';
+          this.#onProcess = '';
+          this.#itemsProcessed = 0;
+          this.#errors.clear();
+          this.#success.clear();
           this.processed = false;
+          this.processing = false;
           this.triggerEvent();
         }
 
         onDeclarationSave(message) {
           void this;
-          this.#error = '';
-          this.#total = message.total;
-          this.#count = message.count;
-          this.#currentDeclaration = message.id;
-          this.processed = this.count === this.total;
-          this.processing = this.count !== this.total; //when the process finished current declaration is clean
+          const {
+            item,
+            total
+          } = message;
+          this.#total = total;
 
-          this.processed && (this.#currentDeclaration = '');
+          if (!item) {
+            this.triggerEvent();
+            return;
+          }
+
+          this.#onProcess = item.id;
+          item.valid ? this.#success.add(item.id) : this.#errors.add(item.id);
+          this.#itemsProcessed = this.#success.size + this.#errors.size;
+          this.processed = this.#itemsProcessed === this.#total;
+          this.processing = this.#itemsProcessed !== this.#total; //when the process finished the declaration in process is cleaned
+
+          this.processed && (this.#onProcess = '');
           this.triggerEvent();
         }
 
@@ -277,10 +302,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
             if (response?.error) {
               this.#error = response.error;
-              console.error('Error Creating module: ', response.error);
+              console.error(response.error);
             }
-          } catch (error) {
-            this.#error = error;
+          } catch (exc) {
+            this.#error = exc;
           } finally {
             this.triggerEvent();
           }
@@ -3519,7 +3544,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   }); // FILE: processors\dependencies\register.ts
 
   modules.set('./processors/dependencies/register', {
-    hash: 2630222483,
+    hash: 987659460,
     creator: function (require, exports) {
       "use strict";
 
@@ -3538,7 +3563,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = beyond_context_1.module;
       specs.cache = false;
-      specs.fields = ['id', 'is', 'version', 'external', 'resource', 'errors', 'warnings', 'bundle_id', 'declaration'];
+      specs.fields = ['id', 'is', 'version', 'external', 'resource', 'errors', 'warnings', 'bundle_id', 'declaration', 'sources'];
       specs.properties = {
         bundle: {
           Item: item_1.Bundle,
@@ -3555,7 +3580,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
             field: 'id',
             source: 'declaration'
           }]
-        }
+        } //TODO agregar propiedad con acceso al file sources:{}
+
       }; //TODO @ftovar crear propiedad de tipo Items a la tabla processor-sources con el campo is como relacion
 
       specs.batch = {

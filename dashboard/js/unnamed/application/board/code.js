@@ -172,6 +172,10 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const {
       declarations
     } = model;
+    const {
+      itemsProcessed,
+      total
+    } = declarations;
     const [state, setState] = React.useState({});
     (0, _code8.useBinder)([model, declarations], () => setState({}));
 
@@ -189,7 +193,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "btn primary"
     }, !declarations.processing ? /*#__PURE__*/React.createElement(React.Fragment, null, actions.declarations) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
       className: "on-primary"
-    }), `${actions.generatingDeclarations} ${declarations.count}/${declarations.total}`)))), /*#__PURE__*/React.createElement(Description, null));
+    }), `${actions.generatingDeclarations} ${itemsProcessed}/${total}`)))), /*#__PURE__*/React.createElement(Description, null));
   }
   /**************************
   application\description.jsx

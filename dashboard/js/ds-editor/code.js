@@ -10,11 +10,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
   //dashboard
   //models
   //CONTEXTS
-  //@TODO: @julio Remove editor context
-  const EditorContext = React.createContext();
-
-  const useEditorContext = () => React.useContext(EditorContext);
-
   const {
     beyond
   } = globalThis;
