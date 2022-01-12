@@ -94,12 +94,6 @@
             "close": "Close"
           }
         }
-      },
-      "module": {
-        "empty": {
-          "title": "Select a module",
-          "description": "Go to the application tab and select the module you want to use as a work table"
-        }
       }
     }
   },
@@ -116,12 +110,6 @@
         "delete": "Do you really want to remove this element?"
       },
       "modules": "Modules",
-      "module": {
-        "empty": {
-          "title": "Select a module",
-          "description": "Go to the application tab and select the module you want to use as a work table"
-        }
-      },
       "delete": "Delete",
       "rename": "Rename",
       "errors": {

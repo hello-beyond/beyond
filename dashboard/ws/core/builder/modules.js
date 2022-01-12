@@ -71,7 +71,6 @@ module.exports = function (ipc) {
         if (params.static && module._static) return;
 
         delete params.moduleId;
-        await module.load();
         await module.save(params);
 
         return data;

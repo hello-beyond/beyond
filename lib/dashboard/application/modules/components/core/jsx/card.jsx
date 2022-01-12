@@ -14,11 +14,10 @@ export function DSCard({header, children}) {
     )
 }
 
-export function DSCards({children, className}) {
-    const cls = `ds-cards__container${className ? ` ${className}` : ''} `;
+export function DSCards({children}) {
     return (
-        <section className={cls}>
+        <section className="ds-cards__container">
             {children}
         </section>
-    );
+    )
 }

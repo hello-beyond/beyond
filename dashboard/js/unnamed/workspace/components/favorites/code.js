@@ -210,8 +210,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     async _check() {
       this._promise = new PendingPromise();
-      await _code5.DSModel.initialise();
-      const favorites = await _code5.DSModel.db.store('favorites');
+      await _code5.Dashboard.initialise();
+      const favorites = await _code5.Dashboard.db.store('favorites');
       this._db = favorites;
       const items = await favorites.getAll();
       items.forEach(item => {
@@ -568,7 +568,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       this._application = parent.application;
       this._id = id;
       this._now = performance.now();
-      this._store = _code5.DSModel.db.store('favorites');
+      this._store = _code5.Dashboard.db.store('favorites');
       this.rename = this.rename.bind(this);
       this._createTree = this._createTree.bind(this);
       if (tree) this._loadItems(tree);

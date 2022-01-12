@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6, _code7) {
+define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -101,19 +101,11 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       return this._type;
     }
 
-    #store;
-
     constructor(parent, id) {
       super();
       this._id = id;
       this._parent = parent;
       this._boards = parent.boards;
-      this.#load();
-    }
-
-    async #load() {
-      await _code3.DSModel.initialise();
-      this.#store = _code3.DSModel.db.store('panels');
     }
     /**
      *
@@ -128,7 +120,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
 
     createEditor(type, processor, source, position, application, module) {
       if (!application) console.trace(10, application);
-      const manager = (0, _code7.getEditorManager)(application);
+      const manager = (0, _code6.getEditorManager)(application);
       this._editor = manager.create({
         source,
         position,
@@ -143,16 +135,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       });
       this.triggerEvent();
     }
-
-    async register(type, specs, id) {
-      await this.#load();
-      this.#store.save({
-        id,
-        specs,
-        type,
-        panel: this.id
-      });
-    }
     /**
      * Open a source in a new tab into a monaco editor instance
      *
@@ -166,18 +148,16 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
      */
 
 
-    openFile(specs) {
-      const {
-        source,
-        path,
-        processor,
-        application,
-        module,
-        position = {},
-        type
-      } = specs;
+    openFile({
+      source,
+      path,
+      processor,
+      application,
+      module,
+      position = {},
+      type
+    }) {
       this._activeItem = path;
-      this.register('file', specs, path);
       !this.editor ? this.createEditor(type, processor, source, position, application, module) : this.editor.addFile(type, processor, source, true);
 
       if (type === 'dependency') {
@@ -225,7 +205,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       const label = specs.label ? specs.label : control.label;
       const labelName = specs.label ? `${name}.${label.toLowerCase().replace(/ /g, '-')}` : undefined;
       const tabName = specs.name ? specs.name : specs.moduleId ? specs.moduleId : specs.label ? labelName : name;
-      this.register('content', specs, tabName);
       this.tabs.set(tabName, {
         label: label,
         type: 'content',
@@ -478,9 +457,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       });
     };
 
-    (0, _code5.useBinder)([contextMenu], openContextMenu, 'fired.tab');
-    (0, _code5.useBinder)([contextMenu], () => toggleContextMenu(false), 'closed');
-    (0, _code5.useBinder)([panel], () => setName(panel.tabs.get(id).label), `tab.change.${id}`);
+    (0, _code4.useBinder)([contextMenu], openContextMenu, 'fired.tab');
+    (0, _code4.useBinder)([contextMenu], () => toggleContextMenu(false), 'closed');
+    (0, _code4.useBinder)([panel], () => setName(panel.tabs.get(id).label), `tab.change.${id}`);
     React.useEffect(() => {
       if (item.type !== 'editor') return;
 
@@ -506,7 +485,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       };
       if (isUnique) return null;
       if (!isUnique) attrs.onClick = onClose;
-      return /*#__PURE__*/React.createElement(_code4.DSIconButton, _extends({
+      return /*#__PURE__*/React.createElement(_code3.DSIconButton, _extends({
         icon: "close",
         title: texts.actions.close
       }, attrs));
@@ -515,14 +494,14 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     return /*#__PURE__*/React.createElement("div", _extends({
       ref: ref,
       "data-context": "tab"
-    }, attrs), name, /*#__PURE__*/React.createElement(IconTab, null), showContextMenu && /*#__PURE__*/React.createElement(_code6.DSContextMenu, {
+    }, attrs), name, /*#__PURE__*/React.createElement(IconTab, null), showContextMenu && /*#__PURE__*/React.createElement(_code5.DSContextMenu, {
       unmount: toggleContextMenu,
       specs: showContextMenu
-    }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement(_code6.ItemMenu, {
+    }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement(_code5.ItemMenu, {
       onClick: addPanel,
       icon: "splitView",
       label: texts.actions.splitRight
-    }), /*#__PURE__*/React.createElement(_code6.ItemMenu, {
+    }), /*#__PURE__*/React.createElement(_code5.ItemMenu, {
       onClick: onClose,
       icon: "splitView",
       label: texts.actions.close
@@ -587,7 +566,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     } = state;
     const tab = panel.tabs.get(activeTab);
     const ref = React.useRef(null);
-    (0, _code5.useBinder)([panel], () => setState({ ...state,
+    (0, _code4.useBinder)([panel], () => setState({ ...state,
       total: panel.tabs.size,
       activeTab: panel.activeItem
     }));
@@ -598,7 +577,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       return () => ref.current?.removeEventListener('click', onClick);
     }, []);
     if (!tab) return null;
-    const Control = tab.type === 'editor' ? _code7.EditorView : tab.control;
+    const Control = tab.type === 'editor' ? _code6.EditorView : tab.control;
     const tabs = [];
     panel.tabs.forEach((item, id) => {
       tabs.push( /*#__PURE__*/React.createElement(PanelTab, {
@@ -639,7 +618,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     const output = [];
     const container = React.useRef();
     const [state, setState] = React.useState({});
-    (0, _code5.useBinder)([panels], () => setState({ ...state,
+    (0, _code4.useBinder)([panels], () => setState({ ...state,
       items: panels.items
     }));
     if (!ready) return /*#__PURE__*/React.createElement(Preload, null);
@@ -678,7 +657,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       className: cls
     }, /*#__PURE__*/React.createElement("nav", {
       className: "ds-panels__actions"
-    }, /*#__PURE__*/React.createElement(_code4.DSIconButton, {
+    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       onClick: addPanel,
       icon: "splitView",
       title: "Split editor"
@@ -694,7 +673,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       className: "panels__container"
     }, /*#__PURE__*/React.createElement("nav", {
       className: "ds-editor__actions"
-    }, /*#__PURE__*/React.createElement(_code4.DSIconButton, {
+    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
       icon: "splitView",
       title: "Split editor"
     })), /*#__PURE__*/React.createElement("div", {

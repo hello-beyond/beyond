@@ -53,56 +53,48 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
 
   function Diagnostics() {
     const {
-      model
+      model,
+      texts,
+      controller
     } = useModuleContext();
-    const output = Array.from(model.bundles.values()).map(bundle => /*#__PURE__*/React.createElement(BundleDiagnostics, {
-      bundle: bundle,
-      key: bundle.id
-    }));
+    const output = [];
+    model.bundles.forEach(bundle => {
+      const {
+        diagnostics,
+        id
+      } = bundle;
+      const {
+        general,
+        files,
+        overwrites,
+        dependencies
+      } = diagnostics;
+
+      if (!general?.length && !files?.size && !overwrites?.size && !dependencies?.size) {
+        return null;
+      }
+
+      output.push( /*#__PURE__*/React.createElement(React.Fragment, {
+        key: id
+      }, /*#__PURE__*/React.createElement("h3", null, texts.diagnostics.title, /*#__PURE__*/React.createElement("span", {
+        className: "diagnostics__bundle__title"
+      }, bundle.name)), /*#__PURE__*/React.createElement(GeneralDiagnostics, {
+        data: diagnostics.general
+      }), /*#__PURE__*/React.createElement(FilesDiagnostics, {
+        name: "files",
+        bundle: bundle,
+        data: diagnostics.files
+      }), /*#__PURE__*/React.createElement(FilesDiagnostics, {
+        name: "overwrites",
+        bundle: bundle,
+        data: diagnostics.overwrites
+      }), /*#__PURE__*/React.createElement(FilesDiagnostics, {
+        name: "dependencies",
+        bundle: bundle,
+        data: diagnostics.dependencies
+      })));
+    });
     return /*#__PURE__*/React.createElement(React.Fragment, null, output);
-  }
-  /****************************
-  alerts\diagnostics\bundle.jsx
-  ****************************/
-
-
-  function BundleDiagnostics({
-    bundle
-  }) {
-    const {
-      texts
-    } = useModuleContext();
-    const [diagnostics, setDiagnostics] = React.useState(bundle?.compiler?.diagnostics ?? {});
-    const {
-      general,
-      files,
-      overwrites,
-      dependencies
-    } = diagnostics;
-    (0, _code5.useBinder)([bundle], () => setDiagnostics({ ...bundle.compiler.diagnostics
-    }));
-
-    if (!general?.length && !files?.size && !overwrites?.size && !dependencies?.size) {
-      return null;
-    }
-
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h3", null, texts.diagnostics.title, /*#__PURE__*/React.createElement("span", {
-      className: "diagnostics__bundle__title"
-    }, bundle.name)), /*#__PURE__*/React.createElement(GeneralDiagnostics, {
-      data: diagnostics.general
-    }), /*#__PURE__*/React.createElement(FilesDiagnostics, {
-      name: "files",
-      bundle: bundle,
-      data: diagnostics.files
-    }), /*#__PURE__*/React.createElement(FilesDiagnostics, {
-      name: "overwrites",
-      bundle: bundle,
-      data: diagnostics.overwrites
-    }), /*#__PURE__*/React.createElement(FilesDiagnostics, {
-      name: "dependencies",
-      bundle: bundle,
-      data: diagnostics.dependencies
-    }));
   }
   /***************************
   alerts\diagnostics\files.jsx
@@ -248,12 +240,11 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       (async () => {
         if ([undefined, null].includes(specs?.moduleId)) return;
         const model = await moduleManager.load(specs.moduleId);
-        window.module = model;
-        setModel(model);
         panel.setTabName(specs.moduleId, model.name);
+        setModel(model);
       })();
     }, [specs.moduleId]);
-    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) return null;
+    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready) return null;
     const texts = module.texts.value;
     return /*#__PURE__*/React.createElement(ModuleContext.Provider, {
       value: {
@@ -264,79 +255,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       }
     }, /*#__PURE__*/React.createElement("div", {
       className: "ds-module-view__detail"
-    }, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Cards, null), /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement("div", {
       className: "module__alerts-section"
-    }, /*#__PURE__*/React.createElement(GeneralAlerts, null), /*#__PURE__*/React.createElement(Diagnostics, null)), /*#__PURE__*/React.createElement(Description, null), /*#__PURE__*/React.createElement(Consumers, null)));
-  }
-  /********
-  cards.jsx
-  ********/
-
-
-  function Cards() {
-    const {
-      model,
-      texts
-    } = useModuleContext();
-    if (!model.am?.tree.landed) return null;
-    const {
-      am
-    } = model;
-    return /*#__PURE__*/React.createElement("div", {
-      className: "container-cards"
-    }, /*#__PURE__*/React.createElement(_code3.SmallCard, {
-      icon: "file.consumer",
-      header: texts.labels.consumers,
-      content: 5
-    }), /*#__PURE__*/React.createElement(_code3.SmallCard, {
-      icon: "file.dependency",
-      header: texts.labels.dependencies,
-      content: 5
-    }), /*#__PURE__*/React.createElement(_code3.SmallCard, {
-      icon: "fileCode",
-      header: texts.labels.totalFiles,
-      content: model.totalFiles
-    }), /*#__PURE__*/React.createElement(_code3.SmallCard, {
-      icon: "bundle.default",
-      header: texts.labels.bundles,
-      content: am.bundles.size
-    }));
-  }
-  /************
-  consumers.jsx
-  ************/
-
-
-  function Consumers() {
-    const {
-      model,
-      texts
-    } = useModuleContext();
-    const {
-      bundlesManager: bundles
-    } = model;
-    const [items, setItems] = React.useState(bundles?.consumers ? bundles?.consumers : []);
-    return null;
-    if (!bundles) return null;
-    (0, _code5.useBinder)([bundles], () => {
-      // console.log(8)
-      setItems(items => bundles.consumers);
-    }, []); // console.log(9, items, bundles.consumers);
-
-    return /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h3", null, texts.labels.consumers), /*#__PURE__*/React.createElement("ul", null, items.map(module => {
-      return /*#__PURE__*/React.createElement("li", {
-        key: module.id,
-        className: "board__item"
-      }, module.name, /*#__PURE__*/React.createElement("div", {
-        className: "item__actions"
-      }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
-        className: "sm circle primary",
-        icon: "refresh"
-      }), /*#__PURE__*/React.createElement(_code3.DSIconButton, {
-        className: "sm circle primary",
-        icon: "arrowRight"
-      })));
-    })));
+    }, /*#__PURE__*/React.createElement(GeneralAlerts, null), /*#__PURE__*/React.createElement(Diagnostics, null)), /*#__PURE__*/React.createElement(Description, null)));
   }
   /**************
   description.jsx
@@ -344,9 +265,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
 
 
   function Description() {
-    return /*#__PURE__*/React.createElement("section", {
-      className: "columns-container two-columns"
-    }, /*#__PURE__*/React.createElement(EditField, {
+    return /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement(EditField, {
       field: "name"
     }), /*#__PURE__*/React.createElement(EditField, {
       field: "description"
@@ -384,6 +303,20 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       const target = event.currentTarget;
       setValue(target.value);
     };
+
+    if (!fieldValue) {
+      return /*#__PURE__*/React.createElement("div", {
+        className: "item-formation"
+      }, /*#__PURE__*/React.createElement("div", null, label), /*#__PURE__*/React.createElement("form", {
+        onSubmit: onSubmit,
+        className: "form-group"
+      }, /*#__PURE__*/React.createElement("input", {
+        autoComplete: "off",
+        onChange: onEdit,
+        name: field,
+        defaultValue: value
+      })));
+    }
 
     if (edit) {
       return /*#__PURE__*/React.createElement("div", {
@@ -431,23 +364,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       fetching: true
     }));
   }
-  /*****************
-  header\bundles.jsx
-  *****************/
-
-
-  function BundlesTags() {
-    const {
-      model
-    } = useModuleContext();
-    const items = [...model.bundles.keys()].map(item => /*#__PURE__*/React.createElement("span", {
-      key: `p-${item}`,
-      className: "badge-item"
-    }, item));
-    return /*#__PURE__*/React.createElement("div", {
-      className: "badge-list"
-    }, items);
-  }
   /****************
   header\header.jsx
   ****************/
@@ -461,45 +377,60 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       navigateModule
     } = useModuleContext();
     const {
-      am
+      module
     } = model;
-    const link = am.route ? `${application.application.url}${am.route.toLowerCase()}` : '';
+    const link = module.route ? `${application.application.url}${module.route.toLowerCase()}` : '';
 
     const changeProperty = event => {
       const target = event.currentTarget;
-      am.saveField(target.name, target.checked);
+      module.saveField(target.name, target.checked);
     };
 
     const open = event => {
       event.preventDefault();
       navigateModule({
         url: link,
-        route: am.route
+        route: module.route
       });
     };
 
     return /*#__PURE__*/React.createElement("header", {
-      className: "am__header"
+      className: "module__header"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flex-container flex-space"
     }, /*#__PURE__*/React.createElement("div", {
       className: "flex-container"
-    }, /*#__PURE__*/React.createElement("span", null, texts.labels.bundles, ":"), /*#__PURE__*/React.createElement(BundlesTags, null), /*#__PURE__*/React.createElement(_code2.BeyondSwitch, {
+    }, /*#__PURE__*/React.createElement(ProcessorsTags, null), /*#__PURE__*/React.createElement(_code2.BeyondSwitch, {
       onChange: changeProperty,
       name: "hmr",
       className: "small",
-      value: am.hmr
-    }), /*#__PURE__*/React.createElement("label", null, texts.hmr)), /*#__PURE__*/React.createElement("div", {
+      value: module.hmr
+    }), /*#__PURE__*/React.createElement("label", null, texts.hmr))), /*#__PURE__*/React.createElement("div", {
       className: "mt-15 flex-container flex-space"
     }, /*#__PURE__*/React.createElement("div", {
       className: "col"
-    }, /*#__PURE__*/React.createElement("span", {
-      className: "primary-accent"
-    }, /*#__PURE__*/React.createElement("strong", null, texts.path), " ", am.module?.path)), /*#__PURE__*/React.createElement("div", {
-      className: "col"
-    }, am.route && /*#__PURE__*/React.createElement("a", {
+    }, module.route && /*#__PURE__*/React.createElement("a", {
       onClick: open,
       target: "_blank",
       className: "link primary-color lower"
     }, link))));
+  }
+  /********************
+  header\processors.jsx
+  ********************/
+
+
+  function ProcessorsTags() {
+    const {
+      model
+    } = useModuleContext();
+    const items = [...model.processors].map(item => /*#__PURE__*/React.createElement("span", {
+      key: `p-${item}`,
+      className: "badge-item"
+    }, item));
+    return /*#__PURE__*/React.createElement("div", {
+      className: "badge-list"
+    }, items);
   }
   /*************
   overwrites.jsx
@@ -891,6 +822,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
 
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-module__alerts-section{margin:15px 0;display:flex;gap:15px;align-items:stretch;justify-content:stretch}.ds-module__alerts-section .beyond-alert{flex-basis:max-content;width:100%}@media (max-width:600px){.ds-module__alerts-section{flex-direction:column}}.module__alerts-section h3 .diagnostics__bundle__title{color:#ff8056}.module__alerts-section .beyond-alert{padding-bottom:0}.module__alerts-section h5{text-transform:uppercase;font-weight:700;padding:0;margin-bottom:15px}.module__alerts-section ul{display:grid;margin:0;padding:0}.module__alerts-section ul li{margin:0 -15px;padding:8px 15px;transition:all .2s ease-in}.module__alerts-section ul li h6{margin:0;padding:0;font-size:1.3rem}.module__alerts-section ul li .item__data{display:flex;grid-gap:15px;color:#e4e5dc}.module__alerts-section ul li:hover{background:#121f36;cursor:pointer}.board__item{border:1px solid #121f36;padding:.5rem;list-style:none}.container-cards{display:grid;grid-gap:15px;grid-template-columns:repeat(4,1fr)}.cards-information{margin:15px 0;display:flex;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}@media (max-width:700px){.cards-information{grid-template-columns:1fr 1fr}}.cards-information .card-detail{padding:30px;display:flex;flex-direction:column;background:#050910;border-radius:5px;max-width:300px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.cards-information .card-detail:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.cards-information .card-detail header{font-size:1.2rem;text-align:center;color:#ffa789;margin-bottom:15px}.cards-information .card-detail .card__actions{display:flex;justify-content:center;margin-top:30px}.cards-information .card-detail .card__actions .beyond-button{width:60%}.ds-module-view__detail .module__header h4,.ds-module-view__detail .module__header h5{padding:2px 0}.ds-module-view__detail .module__header .flex-container{display:flex;align-items:center}.ds-module-view__detail .module__header .flex-container.flex-space{justify-content:space-between}.ds-module-view__detail .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.ds-module-view__detail .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.ds-module-view__detail .item-information .description-item:hover{background:#262626}.ds-module-view__detail .item-information .description-item:hover .beyond-icon-button{opacity:1}.ds-module-view__detail .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.ds-module-view__detail .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:#FFFFFF}.ds-module-view__detail .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;width:100%}.ds-module-view__detail .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:#fff;border:1px solid #f0f0f0;padding:15px;font-size:16px}.ds-module-view__detail .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.ds-module-view__detail .item-information.item-information--edit .form-group .form__actions{margin:15px;display:flex;gap:8px;justify-content:flex-end}.ds-module-view__detail .bundle_processor-container{padding-bottom:20px}.ds-module-view__detail .bundle_processor-container header{background-image:linear-gradient(to right,#f0f0f0 0,#82837f 100%);padding:8px;display:flex;border-top-right-radius:15px;align-items:center}.ds-module-view__detail .bundle_processor-container header .col-left,.ds-module-view__detail .bundle_processor-container header .col-right{display:flex;align-items:center}.ds-module-view__detail .bundle_processor-container header .expand-icon{height:25px;width:25px}.ds-module-view__detail .bundle_processor-container header .expand-icon svg{fill:#121F36}.ds-module-view__detail .bundle_processor-container .bundle-processor_title,.ds-module-view__detail .bundle_processor-container .separator{border-bottom:1px solid #e4e5dc}.ds-module-view__detail .bundle_processor-container .bundle-processor_title{display:flex;justify-content:space-between;align-items:center}.ds-module-view__detail .bundle_processor-container .bundle-processor_title .beyond-icon-button{background:#e4e5dc}.ds-module-view__detail .bundle_processor-container .processor_block-data.hide-block{display:none!important;transition:.3s ease-in-out}.ds-module-view__detail .bundle_processor-container .processor_block-data.two-columns{display:grid;grid-template-columns:1fr 1fr;grid-gap:15px}.ds-module-view__detail{background:#000;width:100%;height:100%;padding:20px}.ds-module-view__detail .content-centering{min-height:100px;display:flex;align-items:center;justify-content:center}.ds-module-view__detail .icon-error{fill:#D2281E}.ds-module-view__detail .icon-warning{fill:#F7D994}.ds-module-view__detail .list-icon{padding:0}.ds-module-view__detail .list-icon li{display:grid;grid-template-columns:auto 1fr;grid-gap:8px;margin-bottom:8px}.ds-module-view__detail .list-icon li svg{margin-top:4px;height:14px;width:14px}.ds-module-view__detail .module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,255,255,.5);transition:all .2s ease-in;height:0;display:none}.ds-module-view__detail .module_fetching-block.show{height:100%;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.beyond-element-switch.small .switch{position:relative;display:inline-block;width:40px;height:19px}.beyond-element-switch.small .switch .slider{border-radius:8px}.beyond-element-switch.small .switch .slider:before{top:2.3px;left:2px;bottom:0;right:0;overflow:hidden;content:"";height:13px;width:13px}.beyond-element-switch.small .switch input:checked+.slider:before{left:-4px}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-module__alerts-section{margin:15px 0;display:flex;gap:15px;align-items:stretch;justify-content:stretch}.ds-module__alerts-section .beyond-alert{flex-basis:max-content;width:100%}@media (max-width:600px){.ds-module__alerts-section{flex-direction:column}}.module__alerts-section h3 .diagnostics__bundle__title{color:#ff8056}.module__alerts-section .beyond-alert{padding-bottom:0}.module__alerts-section h5{text-transform:uppercase;font-weight:700;padding:0;margin-bottom:15px}.module__alerts-section ul{display:grid;margin:0;padding:0}.module__alerts-section ul li{margin:0 -15px;padding:8px 15px;transition:all .2s ease-in}.module__alerts-section ul li h6{margin:0;padding:0;font-size:1.3rem}.module__alerts-section ul li .item__data{display:flex;grid-gap:15px;color:#e4e5dc}.module__alerts-section ul li:hover{background:#121f36;cursor:pointer}.cards-information{margin:15px 0;display:flex;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}@media (max-width:700px){.cards-information{grid-template-columns:1fr 1fr}}.cards-information .card-detail{padding:30px;display:flex;flex-direction:column;background:#050910;border-radius:5px;max-width:300px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.cards-information .card-detail:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.cards-information .card-detail header{font-size:1.2rem;text-align:center;color:#ffa789;margin-bottom:15px}.cards-information .card-detail .card__actions{display:flex;justify-content:center;margin-top:30px}.cards-information .card-detail .card__actions .beyond-button{width:60%}.ds-module-view__detail .module__header h4,.ds-module-view__detail .module__header h5{padding:2px 0}.ds-module-view__detail .module__header .flex-container{display:flex;align-items:center}.ds-module-view__detail .module__header .flex-container.flex-space{justify-content:space-between}.ds-module-view__detail .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.ds-module-view__detail .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.ds-module-view__detail .item-information .description-item:hover{background:#262626}.ds-module-view__detail .item-information .description-item:hover .beyond-icon-button{opacity:1}.ds-module-view__detail .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.ds-module-view__detail .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:#FFFFFF}.ds-module-view__detail .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;width:100%}.ds-module-view__detail .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:#fff;border:1px solid #f0f0f0;padding:15px;font-size:16px}.ds-module-view__detail .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.ds-module-view__detail .item-information.item-information--edit .form-group .form__actions{margin:15px;display:flex;gap:8px;justify-content:flex-end}.ds-module-view__detail .bundle_processor-container{padding-bottom:20px}.ds-module-view__detail .bundle_processor-container header{background-image:linear-gradient(to right,#f0f0f0 0,#82837f 100%);padding:8px;display:flex;border-top-right-radius:15px;align-items:center}.ds-module-view__detail .bundle_processor-container header .col-left,.ds-module-view__detail .bundle_processor-container header .col-right{display:flex;align-items:center}.ds-module-view__detail .bundle_processor-container header .expand-icon{height:25px;width:25px}.ds-module-view__detail .bundle_processor-container header .expand-icon svg{fill:#121F36}.ds-module-view__detail .bundle_processor-container .bundle-processor_title,.ds-module-view__detail .bundle_processor-container .separator{border-bottom:1px solid #e4e5dc}.ds-module-view__detail .bundle_processor-container .bundle-processor_title{display:flex;justify-content:space-between;align-items:center}.ds-module-view__detail .bundle_processor-container .bundle-processor_title .beyond-icon-button{background:#e4e5dc}.ds-module-view__detail .bundle_processor-container .processor_block-data.hide-block{display:none!important;transition:.3s ease-in-out}.ds-module-view__detail .bundle_processor-container .processor_block-data.two-columns{display:grid;grid-template-columns:1fr 1fr;grid-gap:15px}.ds-module-view__detail{background:#000;width:100%;height:100%;padding:20px}.ds-module-view__detail .content-centering{min-height:100px;display:flex;align-items:center;justify-content:center}.ds-module-view__detail .icon-error{fill:#D2281E}.ds-module-view__detail .icon-warning{fill:#F7D994}.ds-module-view__detail .list-icon{padding:0}.ds-module-view__detail .list-icon li{display:grid;grid-template-columns:auto 1fr;grid-gap:8px;margin-bottom:8px}.ds-module-view__detail .list-icon li svg{margin-top:4px;height:14px;width:14px}.ds-module-view__detail .module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,255,255,.5);transition:all .2s ease-in;height:0;display:none}.ds-module-view__detail .module_fetching-block.show{height:100%;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.beyond-element-switch.small .switch{position:relative;display:inline-block;width:40px;height:19px}.beyond-element-switch.small .switch .slider{border-radius:8px}.beyond-element-switch.small .switch .slider:before{top:2.3px;left:2px;bottom:0;right:0;overflow:hidden;content:"";height:13px;width:13px}.beyond-element-switch.small .switch input:checked+.slider:before{left:-4px}';
   bundle.styles.appendToDOM();
 });

@@ -1,8 +1,5 @@
 {
   "en": {
-    "scanner": {
-      "title": "scanned modules"
-    },
     "application": {
       "info": {
         "description": "Description",
@@ -22,9 +19,6 @@
     }
   },
   "es": {
-    "scanner": {
-      "title": "modulos analizados"
-    },
     "application": {
       "info": {
         "description": "Descripción",

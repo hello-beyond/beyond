@@ -19,6 +19,16 @@ function EditField({field}) {
         setValue(target.value);
     };
 
+    if (!fieldValue) {
+        return (
+            <div className="item-formation">
+                <div>{label}</div>
+                <form onSubmit={onSubmit} className="form-group">
+                    <input autoComplete="off" onChange={onEdit} name={field} defaultValue={value}/>
+                </form>
+            </div>
+        )
+    }
 
     if (edit) {
         return (

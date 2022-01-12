@@ -1,5 +1,4 @@
 {
-  "name": "ds-notifications",
   "code": {
     "imports": "imports.js",
     "jsx": {
@@ -11,7 +10,6 @@
     "js": {
       "path": "js",
       "files": [
-        "notification/item.js",
         "*"
       ]
     },

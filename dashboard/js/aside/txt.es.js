@@ -36,6 +36,12 @@ define([], function () {
         "description": "Here you will see each element added as a favorite"
       }
     },
+    "module": {
+      "empty": {
+        "title": "Select a module",
+        "description": "Go to the application tab and select the module you want to use as a work table"
+      }
+    },
     "empty": "Selecciona un modulo para que puedas ver su contenido",
     "backend": {
       "title": "Backend code",
@@ -101,12 +107,6 @@ define([], function () {
         "delete": "Do you really want to remove this element?"
       },
       "modules": "Modules",
-      "module": {
-        "empty": {
-          "title": "Select a module",
-          "description": "Go to the application tab and select the module you want to use as a work table"
-        }
-      },
       "delete": "Delete",
       "rename": "Rename",
       "errors": {

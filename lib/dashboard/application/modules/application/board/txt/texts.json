@@ -1,57 +1,5 @@
 {
   "en": {
-    "compilation": "Compilación",
-    "transpilation": "Transpilación",
-    "alerts": {
-      "title": "Alertas y warnings de la aplicación",
-      "subtitle": "Resumen"
-    },
-    "header": {
-      "searcher": "What are you looking for?"
-    },
-    "titles": {
-      "modules": "Modules",
-      "pages": "Pages",
-      "routes": "routes",
-      "statics": "Statics",
-      "static": "Static",
-      "templates": "Templates",
-      "excluded": "Excluided files",
-      "path": "path",
-      "host": "host",
-      "errors": "Errors:",
-      "warnings": "Warnings:"
-    },
-    "navigate": "Navegar",
-    "items": {
-      "title": "Add new title",
-      "description": "Module description",
-      "icon": "pen",
-      "btnDetails": "Details",
-      "btnEdit": "Edit",
-      "update": "Update dependencies"
-    },
-    "search": "Search",
-    "empty": {
-      "primary": "We are just beginning",
-      "secondary": "click and create your first module"
-    },
-    "info": {
-      "route": "URL"
-    },
-    "processors": {
-      "alerts": "Errors and Warnings",
-      "jsx": "JSX Code",
-      "js": "JS / Javascript Code",
-      "scss": "SCSS / Stylesheets",
-      "ts": "TS / Typescript code",
-      "less": "LESS / Stylesheets",
-      "txt": "TXT / TEXTS"
-    }
-  },
-  "es": {
-    "compilation": "Compilación",
-    "transpilation": "Transpilación",
     "alerts": {
       "title": "Alertas y warnings de la aplicación",
       "subtitle": "Resumen"
@@ -60,6 +8,7 @@
       "searcher": "¿Que buscas?"
     },
     "titles": {
+      "libraries": "Libraries",
       "modules": "Modules",
       "pages": "Pages",
       "routes": "routes",
@@ -85,18 +34,43 @@
     "empty": {
       "primary": "We are just beginning",
       "secondary": "click and create your first module"
+    }
+  },
+  "es": {
+    "alerts": {
+      "title": "Alertas y warnings de la aplicación",
+      "subtitle": "Resumen"
     },
-    "info": {
-      "route": "URL"
+    "header": {
+      "searcher": "¿Que buscas?"
     },
-    "processors": {
-      "alerts": "Errors and Warnings",
-      "jsx": "JSX Code",
-      "js": "JS / Javascript Code",
-      "scss": "SCSS / Stylesheets",
-      "ts": "TS / Typescript code",
-      "less": "LESS / Stylesheets",
-      "txt": "TXT / TEXTS"
+    "titles": {
+      "libraries": "Libraries",
+      "modules": "Modules",
+      "pages": "Pages",
+      "routes": "routes",
+      "statics": "Statics",
+      "static": "Static",
+      "templates": "Templates",
+      "excluded": "Excluided files",
+      "path": "path",
+      "host": "host",
+      "errors": "Errors:",
+      "warnings": "Warnings:"
+    },
+    "navigate": "Navegar",
+    "items": {
+      "title": "Add new title",
+      "description": "Module description",
+      "icon": "pen",
+      "btnDetails": "Details",
+      "btnEdit": "Edit",
+      "update": "Update dependencies"
+    },
+    "search": "Search",
+    "empty": {
+      "primary": "We are just beginning",
+      "secondary": "click and create your first module"
     }
   }
 }

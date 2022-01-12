@@ -1,39 +1,37 @@
 function Header() {
     const {model, texts, application, navigateModule} = useModuleContext();
 
-    const {am} = model;
-    const link = am.route ? `${application.application.url}${am.route.toLowerCase()}` : '';
+    const {module} = model;
+    const link = module.route ? `${application.application.url}${module.route.toLowerCase()}` : '';
     const changeProperty = event => {
         const target = event.currentTarget;
-        am.saveField(target.name, target.checked);
+        module.saveField(target.name, target.checked);
     };
     const open = event => {
         event.preventDefault();
         navigateModule({
             url: link,
-            route: am.route
+            route: module.route
         });
     };
 
     return (
-        <header className="am__header">
-            <div className="flex-container">
-                <span>{texts.labels.bundles}:</span>
-                <BundlesTags/>
-                <BeyondSwitch
-                    onChange={changeProperty}
-                    name="hmr"
-                    className="small"
-                    value={am.hmr}
-                />
-                <label>{texts.hmr}</label>
+        <header className="module__header">
+            <div className="flex-container flex-space">
+                <div className="flex-container">
+                    <ProcessorsTags/>
+                    <BeyondSwitch
+                        onChange={changeProperty}
+                        name="hmr"
+                        className="small"
+                        value={module.hmr}
+                    />
+                    <label>{texts.hmr}</label>
+                </div>
             </div>
             <div className="mt-15 flex-container flex-space">
                 <div className="col">
-                    <span className="primary-accent"><strong>{texts.path}</strong> {am.module?.path}</span>
-                </div>
-                <div className="col">
-                    {am.route &&
+                    {module.route &&
                      <a onClick={open} target="_blank" className="link primary-color lower">{link}</a>}
                 </div>
             </div>

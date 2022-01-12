@@ -1,6 +1,6 @@
 function Description() {
     return (
-        <section className="columns-container two-columns">
+        <section>
             <EditField field="name"/>
             <EditField field="description"/>
         </section>

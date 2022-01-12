@@ -8,13 +8,6 @@
       "description": "Add a description"
     },
     "hmr": "HMR",
-    "path": "Path",
-    "labels": {
-      "consumers": "Consumers",
-      "dependencies": "Dependencies",
-      "totalFiles": "total Files",
-      "bundles": "Bundles"
-    },
     "diagnostics": {
       "title": "Errors and warnings in bundle ",
       "general": "General",
@@ -23,7 +16,6 @@
       "dependencies": "Dependencies"
     },
     "processors": {
-      "label": "Processors",
       "alerts": "Errors and Warnings",
       "jsx": "JSX Code",
       "js": "JS / Javascript Code",
@@ -56,19 +48,12 @@
   "es": {
     "title": "Titulo del modulo",
     "name": "Nombre del modulo",
-    "path": "Directorio",
     "description": "Descripción",
     "empty": {
       "title": "This module does not have name, add one",
       "description": "Add a description"
     },
     "hmr": "HMR",
-    "labels": {
-      "consumers": "Consumidores",
-      "dependencies": "Dependencias",
-      "totalFiles": "Archivos totales",
-      "bundles": "Bundles"
-    },
     "diagnostics": {
       "title": "Errors and warnings in bundle ",
       "general": "General",
