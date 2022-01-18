@@ -41,6 +41,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     return _extends.apply(this, arguments);
   }
+  /**********
+  context.jsx
+  **********/
+
+
+  const CreateModuleContext = React.createContext();
+
+  const useCreateModuleContext = () => React.useContext(CreateModuleContext);
   /*********
   create.jsx
   *********/

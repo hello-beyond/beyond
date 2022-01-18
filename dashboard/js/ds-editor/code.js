@@ -824,6 +824,15 @@ export const module = <Module>null;
   JSX PROCESSOR
   ************/
 
+  /**********
+  context.jsx
+  **********/
+  //@TODO: @julio Remove editor context
+
+
+  const EditorContext = React.createContext();
+
+  const useEditorContext = () => React.useContext(EditorContext);
   /*********
   editor.jsx
   *********/

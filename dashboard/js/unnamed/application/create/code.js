@@ -44,6 +44,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
 
     return _extends.apply(this, arguments);
   }
+  /**********
+  context.jsx
+  **********/
+
+
+  const CreateAppContext = React.createContext();
+
+  const useCreateAppContext = () => React.useContext(CreateAppContext);
   /*********
   detail.jsx
   *********/

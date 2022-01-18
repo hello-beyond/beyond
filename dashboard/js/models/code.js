@@ -352,7 +352,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
           id: am.id,
           module: am
         };
-        if (am.module.errors.length) console.log(1, am.module.errors);
 
         _code4.DSNotifications.register(am.module.errors, specs);
 

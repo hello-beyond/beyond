@@ -4,8 +4,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.MediaItem = _exports.Item = void 0;
+  _exports.MediaItem = _exports.JGalleryContext = _exports.Item = void 0;
   _exports.Page = Page;
+  _exports.useJGalleryContext = void 0;
   //Beyond
   //Jida library
   //Beyond-Dashboard
@@ -23,10 +24,21 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   JSX PROCESSOR
   ************/
 
+  /**********
+  context.jsx
+  **********/
+
+
+  const JGalleryContext = React.createContext();
+  _exports.JGalleryContext = JGalleryContext;
+
+  const useJGalleryContext = () => React.useContext(JGalleryContext);
   /***************
   gallery-item.jsx
   ***************/
 
+
+  _exports.useJGalleryContext = useJGalleryContext;
 
   function GalleryItem({
     item

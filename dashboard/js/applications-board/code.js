@@ -154,9 +154,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
       setFetching(true);
 
       try {
-        console.warn(1);
         await bee[action]();
-        console.warn(2);
         setFetching(false);
       } catch (e) {
         console.error(e);

@@ -29,9 +29,7 @@ function BeeActions({bee, texts}) {
         const action = bee.status === 'stopped' ? 'start' : 'restart';
         setFetching(true);
         try {
-            console.warn(1)
             await bee[action]();
-            console.warn(2)
             setFetching(false);
         }
         catch (e) {

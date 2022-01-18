@@ -6,7 +6,7 @@
     "jsx": {
       "path": "jsx",
       "files": [
-        "context.js",
+        "context.jsx",
         "*"
       ]
     },
