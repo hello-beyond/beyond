@@ -2,7 +2,7 @@
   "name": "beyond",
   "author": "BeyondJS",
   "email": "hello@beyondjs.com",
-  "version": "0.99.9",
+  "version": "0.99.13",
   "license": "Apache-2.0",
   "main": "lib",
   "repository": "https://github.com/hello-beyond/beyond",
@@ -85,13 +85,16 @@
     "react-dom": "^16.14.0",
     "react-share": "^4.2.1",
     "resolve-package-path": "^4.0.3",
+    "sass": "^1.49.0",
     "sharer.js": "^0.4.0",
     "socket.io": "^4.3.1",
     "sqlite3": "^5.0.2",
+    "svelte": "^3.44.2",
     "tippy.js": "^6.3.0",
-    "typescript": "4.5.2",
+    "typescript": "^4.5.4",
     "uglify-js": "^3.14.3",
     "url-join": "^0.0.1",
-    "validate-element-name": "^3.0.0"
+    "validate-element-name": "^3.0.0",
+    "vue-template-compiler": "^2.6.14"
   }
 }
