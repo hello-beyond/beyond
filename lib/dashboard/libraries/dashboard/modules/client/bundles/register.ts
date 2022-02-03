@@ -12,7 +12,8 @@ specs.cache = false;
 specs.fields = [
     'id', 'name', 'errors', 'warnings', 'processors',
     'updated', 'destroyed', 'extname', 'pathname',
-    'is', 'route', 'layout', 'element'
+    'is', 'route', 'layout', 'element',
+    'compiler_processor_activate'
 ];
 
 specs.properties = {

@@ -1,40 +1,40 @@
 function Header() {
-    const {model, texts, application, navigateModule} = useModuleContext();
+    const {model, texts, application,} = useModuleContext();
+    const {workspace} = useDSWorkspaceContext();
 
-    const {module} = model;
-    const link = module.route ? `${application.application.url}${module.route.toLowerCase()}` : '';
+    const {am} = model;
+    const link = am.route ? `${application.application.url}${am.route.toLowerCase()}` : '';
     const changeProperty = event => {
         const target = event.currentTarget;
-        module.saveField(target.name, target.checked);
+        am.saveField(target.name, target.checked);
     };
     const open = event => {
         event.preventDefault();
-        navigateModule({
-            url: link,
-            route: module.route
-        });
+        workspace.openNavigator(application.id, link);
     };
 
     return (
-        <header className="module__header">
-            <div className="flex-container flex-space">
-                <div className="flex-container">
-                    <ProcessorsTags/>
-                    <BeyondSwitch
-                        onChange={changeProperty}
-                        name="hmr"
-                        className="small"
-                        value={module.hmr}
-                    />
-                    <label>{texts.hmr}</label>
-                </div>
+        <header className="am__header">
+            <div className="flex-container">
+                <span>{texts.labels.bundles}:</span>
+                <BundlesTags/>
+                <BeyondSwitch
+                    onChange={changeProperty}
+                    name="hmr"
+                    className="small"
+                    value={am.hmr}
+                />
+                <label>{texts.hmr}</label>
             </div>
-            <div className="mt-15 flex-container flex-space">
-                <div className="col">
-                    {module.route &&
-                     <a onClick={open} target="_blank" className="link primary-color lower">{link}</a>}
-                </div>
+
+            <div className="col col-auto">
+                <span className="primary-accent"><strong>{texts.path}</strong> {am.module?.path}</span>
+                <div className="primary-accent">id: {am.id}</div>
+
+                {am.route &&
+                    <a onClick={open} target="_blank" className="link primary-color lower">{link}</a>}
             </div>
+
         </header>
     )
 }

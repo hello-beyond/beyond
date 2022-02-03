@@ -54,7 +54,7 @@ export class Routing {
 
         // Check if uri has to be redirected
         const redirected = typeof this.redirect === 'function' && await this.redirect(uri);
-        if (redirected) return {redirected};
+        if (redirected && redirected !== _uri) return {redirected};
 
         await uri.initialise(); // Parse the uri and check the missing function if the route is not found
 
@@ -140,6 +140,7 @@ export class Routing {
 
         const redirected = await this.#redirect(uri);
         if (!this.#cancellationToken.check(cancellationTokenId)) return;
+
         if (redirected) return; // The page was redirected to another uri
 
         await uri.initialise(); // Parse the uri and check the missing function if the route is not found

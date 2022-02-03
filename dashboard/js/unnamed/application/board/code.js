@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/preload-text/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/components/tooltip/code", "@beyond-js/dashboard/unnamed/workspace/components/uploader/code", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/popover/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/preload-text/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/unnamed/components/tooltip/code", "@beyond-js/dashboard/unnamed/workspace/components/uploader/code", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6,11 +6,15 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   });
   _exports.ApplicationBoard = ApplicationBoard;
   _exports.ApplicationConfig = ApplicationConfig;
+  _exports.Header = Header;
   _exports.ModulesList = ModulesList;
   _exports.StaticBoard = StaticBoard;
   _exports.useController = useController;
   //DASHBOARD
   //CONTEXTS
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
@@ -18,13 +22,16 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     "txt": {
       "multilanguage": true
     }
-  });
+  }, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
+
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -32,7 +39,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   /******************
   FILE: controller.js
   ******************/
-
 
   const controller = new class Controller extends _js.ReactiveModel {
     #application;
@@ -45,7 +51,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     get ready() {
       const dependencies = !!module.texts.ready && !!_code12.monacoDependency?.ready;
-      const models = !!this.application?.ready && !!_code9.Dashboard.ready;
+      const models = !!this.application?.ready && !!_code9.DSModel.ready;
       return dependencies && models && this.currentId === this.application?.application?.id;
     }
 
@@ -88,76 +94,58 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
       _code12.monacoDependency.bind('change', this.triggerEvent);
 
-      window.app = this;
       this.triggerEvent();
     }
 
   }();
-  /************
-  JSX PROCESSOR
-  ************/
+  /**********
+  context.jsx
+  **********/
 
-  /**************
-  application.jsx
-  **************/
+  const StaticContext = React.createContext();
 
-  function ApplicationBoard(props) {
-    const [displayView, setDisplayView] = React.useState(localStorage.getItem('beyond.lists.view') ?? 'table');
-    const [state, setState] = React.useState({});
-    const {
-      panel,
-      workspace
-    } = (0, _code15.useDSWorkspaceContext)();
-    const {
-      id,
-      moduleId
-    } = props?.specs ?? {};
-    React.useEffect(() => {
-      if (!id) return;
+  const useStaticContext = () => React.useContext(StaticContext);
+  /****************************
+  application\action-button.jsx
+  ****************************/
 
-      const onChange = () => {
-        const {
-          ready,
-          texts
-        } = controller;
-        setState(state => ({ ...state,
-          controller,
-          ready,
-          texts
-        }));
 
-        if (ready) {
-          let {
-            application: {
-              application
-            }
-          } = controller;
-          panel.setTabName(`app.${application.id}`, application.name);
-        }
-      };
+  function DSProcessButton({
+    title,
+    className,
+    icon,
+    onClick
+  }) {
+    const [fetching, setFetching] = React.useState();
 
-      controller.start(workspace, id, moduleId);
-      controller.bind('change', onChange);
-      if (controller.ready) onChange();
-      return () => {
-        controller.unbind('change', onChange);
-      };
-    }, [id]);
-    if (!state.ready || controller.currentId !== id) return /*#__PURE__*/React.createElement(Preloader, null);
-    const value = {
-      application: controller.application,
-      texts: state.texts,
-      displayView,
-      setDisplayView,
-      id
+    if (fetching) {
+      return /*#__PURE__*/React.createElement("button", {
+        className: "beyond-icon-button circle button--fetching"
+      }, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
+        active: true,
+        className: "primary"
+      }));
+    }
+
+    const action = async event => {
+      setFetching(true);
+      event.stopPropagation();
+      await onClick();
+      setFetching(false);
     };
-    return /*#__PURE__*/React.createElement(_code15.AppContext.Provider, {
-      value: value
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(ApplicationConfig, null), /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(ModulesList, null)));
+
+    return /*#__PURE__*/React.createElement(_code13.DSIconButton, {
+      onClick: action,
+      icon: icon,
+      className: className,
+      title: title
+    });
   }
   /*********************
   application\config.jsx
   *********************/
+  //TODO @julio @felix este archivo ya no se usa?
+  // tiene una configuracion en el board, validar
 
 
   function ApplicationConfig() {
@@ -182,7 +170,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const generateDeclarations = () => declarations.update();
 
     return /*#__PURE__*/React.createElement("div", {
-      className: "workspace__board ds-board__application application__board"
+      className: "workspace__board ds-board__application ds__board"
     }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h2", null, model.name), /*#__PURE__*/React.createElement("div", {
       className: "actions"
     }, /*#__PURE__*/React.createElement(BeeActions, {
@@ -215,6 +203,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       field: "description"
     }));
   }
+  /**********************************
+  application\distributions-board.jsx
+  **********************************/
+
+
+  function DistributionsBoard() {}
   /*******************
   application\edit.jsx
   *******************/
@@ -363,9 +357,196 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       title: texts[action]
     });
   }
-  /***************************
-  header\containers-filter.jsx
-  ***************************/
+  /********
+  board.jsx
+  ********/
+
+
+  function ApplicationBoard(props) {
+    const [displayView, setDisplayView] = React.useState(localStorage.getItem('beyond.lists.view') ?? 'table');
+    const [state, setState] = React.useState({});
+    const {
+      panel,
+      workspace
+    } = (0, _code15.useDSWorkspaceContext)();
+    const {
+      id,
+      moduleId
+    } = props?.specs ?? {};
+    React.useEffect(() => {
+      if (!id) return;
+
+      const onChange = () => {
+        const {
+          ready,
+          texts
+        } = controller;
+        setState(state => ({ ...state,
+          controller,
+          ready
+        }));
+
+        if (ready) {
+          let {
+            application: {
+              application
+            }
+          } = controller;
+          panel.setTabName(`app.${application.id}`, application.name);
+        }
+      };
+
+      controller.start(workspace, id, moduleId);
+      controller.bind('change', onChange);
+      if (controller.ready) onChange();
+      return () => controller.unbind('change', onChange);
+    }, [id]);
+    if (!state.ready || controller.currentId !== id) return /*#__PURE__*/React.createElement(Preloader, null);
+    const value = {
+      application: controller.application,
+      texts: controller.texts,
+      displayView,
+      setDisplayView,
+      id
+    };
+    return /*#__PURE__*/React.createElement(_code15.AppContext.Provider, {
+      value: value
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "ds__board"
+    }, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement("article", null, /*#__PURE__*/React.createElement(HeaderList, null), /*#__PURE__*/React.createElement(ModulesList, null))));
+  }
+  /*********
+  header.jsx
+  *********/
+
+
+  function Header() {
+    let {
+      texts,
+      texts: {
+        actions
+      },
+      application
+    } = (0, _code15.useAppContext)();
+    const model = application?.application;
+    const [state, setState] = React.useState({});
+    const [processed, setProcessed] = React.useState(application.moduleManager.processed);
+    const [showDescription, toggleDescription] = React.useState();
+    if (!model) return null;
+    const {
+      declarations
+    } = model;
+    const {
+      itemsProcessed,
+      total
+    } = declarations;
+    (0, _code8.useBinder)([model, declarations], () => setState({}));
+    (0, _code8.useBinder)([application.moduleManager], () => setProcessed(application.moduleManager.processed));
+
+    const generateDeclarations = () => declarations.update();
+
+    const openDistributions = event => {
+      event.preventDefault();
+    };
+
+    const compile = event => {
+      event.stopPropagation();
+      event.preventDefault();
+      workspace.openBoard('compile', {
+        id: application.application.id
+      });
+    };
+
+    return /*#__PURE__*/React.createElement("div", {
+      className: "application__detail"
+    }, /*#__PURE__*/React.createElement("section", {
+      className: "board__header"
+    }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h2", null, model.name, " ", /*#__PURE__*/React.createElement("small", null, `(id: ${model.id})`)), /*#__PURE__*/React.createElement("span", {
+      className: "pathname"
+    }, model.path)), /*#__PURE__*/React.createElement("div", {
+      className: "board__header__actions flex-center flex-container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "scanned__section  flex-center flex-container"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "title"
+    }, texts.scanner.title), /*#__PURE__*/React.createElement("div", {
+      className: "detail_item"
+    }, processed, " / ", application.moduleManager.total), /*#__PURE__*/React.createElement(DSProcessButton, {
+      title: texts.actions.scanAll,
+      onClick: application.moduleManager.loadAll,
+      className: "on-primary circle",
+      icon: "scan"
+    })), /*#__PURE__*/React.createElement(_code13.DSIconButton, {
+      onClick: openDistributions,
+      icon: "distributions",
+      title: texts.actions.distributions
+    }), /*#__PURE__*/React.createElement(_code13.DSIconButton, {
+      onClick: compile,
+      icon: "compile",
+      title: texts.actions.compile
+    }), /*#__PURE__*/React.createElement(BeeActions, {
+      bee: model.bee,
+      texts: actions
+    }), /*#__PURE__*/React.createElement(_code.BeyondButton, {
+      onClick: generateDeclarations,
+      className: "btn primary"
+    }, !declarations.processing ? /*#__PURE__*/React.createElement(React.Fragment, null, actions.declarations) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
+      className: "on-primary"
+    }), `${actions.generatingDeclarations} ${itemsProcessed}/${total}`)))), application.port && /*#__PURE__*/React.createElement("a", {
+      onClick: openNavigator,
+      href: application.url,
+      className: "link",
+      target: "_blank"
+    }, `localhost:${application.port}`), /*#__PURE__*/React.createElement("section", {
+      className: "pd-base"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "link",
+      onClick: () => toggleDescription(!showDescription)
+    }, " More details"), showDescription && /*#__PURE__*/React.createElement(Description, null)));
+  }
+  /*************
+  list\empty.jsx
+  *************/
+
+
+  function Empty({
+    texts,
+    type
+  }) {
+    const {
+      bundleFilter,
+      workspace
+    } = (0, _code15.useDSWorkspaceContext)();
+    const label = bundleFilter ? 'filter' : 'application';
+    const title = type === 'all' ? texts.empty[label].title : texts.empty.filter.title;
+    const description = type === 'all' ? texts.empty[label].description : texts.empty.filter.description;
+
+    const addModule = () => workspace.setState({
+      addModule: true
+    });
+
+    return /*#__PURE__*/React.createElement("div", {
+      className: "ds-empty-container"
+    }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h1", {
+      className: "primary-color",
+      dangerouslySetInnerHTML: {
+        __html: title
+      }
+    }), /*#__PURE__*/React.createElement("h2", {
+      dangerouslySetInnerHTML: {
+        __html: description
+      }
+    })), /*#__PURE__*/React.createElement(_code.BeyondButton, {
+      onClick: addModule,
+      className: "primary icon-on-primary"
+    }, texts.actions.add, /*#__PURE__*/React.createElement(_code13.DashboardIcon, {
+      icon: "add",
+      className: "circle"
+    })));
+  }
+  /********************************
+  list\header\containers-filter.jsx
+  ********************************/
 
 
   function ContainersFilter() {
@@ -427,9 +608,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "header-filter_list"
     }, libraries));
   }
-  /************************
-  header\filter-bundles.jsx
-  ************************/
+  /*****************************
+  list\header\filter-bundles.jsx
+  *****************************/
 
 
   function FilterBundles({
@@ -446,8 +627,14 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const {
       bundles
     } = model;
-    const [active, setActive] = React.useState(model.filterBundle);
-    (0, _code8.useBinder)([model], () => setActive(model.filterBundle));
+    const [active, setActive] = React.useState(model.filterBundle); // useBinder([model], () => setActive(model.filterBundle));
+
+    React.useEffect(() => {
+      const onChange = () => setActive(model.filterBundle);
+
+      model.bind('change', onChange);
+      return () => model.unbind('change', onChange);
+    }, []);
 
     const changeFilter = event => {
       const {
@@ -469,12 +656,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "actions"
     }, filters);
   }
-  /****************
-  header\header.jsx
-  ****************/
+  /*********************
+  list\header\header.jsx
+  *********************/
 
 
-  function Header() {
+  function HeaderList() {
     let {
       texts,
       displayView,
@@ -522,9 +709,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       texts: texts
     })));
   }
-  /*********************
-  header\search-form.jsx
-  *********************/
+  /**************************
+  list\header\search-form.jsx
+  **************************/
 
 
   function SearchForm() {
@@ -577,9 +764,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "primary-color link action"
     }, texts.actions.add)), /*#__PURE__*/React.createElement(ContainersFilter, null));
   }
-  /*****************
-  header\service.jsx
-  *****************/
+  /**********************
+  list\header\service.jsx
+  **********************/
 
 
   function ServiceActions() {
@@ -604,46 +791,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       icon: iconApp,
       className: "circle secondary active"
     }));
-  }
-  /*************
-  list\empty.jsx
-  *************/
-
-
-  function Empty({
-    texts,
-    type
-  }) {
-    const {
-      bundleFilter,
-      workspace
-    } = (0, _code15.useDSWorkspaceContext)();
-    const label = bundleFilter ? 'filter' : 'application';
-    const title = type === 'all' ? texts.empty[label].title : texts.empty.filter.title;
-    const description = type === 'all' ? texts.empty[label].description : texts.empty.filter.description;
-
-    const addModule = () => workspace.setState({
-      addModule: true
-    });
-
-    return /*#__PURE__*/React.createElement("div", {
-      className: "ds-empty-container"
-    }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h1", {
-      className: "primary-color",
-      dangerouslySetInnerHTML: {
-        __html: title
-      }
-    }), /*#__PURE__*/React.createElement("h2", {
-      dangerouslySetInnerHTML: {
-        __html: description
-      }
-    })), /*#__PURE__*/React.createElement(_code.BeyondButton, {
-      onClick: addModule,
-      className: "primary icon-on-primary"
-    }, texts.actions.add, /*#__PURE__*/React.createElement(_code13.DashboardIcon, {
-      icon: "add",
-      className: "circle"
-    })));
   }
   /**************************
   list\item\actions\clone.jsx
@@ -849,7 +996,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     const openModal = e => {
       e.stopPropagation();
-      console.log(1, module);
       updateState({
         modal: true
       });
@@ -956,7 +1102,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }, module.module.name), module.module.description && /*#__PURE__*/React.createElement("span", {
       className: "p1 light"
     }, module.description)), /*#__PURE__*/React.createElement("div", {
-      className: "item-information"
+      className: "ds-module-list__item__info"
     }, !!warnings.length && /*#__PURE__*/React.createElement(_code13.DashboardIcon, {
       icon: "warning",
       className: "warning-icon"
@@ -1006,9 +1152,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       texts,
       displayView
     } = (0, _code15.useAppContext)();
+    (0, _code8.useBinder)([application], () => setItems(application?.items));
     if (!application) return null;
     const [items, setItems] = React.useState(application?.items ?? []);
-    (0, _code8.useBinder)([application], () => setItems(application?.items));
     texts = texts.modules;
     if (!items.length) return /*#__PURE__*/React.createElement(Empty, {
       texts: texts
@@ -1020,7 +1166,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }));
     const cls = `ds-list list--${displayView}`;
     return /*#__PURE__*/React.createElement("div", {
-      className: "ds-module-list__component"
+      className: "ds-board__list-container ds-module-list__component"
     }, /*#__PURE__*/React.createElement("div", {
       className: cls
     }, output), !output?.length && /*#__PURE__*/React.createElement(Empty, {
@@ -1034,39 +1180,61 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
 
   function Preloader() {
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-      className: "workspace__board ds-board__application application__board"
+    return /*#__PURE__*/React.createElement("div", {
+      className: "ds__board"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "application__detail"
+    }, /*#__PURE__*/React.createElement("section", {
+      className: "board__header"
     }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h2", null, /*#__PURE__*/React.createElement(_code6.BeyondPreloadText, {
-      height: "10px",
+      height: "17px",
+      width: "50px"
+    })), /*#__PURE__*/React.createElement("span", {
+      className: "pathname"
+    }, /*#__PURE__*/React.createElement(_code6.BeyondPreloadText, {
+      height: "7px",
+      width: "150px"
+    }))), /*#__PURE__*/React.createElement("div", {
+      className: "board__header__actions flex-center flex-container"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "scanned__section  flex-center flex-container"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "title"
+    }, /*#__PURE__*/React.createElement(_code6.BeyondPreloadText, {
+      height: "7px",
       width: "100px"
     })), /*#__PURE__*/React.createElement("div", {
-      className: "actions"
-    }, /*#__PURE__*/React.createElement(_code.BeyondButton, {
-      style: {
-        width: '150px'
-      },
+      className: "detail_item"
+    }, "..."), /*#__PURE__*/React.createElement("button", {
+      className: "beyond-icon-button circle button--fetching"
+    }, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
+      active: true,
+      className: "primary"
+    }))), /*#__PURE__*/React.createElement(_code.BeyondButton, {
+      icon: "distributions",
+      className: "btn primary"
+    }), /*#__PURE__*/React.createElement(_code13.DSIconButton, {
+      className: "circle bee--action action--play",
+      icon: "compile"
+    }), /*#__PURE__*/React.createElement(_code13.DSIconButton, {
+      icon: "play"
+    }), /*#__PURE__*/React.createElement("button", {
+      className: "beyond-icon-button circle button--fetching"
+    }, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
+      active: true,
+      className: "primary"
+    })), /*#__PURE__*/React.createElement(_code.BeyondButton, {
       className: "btn primary"
     }, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
       className: "on-primary"
-    })))), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("div", {
-      className: "item-information"
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code6.BeyondPreloadText, {
+    })))), /*#__PURE__*/React.createElement("div", {
+      className: "pd-base"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "link"
+    }, " ", /*#__PURE__*/React.createElement(_code6.BeyondPreloadText, {
       height: "7px",
       width: "50px"
-    })), /*#__PURE__*/React.createElement("div", {
-      className: "description-item"
-    }, /*#__PURE__*/React.createElement(_code13.DSIconButton, {
-      icon: "edit"
-    }))), /*#__PURE__*/React.createElement("div", {
-      className: "item-information"
-    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_code6.BeyondPreloadText, {
-      height: "7px",
-      width: "50px"
-    })), /*#__PURE__*/React.createElement("div", {
-      className: "description-item"
-    }, /*#__PURE__*/React.createElement(_code13.DSIconButton, {
-      icon: "edit"
-    }))))), /*#__PURE__*/React.createElement("div", {
+    })))), /*#__PURE__*/React.createElement("div", {
       className: "ds-board__application application-header"
     }, /*#__PURE__*/React.createElement("div", {
       className: "left-col"
@@ -1192,10 +1360,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   ***************/
 
 
-  const StaticContext = React.createContext();
-
-  const useStaticContext = () => React.useContext(StaticContext);
-
   function StaticBoard({
     specs
   }) {
@@ -1316,6 +1480,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-board__application.application__board{padding:20px}.workspace__board{padding:20px}.application__board>header{display:flex;justify-content:space-between;align-items:center}.application__board>header .actions{display:flex;align-content:center;gap:10px}.application__board>header .actions .beyond-icon-button.bee-action{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:#050910;fill:#fff;transition:all .3s ease-in}.application__board>header .actions .beyond-icon-button.bee-action.action--play{fill:green;border:1px solid green;border:1px solid rgba(0,128,0,.2)}.application__board>header .actions .beyond-icon-button.bee-action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.application__board .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.application__board .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.application__board .item-information .description-item:hover{background:#262626}.application__board .item-information .description-item:hover .beyond-icon-button{opacity:1}.application__board .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.application__board .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:#FFFFFF}.application__board .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;width:100%}.application__board .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:#fff;border:1px solid #f0f0f0;padding:15px;font-size:16px}.application__board .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.application__board .item-information.item-information--edit .form-group .form__actions{margin:15px;display:flex;gap:8px;justify-content:flex-end}.modules-list_header .app__container-filter{position:relative;padding-right:0}.modules-list_header .app__container-filter .header-filter_list{position:absolute;top:100%;left:0;bottom:0;right:0;cursor:pointer;display:grid;background:rgba(5,9,16,.6);transition:all .3s ease-in-out;z-index:999;height:0;overflow:hidden;opacity:0}.modules-list_header .app__container-filter .header-filter_list.opened{opacity:1;transition:all .3s ease-in;height:auto;overflow:visible}.modules-list_header .app__container-filter .header-filter_list .header-filter_item{padding:8px 15px;transition:all .3s ease-in-out;cursor:pointer;background:rgba(5,9,16,.6)}.modules-list_header .app__container-filter .header-filter_list .header-filter_item:last-child{box-shadow:0 5px 5px -4px rgba(5,9,16,.6)}.modules-list_header .app__container-filter .header-filter_list .header-filter_item:hover{background:#ff8056;transition:all .3s ease-in}.modules-list_header{display:grid;width:100%;grid-template-columns:60% 40%;gap:8px}.modules-list_header .header_container{cursor:pointer;display:grid;grid-template-columns:1fr auto auto;transition:all ease-in .3s;align-items:center;border-bottom:1px solid #82837f;font-size:14px;padding:0 8px}.modules-list_header .header_container .filter-container{display:grid;grid-template-columns:1fr auto}.modules-list_header .header_container:focus-within{background:rgba(0,0,0,.4)}.modules-list_header .header_container .modules-list_search-input{border:0;background:0 0;cursor:pointer;color:#fff;outline:0;width:100%;transition:all .2s ease-in}.modules-list_header .header_container .modules-list_search-input::placeholder{color:#fff}.ds-board__application.application-header{display:grid;padding:15px;width:100%;grid-template-columns:1fr auto;grid-gap:15px}.ds-board__application.application-header .right-col{justify-content:flex-end}.ds-board__application.application-header .left-col,.ds-board__application.application-header .right-col{display:flex;justify-content:space-between;align-items:center;gap:15px}.ds-board__application.application-header .left-col label,.ds-board__application.application-header .right-col label{display:flex;align-items:center}.ds-board__application.application-header .left-col .actions,.ds-board__application.application-header .right-col .actions{display:flex;gap:5px}.ds-empty-container{display:flex;max-width:600px;align-items:center;justify-content:normal;flex-direction:column;text-align:center;margin:100px auto;gap:40px}.ds-empty-container .beyond-element-input{margin-top:200px}.ds-module-list__component .ds-list.list--grid{display:grid;padding:15px;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}.ds-module-list__component .ds-list.list--grid .actions-icon,.ds-module-list__component .ds-list.list--grid .beyond-popover__target{fill:#fff;position:absolute;top:5px;padding:5px;right:5px;height:25px;width:25px;z-index:999}.ds-module-list__component .ds-list.list--grid .col-end{display:flex;justify-content:flex-end}.ds-module-list__component .ds-list.list--grid .module-list__item{padding:20px;border:1px solid #313c50;background-image:linear-gradient(to right,#121f36 0,#050910 100%);transition:all ease-in .3s;cursor:pointer}.ds-module-list__component .ds-list.list--grid .module-list__item .badge-item+.badge-item{margin-left:8px}.ds-module-list__component .ds-list.list--grid .module-list__item:hover{background-image:linear-gradient(to right,#050910 0,#121f36 100%);box-shadow:0 5px 5px -5px #000}.ds-module-list__component .ds-list.list--grid .module-list__item h4,.ds-module-list__component .ds-list.list--grid .module-list__item h5,.ds-module-list__component .ds-list.list--grid .module-list__item h6{padding:0;margin:0}.ds-module-list__component .ds-list.list--grid .module-list__item .col{margin-top:15px}.ds-module-list__component .ds-list.list--grid .module-list__item .icon{padding:5px 8px;height:30px;width:30px;border-radius:50%;background:#000}.ds-module-list__component .ds-list.list--grid .module-list__item .icon+.icon{margin-left:5px}.ds-module-list__component .ds-list.list--grid .module-list__item .icon.icon--error{fill:#D2281E}.ds-module-list__component .ds-list.list--grid .module-list__item .icon.icon--warning{fill:#F7D994}.ds-module-list__component .module-list__item{position:relative}.ds-module-list__component .module-list__item .actions-icon,.ds-module-list__component .module-list__item .beyond-popover__target{fill:#fff}.ds-module-list__component .module-list__item .beyond-popover__target.target--opened .beyond-icon{background:#000}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions{z-index:9999}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul{list-style:none;padding:0;margin:0;background:#000!important;box-shadow:0 3px 5px #050910}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul li{padding:8px;display:flex;align-items:center;gap:8px}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul li .beyond-icon{fill:#FF8056}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul li:hover{background:#121f36}.ds-list.list--table .module-list__item{display:grid;grid-template-columns:30% 1fr 1fr;grid-gap:15px;justify-content:space-between;align-items:center;flex-flow:row;cursor:pointer;transition:all .3s ease-in;border-bottom:1px solid #f0f0f0;padding:20px;display:grid;justify-content:space-between;align-items:center;flex-flow:row}.ds-list.list--table .module-list__item:hover{background-image:linear-gradient(to right,rgba(18,31,54,.5) 0,rgba(5,9,16,.5) 100%);transition:all .3s ease-in}.ds-list.list--table .module-list__item:last-child{border-bottom:none;margin-bottom:20px}.ds-list.list--table .module-list__item .right-col{text-align:right;justify-content:flex-end}.ds-list.list--table .module-list__item .p1,.ds-list.list--table .module-list__item h3,.ds-list.list--table .module-list__item h4{margin:0;padding:0}.ds-list.list--table .module-list__item .actions,.ds-list.list--table .module-list__item .item-information{display:flex;gap:8px}.ds-list.list--table .module-list__item .actions .action-icon:hover .beyond-icon,.ds-list.list--table .module-list__item .item-information .action-icon:hover .beyond-icon{border:1px solid #a2000a;background:#a2000a;transition:all .3s ease-in}.ds-list.list--table .module-list__item .actions .beyond-icon-button.error-icon .beyond-icon,.ds-list.list--table .module-list__item .item-information .beyond-icon-button.error-icon .beyond-icon{background:#d2281e}.ds-list.list--table .module-list__item .actions .beyond-icon-button,.ds-list.list--table .module-list__item .item-information .beyond-icon-button{border:1px solid #121f36;border-radius:50%;padding:10px;height:5.2rem;width:3.2rem;background:#050910;fill:#fff;transition:all .3s ease-in}.ds-list.list--table .module-list__item .actions .beyond-icon-button .beyond-ripple,.ds-list.list--table .module-list__item .item-information .beyond-icon-button .beyond-ripple{border-radius:50%}.ds-list.list--table .module-list__item .actions .beyond-icon-button.error-icon,.ds-list.list--table .module-list__item .item-information .beyond-icon-button.error-icon{background:#d2281e}.ds-list.list--table .module-list__item .actions .beyond-icon-button.warning-icon,.ds-list.list--table .module-list__item .item-information .beyond-icon-button.warning-icon{fill:#F7D994}.ds-list.list--table .module-list__item h4,.ds-list.list--table .module-list__item h5,.ds-list.list--table .module-list__item h6{padding:5px 0}.ds-list.list--table .module-list__item h4.module__name,.ds-list.list--table .module-list__item h4.module__name:first-letter,.ds-list.list--table .module-list__item h5.module__name,.ds-list.list--table .module-list__item h5.module__name:first-letter,.ds-list.list--table .module-list__item h6.module__name,.ds-list.list--table .module-list__item h6.module__name:first-letter{text-transform:lowercase}.ds-list.list--table .module-list__item .processors__list{display:flex;gap:5px}.ds-list.list--table .module-list__item .actions{display:flex;gap:8px;align-items:center}.ds-panel__static-board{display:grid;grid-template-rows:auto 1fr;padding:40px}.ds-panel__static-board .text-left{align-self:flex-start;justify-content:start}.ds-panel__static-board .text-left h3{padding:0;margin:0}.ds-panel__static-board>main{display:grid;grid-template-columns:60px 1fr;grid-gap:15px}.ds-panel__static-board>main .static__items ul{padding:0;margin:0;list-style:none;display:grid;grid-gap:5px}.ds-panel__static-board>main .static__items ul .beyond-icon-button{fill:var(--beyond-text-on-primary);stroke:var(--beyond-text-on-primary);display:grid;justify-content:center;align-items:center;width:100%;height:60px}.ds-panel__static-board>main .static__items ul li{cursor:pointer;display:grid;width:100%;position:relative;transition:.3s ease all}.ds-panel__static-board>main .static__items ul li .beyond-element-image{height:60px;margin:0;width:60px}.ds-panel__static-board>main .static__items ul li .beyond-element-image img{object-fit:contain;min-height:100%;width:100%}.ds-panel__static-board>main .static__items ul li:hover:after{content:" ";position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,128,86,.3)}.ds-panel__static-board>main section .beyond-element-image{max-height:100%;max-width:100%;display:inline-grid;position:relative;transition:all .3s ease-in;opacity:.9;cursor:pointer}.ds-panel__static-board>main section .beyond-element-image:hover{opacity:1}.ds-panel__static-board>main section .beyond-element-image figcaption{display:none;transition:all .3s ease-in}.ds-panel__static-board>main section .beyond-element-image:hover figcaption{position:absolute;top:0;left:0;bottom:0;right:0;display:flex;transition:all .3s ease-in;justify-content:center;align-content:center;align-items:center;background:rgba(255,128,86,.4)}.ds-panel__static-board>main section .beyond-element-image.beyond-element-image-preload{background:0 0}.ds-panel__static-board>main section .beyond-element-image img{max-width:100%;max-height:100%;object-fit:contain}.ds-panel__static-board .static__header{display:flex;justify-content:space-between}.ds-panel__static-board .static__actions ul{display:flex;padding:0;list-style:none}.ds-panel__static-board .static__actions ul .beyond-ripple{border-radius:50%}.ds-panel__static-board .static__actions ul .beyond-icon-button{border:1px solid #121f36;border-radius:50%;background:#121f36}.ds-panel__static-board .static__actions ul .beyond-icon-button svg{fill:#fff}.ds-board__application .tag{background:#313c50;color:#fff;display:inline-flex;padding:3px 8px;font-size:.7rem;border-radius:2px;justify-content:center;align-items:center;cursor:pointer;text-transform:uppercase;text-align:center}.ds-board__application .tag.tag-active{background:#e4e5dc;color:#121f36}.ds-board__application .tag.tag-error{background:#e36152}.ds-board__application.application-header .actions .beyond-icon-button{transition:all .2s ease-in}.ds-board__application.application-header .actions .beyond-icon-button.active{background:#a2000a}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-board__application.ds__board{padding:20px}.workspace__board{padding:20px}.ds__board .application__detail .board__header__actions{display:flex;align-content:center;justify-content:center;gap:10px}.ds__board .application__detail .board__header__actions .beyond-icon-button.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.ds__board .application__detail .board__header__actions .beyond-icon-button.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.ds__board .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.ds__board .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.ds__board .item-information .description-item:hover{background:#262626}.ds__board .item-information .description-item:hover .beyond-icon-button{opacity:1}.ds__board .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.ds__board .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:#FFFFFF}.ds__board .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;width:100%}.ds__board .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:#fff;border:1px solid #f0f0f0;padding:15px;font-size:16px}.ds__board .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.ds__board .item-information.item-information--edit .form-group .form__actions{margin:15px;display:flex;gap:8px;justify-content:flex-end}.modules-list_header .app__container-filter{position:relative;padding-right:0}.modules-list_header .app__container-filter .header-filter_list{position:absolute;top:100%;left:0;bottom:0;right:0;cursor:pointer;display:grid;background:rgba(5,9,16,.6);transition:all .3s ease-in-out;z-index:999;height:0;overflow:hidden;opacity:0}.modules-list_header .app__container-filter .header-filter_list.opened{opacity:1;transition:all .3s ease-in;height:auto;overflow:visible}.modules-list_header .app__container-filter .header-filter_list .header-filter_item{padding:8px 15px;transition:all .3s ease-in-out;cursor:pointer;background:rgba(5,9,16,.6)}.modules-list_header .app__container-filter .header-filter_list .header-filter_item:last-child{box-shadow:0 5px 5px -4px rgba(5,9,16,.6)}.modules-list_header .app__container-filter .header-filter_list .header-filter_item:hover{background:#ff8056;transition:all .3s ease-in}.modules-list_header{display:grid;width:100%;grid-template-columns:60% 40%;gap:8px}.modules-list_header .header_container{cursor:pointer;display:grid;grid-template-columns:1fr auto auto;transition:all ease-in .3s;align-items:center;border-bottom:1px solid #82837f;font-size:14px;padding:0 8px}.modules-list_header .header_container .filter-container{display:grid;grid-template-columns:1fr auto}.modules-list_header .header_container:focus-within{background:rgba(0,0,0,.4)}.modules-list_header .header_container .modules-list_search-input{border:0;background:0 0;cursor:pointer;color:#fff;outline:0;width:100%;transition:all .2s ease-in}.modules-list_header .header_container .modules-list_search-input::placeholder{color:#fff}.ds-board__application.application-header{display:grid;padding:15px;width:100%;grid-template-columns:1fr auto;grid-gap:15px}.ds-board__application.application-header .right-col{justify-content:flex-end}.ds-board__application.application-header .left-col,.ds-board__application.application-header .right-col{display:flex;justify-content:space-between;align-items:center;gap:15px}.ds-board__application.application-header .left-col label,.ds-board__application.application-header .right-col label{display:flex;align-items:center}.ds-board__application.application-header .left-col .actions,.ds-board__application.application-header .right-col .actions{display:flex;gap:5px}.ds-empty-container{display:flex;max-width:600px;align-items:center;justify-content:normal;flex-direction:column;text-align:center;margin:100px auto;gap:40px}.ds-empty-container .beyond-element-input{margin-top:200px}.module-list__item .beyond-icon-button,.module-list__item .beyond-icon.error-icon,.module-list__item .beyond-icon.warning-icon{border:1px solid #121f36;border-radius:50%;padding:10px;height:3.2rem;width:3.2rem;background:#050910;fill:#fff;transition:all .3s ease-in}.module-list__item .beyond-icon-button .beyond-ripple,.module-list__item .beyond-icon.error-icon .beyond-ripple,.module-list__item .beyond-icon.warning-icon .beyond-ripple{border-radius:50%}.module-list__item .beyond-icon-button.error-icon,.module-list__item .beyond-icon.error-icon.error-icon,.module-list__item .beyond-icon.warning-icon.error-icon{background:#d2281e}.module-list__item .beyond-icon-button.warning-icon,.module-list__item .beyond-icon.error-icon.warning-icon,.module-list__item .beyond-icon.warning-icon.warning-icon{fill:#F7D994}.ds-module-list__component .ds-list.list--grid{display:grid;padding:15px;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}.ds-module-list__component .ds-list.list--grid .actions-icon,.ds-module-list__component .ds-list.list--grid .beyond-popover__target{fill:#fff;position:absolute;top:5px;padding:5px;right:5px;height:25px;width:25px;z-index:999}.ds-module-list__component .ds-list.list--grid .col-end{display:flex;justify-content:flex-end}.ds-module-list__component .ds-list.list--grid .module-list__item{padding:20px;border:1px solid #313c50;background-image:linear-gradient(to right,#121f36 0,#050910 100%);transition:all ease-in .3s;cursor:pointer}.ds-module-list__component .ds-list.list--grid .module-list__item .badge-item+.badge-item{margin-left:8px}.ds-module-list__component .ds-list.list--grid .module-list__item:hover{background-image:linear-gradient(to right,#050910 0,#121f36 100%);box-shadow:0 5px 5px -5px #000}.ds-module-list__component .ds-list.list--grid .module-list__item h4,.ds-module-list__component .ds-list.list--grid .module-list__item h5,.ds-module-list__component .ds-list.list--grid .module-list__item h6{padding:0;margin:0}.ds-module-list__component .ds-list.list--grid .module-list__item .col{margin-top:15px}.ds-module-list__component .ds-list.list--grid .module-list__item .icon{padding:5px 8px;height:30px;width:30px;border-radius:50%;background:#000}.ds-module-list__component .ds-list.list--grid .module-list__item .icon+.icon{margin-left:5px}.ds-module-list__component .ds-list.list--grid .module-list__item .icon.icon--error{fill:#D2281E}.ds-module-list__component .ds-list.list--grid .module-list__item .icon.icon--warning{fill:#F7D994}.ds-module-list__component .module-list__item{position:relative}.ds-module-list__component .module-list__item .actions-icon,.ds-module-list__component .module-list__item .beyond-popover__target{fill:#fff}.ds-module-list__component .module-list__item .beyond-popover__target.target--opened .beyond-icon{background:#000}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions{z-index:9999}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul{list-style:none;padding:0;margin:0;background:#000!important;box-shadow:0 3px 5px #050910}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul li{padding:8px;display:flex;align-items:center;gap:8px}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul li .beyond-icon{fill:#FF8056}.ds-module-list__component .module-list__item .beyond-popover__content.item-actions ul li:hover{background:#121f36}.ds-list.list--table .module-list__item{display:grid;grid-template-columns:1fr auto auto;align-content:center;grid-gap:15px;justify-content:space-between;align-items:center;flex-flow:row;cursor:pointer;transition:all .3s ease-in;border-bottom:1px solid #f0f0f0;padding:20px;display:grid;justify-content:space-between;align-items:center;flex-flow:row}.ds-list.list--table .module-list__item:hover{background-image:linear-gradient(to right,rgba(18,31,54,.5) 0,rgba(5,9,16,.5) 100%);transition:all .3s ease-in}.ds-list.list--table .module-list__item:last-child{border-bottom:none;margin-bottom:20px}.ds-list.list--table .module-list__item .right-col{text-align:right;justify-content:flex-end}.ds-list.list--table .module-list__item .p1,.ds-list.list--table .module-list__item h3,.ds-list.list--table .module-list__item h4{margin:0;padding:0}.ds-list.list--table .module-list__item .actions,.ds-list.list--table .module-list__item .item-information{display:flex;gap:8px}.ds-list.list--table .module-list__item .actions .action-icon:hover .beyond-icon,.ds-list.list--table .module-list__item .item-information .action-icon:hover .beyond-icon{border:1px solid #a2000a;background:#a2000a;transition:all .3s ease-in}.ds-list.list--table .module-list__item .actions .beyond-icon-button.error-icon .beyond-icon,.ds-list.list--table .module-list__item .item-information .beyond-icon-button.error-icon .beyond-icon{background:#d2281e}.ds-list.list--table .module-list__item .actions .beyond-icon-button,.ds-list.list--table .module-list__item .item-information .beyond-icon-button{border:1px solid #121f36;border-radius:50%;padding:10px;height:5.2rem;width:3.2rem;background:#050910;fill:#fff;transition:all .3s ease-in}.ds-list.list--table .module-list__item .actions .beyond-icon-button .beyond-ripple,.ds-list.list--table .module-list__item .item-information .beyond-icon-button .beyond-ripple{border-radius:50%}.ds-list.list--table .module-list__item .actions .beyond-icon-button.error-icon,.ds-list.list--table .module-list__item .item-information .beyond-icon-button.error-icon{background:#d2281e}.ds-list.list--table .module-list__item .actions .beyond-icon-button.warning-icon,.ds-list.list--table .module-list__item .item-information .beyond-icon-button.warning-icon{fill:#F7D994}.ds-list.list--table .module-list__item h4,.ds-list.list--table .module-list__item h5,.ds-list.list--table .module-list__item h6{padding:5px 0}.ds-list.list--table .module-list__item h4.module__name,.ds-list.list--table .module-list__item h4.module__name:first-letter,.ds-list.list--table .module-list__item h5.module__name,.ds-list.list--table .module-list__item h5.module__name:first-letter,.ds-list.list--table .module-list__item h6.module__name,.ds-list.list--table .module-list__item h6.module__name:first-letter{text-transform:lowercase}.ds-list.list--table .module-list__item .processors__list{display:flex;gap:5px}.ds-list.list--table .module-list__item .actions{display:flex;gap:8px;align-items:center}.ds-panel__static-board{display:grid;grid-template-rows:auto 1fr;padding:40px}.ds-panel__static-board .text-left{align-self:flex-start;justify-content:start}.ds-panel__static-board .text-left h3{padding:0;margin:0}.ds-panel__static-board>main{display:grid;grid-template-columns:60px 1fr;grid-gap:15px}.ds-panel__static-board>main .static__items ul{padding:0;margin:0;list-style:none;display:grid;grid-gap:5px}.ds-panel__static-board>main .static__items ul .beyond-icon-button{fill:var(--beyond-text-on-primary);stroke:var(--beyond-text-on-primary);display:grid;justify-content:center;align-items:center;width:100%;height:60px}.ds-panel__static-board>main .static__items ul li{cursor:pointer;display:grid;width:100%;position:relative;transition:.3s ease all}.ds-panel__static-board>main .static__items ul li .beyond-element-image{height:60px;margin:0;width:60px}.ds-panel__static-board>main .static__items ul li .beyond-element-image img{object-fit:contain;min-height:100%;width:100%}.ds-panel__static-board>main .static__items ul li:hover:after{content:" ";position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,128,86,.3)}.ds-panel__static-board>main section .beyond-element-image{max-height:100%;max-width:100%;display:inline-grid;position:relative;transition:all .3s ease-in;opacity:.9;cursor:pointer}.ds-panel__static-board>main section .beyond-element-image:hover{opacity:1}.ds-panel__static-board>main section .beyond-element-image figcaption{display:none;transition:all .3s ease-in}.ds-panel__static-board>main section .beyond-element-image:hover figcaption{position:absolute;top:0;left:0;bottom:0;right:0;display:flex;transition:all .3s ease-in;justify-content:center;align-content:center;align-items:center;background:rgba(255,128,86,.4)}.ds-panel__static-board>main section .beyond-element-image.beyond-element-image-preload{background:0 0}.ds-panel__static-board>main section .beyond-element-image img{max-width:100%;max-height:100%;object-fit:contain}.ds-panel__static-board .static__header{display:flex;justify-content:space-between}.ds-panel__static-board .static__actions ul{display:flex;padding:0;list-style:none}.ds-panel__static-board .static__actions ul .beyond-ripple{border-radius:50%}.ds-panel__static-board .static__actions ul .beyond-icon-button{border:1px solid #121f36;border-radius:50%;background:#121f36}.ds-panel__static-board .static__actions ul .beyond-icon-button svg{fill:#fff}.ds-board__application .tag{background:#313c50;color:#fff;display:inline-flex;padding:3px 8px;font-size:.7rem;border-radius:2px;justify-content:center;align-items:center;cursor:pointer;text-transform:uppercase;text-align:center}.ds-board__application .tag.tag-active{background:#e4e5dc;color:#121f36}.ds-board__application .tag.tag-error{background:#e36152}.ds-board__application.application-header .actions .beyond-icon-button{transition:all .2s ease-in}.ds-board__application.application-header .actions .beyond-icon-button.active{background:#a2000a}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

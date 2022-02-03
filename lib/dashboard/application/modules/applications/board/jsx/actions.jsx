@@ -14,12 +14,12 @@ function ApplicationActions({application}) {
             <BeeActions bee={application.bee} texts={texts.actions}/>
             {
                 (!!application.errors.length) &&
-                <DashboardIconButton
+                <DSIconButton
                     icon="error" title={`total: ${application.errors.length}`}
                     className="circle error-icon"
                     onClick={event => compile(event, 'client', application)}/>
             }
-            <DashboardIconButton
+            <DSIconButton
                 icon="compile" title={texts.actions.compile} className="circle"
                 onClick={event => compile(event, 'client', application)}/>
 

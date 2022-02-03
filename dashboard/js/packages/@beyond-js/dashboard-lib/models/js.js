@@ -99,15 +99,12 @@ define(["exports"], function (_exports) {
       this._set = this._set.bind(this);
     }
 
-    triggerEvent(event = 'change') {
-      this._events.trigger(event);
-    }
+    triggerEvent = (event = 'change') => this._events.trigger(event);
     /**
      * set value in a private property
      * @param property
      * @param value
      */
-
 
     _set(property, value) {
       let props = {};
@@ -142,30 +139,22 @@ define(["exports"], function (_exports) {
 
   class ApplicationBuilder extends ReactiveModel {
     #id;
+    #required = ['name', 'type'];
+    #ports = {
+      inspectPort: ['node', 'backend', 'express', 'web-backend'],
+      navigate: ['web-backend', 'web']
+    };
+    #created;
+    #backendPort;
 
-    get id() {
-      return this.#id;
+    get created() {
+      return this.#created;
     }
 
-    set id(value) {
-      if (value === this.#id || typeof value !== 'string') return;
+    set created(value) {
+      if (value === this.#created || typeof value !== 'boolean') return;
+      this.#created = value;
       this.triggerEvent();
-    }
-
-    #title;
-
-    get title() {
-      return this.#title;
-    }
-
-    set title(value) {
-      if (value === this.#title || typeof value !== 'string') return;
-      this.#title = value;
-      this.triggerEvent();
-    }
-
-    get version() {
-      return 1;
     }
 
     #description;
@@ -180,15 +169,24 @@ define(["exports"], function (_exports) {
       this.triggerEvent();
     }
 
-    #created;
-
-    get created() {
-      return this.#created;
+    get id() {
+      return this.#id;
     }
 
-    set created(value) {
-      if (value === this.#created || typeof value !== 'boolean') return;
-      this.#created = value;
+    set id(value) {
+      if (value === this.#id || typeof value !== 'string') return;
+      this.triggerEvent();
+    }
+
+    #is;
+
+    get is() {
+      return this.#is;
+    }
+
+    set is(value) {
+      if (value === this.#is || !['template', 'type'].includes(value)) return;
+      this.#is = value;
       this.triggerEvent();
     }
 
@@ -204,39 +202,82 @@ define(["exports"], function (_exports) {
       this.triggerEvent();
     }
 
-    #type;
+    #inspectPort = 4070;
 
-    get type() {
-      return this.#type;
+    get inspectPort() {
+      return this.#inspectPort;
     }
 
-    set type(value) {
-      if (value === this.#type || typeof value !== 'string') return;
-      this.#type = value;
+    set inspectPort(value) {
+      if (value === this.#inspectPort || value !== '' && isNaN(parseInt(value))) return;
+      this.#inspectPort = value === '' ? value : parseInt(value);
       this.triggerEvent();
     }
 
-    #validPort;
-
-    get validPort() {
-      return this.#validPort;
+    get getters() {
+      return {
+        id: this.id,
+        navigatePort: this.navigatePort,
+        inspectPort: this.inspectPort,
+        type: this.type,
+        name: this.name,
+        scope: this.scope,
+        title: this.title,
+        version: this.version,
+        created: this.created,
+        platforms: this.platforms,
+        processed: this.processed,
+        processing: this.processing,
+        description: this.description
+      };
     }
 
-    set validPort(value) {
-      if (value === this.#validPort) return;
-      this.#validPort = !!value;
+    #name;
+
+    get name() {
+      return this.#name;
+    }
+
+    set name(value) {
+      if (this.#name === value) return;
+      this.#name = value;
       this.triggerEvent();
     }
 
-    #port = 4080;
+    get platforms() {
+      if (!this.is) return;
+      const items = this.is === 'template' ? this.templates : this.TYPES;
+      const {
+        platforms
+      } = items.find(item => item.name === this.type);
+      return platforms.map(item => {
+        let platform = {
+          platform: item
+        };
 
-    get port() {
-      return this.#port;
+        if (item === 'web') {
+          platform.port = this.navigatePort;
+          return platform;
+        }
+
+        if (this.useInspectPort) {
+          platform.inspectPort = this.inspectPort;
+          platform.port = this.#backendPort;
+        }
+
+        return platform;
+      });
     }
 
-    set port(value) {
-      if (value === this.#port || value !== '' && isNaN(parseInt(value))) return;
-      this.#port = value === '' ? value : parseInt(value);
+    #navigatePort = 4080;
+
+    get navigatePort() {
+      return this.#navigatePort;
+    }
+
+    set navigatePort(value) {
+      if (value === this.#navigatePort || value !== '' && isNaN(parseInt(value))) return;
+      this.#navigatePort = value === '' ? value : parseInt(value);
       this.triggerEvent();
     }
 
@@ -246,23 +287,109 @@ define(["exports"], function (_exports) {
       return this.#ready;
     }
 
-    get getters() {
-      return {
-        id: this.id,
-        port: this.port,
-        type: this.type,
-        name: this.name,
-        title: this.title,
-        version: this.version,
-        modules: this.modules,
-        created: this.created,
-        processed: this.processed,
-        processing: this.processing,
-        description: this.description
-      };
+    #scope;
+
+    get scope() {
+      return this.#scope;
     }
 
-    set(specs) {}
+    set scope(value) {
+      if (value === this.#scope || typeof value !== 'string') return;
+      this.#scope = value;
+      this.triggerEvent();
+    }
+
+    get templates() {
+      return [{
+        name: "react",
+        platforms: ['web']
+      }, {
+        name: "board",
+        platforms: ['web']
+      }, {
+        name: "express",
+        platforms: ['backend']
+      }, {
+        name: "web-backend",
+        platforms: ['web', 'backend']
+      }];
+    }
+
+    #title;
+
+    get title() {
+      return this.#title;
+    }
+
+    set title(value) {
+      if (value === this.#title || typeof value !== 'string') return;
+      this.#title = value;
+      this.triggerEvent();
+    }
+
+    #TYPES = [{
+      name: "node",
+      platforms: ['backend']
+    }, {
+      name: "backend",
+      platforms: ['backend']
+    }, {
+      name: "library",
+      platforms: ['web']
+    }, {
+      name: "web",
+      platforms: ['web']
+    }];
+
+    get TYPES() {
+      return this.#TYPES;
+    }
+
+    #type;
+
+    get type() {
+      return this.#type;
+    }
+
+    set type(value) {
+      if (value === this.#type || typeof value !== 'string') return;
+      this.#type = value;
+
+      if (this.#ports.inspectPort.includes(value)) {
+        this.checkPort('inspect');
+      }
+
+      if (this.#ports.navigate.includes(value)) {
+        this.checkPort('inspect');
+      }
+
+      this.triggerEvent();
+    }
+
+    get useInspectPort() {
+      return this.#ports.inspectPort.includes(this.type);
+    }
+
+    get useNavigatePort() {
+      return this.#ports.navigate.includes(this.type);
+    }
+
+    get version() {
+      return 1;
+    }
+    /**
+     * indicates if the object data is valid
+     * @returns {boolean}
+     */
+
+
+    get valid() {
+      let invalid = !!this.#required.find(field => !this[field]);
+      if (invalid) return false;
+      if (this.useInspectPort && !this.inspectPort) return false;
+      if (this.useNavigatePort && !this.navigatePort) return false;
+      return true;
+    }
 
     constructor() {
       super();
@@ -271,7 +398,7 @@ define(["exports"], function (_exports) {
 
       this.checkPort = port => checkPort(this, port);
 
-      this.getInitialPort();
+      this.getInitialPorts();
     }
 
     clean() {
@@ -281,26 +408,36 @@ define(["exports"], function (_exports) {
       this.description = undefined;
       this.identifier = undefined;
       this.error = undefined;
-      console.log(6, "elemina");
     }
 
-    async getInitialPort() {
+    async getInitialPorts() {
+      try {
+        this.inspectPort = await this.getInitialPort();
+        this.#backendPort = await this.getInitialPort();
+        this.navigatePort = await this.getInitialPort();
+        this.#ready = true;
+      } catch (e) {}
+    }
+
+    #startPort = 8080;
+
+    async getInitialPort(inspect = false) {
       let cont = 0;
-      let port = 8080;
+      let port = this.#startPort;
+      const field = inspect ? this.#inspectPort : this.#navigatePort;
 
-      while (cont < 5 || !this.#port) {
-        await this.checkPort(port);
-
-        if (this.#port && this.#validPort) {
-          this.#ready = true;
-          this.triggerEvent();
-          return;
+      while (cont < 5 || field) {
+        if (await this.checkPort(port)) {
+          inspect ? this.#inspectPort = port : this.#navigatePort = port;
+          break;
         }
 
         port = port - 100;
-        this.#ready = true;
         cont++;
       }
+
+      this.#startPort = port - 100;
+      return port;
     }
 
   }
@@ -325,8 +462,8 @@ define(["exports"], function (_exports) {
 
       parent.created = true;
       parent.id = response.data.id;
-    } catch (error) {
-      console.error("error", error);
+    } catch (exc) {
+      console.error(exc);
       parent.created = false;
     } finally {
       parent.processed = true;
@@ -343,22 +480,14 @@ define(["exports"], function (_exports) {
     base.processing = true;
 
     try {
-      const response = await module.execute('builder/project/checkPort', {
+      return module.execute('builder/project/checkPort', {
         port: port
       });
-      base.processing = false;
-
-      if (!response.valid) {
-        base.triggerChange();
-        return;
-      }
-
-      base.port = port;
-      base.validPort = true;
-      return response;
     } catch (error) {
       base.processing = false;
-      base.validPort = false;
+      base.processed = true;
+    } finally {
+      base.processing = false;
       base.processed = true;
     }
   }
@@ -601,7 +730,6 @@ define(["exports"], function (_exports) {
       if (params.element) params.element = {
         name: params.element
       };
-      console.log(11, params);
       if (this._type === 'layout') params.id = params.name;
 
       try {
@@ -685,4 +813,6 @@ define(["exports"], function (_exports) {
       required: ['name']
     }
   };
+
+  __pkg.initialise();
 });

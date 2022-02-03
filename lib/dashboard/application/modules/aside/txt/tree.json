@@ -94,6 +94,22 @@
             "close": "Close"
           }
         }
+      },
+      "module": {
+        "empty": {
+          "title": "Select a module",
+          "description": "Go to the application tab and select the module you want to use as a work table"
+        }
+      },
+      "template": {
+        "application": "Application",
+        "global": "Globals",
+        "processors": "Processors",
+        "description": "The template allows you to define the general style settings of the application and the overwrites.",
+        "styles": {
+          "title": "Styles",
+          "description": "General styles of the application, which will be shared among all modules."
+        }
       }
     }
   },
@@ -191,6 +207,23 @@
           "actions": {
             "close": "Cerrar"
           }
+        }
+      },
+      "module": {
+        "empty": {
+          "title": "Select a module",
+          "description": "Go to the application tab and select the module you want to use as a work table"
+        }
+      },
+      "template": {
+        "application": "Application",
+        "global": "Globals",
+        "processors": "Processors",
+        "title": "Template",
+        "description": "El template permite definir la configuración de estilos general de la aplicación y los overwrites.",
+        "styles": {
+          "title": "Estilos",
+          "description": "Estilos generales de la aplicación, que serán compartidos entre todos los módulos."
         }
       }
     }

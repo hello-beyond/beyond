@@ -119,7 +119,7 @@
   --beyond-error-color: #D2281E;
   --beyond-info-color: #4D66A9;
   --beyond-chat-online-color: #43fc22;
-  --beyond-preload-color: var(--beyond-secondary-color); }
+  --beyond-preload-color: var(--beyond-secondary-light-color); }
 
 :root {
   --bs-blue: #0d6efd;
@@ -2119,9 +2119,16 @@ progress {
   padding: 15px; }
 
 .flex-container {
-  display: flex;
-  justify-content: center;
-  align-items: center; }
+  display: flex; }
+
+.flex-center {
+  place-items: center; }
+
+.columns-container {
+  display: grid;
+  grid-gap: 1rem; }
+  .columns-container.two-columns {
+    grid-template-columns: 1fr 1fr; }
 
 html {
   font-size: 62.5%; }

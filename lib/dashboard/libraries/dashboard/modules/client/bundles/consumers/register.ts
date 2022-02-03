@@ -7,9 +7,8 @@ const specs = <TableSpecs>{};
 specs.module = module;
 specs.cache = false;
 
-
 specs.fields = [
-    'id', 'bundle'
+    'id', 'bundle', 'module_id'
 ];
 specs.properties = {
     bundle: {

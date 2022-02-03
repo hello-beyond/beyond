@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code"], function (_exports, React, ReactDOM, _code, _js, _code2, _code3, _code4, _code5, _code6) {
+define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code", "react", "react-dom"], function (_exports, _code, _js, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -11,16 +11,22 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
   //BEYOND
   //DASHBOARD LIB
   //CONTEXT
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/panels/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/panels/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
+
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -29,8 +35,11 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
   FILE: panel.js
   *************/
 
-
   class Panel extends _js.ReactiveModel {
+    /**
+     * Represents the active tab
+     * @private
+     */
     _activeItem;
 
     get activeItem() {
@@ -43,21 +52,21 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       return this._boards;
     }
 
-    _editor;
+    #editor;
 
     get editor() {
-      return this._editor;
+      return this.#editor;
     }
 
-    _id;
+    #id;
 
     get id() {
-      return this._id;
+      return this.#id;
     }
 
     set id(value) {
       if (this.id === value) return;
-      this._id = value;
+      this.#id = value;
     }
 
     _name;
@@ -78,21 +87,11 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     }
 
     _source;
-
-    get source() {
-      return this._source;
-    }
-    /**
-     * Contains all the tabs opening in the panel
-     * @type {Map<any, any>}
-     * @private
-     */
-
-
-    _tabs = new Map();
+    #editorManager;
+    #tabs = new Map();
 
     get tabs() {
-      return this._tabs;
+      return this.#tabs;
     }
 
     _type;
@@ -101,89 +100,167 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       return this._type;
     }
 
-    constructor(parent, id) {
+    #store;
+
+    get workspace() {
+      return this._parent.workspace;
+    }
+
+    constructor(parent, id, boardsOpened = []) {
       super();
-      this._id = id;
+      this.#id = id;
       this._parent = parent;
       this._boards = parent.boards;
+      window.panel = this;
+      this.#load();
+
+      if (boardsOpened) {
+        boardsOpened.forEach(board => this.openBoard(board));
+      }
+    }
+
+    async #load() {
+      await _code3.DSModel.initialise();
+      this.#store = _code3.DSModel.db.store('panels');
     }
     /**
      *
      * @param type
-     * @param processor
-     * @param source
-     * @param position
      * @param application
-     * @param module
      */
 
 
-    createEditor(type, processor, source, position, application, module) {
-      if (!application) console.trace(10, application);
-      const manager = (0, _code6.getEditorManager)(application);
-      this._editor = manager.create({
-        source,
-        position,
-        processor,
+    createEditor(application, type) {
+      const manager = (0, _code7.getEditorManager)(application);
+      this.#editorManager = manager;
+      this.#editor = manager.create({
         type,
         application,
         // the PLM object of application, not the manager
-        id: `editor-panel-${this.id}`,
-        path: application.path,
-        // TODO: @julio check origin of element
-        module
+        id: `editor-panel-${this.id}`
       });
       this.triggerEvent();
+    }
+
+    getData() {
+      const tabs = Array.from(this.#tabs.values()).map(item => {
+        let data = { ...item
+        };
+        delete data.control;
+        delete data.source;
+        return data;
+      });
+      return {
+        id: this.id,
+        tabs,
+        active: this._activeItem
+      };
+    }
+
+    async openBoard(board) {
+      if (board?.type !== 'editor') {
+        this.add(board.name, board.specs);
+        return;
+      }
+
+      const application = await _code3.applicationsFactory.get(board.applicationId);
+      const module = await application.moduleManager.load(board.moduleId);
+      const source = await module.sources.get(board.sourceId);
+      const {
+        type,
+        path,
+        processor
+      } = board;
+
+      if (!source) {
+        console.warn(`the source ${board.sourceId} was not found`);
+        return;
+      }
+
+      await this.openFile({
+        type,
+        source,
+        path,
+        module,
+        processor,
+        applicationId: board.applicationId,
+        application: application.application
+      });
     }
     /**
      * Open a source in a new tab into a monaco editor instance
      *
-     * @param path
-     * @param source
-     * @param processor
-     * @param module
-     * @param application
-     * @param position
-     * @param type
+     * @param specs.path
+     * @param specs.source
+     * @param specs.processor
+     * @param specs.module
+     * @param specs.application
+     * @param specs.position
+     * @param specs.type
      */
 
 
-    openFile({
-      source,
-      path,
-      processor,
-      application,
-      module,
-      position = {},
-      type
-    }) {
+    async openFile(specs) {
+      let {
+        source,
+        path,
+        processor,
+        applicationId,
+        moduleId,
+        module,
+        type
+      } = specs;
       this._activeItem = path;
-      !this.editor ? this.createEditor(type, processor, source, position, application, module) : this.editor.addFile(type, processor, source, true);
+
+      if (!module && !moduleId) {
+        throw new Error('The file requires the module or moduleId parameter');
+      }
+
+      const app = await _code3.applicationsFactory.get(applicationId);
+      /**
+       * TODO: @julio unify the way to get parameters in the function and simplify it.
+       *
+       * @type {*}
+       */
+
+      module = module ?? (await app.moduleManager.load(moduleId));
+      if (!this.editor) await this.createEditor(app.application, type);
+      this.editor.addFile({
+        type,
+        processor,
+        source,
+        module,
+        active: true
+      });
+
+      if (!source) {
+        console.trace("no se obtiene el source", source);
+      }
+
+      const tabSpecs = {
+        sourceType: type,
+        label: source.filename,
+        id: source.filename,
+        sourceId: source.id,
+        type: 'editor',
+        processor,
+        moduleId: module.id,
+        applicationId: app.application.id,
+        source,
+        path
+      };
 
       if (type === 'dependency') {
-        this.tabs.set(path, {
-          sourceType: type,
-          label: source.label,
-          source: source,
-          id: path,
-          type: 'editor',
-          path
-        });
-        this.triggerEvent();
-        return;
+        tabSpecs.label = source.label;
+        tabSpecs.id = path;
       }
       /**
        * Label is used to show the user, id is used to identify de tab selected
        */
 
 
-      this.tabs.set(path, {
-        label: source.filename,
-        id: source.filename,
-        type: 'editor',
-        source,
-        path
-      });
+      this.tabs.set(path, tabSpecs);
+      this.triggerEvent('panel.updated');
       this.triggerEvent();
     }
     /**
@@ -210,16 +287,20 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
         type: 'content',
         id: tabName,
         path: name,
+        name: name,
         control: control.control,
         specs
       });
       this._activeItem = tabName;
+      this.triggerEvent('panel.updated');
       this.triggerEvent();
     }
+    /**
+     * Set the panel as active
+     */
 
-    setActive() {
-      this.parent.active = this;
-    }
+
+    setActive = () => this.parent.active = this;
 
     setTabName(id, name) {
       const data = this.tabs.get(id);
@@ -227,10 +308,11 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       data.label = name;
       this.tabs.set(id, data);
       this.triggerEvent(`tab.change.${id}`);
+      this.triggerEvent('panel.updated');
     }
 
     changeTab(tab) {
-      if (!this.tabs.has(tab.id)) return;
+      if (!tab || !this.tabs.has(tab.id)) return;
 
       if (tab.type === 'editor') {
         this.editor.setSource(tab.sourceType ?? 'source', tab.source);
@@ -241,23 +323,34 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       this.triggerEvent();
     }
 
-    closeTab(tab) {
-      if (!this.tabs.has(tab.id)) return;
-      const keys = [...this.tabs.keys()];
+    async closeTab(tab) {
+      try {
+        if (!this.tabs.has(tab.id)) return;
+        if (tab.name === 'application') this.workspace.closeApp(tab.specs.id);
+        const keys = [...this.tabs.keys()];
 
-      if (keys.length === 1) {
-        if (this.editor) this.editor.instance.dispose();
-        this.parent.closePanel(this.id);
-        return;
+        if (keys.length === 1) {
+          if (this.editor) {
+            this.editor.instance.dispose();
+            this.#editorManager.items.delete(this.#editor.id);
+          }
+
+          this.parent.closePanel(this.id);
+          this.triggerEvent('panel.updated');
+          return;
+        }
+
+        const pos = keys.indexOf(tab.id); // if the tab to be closed is the first tab, then the next tab
+        // may be the active tab, if the tab to be closed is another tab, then
+        // the active tab will be the previous tab.
+
+        this._activeItem = pos === 0 ? keys[pos + 1] : keys[pos - 1];
+        this.tabs.delete(tab.id);
+        this.triggerEvent('panel.updated');
+        this.triggerEvent();
+      } catch (e) {
+        console.error(888, e);
       }
-
-      const pos = keys.indexOf(tab.id); // if the tab to be closed is the first tab, then the next tab
-      // may be the active tab, if the tab to be closed is another tab, then
-      // the active tab will be the previous tab.
-
-      this._activeItem = pos === 0 ? keys[pos + 1] : keys[pos - 1];
-      this.tabs.delete(tab.id);
-      this.triggerEvent();
     }
 
   }
@@ -279,22 +372,16 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       return this._boards;
     }
 
-    _editor;
-
-    get editor() {
-      return this._editor;
-    }
-
     _total = 1;
 
     get total() {
       return this._total;
     }
 
-    _items = new Map();
+    #items = new Map();
 
     get items() {
-      return this._items;
+      return this.#items;
     }
 
     _active;
@@ -314,20 +401,64 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       this._active = panel;
       this.triggerEvent();
     }
+
+    #ready;
+
+    get ready() {
+      return this.#ready;
+    }
     /**
      *
      * @param boards
      * @param workspace
+     * @param data
      */
 
 
-    constructor(boards, workspace) {
+    constructor(boards, workspace, data) {
       super();
       this.bind('editor', this.triggerEvent);
       this._boards = boards;
       this._workspace = workspace;
-      window._p = this;
+      this.#load(data);
     }
+
+    async #load(data) {
+      if (!data.items.size) {
+        const panel = new Panel(this, 1);
+        panel.add('applications');
+        panel.bind('panel.updated', this.#triggerUpdate);
+        this._active = panel;
+        this.#items.set(1, panel);
+        this.#triggerUpdate();
+        this.triggerEvent();
+        return;
+      }
+
+      data.items.forEach(item => {
+        const panel = new Panel(this, item.id, item.tabs ?? []);
+        const activeItem = item.tabs.find(item => item.id === item.active);
+
+        if (activeItem) {
+          panel.changeTab(activeItem);
+        }
+
+        this.#items.set(item.id, panel);
+        this._active = !data.active || data.active === panel.id ? panel : undefined;
+      });
+      this.triggerEvent();
+      this.#items.forEach(item => item.bind('panel.updated', this.#triggerUpdate));
+    }
+
+    #triggerUpdate = () => this.triggerEvent('panels.updated');
+    getData = () => {
+      const items = new Map();
+      this.items.forEach(item => items.set(item.id, item.getData()));
+      return {
+        active: this._active.id,
+        items: items
+      };
+    };
 
     add(name, specs = {}) {
       const id = this.items.size + 1;
@@ -335,8 +466,8 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       const newPanel = new Panel(this, id);
       this._active = newPanel;
       newPanel.bind('change', this.triggerEvent);
-
-      this._items.set(id, newPanel);
+      newPanel.bind('panel.updated', this.#triggerUpdate);
+      this.#items.set(id, newPanel);
 
       if (name) {
         newPanel.add(name, specs);
@@ -347,21 +478,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
 
 
       const tab = active.tabs.get(active.activeItem);
-      const {
-        source,
-        path,
-        processor
-      } = tab;
-      const {
-        application
-      } = this.workspace;
-      tab.type === 'editor' ? newPanel.openFile({
-        source,
-        path,
-        processor,
-        application
-      }) : newPanel.add(tab.path, tab.specs);
+      tab.type === 'editor' ? newPanel.openFile(tab) : newPanel.add(tab.path, tab.specs);
       this.triggerEvent();
+      this.#triggerUpdate();
     }
     /**
      * Remove an opened panel
@@ -381,15 +500,11 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
         item.id = index;
         newOrder.set(index, item);
       });
-      this._items = newOrder;
+      this.#items = newOrder;
       this.triggerEvent();
     }
 
   }
-  /************
-  JSX PROCESSOR
-  ************/
-
 
   _exports.PanelsManager = PanelsManager;
 
@@ -457,9 +572,13 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       });
     };
 
-    (0, _code4.useBinder)([contextMenu], openContextMenu, 'fired.tab');
-    (0, _code4.useBinder)([contextMenu], () => toggleContextMenu(false), 'closed');
-    (0, _code4.useBinder)([panel], () => setName(panel.tabs.get(id).label), `tab.change.${id}`);
+    (0, _code5.useBinder)([contextMenu], openContextMenu, 'fired.tab');
+    (0, _code5.useBinder)([contextMenu], () => toggleContextMenu(false), 'closed');
+    (0, _code5.useBinder)([panel], () => setName(panel.tabs.get(id).label), `tab.change.${id}`);
+    (0, _code5.useBinder)([panel, panel.editor], () => {
+      if (panel?.editor?.filename !== name) return;
+      setUnpublished(panel.editor.unpublished);
+    });
     React.useEffect(() => {
       if (item.type !== 'editor') return;
 
@@ -485,7 +604,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       };
       if (isUnique) return null;
       if (!isUnique) attrs.onClick = onClose;
-      return /*#__PURE__*/React.createElement(_code3.DSIconButton, _extends({
+      return /*#__PURE__*/React.createElement(_code4.DSIconButton, _extends({
         icon: "close",
         title: texts.actions.close
       }, attrs));
@@ -494,14 +613,14 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     return /*#__PURE__*/React.createElement("div", _extends({
       ref: ref,
       "data-context": "tab"
-    }, attrs), name, /*#__PURE__*/React.createElement(IconTab, null), showContextMenu && /*#__PURE__*/React.createElement(_code5.DSContextMenu, {
+    }, attrs), name, /*#__PURE__*/React.createElement(IconTab, null), showContextMenu && /*#__PURE__*/React.createElement(_code6.DSContextMenu, {
       unmount: toggleContextMenu,
       specs: showContextMenu
-    }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement(_code5.ItemMenu, {
+    }, /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement(_code6.ItemMenu, {
       onClick: addPanel,
       icon: "splitView",
       label: texts.actions.splitRight
-    }), /*#__PURE__*/React.createElement(_code5.ItemMenu, {
+    }), /*#__PURE__*/React.createElement(_code6.ItemMenu, {
       onClick: onClose,
       icon: "splitView",
       label: texts.actions.close
@@ -566,7 +685,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     } = state;
     const tab = panel.tabs.get(activeTab);
     const ref = React.useRef(null);
-    (0, _code4.useBinder)([panel], () => setState({ ...state,
+    (0, _code5.useBinder)([panel], () => setState({ ...state,
       total: panel.tabs.size,
       activeTab: panel.activeItem
     }));
@@ -576,8 +695,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       ref.current?.addEventListener('click', onClick);
       return () => ref.current?.removeEventListener('click', onClick);
     }, []);
-    if (!tab) return null;
-    const Control = tab.type === 'editor' ? _code6.EditorView : tab.control;
+
+    if (!tab || tab.type === 'editor' && !panel.editor) {
+      return null;
+    }
+
+    const Control = tab.type === 'editor' ? _code7.EditorView : tab.control;
     const tabs = [];
     panel.tabs.forEach((item, id) => {
       tabs.push( /*#__PURE__*/React.createElement(PanelTab, {
@@ -618,7 +741,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
     const output = [];
     const container = React.useRef();
     const [state, setState] = React.useState({});
-    (0, _code4.useBinder)([panels], () => setState({ ...state,
+    (0, _code5.useBinder)([panels], () => setState({ ...state,
       items: panels.items
     }));
     if (!ready) return /*#__PURE__*/React.createElement(Preload, null);
@@ -657,7 +780,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       className: cls
     }, /*#__PURE__*/React.createElement("nav", {
       className: "ds-panels__actions"
-    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
+    }, /*#__PURE__*/React.createElement(_code4.DSIconButton, {
       onClick: addPanel,
       icon: "splitView",
       title: "Split editor"
@@ -673,7 +796,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
       className: "panels__container"
     }, /*#__PURE__*/React.createElement("nav", {
       className: "ds-editor__actions"
-    }, /*#__PURE__*/React.createElement(_code3.DSIconButton, {
+    }, /*#__PURE__*/React.createElement(_code4.DSIconButton, {
       icon: "splitView",
       title: "Split editor"
     })), /*#__PURE__*/React.createElement("div", {
@@ -692,6 +815,8 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/perfect-scrollbar/code",
 
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds__content-panel{padding:20px;width:100%}.ds__content-panel header{border-bottom:1px solid #a2000a;margin-bottom:30px}.ds__content-panel .form-column{display:flex;gap:10px;align-items:center}.ds__content-panel .form-column select{background:0 0;color:#fff;padding:8px}.ds__content-panel .form-column select option{color:#000}.panels__container .ds__panel{display:grid;grid-template-rows:auto 1fr;width:100%;flex-grow:0;overflow:auto;height:100%}.panels__container .ds__panel+.ds__panel{border-left:solid 2px #050910}@media (max-width:600px){.panels__container .ds__panel{flex-direction:row}}.panels__container .ds__panel>div{min-height:100%}.panels__container .ds-panels__actions{position:absolute;top:0;right:15px;z-index:1;height:34px}.panels__container .ds-panels__actions .beyond-icon-button{height:100%;width:30px;background:0 0;fill:#FFFFFF}.ds-application-view-layout .panels__container{display:grid;width:100%;height:calc(100vh - 90px);overflow:hidden;position:relative}.ds-application-view-layout .panels__container.panels--vertical{grid-auto-flow:row}.ds-application-view-layout .ds__tabs-container{display:flex;background:#313c50}.ds-application-view-layout .ds__tabs-container .ds__tab{height:34px;padding:8px 15px;background:#1a1a1a;display:flex;gap:8px;border-bottom:2px solid transparent;align-items:center;font-size:.9rem;cursor:pointer}.ds-application-view-layout .ds__tabs-container .ds__tab:hover{background:rgba(255,128,86,.4)}.ds-application-view-layout .ds__tabs-container .ds__tab:hover .beyond-icon{stroke-width:15px;stroke:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab.item-active{border-left:.5px solid rgba(255,128,86,.8);border-right:.5px solid rgba(255,128,86,.8);border-bottom-color:#ff8056;background:rgba(255,128,86,.8)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon{margin:0 -10px 0 0;height:15px;width:15px;padding:0}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon.tab--unpublished:not(:hover){background:#ff8056;border-radius:50%;fill:#FF8056}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon{height:.8rem;width:.8rem;transition:all .2s linear;fill:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon:hover{stroke-width:15px;stroke:#fff}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds__content-panel{padding:20px;width:100%}.ds__content-panel header{border-bottom:1px solid #a2000a;margin-bottom:30px}.ds__content-panel .form-column{display:flex;gap:10px;align-items:center}.ds__content-panel .form-column select{background:0 0;color:#fff;padding:8px}.ds__content-panel .form-column select option{color:#000}.panels__container .ds__panel{display:grid;grid-template-rows:auto 1fr;width:100%;flex-grow:0;overflow:auto;height:100%}.panels__container .ds__panel+.ds__panel{border-left:solid 2px #050910}@media (max-width:600px){.panels__container .ds__panel{flex-direction:row}}.panels__container .ds__panel>div{min-height:100%}.panels__container .ds-panels__actions{position:absolute;top:0;right:15px;z-index:1;height:34px}.panels__container .ds-panels__actions .beyond-icon-button{height:100%;width:30px;background:0 0;fill:#FFFFFF}.ds-application-view-layout .panels__container{display:grid;width:100%;height:calc(100vh - 81px);overflow:hidden;position:relative;z-index:2}.ds-application-view-layout .panels__container.panels--vertical{grid-auto-flow:row}.ds-application-view-layout .ds__tabs-container{display:flex;background:#313c50}.ds-application-view-layout .ds__tabs-container .ds__tab{height:34px;padding:8px 15px;background:#1a1a1a;display:flex;gap:8px;border-bottom:2px solid transparent;align-items:center;font-size:.9rem;cursor:pointer}.ds-application-view-layout .ds__tabs-container .ds__tab:hover{background:rgba(255,128,86,.4)}.ds-application-view-layout .ds__tabs-container .ds__tab:hover .beyond-icon{stroke-width:15px;stroke:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab.item-active{border-left:.5px solid rgba(255,128,86,.8);border-right:.5px solid rgba(255,128,86,.8);border-bottom-color:#ff8056;background:rgba(255,128,86,.8)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon{margin:0 -10px 0 0;height:15px;width:15px;padding:0}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon.tab--unpublished:not(:hover){background:#ff8056;border-radius:50%;fill:#FF8056}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon{height:.8rem;width:.8rem;transition:all .2s linear;fill:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon:hover{stroke-width:15px;stroke:#fff}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

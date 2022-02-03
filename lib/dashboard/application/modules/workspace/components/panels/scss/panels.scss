@@ -4,9 +4,12 @@ $ds-panel-bg: darken($beyond-gray-darker-color, 10%);
   .panels__container {
     display: grid;
     width: 100%;
-    height: calc(100vh - 90px);
+    // header 50px + footer 31 px
+    height: calc(100vh - 81px);
     overflow: hidden;
+
     position: relative;
+    z-index: 2;
 
     &.panels--vertical {
       grid-auto-flow: row;

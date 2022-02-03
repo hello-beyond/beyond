@@ -1,5 +1,28 @@
-.board__item {
-  border: 1px solid $beyond-secondary-color;
-  padding: .5rem;
-  list-style: none;
+.ds-item__list-detail {
+
+  padding: 0;
+  display: grid;
+  grid-gap: 5px;
+
+  .board__item {
+    background: rgba($beyond-secondary-color, .1);
+    border: 0;
+    padding: 1rem;
+    list-style: none;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr;
+
+    > header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item__actions {
+      display: flex;
+      gap: .5rem;
+    }
+
+  }
 }

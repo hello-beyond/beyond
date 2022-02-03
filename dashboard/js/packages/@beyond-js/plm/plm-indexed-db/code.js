@@ -429,4 +429,6 @@ define(["exports"], function (_exports) {
     getItem(this);
     if (name) load();
   }
+
+  __pkg.initialise();
 });

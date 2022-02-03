@@ -18,10 +18,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
   const __pkg = bundle.package();
 
-  const modules = new Map(); // FILE: controller.ts
+  const modules = new Map();
+  /******************
+  FILE: controller.ts
+  ******************/
 
   modules.set('./controller', {
-    hash: 2301514893,
+    hash: 1731941787,
     creator: function (require, exports) {
       "use strict";
 
@@ -30,12 +33,61 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.VueWidgetController = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
+      /*bundle*/
 
-      class VueWidgetController extends ts_1.BeyondWidgetController {
-        mount(Widget) {
-          // Render the widget
-          Widget.$mount(this.body);
+
+      class VueWidgetController extends _ts.BeyondWidgetController {
+        #styles;
+        #hmrStylesChanged = styles => {
+          const {
+            shadowRoot
+          } = this.component;
+          const previous = shadowRoot.querySelectorAll(`:scope > [bundle="${styles.id}"]`)[0];
+          previous && shadowRoot.removeChild(previous);
+          styles.css && shadowRoot.appendChild(styles.css);
+        };
+        #body;
+
+        render() {
+          this.#body?.remove();
+          this.#body = document.createElement('span');
+          this.component.shadowRoot.appendChild(this.#body);
+          const {
+            Widget
+          } = this.bundle.package().exports.values;
+
+          if (!Widget) {
+            const message = `Widget "${this.name}" does not export a Widget class`;
+            console.error(message);
+            return;
+          } // Render the widget
+
+
+          Widget.$mount(this.#body);
+        }
+
+        mount() {
+          this.render();
+          this.bundle.dependencies.forEach(resource => {
+            if (!_ts.beyond.bundles.has(resource)) return;
+
+            const dependency = _ts.beyond.bundles.get(resource);
+
+            const {
+              styles
+            } = dependency;
+            if (styles.dom || !styles.css) return;
+            this.component.shadowRoot.appendChild(styles.css);
+            styles.on('change', this.#hmrStylesChanged);
+          }); // Append styles and setup styles HMR
+
+          this.#styles = this.bundle.styles;
+          const {
+            css
+          } = this.#styles;
+          css && this.component.shadowRoot.appendChild(css);
+          this.#styles.on('change', this.#hmrStylesChanged);
         }
 
       }

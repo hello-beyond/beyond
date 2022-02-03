@@ -5,8 +5,8 @@ import type {Socket} from 'socket.io';
 
 class BeyondLocal extends Events {
     #onchange = (message: any) => {
-        const {bundle, processor, distribution, language} = message;
-        this.trigger(`change:${bundle}//${distribution}//${language}`, processor);
+        const {bundle, processor, extname, distribution, language} = message;
+        this.trigger(`change:${bundle}//${distribution}`, processor, extname, language);
     }
 
     get services() {

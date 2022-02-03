@@ -25,7 +25,7 @@ define([], function () {
           "close": "Close"
         },
         "labels": {
-          "apps": "Applications",
+          "apps": "Projects",
           "navigator": "navigator",
           "compile": "Compile app",
           "static": "Static",

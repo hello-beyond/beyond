@@ -1,5 +1,4 @@
 module.exports = class BeyondProjects {
-
     #items = new Set;
     get items() {
         return this.#items;
@@ -30,7 +29,6 @@ module.exports = class BeyondProjects {
         }
 
         this.load();
-
     }
 
     async load() {
@@ -52,10 +50,8 @@ module.exports = class BeyondProjects {
             if (!this.isFile) return;
             return this.manager.file.writeJSON(Array.from(this.items));
         }
-        catch (e) {
-            console.log(14, e);
+        catch (exc) {
+            console.error(exc);
         }
-
     }
-
 }

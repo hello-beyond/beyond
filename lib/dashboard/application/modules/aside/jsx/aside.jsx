@@ -1,8 +1,6 @@
 function Aside() {
     const {tree, panel} = useDSAsideContext();
-
     if (!panel) return null;
-
     const objectPanels = {
         application: ApplicationTree,
         module: ModuleTree,

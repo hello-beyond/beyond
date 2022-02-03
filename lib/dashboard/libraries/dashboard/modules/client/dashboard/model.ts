@@ -5,19 +5,38 @@ import {ReactiveModel} from "../reactive-model";
 interface IPortResponse {
     valid: boolean,
     id: string
+
+}
+
+interface IWDResponse {
+    status: boolean,
+    data: {
+        wd: String
+    }
 }
 
 export /*bundle*/
-class Dashboard extends ReactiveModel {
+const Dashboard = new (class extends ReactiveModel {
 
 
     get ready(): boolean {
-        return true;
+        return !!this.#wd;
+    }
+
+
+    #wd: String;
+    get wd(): String {
+        return this.#wd;
     }
 
     #validPort: boolean;
     get validPort(): boolean {
         return this.#validPort;
+    }
+
+    constructor() {
+        super();
+        this.getWD();
     }
 
     validate(hash: string) {
@@ -55,5 +74,19 @@ class Dashboard extends ReactiveModel {
         return port;
     }
 
+    async getWD() {
+        this.processing = true;
+        try {
+            const response = <IWDResponse>(await module.execute('/dashboard/getWD'));
+            this.processing = false;
+            this.#wd = response.data.wd;
+            return this.#wd;
 
-}
+        } catch (error) {
+            this.processing = false;
+            this.#validPort = false;
+            this.processed = true;
+
+        }
+    }
+})();

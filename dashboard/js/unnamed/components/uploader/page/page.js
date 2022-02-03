@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/alert/code", "/components/uploader/code", "/libraries/beyond-dashboard/js", "/libraries/beyond-dashboard/ts"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4, _code5, _js, _ts) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/alert/code", "/components/uploader/code", "/libraries/beyond-dashboard/js", "/libraries/beyond-dashboard/ts", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _js, _ts, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -10,24 +10,25 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   //Beyond
   //Jida library
   //Beyond-Dashboard
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/components/uploader/page/page', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/components/uploader/page/page', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /**********
   context.jsx
   **********/
-
 
   const JGalleryContext = React.createContext();
   _exports.JGalleryContext = JGalleryContext;
@@ -458,4 +459,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     }
 
   }
+
+  __pkg.initialise();
 });

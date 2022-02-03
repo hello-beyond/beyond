@@ -4231,4 +4231,6 @@ define([], function () {
     }];
     return void 0 === W.use && (W.use = W.Class.use, W.installModule = W.Class.installModule), W.use(we), W;
   }); //# sourceMappingURL=swiper.min.js.map
+
+  __pkg.initialise();
 });

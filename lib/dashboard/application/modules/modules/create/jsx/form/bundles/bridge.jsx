@@ -3,7 +3,6 @@ function FormBridge({state, handleChange}) {
     if (bundle !== 'bridge') return null;
 
     const fields = <BlankFields state={state}/>;
-
     return (
         <>
             <div className="item">
@@ -15,7 +14,6 @@ function FormBridge({state, handleChange}) {
                     value={state.name}
                     onChange={handleChange}/>
                 <span className="help-block">{texts.help.name}</span>
-
             </div>
             <AdditionalFields children={fields}/>
             <FormFooter/>

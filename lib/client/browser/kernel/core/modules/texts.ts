@@ -4,8 +4,6 @@ import type {Package} from "../bundles/package/package";
 import {Events} from "../utils/events/events";
 import {SingleCall} from "../utils/execution-control/single-call/single-call";
 
-declare function require(module: string): any;
-
 export /*bundle*/
 class ModuleTexts<TextsDeclaration> extends Events {
     readonly #beyond: Beyond;
@@ -102,7 +100,7 @@ class ModuleTexts<TextsDeclaration> extends Events {
         this.#id = `${module.id}/${bundle}`;
         this.#multilanguage = multilanguage;
 
-        this.#beyond = <Beyond>(require('../beyond')).beyond;
+        this.#beyond = require('../beyond').beyond;
         this.#beyond.languages.on('change', this.#change);
     }
 

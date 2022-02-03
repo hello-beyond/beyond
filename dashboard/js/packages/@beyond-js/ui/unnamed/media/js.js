@@ -378,4 +378,6 @@ define(["exports"], function (_exports) {
   }
 
   _exports.ResourceSelectorError = ResourceSelectorError;
+
+  __pkg.initialise();
 });

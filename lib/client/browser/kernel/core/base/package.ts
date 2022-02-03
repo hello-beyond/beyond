@@ -32,11 +32,18 @@ export function resolve(source: string, id: string) {
  * This class is used only by beyond/core
  */
 export class BeyondPackage {
-    readonly #ims: Map<string, IMSpecs>;
+    #ims: Map<string, IMSpecs>;
     readonly #cached: Map<string, Record<string, any>> = new Map();
 
-    constructor(ims?: Map<string, IMSpecs>) {
+    #exports: any;
+
+    constructor(exports: any) {
+        this.#exports = exports;
+    }
+
+    initialise(ims?: Map<string, IMSpecs>) {
         this.#ims = ims;
+        this.#exports.process((id: string, source?: string): any => this.require(id, source), {});
     }
 
     /**

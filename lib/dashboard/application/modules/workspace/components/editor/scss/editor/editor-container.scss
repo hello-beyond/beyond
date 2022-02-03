@@ -21,8 +21,9 @@ $beyond-tab-hover-color: $beyond-primary-color !default;
 
   .ds-editor__icons {
     position: absolute;
-    right: 50px;
+    right: 20px;
     top: 20px;
     z-index: 200;
+    fill: $beyond-primary-dark-color;
   }
 }

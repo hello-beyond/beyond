@@ -36,12 +36,6 @@ define([], function () {
         "description": "Here you will see each element added as a favorite"
       }
     },
-    "module": {
-      "empty": {
-        "title": "Select a module",
-        "description": "Go to the application tab and select the module you want to use as a work table"
-      }
-    },
     "empty": "Selecciona un modulo para que puedas ver su contenido",
     "backend": {
       "title": "Backend code",
@@ -188,6 +182,23 @@ define([], function () {
           "actions": {
             "close": "Cerrar"
           }
+        }
+      },
+      "module": {
+        "empty": {
+          "title": "Select a module",
+          "description": "Go to the application tab and select the module you want to use as a work table"
+        }
+      },
+      "template": {
+        "application": "Application",
+        "global": "Globals",
+        "processors": "Processors",
+        "title": "Template",
+        "description": "El template permite definir la configuración de estilos general de la aplicación y los overwrites.",
+        "styles": {
+          "title": "Estilos",
+          "description": "Estilos generales de la aplicación, que serán compartidos entre todos los módulos."
         }
       }
     }

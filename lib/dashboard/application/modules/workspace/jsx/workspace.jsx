@@ -26,7 +26,7 @@ export function DSWorkspace({workspace}) {
         return <PreloadWelcome setReady={setReady} workspace={workspace}/>
     }
 
-    if (!workspace.hasPermission) {
+    if (!workspace.user.hasAccess) {
         return <DeveloperForm texts={workspace.texts} workspace={workspace}/>;
     }
     const {texts, applications, active, panels} = workspace;

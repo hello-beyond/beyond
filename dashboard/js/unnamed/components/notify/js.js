@@ -52,4 +52,6 @@ define(["exports"], function (_exports) {
 
   const NotifyManager = new Notify();
   _exports.NotifyManager = NotifyManager;
+
+  __pkg.initialise();
 });

@@ -19,7 +19,10 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
 
   const __pkg = bundle.package();
 
-  const modules = new Map(); // FILE: context.ts
+  const modules = new Map();
+  /***************
+  FILE: context.ts
+  ***************/
 
   modules.set('./context', {
     hash: 3743684182,
@@ -29,13 +32,15 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.useAppModulesContext = exports.AppModulesContext = exports.useConfigContext = exports.ConfigContext = exports.useAppContext = exports.AppContext = exports.useWorkspacePanelsContext = exports.WorkspacePanelsContext = exports.useDSAsideContext = exports.DSAsideContext = exports.useDSWorkspaceContext = exports.DSWorkspaceContext = exports.DSBoards = void 0;
+      exports.useWorkspacePanelsContext = exports.useDSWorkspaceContext = exports.useDSAsideContext = exports.useConfigContext = exports.useAppModulesContext = exports.useAppContext = exports.WorkspacePanelsContext = exports.DSWorkspaceContext = exports.DSBoards = exports.DSAsideContext = exports.ConfigContext = exports.AppModulesContext = exports.AppContext = void 0;
 
-      const React = require("react");
+      var React = require("react");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
+      /*bundle */
 
-      exports.DSBoards = new class extends ts_1.Events {
+
+      const DSBoards = new class extends _ts.Events {
         #items = new Map();
 
         get items() {
@@ -52,54 +57,79 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
        * Workspace
        */
 
-      exports.DSWorkspaceContext = React.createContext();
+      exports.DSBoards = DSBoards;
+      /*bundle */
 
-      const useDSWorkspaceContext = () => React.useContext(exports.DSWorkspaceContext);
+      const DSWorkspaceContext = React.createContext();
+      exports.DSWorkspaceContext = DSWorkspaceContext;
+      /*bundle */
 
-      exports.useDSWorkspaceContext = useDSWorkspaceContext;
+      const useDSWorkspaceContext = () => React.useContext(DSWorkspaceContext);
       /**
        * ASide
        */
 
-      exports.DSAsideContext = React.createContext();
 
-      const useDSAsideContext = () => React.useContext(exports.DSAsideContext);
+      exports.useDSWorkspaceContext = useDSWorkspaceContext;
+      /*bundle */
 
-      exports.useDSAsideContext = useDSAsideContext;
+      const DSAsideContext = React.createContext();
+      exports.DSAsideContext = DSAsideContext;
+      /*bundle */
+
+      const useDSAsideContext = () => React.useContext(DSAsideContext);
       /**
        * Panels
        */
 
-      exports.WorkspacePanelsContext = React.createContext();
 
-      const useWorkspacePanelsContext = () => React.useContext(exports.WorkspacePanelsContext);
+      exports.useDSAsideContext = useDSAsideContext;
+      /*bundle */
 
-      exports.useWorkspacePanelsContext = useWorkspacePanelsContext;
+      const WorkspacePanelsContext = React.createContext();
+      exports.WorkspacePanelsContext = WorkspacePanelsContext;
+      /*bundle */
+
+      const useWorkspacePanelsContext = () => React.useContext(WorkspacePanelsContext);
       /**
        * Application
        */
 
-      exports.AppContext = React.createContext();
 
-      const useAppContext = () => React.useContext(exports.AppContext);
+      exports.useWorkspacePanelsContext = useWorkspacePanelsContext;
+      /*bundle */
+
+      const AppContext = React.createContext();
+      exports.AppContext = AppContext;
+      /*bundle */
+
+      const useAppContext = () => React.useContext(AppContext);
 
       exports.useAppContext = useAppContext;
-      exports.ConfigContext = React.createContext();
+      /*bundle */
 
-      const useConfigContext = () => React.useContext(exports.ConfigContext);
+      const ConfigContext = React.createContext();
+      exports.ConfigContext = ConfigContext;
+      /*bundle */
 
-      exports.useConfigContext = useConfigContext;
+      const useConfigContext = () => React.useContext(ConfigContext);
       /**
        * MODULES
        */
 
-      exports.AppModulesContext = React.createContext();
 
-      const useAppModulesContext = () => React.useContext(exports.AppModulesContext);
+      exports.useConfigContext = useConfigContext;
+      const AppModulesContext = React.createContext();
+      exports.AppModulesContext = AppModulesContext;
+
+      const useAppModulesContext = () => React.useContext(AppModulesContext);
 
       exports.useAppModulesContext = useAppModulesContext;
     }
-  }); // FILE: preaside.ts
+  });
+  /****************
+  FILE: preaside.ts
+  ****************/
 
   modules.set('./preaside', {
     hash: 2495865331,
@@ -110,7 +140,9 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
         value: true
       });
       exports.DSPreAside = void 0;
-      exports.DSPreAside = new class extends Events {
+      /*bundle*/
+
+      const DSPreAside = new class extends Events {
         #bottom = new Map();
 
         get bottom() {
@@ -151,13 +183,17 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
           });
         };
       }();
+      exports.DSPreAside = DSPreAside;
     }
-  }); // FILE: use-controller.tsx
+  });
+  /***********************
+  FILE: use-controller.tsx
+  ***********************/
 
   modules.set('./use-controller', {
     hash: 1319212642,
     creator: function (require, exports) {
-      "use strict"; // import React from "react";
+      // import React from "react";
       //
       // function useController(Controller) {
       //
@@ -167,6 +203,7 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
       //     }, []);
       //
       // }
+      "use strict";
     }
   });
   const hmr = new function () {

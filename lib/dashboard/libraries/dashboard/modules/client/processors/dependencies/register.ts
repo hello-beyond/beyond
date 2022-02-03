@@ -10,7 +10,7 @@ specs.cache = false;
 
 specs.fields = [
     'id', 'is', 'version', 'external', 'resource', 'errors', 'warnings',
-    'bundle_id', 'declaration', 'sources'
+    'declaration', 'sources', 'module_id', 'bundle_id'
 ];
 specs.properties = {
     bundle: {

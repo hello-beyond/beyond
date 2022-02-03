@@ -92,6 +92,10 @@ class Bundle extends Item {
         return container && <Module>container.value;
     }
 
+    get compilerProcessorActivate(): boolean {
+        return this.fields.get('compilerProcessorActivate').value;
+    }
+
     constructor(specs: ItemSpecs) {
         super('bundles', specs);
     }

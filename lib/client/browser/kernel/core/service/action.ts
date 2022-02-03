@@ -1,10 +1,7 @@
-import type {Beyond} from "../beyond";
 import type {Socket} from "socket.io";
 import {Module} from "../modules/module";
 import {PendingPromise} from "../utils/pending-promise/pending-promise";
 import {ExecutionError} from "./execution-error";
-
-declare function require(module: string): any;
 
 let autoincrement = 0;
 
@@ -99,7 +96,7 @@ export class Action<Params, Response> {
 
         this.#module.socket
             .then((socket: Socket) => {
-                const beyond = <Beyond>(require('../beyond')).beyond;
+                const beyond = require('../beyond').beyond;
                 if (!socket) {
                     const container = this.#module.container;
                     const message = `Socket not found on module "${this.#module.id}". ` +

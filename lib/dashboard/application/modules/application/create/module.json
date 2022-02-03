@@ -6,6 +6,7 @@
       "path": "jsx",
       "files": [
         "context.jsx",
+        "form",
         "*"
       ]
     },

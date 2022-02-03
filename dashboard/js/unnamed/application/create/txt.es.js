@@ -23,14 +23,22 @@ define([], function () {
       "submit": "Crear"
     },
     "form": {
+      "scope": "Scope de tu proyecto",
       "name": "Nombre de tu proyecto",
       "title": "Titulo de tu proyecto",
       "description": "Descripcion",
-      "port": {
-        "label": "Puerto",
-        "error": "El puerto agregado no esta disponible",
-        "success": "Validamos el puerto y está disponible",
-        "tooltip": "Validar puerto"
+      "ports": {
+        "navigate": {
+          "label": "Port",
+          "info": "Puerto para navegar tu proyecto"
+        },
+        "inspect": {
+          "label": "Inspect Port",
+          "info": "Puerto para inspeccionar el proyecto con devtools"
+        },
+        "error": "Port isn't available",
+        "success": "Port checked and available",
+        "tooltip": "Check port"
       },
       "types": {
         "titles": {
@@ -64,6 +72,10 @@ define([], function () {
         "board": {
           "title": "Plantillas Basicas",
           "description": "Plantilla básica optimizada para enfocarte en empezar a trabar en los modulos de tu SPA."
+        },
+        "web-backend": {
+          "title": "Plantilla Web con Backend",
+          "description": "Plantilla básica de app web con conexion backend."
         },
         "list": {
           "title": "Task App",

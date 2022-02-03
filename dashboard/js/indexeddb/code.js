@@ -225,11 +225,51 @@ define(["exports"], function (_exports) {
   }
 
   const BeyondDB = new DBManager();
+  /**********************
+  FILE: store\by-index.js
+  **********************/
+
+  _exports.BeyondDB = BeyondDB;
+
+  function byIndex(parent) {
+    /**
+     * Metodo para consultar la informacion de un store segun un indice previamente definido
+     * Esta consulta se puede limitar gracias al limit y el offset para no devolver TODOS los items de un store que
+     * cumplan con la condicion del indice
+     * @param indexName
+     * @param indexValue
+     * @param limit
+     * @param offset
+     * @returns {Promise<unknown>}
+     */
+    async function get(indexName, indexValue, limit, offset = 0) {
+      const db = await parent.db;
+      let promise = Promise.pending();
+      const query = db.transaction(parent.name, 'readwrite');
+
+      query.onerror = event => console.error(event);
+
+      const store = query.objectStore(parent.name); //TODO @jida agregar validacion cuando el indice nmo esta definido
+
+      const index = store.index(indexName);
+      const response = index.getAll(indexValue);
+
+      response.onsuccess = event => {
+        const entries = limit ? event.target.result.splice(offset, limit + 1) : event.target.result;
+        promise.resolve(entries);
+      };
+
+      response.onerror = () => promise.reject();
+
+      return promise;
+    }
+
+    parent.getByIndex = get;
+  }
   /********************
   FILE: store\delete.js
   ********************/
 
-  _exports.BeyondDB = BeyondDB;
 
   function deleteItem(parent) {
     async function remove(item) {
@@ -282,20 +322,22 @@ define(["exports"], function (_exports) {
           promise.resolve(entries);
           promise = undefined;
         };
-      } else {
-        store.openCursor().onsuccess = event => {
-          const cursor = event.target.result;
 
-          if (!cursor) {
-            promise.resolve(entries);
-            promise = undefined;
-            return;
-          }
-
-          entries.push(cursor.value);
-          cursor.continue();
-        };
+        return promise;
       }
+
+      store.openCursor().onsuccess = event => {
+        const cursor = event.target.result;
+
+        if (!cursor) {
+          promise.resolve(entries);
+          promise = undefined;
+          return;
+        }
+
+        entries.push(cursor.value);
+        cursor.continue();
+      };
 
       return promise;
     };
@@ -309,7 +351,7 @@ define(["exports"], function (_exports) {
     async function get(item) {
       const db = await parent.db;
       let promise = new PendingPromise();
-      const query = db.transaction(parent.name, 'readwrite');
+      const query = db.transaction(parent.name);
 
       query.onerror = event => console.error(event);
 
@@ -327,6 +369,58 @@ define(["exports"], function (_exports) {
     }
 
     parent.get = get;
+  }
+  /****************
+  FILE: store\in.js
+  ****************/
+
+
+  function getAllIn(parent) {
+    const promises = new Map();
+    /**
+     * Funcion para obtener la informacion de un conjunto de valores correspondientes al mismo campo como un WHERE field IN (value1, value2,..., valueN)
+     * @param ids
+     * @param index
+     * @param specs
+     * @returns {Promise<Array>}
+     */
+
+    parent.getAllIn = async (ids, index, specs) => {
+      let entries = [];
+      const key = `${parent.name}.${index}`;
+
+      if (promises.has(key)) {
+        return promises.get(key);
+      }
+
+      await parent.load();
+      const db = await parent.db;
+      const query = db.transaction(parent.name);
+      let store = query.objectStore(parent.name);
+
+      query.oncomplete = event => {};
+
+      query.onerror = event => console.error(event);
+
+      let promise = Promise.pending();
+      promises.set(key, promise);
+
+      store.openCursor().onsuccess = event => {
+        const cursor = event.target.result;
+
+        if (!cursor) {
+          promise.resolve(entries);
+          promises.delete(key);
+          promise = undefined;
+          return;
+        }
+
+        if (cursor.value[index] && ids.find(item => item === cursor.value[index])) entries.push(cursor.value);
+        cursor.continue();
+      };
+
+      return promise;
+    };
   }
   /******************
   FILE: store\save.js
@@ -353,12 +447,15 @@ define(["exports"], function (_exports) {
       };
 
       for (let item in data) {
-        /**
-         * TODO: @Julio check with box: what is unique.
-         */
         if (!data.hasOwnProperty(item)) return;
-        let request = store.put(data[item]);
-        request.onsuccess = onSuccessAll;
+
+        try {
+          let request = store.put(data[item]);
+          request.onsuccess = onSuccessAll;
+        } catch (exc) {
+          console.error(exc);
+          console.error(data, item, data[0]);
+        }
       }
 
       return promise;
@@ -400,7 +497,7 @@ define(["exports"], function (_exports) {
     this.create = async store => {
       const specs = store.config ? store.config : undefined;
       /**
-       * The db object is use directly when the store is created because this method
+       * The db object is used directly when the store is created because this method
        * is used only when the onupgradeneeded method is called.
        * In the other methods is necessary to call the database.get method to open a new
        * connection as a good practice.
@@ -410,6 +507,14 @@ define(["exports"], function (_exports) {
       const db = database.db;
       name = store.name;
       if (specs && specs.keyPath) pk = specs.keyPath;
+
+      if (db.objectStoreNames.contains(store.name)) {
+        /**
+         * TODO: @Julio. add logic to migrate data
+         */
+        db.deleteObjectStore(store.name);
+      }
+
       object = specs ? db.createObjectStore(store.name, specs) : db.createObjectStore(store.name);
 
       if (store.hasOwnProperty('indexes') && Array.isArray(store.indexes)) {
@@ -422,7 +527,7 @@ define(["exports"], function (_exports) {
     const load = async () => {
       await database.open();
       const db = database.db;
-      object = db.transaction(name, 'readwrite').objectStore(name);
+      object = db.transaction(name).objectStore(name);
     };
 
     this.load = load;
@@ -432,4 +537,6 @@ define(["exports"], function (_exports) {
     getItem(this);
     if (name) load();
   }
+
+  __pkg.initialise();
 });

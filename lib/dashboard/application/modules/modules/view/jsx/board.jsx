@@ -14,24 +14,32 @@ export function ModuleBoard(props) {
         (async () => {
             if ([undefined, null].includes(specs?.moduleId)) return;
             const model = await moduleManager.load(specs.moduleId);
-            panel.setTabName(specs.moduleId, model.name);
             setModel(model);
+            window.module = model;
+            panel.setTabName(specs.moduleId, model.name);
+
         })();
     }, [specs.moduleId]);
 
-    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready) return null;
-
+    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) return null;
     const texts = module.texts.value;
 
     return (
-        <ModuleContext.Provider value={{model, application, texts, navigateModule}}>
+        <ModuleContext.Provider value={{
+            model,
+            application, texts, navigateModule
+        }}>
             <div className="ds-module-view__detail">
                 <Header/>
+                <Description/>
+                <Cards/>
                 <div className="module__alerts-section">
                     <GeneralAlerts/>
                     <Diagnostics/>
                 </div>
-                <Description/>
+
+                <Consumers/>
+                <ListDependencies/>
             </div>
         </ModuleContext.Provider>
     );

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "name": "node-app",
+  "title": "Basic Web-Backend Application",
+  "description": "Basic Web Backend application",
+  "template": "template/template.json",
+  "layout": "main-layout",
+  "backend": {},
+  "languages": [
+    "en"
+  ],
+  "modules": {
+    "path": "modules",
+    "externals": {
+      "socket.io": {
+        "development": "client-dist/socket.io.js",
+        "production": "client-dist/socket.io.msgpack.min.js"
+      },
+      "react": {
+        "development": "umd/react.development.js",
+        "production": "umd/react.production.min.js"
+      },
+      "react-dom": {
+        "development": "umd/react-dom.development.js",
+        "production": "umd/react-dom.production.min.js"
+      }
+    }
+  }
+}

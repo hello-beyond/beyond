@@ -1,13 +1,10 @@
-import type {Beyond} from "../../beyond";
 import type {BeyondWidget} from "../widget";
 import type {WidgetSpecs} from "../widgets";
 import type {NodeWidget} from "../instances/node";
-import type {BundleStyles} from "../../bundles/styles";
+import type {BundleStyles} from "../../bundles/styles/styles";
 import {instances} from "../../bundles/instances/instances";
 import {BeyondWidgetControllerBase} from "./base";
 import {Bundle} from "../../bundles/bundle";
-
-declare function require(module: string): any;
 
 /**
  * The client widget react controller
@@ -66,7 +63,7 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
         // Append the global styles
         const global: HTMLLinkElement = document.createElement('link');
 
-        const beyond = <Beyond>(require('../../beyond')).beyond;
+        const {beyond} = require('../../beyond');
         const {baseUrl} = beyond;
         global.type = 'text/css';
         global.href = `${baseUrl}global.css`;
@@ -106,6 +103,6 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
     initialise() {
         this.#setStyles();
         this.render();
-        this.bundle.package().hmr.on('change:ts', this.#refresh);
+        this.bundle.package().hmr.on('change', this.#refresh);
     }
 }

@@ -1,24 +1,26 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/ripple/code"], function (_exports, React, ReactDOM, _code) {
+define(["exports", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports, _code, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.BeyondIconButton = _exports.BeyondIcon = _exports.BEYOND_ICONS = void 0;
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/icon/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/ui/icon/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -627,4 +629,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/ripple/code"], function 
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-icon-button{height:40px;width:40px;background:0 0;border:none;display:inline-grid;position:relative;outline:0!important;align-items:center;justify-content:center}.beyond-icon-button svg.beyond-icon{height:15px;width:15px}.beyond-icon-button.circle{border-radius:50%}.beyond-icon-button.circle>.beyond-ripple{border-radius:50%;align-self:center}.beyond-icon-button.primary{background:#ff8056;color:#fff}.beyond-icon-button.primary.dark{background:#e36152}.beyond-icon-button.primary.light{background:#ffa789}.beyond-icon-button.primary svg{fill:#fff}.beyond-icon-button.gray{background:#e4e5dc}.beyond-icon-button.secondary{background:#121f36;fill:#FFFFFF;color:#fff}.beyond-icon-button.secondary.dark{background:#050910}.beyond-icon-button.secondary.light{background:#313c50}.beyond-icon-button.small-icon{height:24px;width:24px}.beyond-icon-button.small-icon .beyond-icon{height:12px;width:12px}.beyond-icon{height:20px;width:20px;position:relative}.beyond-icon.circle{border-radius:50%;padding:5px}.beyond-icon svg{fill:var(--beyond-element-primary-text)}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

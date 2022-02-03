@@ -23,11 +23,19 @@ define([], function () {
     },
     "created": "Application created",
     "form": {
+      "scope": "Project scope",
       "name": "Project name",
       "title": "Add a title to your new project",
       "description": "Description",
-      "port": {
-        "label": "Port",
+      "ports": {
+        "navigate": {
+          "label": "Port",
+          "info": "Port to navigate your project"
+        },
+        "inspect": {
+          "label": "Inspect Port",
+          "info": "Port to inspect the project with devtools"
+        },
         "error": "Port isn't available",
         "success": "Port checked and available",
         "tooltip": "Check port"
@@ -59,6 +67,10 @@ define([], function () {
         "library": {
           "title": "Library",
           "description": " Container of client and server modules to be consumed by other projects.."
+        },
+        "web-backend": {
+          "title": "Template Web - Backend",
+          "description": "Web App template with backend."
         },
         "board": {
           "title": "Board template",

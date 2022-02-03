@@ -42,6 +42,14 @@ class ProcessorDependency extends Item {
         return declaration && <Declaration>declaration.value;
     }
 
+    get moduleId(): string {
+        return this.fields.get('module_id').value;
+    }
+
+    get bundleId(): string {
+        return this.fields.get('bundle_id').value;
+    }
+
     constructor(specs: ItemSpecs) {
         super('processors-dependencies', specs);
     }

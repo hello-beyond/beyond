@@ -7,15 +7,16 @@ function DSModuleBranch({branch, level = 1}) {
     const {moduleManager, setActiveAside} = useDSAsideContext();
     const element = React.createRef();
     const onClick = async event => {
+
         event.stopPropagation();
         try {
             if (branch.loaded) {
-                setState({...state, opened: true});
+                setState(state => ({...state, opened: !state.opened, totalItems: branch.items.size}));
                 return;
             }
             setState({...state, expanding: true});
             await branch.expand();
-            setState({...state, opened: true, items: branch.items, totalItems: branch.items.size});
+            setState(state => ({...state, opened: !state.opened, items: branch.items, totalItems: branch.items.size}));
         }
         catch (e) {
             console.error(e);
@@ -27,24 +28,31 @@ function DSModuleBranch({branch, level = 1}) {
         name: 'open',
         icon: 'arrowForward',
         action: async () => {
-            const target = element.current;
-            setState({fetching: true});
-            target.closest('.ds__aside__detail')?.classList.add('is-fetching');
-            target.classList.toggle('item--action-processing')
-            await moduleManager.setActive(branch?.module.id);
-
-            target.classList.toggle('item--action-processing');
-            target.classList.add('item--action-processed');
-            target.closest('.ds__aside__detail ').classList.toggle('is-fetching');
-
-            window.setTimeout(() => {
-                setState({fetching: false});
-                openBoard('module', {label: branch?.module.pathname});
-                setActiveAside('module', {moduleId: branch?.module.id});
-            }, 600);
-
+            openBoard('module', {label: branch?.module.pathname, moduleId: branch.module.id});
         }
-    }];
+    },
+        {
+            name: 'setActive',
+            icon: 'starRegular',
+            action: async () => {
+                const target = element.current;
+                setState({fetching: true});
+                target.closest('.ds__aside__detail')?.classList.add('is-fetching');
+                target.classList.toggle('item--action-processing')
+                await moduleManager.setActive(branch?.module.id);
+
+                target.classList.toggle('item--action-processing');
+                target.classList.add('item--action-processed');
+                target.closest('.ds__aside__detail ').classList.toggle('is-fetching');
+
+                window.setTimeout(() => {
+                    setState({fetching: false});
+                    openBoard('module', {label: branch?.module.pathname, moduleId: branch.module.id});
+                    setActiveAside('module', {moduleId: branch?.module.id});
+                }, 600);
+
+            }
+        }];
 
     useBinder([branch], () => setState({...state, fetching: branch.fetching}));
     useBinder([branch], () => {
@@ -53,8 +61,9 @@ function DSModuleBranch({branch, level = 1}) {
 
     const clsIcon = `tree__icon-open ${state.opened ? ` tree__icon--opened` : ''}`;
     return (
-        <li ref={element} className={`item ${state.fetching ? `item--fetching` : ''}`} tabIndex="-1">
-
+        <li ref={element}
+            className={`item ${state.fetching ? `item--fetching` : ''}`}
+            tabIndex="-1">
             <DSItemHeader
                 inline={inlineActions}
                 fetching={state.fetching}

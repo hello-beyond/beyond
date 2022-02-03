@@ -1,5 +1,4 @@
 module.exports = class Templates {
-
     #path;
     #ready;
     static #instance;
@@ -41,5 +40,4 @@ module.exports = class Templates {
         }
         return Templates.#instance;
     }
-
 }

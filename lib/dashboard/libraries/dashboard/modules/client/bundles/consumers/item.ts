@@ -7,9 +7,18 @@ class Consumer extends Item {
         return this.fields.get('id').value;
     }
 
+
     get bundle(): Bundle {
         const bundle = <ItemProperty>this.properties.get('bundle');
         return bundle && <Bundle>bundle.value;
+    }
+
+    get moduleId(): string {
+        return this.fields.get('module_id').value;
+    }
+
+    get bundleId(): string {
+        return this.fields.get('bundle').value;
     }
 
     constructor(specs: ItemSpecs) {

@@ -20,6 +20,7 @@ module.exports = class Widget extends require('../bundle') {
      * @param module Parent module object.
      * @param path Dirname where is the module.json located.
      * @param specs parameters of the module with the configuration of the file.
+     * TODO: @julio is necessary build all bundles with the same parameters.
      */
     constructor(path, specs = {}) {
         super(path, 'widget', specs);

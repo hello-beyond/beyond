@@ -198,8 +198,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   }, {
     "route": "/beyond/dashboard/icons",
     "bundle": "unnamed/components/core/page/page.js",
-    "vdir": false,
-    "layout": "beyond-ui"
+    "vdir": false
   }, {
     "route": "/empty",
     "bundle": "unnamed/components/empty/page.js",
@@ -208,11 +207,6 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     "route": "/beyond/uploader",
     "bundle": "unnamed/components/uploader/page/page.js",
     "vdir": false,
-    "layout": "dashboard"
-  }, {
-    "route": "/beyond-icons",
-    "bundle": "unnamed/icons/page.js",
-    "vdir": true,
     "layout": "dashboard"
   }, {
     "route": "/layout",
@@ -280,10 +274,13 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   *********************/
 
   bundles.set('@beyond-js/dashboard-lib/start', {
-    hash: 1129964304,
+    hash: 3653106571,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: start.ts
+      const modules = new Map();
+      /*************
+      FILE: start.ts
+      *************/
 
       modules.set('./start', {
         hash: 1365629960,
@@ -295,9 +292,6 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           });
         }
       });
-
-      __pkg.exports.process = function (require, _exports) {};
-
       return modules;
     }
   });
@@ -306,10 +300,13 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ************************************/
 
   bundles.set('@beyond-js/ui/popper/start', {
-    hash: 4109790525,
+    hash: 1619635500,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: start.ts
+      const modules = new Map();
+      /*************
+      FILE: start.ts
+      *************/
 
       modules.set('./start', {
         hash: 2840507579,
@@ -326,9 +323,6 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config, `packages/@beyond-js/ui/popper/static/vendor`);
         }
       });
-
-      __pkg.exports.process = function (require, _exports) {};
-
       return modules;
     }
   });
@@ -337,10 +331,13 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************/
 
   bundles.set('@beyond-js/ui/tippy/start', {
-    hash: 1332395753,
+    hash: 3142512697,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: start.ts
+      const modules = new Map();
+      /*************
+      FILE: start.ts
+      *************/
 
       modules.set('./start', {
         hash: 4247971240,
@@ -357,9 +354,6 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config, `packages/@beyond-js/ui/tippy/static/vendor`);
         }
       });
-
-      __pkg.exports.process = function (require, _exports) {};
-
       return modules;
     }
   });
@@ -368,10 +362,13 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************/
 
   bundles.set('@beyond-js/ui/waves/start', {
-    hash: 2099431977,
+    hash: 3036137145,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: start.ts
+      const modules = new Map();
+      /*************
+      FILE: start.ts
+      *************/
 
       modules.set('./start', {
         hash: 2501068193,
@@ -388,9 +385,6 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config, `packages/@beyond-js/ui/waves/static/vendor`);
         }
       });
-
-      __pkg.exports.process = function (require, _exports) {};
-
       return modules;
     }
   });
@@ -399,33 +393,29 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************************/
 
   bundles.set('@beyond-js/dashboard-lib/models/start', {
-    hash: 234945529,
+    hash: 3259047581,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: bees-logs.ts
+      const modules = new Map();
+      /*****************
+      FILE: bees-logs.ts
+      *****************/
 
       modules.set('./bees-logs', {
         hash: 3637047693,
         creator: function (require, exports) {
           "use strict";
 
-          Object.defineProperty(exports, "__esModule", {
-            value: true
-          });
-
-          const beyond_context_1 = require("beyond_context");
+          var _beyond_context = require("beyond_context");
 
           (async () => {
-            const socket = await beyond_context_1.bundle.container.socket;
+            const socket = await _beyond_context.bundle.container.socket;
             socket.on('bees.log', message => {
               console.log('BEE log message received:', message);
             });
           })().catch(exc => console.error(exc.stack));
         }
       });
-
-      __pkg.exports.process = function (require, _exports) {};
-
       return modules;
     }
   });
@@ -434,10 +424,13 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   *********************/
 
   bundles.set('@beyond-js/dashboard/unnamed/boards/start', {
-    hash: 3933229423,
+    hash: 378809316,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: start.ts
+      const modules = new Map();
+      /*************
+      FILE: start.ts
+      *************/
 
       modules.set('./start', {
         hash: 1508892331,
@@ -449,9 +442,11 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           });
           exports.DSBoards = void 0;
 
-          const ts_1 = require("@beyond-js/kernel/core/ts");
+          var _ts = require("@beyond-js/kernel/core/ts");
+          /*bundle*/
 
-          exports.DSBoards = new class extends ts_1.Events {
+
+          const DSBoards = new class extends _ts.Events {
             #items = new Map();
 
             get items() {
@@ -464,6 +459,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
             }
 
           }();
+          exports.DSBoards = DSBoards;
         }
       });
 
@@ -479,24 +475,23 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   *************/
 
   bundles.set('@beyond-js/dashboard/monaco/start', {
-    hash: 2640767696,
+    hash: 2622836200,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
-      const modules = new Map(); // FILE: start.ts
+      const modules = new Map();
+      /*************
+      FILE: start.ts
+      *************/
 
       modules.set('./start', {
         hash: 516721164,
         creator: function (require, exports) {
           "use strict";
 
-          Object.defineProperty(exports, "__esModule", {
-            value: true
-          });
-
-          const ts_1 = require("@beyond-js/kernel/core/ts");
+          var _ts = require("@beyond-js/kernel/core/ts");
 
           (function (config) {
-            const path = `monaco/static/${!ts_1.beyond.local ? 'min' : 'dev'}/vs`;
+            const path = `monaco/static/${!_ts.beyond.local ? 'min' : 'dev'}/vs`;
             config({
               paths: {
                 vs: path
@@ -505,9 +500,6 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config);
         }
       });
-
-      __pkg.exports.process = function (require, _exports) {};
-
       return modules;
     }
   });

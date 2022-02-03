@@ -18,8 +18,14 @@ class Module extends Item {
         return this.fields.get('id').value;
     }
 
+    #name: string;
     get name(): string {
-        return this.fields.get('name').value;
+        return this.#name ?? this.fields.get('name').value;
+    }
+
+    set name(value: string) {
+        if (this.#name === value) return;
+        this.#name = value;
     }
 
     get tu(): string {
@@ -49,6 +55,7 @@ class Module extends Item {
     }
 
     set description(value: string) {
+        if (this.#description === value) return;
         this.#description = value;
     }
 

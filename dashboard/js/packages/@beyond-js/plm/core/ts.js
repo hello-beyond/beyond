@@ -18,7 +18,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
   const __pkg = bundle.package();
 
-  const modules = new Map(); // FILE: auth\auth.ts
+  const modules = new Map();
+  /*****************
+  FILE: auth\auth.ts
+  *****************/
 
   modules.set('./auth/auth', {
     hash: 2495452891,
@@ -30,10 +33,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.auth = void 0;
 
-      const sessions_1 = require("./sessions");
+      var _sessions = require("./sessions");
+      /*bundle*/
 
-      exports.auth = new class {
-        #sessions = new sessions_1.Sessions();
+
+      const auth = new class {
+        #sessions = new _sessions.Sessions();
 
         get sessions() {
           return this.#sessions;
@@ -49,8 +54,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
       }();
+      exports.auth = auth;
     }
-  }); // FILE: auth\get-access-token.ts
+  });
+  /*****************************
+  FILE: auth\get-access-token.ts
+  *****************************/
 
   modules.set('./auth/get-access-token', {
     hash: 3814648084,
@@ -60,9 +69,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.getAccessToken = void 0;
+      exports.getAccessToken = getAccessToken;
 
-      const auth_1 = require("./auth");
+      var _auth = require("./auth");
       /**
        * Gets the session object from the session name
        *
@@ -75,17 +84,20 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         const errors = Object.freeze({
           'NOT_LOGGED_IN': () => new Error(`User is not logged in on session "${session}"`)
         });
-        if (!auth_1.auth.sessions.has(session)) throw errors.NOT_LOGGED_IN();
-        let s = auth_1.auth.sessions.get(session);
+        if (!_auth.auth.sessions.has(session)) throw errors.NOT_LOGGED_IN();
+
+        let s = _auth.auth.sessions.get(session);
+
         if (!s) throw errors.NOT_LOGGED_IN();
         const accessToken = s.accessToken;
         if (!accessToken) throw errors.NOT_LOGGED_IN();
         return accessToken;
       }
-
-      exports.getAccessToken = getAccessToken;
     }
-  }); // FILE: auth\session.ts
+  });
+  /********************
+  FILE: auth\session.ts
+  ********************/
 
   modules.set('./auth/session', {
     hash: 1207406251,
@@ -97,9 +109,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.PLMSession = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      class PLMSession extends ts_1.Events {
+      class PLMSession extends _ts.Events {
         #name;
 
         get name() {
@@ -126,7 +138,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.PLMSession = PLMSession;
     }
-  }); // FILE: auth\sessions.ts
+  });
+  /*********************
+  FILE: auth\sessions.ts
+  *********************/
 
   modules.set('./auth/sessions', {
     hash: 642400809,
@@ -138,13 +153,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Sessions = void 0;
 
-      const session_1 = require("./session");
+      var _session = require("./session");
 
       class Sessions extends Map {
         register(name) {
           if (!name) throw new Error('Parameter name not set');
           if (super.has(name)) throw new Error(`Session "${name}" already registered`);
-          const session = new session_1.PLMSession(name);
+          const session = new _session.PLMSession(name);
           super.set(name, session);
           return session;
         }
@@ -159,7 +174,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Sessions = Sessions;
     }
-  }); // FILE: constants.ts
+  });
+  /*****************
+  FILE: constants.ts
+  *****************/
 
   modules.set('./constants', {
     hash: 1333982119,
@@ -169,17 +187,26 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.DataSource = exports.NotSet = void 0;
-      exports.NotSet = {};
+      exports.NotSet = exports.DataSource = void 0;
+      /*bundle*/
+
+      const NotSet = {};
+      exports.NotSet = NotSet;
+      /*bundle*/
+
       var DataSource;
+      exports.DataSource = DataSource;
 
       (function (DataSource) {
         DataSource[DataSource["NotLoaded"] = 0] = "NotLoaded";
         DataSource[DataSource["Cache"] = 1] = "Cache";
         DataSource[DataSource["Server"] = 2] = "Server";
-      })(DataSource = exports.DataSource || (exports.DataSource = {}));
+      })(DataSource || (exports.DataSource = DataSource = {}));
     }
-  }); // FILE: elements\collection\collection.ts
+  });
+  /**************************************
+  FILE: elements\collection\collection.ts
+  **************************************/
 
   modules.set('./elements/collection/collection', {
     hash: 199874439,
@@ -191,19 +218,21 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Collection = void 0;
 
-      const element_1 = require("../element");
+      var _element = require("../element");
 
-      const collection_1 = require("../../tree/collection");
+      var _collection = require("../../tree/collection");
 
-      const counters_1 = require("./counters/counters");
+      var _counters = require("./counters/counters");
 
-      const items_1 = require("./items/items");
+      var _items = require("./items/items");
 
-      const item_1 = require("../item/item");
+      var _item = require("../item/item");
 
-      const tree_1 = require("./tree");
+      var _tree = require("./tree");
+      /*bundle*/
 
-      class Collection extends element_1.Element {
+
+      class Collection extends _element.Element {
         get is() {
           return 'collection';
         }
@@ -220,19 +249,19 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#list;
         }
 
-        #counters = new counters_1.CollectionCounters(this);
+        #counters = new _counters.CollectionCounters(this);
 
         get counters() {
           return this.#counters;
         }
 
-        #items = new items_1.CollectionItems(this);
+        #items = new _items.CollectionItems(this);
 
         get items() {
           return this.#items.items;
         }
 
-        #tree = new tree_1.Tree(this);
+        #tree = new _tree.Tree(this);
 
         get tree() {
           return this.#tree;
@@ -293,10 +322,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(table, DItem, specs) {
           super(table);
           if (!table || typeof table !== 'string') throw new Error('Parameter table is invalid');
-          if (!(DItem.prototype instanceof item_1.Item)) throw new Error('Parameter item is invalid');
+          if (!(DItem.prototype instanceof _item.Item)) throw new Error('Parameter item is invalid');
           this.#Item = DItem;
           specs = specs ? specs : {};
-          super.node = specs.node ? specs.node : new collection_1.CollectionNode(table, specs.tree); // Gets the list data access
+          super.node = specs.node ? specs.node : new _collection.CollectionNode(table, specs.tree); // Gets the list data access
 
           const attributes = {};
           this.#list = this.table.lists.get(specs.filter, this.node.order, attributes, specs.session);
@@ -315,7 +344,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Collection = Collection;
     }
-  }); // FILE: elements\collection\counters\counter.ts
+  });
+  /********************************************
+  FILE: elements\collection\counters\counter.ts
+  ********************************************/
 
   modules.set('./elements/collection/counters/counter', {
     hash: 1792567981,
@@ -327,7 +359,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CollectionCounter = void 0;
 
-      const filter_1 = require("../../../tables/data/filter/filter");
+      var _filter = require("../../../tables/data/filter/filter");
 
       class CollectionCounter {
         #collection;
@@ -345,7 +377,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             table
           } = collection;
           conditions = conditions ? conditions.concat(collection.list.filter.specs) : collection.list.filter.specs;
-          const filter = new filter_1.Filter(table, conditions);
+          const filter = new _filter.Filter(table, conditions);
           this.#counter = table.counters.get(filter.specs, collection.list.attributes, collection.session);
         }
 
@@ -365,7 +397,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CollectionCounter = CollectionCounter;
     }
-  }); // FILE: elements\collection\counters\counters.ts
+  });
+  /*********************************************
+  FILE: elements\collection\counters\counters.ts
+  *********************************************/
 
   modules.set('./elements/collection/counters/counters', {
     hash: 2686580010,
@@ -377,7 +412,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CollectionCounters = void 0;
 
-      const counter_1 = require("./counter");
+      var _counter = require("./counter");
 
       class CollectionCounters extends Map {
         #collection;
@@ -392,7 +427,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             node
           } = this.#collection;
           if (!node.counters.has(name)) return;
-          this.set(name, new counter_1.CollectionCounter(this.#collection, name, conditions));
+          this.set(name, new _counter.CollectionCounter(this.#collection, name, conditions));
         }
 
         async load() {
@@ -417,7 +452,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CollectionCounters = CollectionCounters;
     }
-  }); // FILE: elements\collection\items\items.ts
+  });
+  /***************************************
+  FILE: elements\collection\items\items.ts
+  ***************************************/
 
   modules.set('./elements/collection/items/items', {
     hash: 4004643330,
@@ -513,7 +551,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CollectionItems = CollectionItems;
     }
-  }); // FILE: elements\collection\tree.ts
+  });
+  /********************************
+  FILE: elements\collection\tree.ts
+  ********************************/
 
   modules.set('./elements/collection/tree', {
     hash: 3980109007,
@@ -547,7 +588,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Tree = Tree;
     }
-  }); // FILE: elements\element.ts
+  });
+  /************************
+  FILE: elements\element.ts
+  ************************/
 
   modules.set('./elements/element', {
     hash: 2829845709,
@@ -559,9 +603,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Element = void 0;
 
-      const tables_1 = require("../tables/tables");
+      var _tables = require("../tables/tables");
 
-      const realtime_1 = require("./realtime");
+      var _realtime = require("./realtime");
 
       class Element {
         on = (event, listener, priority) => this.#node.on(event, listener, priority);
@@ -599,7 +643,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           if (this.#data) throw new Error('Property "data" already set');
           this.#data = value;
           this.#data.on('change', this.#triggerChange);
-          this.#realtime = new realtime_1.Realtime(this);
+          this.#realtime = new _realtime.Realtime(this);
         }
 
         get session() {
@@ -635,8 +679,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor(table) {
           if (!table || typeof table !== 'string') throw new Error('Parameter table is invalid');
-          if (!tables_1.tables.has(table)) throw new Error(`Table "${table}" is not registered`);
-          this.#table = tables_1.tables.get(table);
+          if (!_tables.tables.has(table)) throw new Error(`Table "${table}" is not registered`);
+          this.#table = _tables.tables.get(table);
         }
 
         destroy() {
@@ -648,7 +692,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Element = Element;
     }
-  }); // FILE: elements\item\fields\field.ts
+  });
+  /**********************************
+  FILE: elements\item\fields\field.ts
+  **********************************/
 
   modules.set('./elements/item/fields/field', {
     hash: 3159573088,
@@ -660,7 +707,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemField = void 0;
 
-      const constants_1 = require("../../../constants");
+      var _constants = require("../../../constants");
 
       class ItemField {
         #item;
@@ -677,7 +724,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         get value() {
           const value = this.#item.record.fields.get(this.#name).value;
-          return value === constants_1.NotSet ? undefined : value;
+          return value === _constants.NotSet ? undefined : value;
         }
 
         set value(value) {
@@ -689,7 +736,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemField = ItemField;
     }
-  }); // FILE: elements\item\fields\fields.ts
+  });
+  /***********************************
+  FILE: elements\item\fields\fields.ts
+  ***********************************/
 
   modules.set('./elements/item/fields/fields', {
     hash: 2163016256,
@@ -701,7 +751,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemFields = void 0;
 
-      const field_1 = require("./field");
+      var _field = require("./field");
 
       class ItemFields extends Map {
         constructor(item) {
@@ -711,7 +761,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           } = item.table;
 
           for (const name of fields) {
-            this.set(name, new field_1.ItemField(item, name));
+            this.set(name, new _field.ItemField(item, name));
           }
         }
 
@@ -719,7 +769,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemFields = ItemFields;
     }
-  }); // FILE: elements\item\item.ts
+  });
+  /**************************
+  FILE: elements\item\item.ts
+  **************************/
 
   modules.set('./elements/item/item', {
     hash: 1738494106,
@@ -731,17 +784,19 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Item = void 0;
 
-      const element_1 = require("../element");
+      var _element = require("../element");
 
-      const item_1 = require("../../tree/item");
+      var _item = require("../../tree/item");
 
-      const properties_1 = require("./properties/properties");
+      var _properties = require("./properties/properties");
 
-      const fields_1 = require("./fields/fields");
+      var _fields = require("./fields/fields");
 
-      const tree_1 = require("./tree");
+      var _tree = require("./tree");
+      /*bundle*/
 
-      class Item extends element_1.Element {
+
+      class Item extends _element.Element {
         get is() {
           return 'item';
         }
@@ -784,7 +839,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#record.found;
         }
 
-        #tree = new tree_1.Tree(this);
+        #tree = new _tree.Tree(this);
 
         get tree() {
           return this.#tree;
@@ -824,7 +879,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           super(table);
           if (!table || typeof table !== 'string') throw new Error('Parameter table is invalid');
           specs = specs ? specs : {};
-          super.node = specs.node ? specs.node : new item_1.ItemNode(table, specs.tree); // Get the record data access
+          super.node = specs.node ? specs.node : new _item.ItemNode(table, specs.tree); // Get the record data access
 
           let identifier;
 
@@ -842,8 +897,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
           this.#record = this.table.records.get(identifier, specs.session);
           super.data = this.#record;
-          this.#fields = new fields_1.ItemFields(this);
-          this.#properties = new properties_1.Properties(this);
+          this.#fields = new _fields.ItemFields(this);
+          this.#properties = new _properties.Properties(this);
           this.#record.on('updated', () => this.#properties.update());
           this.#record.landed && this.properties.update();
         }
@@ -859,7 +914,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Item = Item;
     }
-  }); // FILE: elements\item\properties\collection\filter.ts
+  });
+  /**************************************************
+  FILE: elements\item\properties\collection\filter.ts
+  **************************************************/
 
   modules.set('./elements/item/properties/collection/filter', {
     hash: 3183572785,
@@ -870,11 +928,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
       exports.CollectionPropertyFilter = void 0;
+
+      var _filter = require("../../../../tables/data/filter/filter");
       /**
        * The collection property filter generator
        */
 
-      const filter_1 = require("../../../../tables/data/filter/filter");
 
       class CollectionPropertyFilter {
         #node;
@@ -919,7 +978,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
               filter.push({
                 field: field.field,
                 value: field.value,
-                operand: filter_1.ConditionOperand.Equal
+                operand: _filter.ConditionOperand.Equal
               });
               continue;
             }
@@ -934,7 +993,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             filter.push({
               field: field.field,
               value: value,
-              operand: filter_1.ConditionOperand.Equal
+              operand: _filter.ConditionOperand.Equal
             });
           }
 
@@ -946,7 +1005,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CollectionPropertyFilter = CollectionPropertyFilter;
     }
-  }); // FILE: elements\item\properties\collection\property.ts
+  });
+  /****************************************************
+  FILE: elements\item\properties\collection\property.ts
+  ****************************************************/
 
   modules.set('./elements/item/properties/collection/property', {
     hash: 3041225316,
@@ -958,11 +1020,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CollectionProperty = void 0;
 
-      const filter_1 = require("./filter");
+      var _filter = require("./filter");
 
-      const compare_objects_1 = require("../../../../tables/data/factory/compare-objects");
+      var _compareObjects = require("../../../../tables/data/factory/compare-objects");
 
-      const tree_1 = require("./tree");
+      var _tree = require("./tree");
+      /*bundle*/
+
 
       class CollectionProperty {
         get is() {
@@ -976,7 +1040,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#node;
         }
 
-        tree = new tree_1.Tree(this);
+        tree = new _tree.Tree(this);
         #value;
 
         get value() {
@@ -993,7 +1057,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(parentItem, node) {
           this.#parentItem = parentItem;
           this.#node = node;
-          this.#filter = new filter_1.CollectionPropertyFilter(parentItem, node);
+          this.#filter = new _filter.CollectionPropertyFilter(parentItem, node);
         }
 
         update() {
@@ -1008,7 +1072,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
           const filter = this.#filter.value; // Check if the identifier has changed
 
-          if (this.#lastFilter && compare_objects_1.CompareObjects.compare(this.#lastFilter, filter)) {
+          if (this.#lastFilter && _compareObjects.CompareObjects.compare(this.#lastFilter, filter)) {
             return this.#value;
           }
 
@@ -1030,7 +1094,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CollectionProperty = CollectionProperty;
     }
-  }); // FILE: elements\item\properties\collection\tree.ts
+  });
+  /************************************************
+  FILE: elements\item\properties\collection\tree.ts
+  ************************************************/
 
   modules.set('./elements/item/properties/collection/tree', {
     hash: 476448367,
@@ -1058,7 +1125,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Tree = Tree;
     }
-  }); // FILE: elements\item\properties\item-selector\property.ts
+  });
+  /*******************************************************
+  FILE: elements\item\properties\item-selector\property.ts
+  *******************************************************/
 
   modules.set('./elements/item/properties/item-selector/property', {
     hash: 171229117,
@@ -1070,9 +1140,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemSelectorProperty = void 0;
 
-      const compare_objects_1 = require("../../../../tables/data/factory/compare-objects");
+      var _compareObjects = require("../../../../tables/data/factory/compare-objects");
 
-      const tree_1 = require("./tree");
+      var _tree = require("./tree");
+      /*bundle*/
+
 
       class ItemSelectorProperty {
         get is() {
@@ -1086,7 +1158,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#node;
         }
 
-        tree = new tree_1.Tree(this);
+        tree = new _tree.Tree(this);
         #value;
 
         get value() {
@@ -1115,7 +1187,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
           if (!this.node.tables.has(table)) return; // Check if value should be changed or not
 
-          if (this.#value && this.#value.constructor === Item && this.#lastIdentifier && compare_objects_1.CompareObjects.compare(this.#lastIdentifier, identifier)) {
+          if (this.#value && this.#value.constructor === Item && this.#lastIdentifier && _compareObjects.CompareObjects.compare(this.#lastIdentifier, identifier)) {
             return this.#value;
           }
 
@@ -1136,7 +1208,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemSelectorProperty = ItemSelectorProperty;
     }
-  }); // FILE: elements\item\properties\item-selector\tree.ts
+  });
+  /***************************************************
+  FILE: elements\item\properties\item-selector\tree.ts
+  ***************************************************/
 
   modules.set('./elements/item/properties/item-selector/tree', {
     hash: 3729187936,
@@ -1164,7 +1239,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Tree = Tree;
     }
-  }); // FILE: elements\item\properties\item\identifier.ts
+  });
+  /************************************************
+  FILE: elements\item\properties\item\identifier.ts
+  ************************************************/
 
   modules.set('./elements/item/properties/item/identifier', {
     hash: 1191197271,
@@ -1238,7 +1316,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemPropertyIdentifier = ItemPropertyIdentifier;
     }
-  }); // FILE: elements\item\properties\item\property.ts
+  });
+  /**********************************************
+  FILE: elements\item\properties\item\property.ts
+  **********************************************/
 
   modules.set('./elements/item/properties/item/property', {
     hash: 1833209030,
@@ -1250,11 +1331,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemProperty = void 0;
 
-      const identifier_1 = require("./identifier");
+      var _identifier = require("./identifier");
 
-      const compare_objects_1 = require("../../../../tables/data/factory/compare-objects");
+      var _compareObjects = require("../../../../tables/data/factory/compare-objects");
 
-      const tree_1 = require("./tree");
+      var _tree = require("./tree");
+      /*bundle*/
+
 
       class ItemProperty {
         get is() {
@@ -1268,7 +1351,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#node;
         }
 
-        tree = new tree_1.Tree(this);
+        tree = new _tree.Tree(this);
         #value;
 
         get value() {
@@ -1285,7 +1368,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(parentItem, node) {
           this.#parentItem = parentItem;
           this.#node = node;
-          this.#identifier = new identifier_1.ItemPropertyIdentifier(parentItem, node);
+          this.#identifier = new _identifier.ItemPropertyIdentifier(parentItem, node);
         }
 
         update() {
@@ -1300,7 +1383,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
           const identifier = this.#identifier.value; // Check if the identifier has changed
 
-          if (this.#lastIdentifier && compare_objects_1.CompareObjects.compare(this.#lastIdentifier, identifier)) {
+          if (this.#lastIdentifier && _compareObjects.CompareObjects.compare(this.#lastIdentifier, identifier)) {
             //TODO: agregar comentario para caso de uso, en actualizacion de Item
             return this.#value;
           }
@@ -1323,7 +1406,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemProperty = ItemProperty;
     }
-  }); // FILE: elements\item\properties\item\tree.ts
+  });
+  /******************************************
+  FILE: elements\item\properties\item\tree.ts
+  ******************************************/
 
   modules.set('./elements/item/properties/item/tree', {
     hash: 2961426029,
@@ -1351,7 +1437,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Tree = Tree;
     }
-  }); // FILE: elements\item\properties\items\property.ts
+  });
+  /***********************************************
+  FILE: elements\item\properties\items\property.ts
+  ***********************************************/
 
   modules.set('./elements/item/properties/items/property', {
     hash: 2467694982,
@@ -1363,7 +1452,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemsProperty = void 0;
 
-      const tree_1 = require("./tree");
+      var _tree = require("./tree");
+      /*bundle*/
+
 
       class ItemsProperty extends Map {
         get is() {
@@ -1377,7 +1468,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#node;
         }
 
-        tree = new tree_1.Tree(this);
+        tree = new _tree.Tree(this);
 
         constructor(parentItem, node) {
           super();
@@ -1476,7 +1567,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemsProperty = ItemsProperty;
     }
-  }); // FILE: elements\item\properties\items\tree.ts
+  });
+  /*******************************************
+  FILE: elements\item\properties\items\tree.ts
+  *******************************************/
 
   modules.set('./elements/item/properties/items/tree', {
     hash: 1066763736,
@@ -1507,7 +1601,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Tree = Tree;
     }
-  }); // FILE: elements\item\properties\properties.ts
+  });
+  /*******************************************
+  FILE: elements\item\properties\properties.ts
+  *******************************************/
 
   modules.set('./elements/item/properties/properties', {
     hash: 3553928775,
@@ -1519,13 +1616,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Properties = void 0;
 
-      const property_1 = require("./item/property");
+      var _property = require("./item/property");
 
-      const property_2 = require("./items/property");
+      var _property2 = require("./items/property");
 
-      const property_3 = require("./item-selector/property");
+      var _property3 = require("./item-selector/property");
 
-      const property_4 = require("./collection/property");
+      var _property4 = require("./collection/property");
 
       class Properties extends Map {
         constructor(item) {
@@ -1537,19 +1634,19 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           for (const [name, node] of properties) {
             switch (node.is) {
               case 'item':
-                this.set(name, new property_1.ItemProperty(item, node));
+                this.set(name, new _property.ItemProperty(item, node));
                 break;
 
               case 'item-selector':
-                this.set(name, new property_3.ItemSelectorProperty(item, node));
+                this.set(name, new _property3.ItemSelectorProperty(item, node));
                 break;
 
               case 'collection':
-                this.set(name, new property_4.CollectionProperty(item, node));
+                this.set(name, new _property4.CollectionProperty(item, node));
                 break;
 
               case 'items':
-                this.set(name, new property_2.ItemsProperty(item, node));
+                this.set(name, new _property2.ItemsProperty(item, node));
                 break;
 
               default:
@@ -1590,7 +1687,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Properties = Properties;
     }
-  }); // FILE: elements\item\properties\property.ts
+  });
+  /*****************************************
+  FILE: elements\item\properties\property.ts
+  *****************************************/
 
   modules.set('./elements/item/properties/property', {
     hash: 2546207792,
@@ -1601,7 +1701,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
     }
-  }); // FILE: elements\item\tree.ts
+  });
+  /**************************
+  FILE: elements\item\tree.ts
+  **************************/
 
   modules.set('./elements/item/tree', {
     hash: 30503873,
@@ -1635,7 +1738,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Tree = Tree;
     }
-  }); // FILE: elements\realtime.ts
+  });
+  /*************************
+  FILE: elements\realtime.ts
+  *************************/
 
   modules.set('./elements/realtime', {
     hash: 2022675178,
@@ -1669,7 +1775,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Realtime = Realtime;
     }
-  }); // FILE: tables\data\counter\counter.ts
+  });
+  /***********************************
+  FILE: tables\data\counter\counter.ts
+  ***********************************/
 
   modules.set('./tables/data/counter/counter', {
     hash: 1520738300,
@@ -1681,15 +1790,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CounterData = void 0;
 
-      const product_1 = require("../factory/product");
+      var _product = require("../factory/product");
 
-      const filter_1 = require("../filter/filter");
+      var _filter = require("../filter/filter");
 
-      const fetch_1 = require("./fetch");
+      var _fetch = require("./fetch");
 
-      const local_store_1 = require("./local-store");
+      var _localStore = require("./local-store");
 
-      class CounterData extends product_1.Product {
+      class CounterData extends _product.Product {
         #filter;
 
         get filter() {
@@ -1711,7 +1820,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         } // The local store, properties and methods
 
 
-        #localStore = new local_store_1.CounterLocalStore(this);
+        #localStore = new _localStore.CounterLocalStore(this);
 
         get localStore() {
           return this.#localStore;
@@ -1742,7 +1851,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         } // The fetch manager, properties and methods
 
 
-        #fetch = new fetch_1.CounterFetch(this, this.#value);
+        #fetch = new _fetch.CounterFetch(this, this.#value);
 
         get fetching() {
           return this.#fetch.fetching;
@@ -1758,7 +1867,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor(manager, key, instanceId, filterSpecs, attributes, session) {
           super(manager, key, instanceId, session);
-          this.#filter = new filter_1.Filter(this.table, filterSpecs);
+          this.#filter = new _filter.Filter(this.table, filterSpecs);
           this.#attributes = attributes;
         }
 
@@ -1766,7 +1875,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CounterData = CounterData;
     }
-  }); // FILE: tables\data\counter\fetch.ts
+  });
+  /*********************************
+  FILE: tables\data\counter\fetch.ts
+  *********************************/
 
   modules.set('./tables/data/counter/fetch', {
     hash: 2851854299,
@@ -1817,7 +1929,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CounterFetch = CounterFetch;
     }
-  }); // FILE: tables\data\counter\local-store.ts
+  });
+  /***************************************
+  FILE: tables\data\counter\local-store.ts
+  ***************************************/
 
   modules.set('./tables/data/counter/local-store', {
     hash: 1873218828,
@@ -1859,7 +1974,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CounterLocalStore = CounterLocalStore;
     }
-  }); // FILE: tables\data\counter\manager.ts
+  });
+  /***********************************
+  FILE: tables\data\counter\manager.ts
+  ***********************************/
 
   modules.set('./tables/data/counter/manager', {
     hash: 2047409176,
@@ -1871,13 +1989,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CountersManager = void 0;
 
-      const counter_1 = require("./counter");
+      var _counter = require("./counter");
 
-      const factory_1 = require("../factory/factory");
+      var _factory = require("../factory/factory");
 
-      class CountersManager extends factory_1.Factory {
+      class CountersManager extends _factory.Factory {
         create(key, instanceId, filter, attributes, session) {
-          return new counter_1.CounterData(this, key, instanceId, filter, attributes, session);
+          return new _counter.CounterData(this, key, instanceId, filter, attributes, session);
         }
 
         get(filter, attributes, session) {
@@ -1888,7 +2006,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CountersManager = CountersManager;
     }
-  }); // FILE: tables\data\factory\compare-objects.ts
+  });
+  /*******************************************
+  FILE: tables\data\factory\compare-objects.ts
+  *******************************************/
 
   modules.set('./tables/data/factory/compare-objects', {
     hash: 2669127418,
@@ -1923,7 +2044,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CompareObjects = CompareObjects;
     }
-  }); // FILE: tables\data\factory\factory.ts
+  });
+  /***********************************
+  FILE: tables\data\factory\factory.ts
+  ***********************************/
 
   modules.set('./tables/data/factory/factory', {
     hash: 156948480,
@@ -1935,11 +2059,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Factory = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const compare_objects_1 = require("./compare-objects");
+      var _compareObjects = require("./compare-objects");
 
-      class Factory extends ts_1.Events {
+      class Factory extends _ts.Events {
         #table;
 
         get table() {
@@ -1956,7 +2080,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         #instances = new Map();
 
         has(...any) {
-          return this.#keys.has(compare_objects_1.CompareObjects.generate(...arguments));
+          return this.#keys.has(_compareObjects.CompareObjects.generate(...arguments));
         } // The count of consumers that are holding a product
         // Used destroy a product only when there are no consumers using it
         // The key of the map is the product instanceId
@@ -1965,7 +2089,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         #counters = new Map();
 
         get(...any) {
-          const key = compare_objects_1.CompareObjects.generate(...arguments);
+          const key = _compareObjects.CompareObjects.generate(...arguments);
+
           const instanceId = this.#keys.has(key) ? this.#keys.get(key) : this.#instanceId++;
           this.hold(instanceId);
           if (this.#instances.has(instanceId)) return this.#instances.get(instanceId);
@@ -2012,7 +2137,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Factory = Factory;
     }
-  }); // FILE: tables\data\factory\product.ts
+  });
+  /***********************************
+  FILE: tables\data\factory\product.ts
+  ***********************************/
 
   modules.set('./tables/data/factory/product', {
     hash: 3204950323,
@@ -2024,9 +2152,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Product = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      class Product extends ts_1.Events {
+      class Product extends _ts.Events {
         #manager;
 
         get manager() {
@@ -2090,7 +2218,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Product = Product;
     }
-  }); // FILE: tables\data\filter\filter.ts
+  });
+  /*********************************
+  FILE: tables\data\filter\filter.ts
+  *********************************/
 
   modules.set('./tables/data/filter/filter', {
     hash: 1271509135,
@@ -2101,7 +2232,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
       exports.Filter = exports.ConditionOperand = void 0;
+      /*bundle*/
+
       var ConditionOperand;
+      exports.ConditionOperand = ConditionOperand;
 
       (function (ConditionOperand) {
         ConditionOperand[ConditionOperand["Equal"] = 0] = "Equal";
@@ -2109,7 +2243,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         ConditionOperand[ConditionOperand["GreaterOrEqual"] = 2] = "GreaterOrEqual";
         ConditionOperand[ConditionOperand["Lower"] = 3] = "Lower";
         ConditionOperand[ConditionOperand["LowerOrEqual"] = 4] = "LowerOrEqual";
-      })(ConditionOperand = exports.ConditionOperand || (exports.ConditionOperand = {}));
+      })(ConditionOperand || (exports.ConditionOperand = ConditionOperand = {}));
 
       class Filter {
         #table;
@@ -2185,7 +2319,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Filter = Filter;
     }
-  }); // FILE: tables\data\lists\fetch.ts
+  });
+  /*******************************
+  FILE: tables\data\lists\fetch.ts
+  *******************************/
 
   modules.set('./tables/data/lists/fetch', {
     hash: 2768079759,
@@ -2244,7 +2381,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ListFetch = ListFetch;
     }
-  }); // FILE: tables\data\lists\list.ts
+  });
+  /******************************
+  FILE: tables\data\lists\list.ts
+  ******************************/
 
   modules.set('./tables/data/lists/list', {
     hash: 1922560968,
@@ -2256,19 +2396,19 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ListData = void 0;
 
-      const product_1 = require("../factory/product");
+      var _product = require("../factory/product");
 
-      const filter_1 = require("../filter/filter");
+      var _filter = require("../filter/filter");
 
-      const fetch_1 = require("./fetch");
+      var _fetch = require("./fetch");
 
-      const local_store_1 = require("./local-store");
+      var _localStore = require("./local-store");
 
-      const records_1 = require("./records");
+      var _records = require("./records");
 
-      const order_1 = require("./order");
+      var _order = require("./order");
 
-      class ListData extends product_1.Product {
+      class ListData extends _product.Product {
         #filter;
 
         get filter() {
@@ -2294,14 +2434,14 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           this.trigger('invalidated');
         }
 
-        #records = new records_1.ListRecords(this);
+        #records = new _records.ListRecords(this);
 
         get records() {
           return this.#records;
         } // The local store, properties and methods
 
 
-        #localStore = new local_store_1.ListLocalStore(this);
+        #localStore = new _localStore.ListLocalStore(this);
 
         get localStore() {
           return this.#localStore;
@@ -2333,7 +2473,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         } // The fetch manager, properties and methods
 
 
-        #fetch = new fetch_1.ListFetch(this);
+        #fetch = new _fetch.ListFetch(this);
 
         get fetching() {
           return this.#fetch.fetching;
@@ -2360,8 +2500,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor(manager, key, instanceId, filterSpecs, orderSpecs, attributes, session) {
           super(manager, key, instanceId, session);
-          this.#filter = new filter_1.Filter(this.table, filterSpecs);
-          this.#order = new order_1.Order(this.table, orderSpecs);
+          this.#filter = new _filter.Filter(this.table, filterSpecs);
+          this.#order = new _order.Order(this.table, orderSpecs);
           this.#attributes = attributes;
         }
 
@@ -2373,7 +2513,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ListData = ListData;
     }
-  }); // FILE: tables\data\lists\local-store.ts
+  });
+  /*************************************
+  FILE: tables\data\lists\local-store.ts
+  *************************************/
 
   modules.set('./tables/data/lists/local-store', {
     hash: 250894529,
@@ -2415,7 +2558,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ListLocalStore = ListLocalStore;
     }
-  }); // FILE: tables\data\lists\manager\manager.ts
+  });
+  /*****************************************
+  FILE: tables\data\lists\manager\manager.ts
+  *****************************************/
 
   modules.set('./tables/data/lists/manager/manager', {
     hash: 585864089,
@@ -2427,29 +2573,29 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ListsManager = void 0;
 
-      const list_1 = require("../list");
+      var _list = require("../list");
 
-      const factory_1 = require("../../factory/factory");
+      var _factory = require("../../factory/factory");
 
-      const registries_1 = require("./registries/registries");
+      var _registries = require("./registries/registries");
 
-      const realtime_1 = require("./realtime/realtime");
+      var _realtime = require("./realtime/realtime");
 
-      class ListsManager extends factory_1.Factory {
-        #registries = new registries_1.Registries(this);
+      class ListsManager extends _factory.Factory {
+        #registries = new _registries.Registries(this);
 
         get registries() {
           return this.#registries;
         }
 
-        #realtime = new realtime_1.Realtime(this);
+        #realtime = new _realtime.Realtime(this);
 
         get realtime() {
           return this.#realtime;
         }
 
         create(key, instanceId, filter, order, attributes, session) {
-          return new list_1.ListData(this, key, instanceId, filter, order, attributes, session);
+          return new _list.ListData(this, key, instanceId, filter, order, attributes, session);
         }
 
         get(filter, order, attributes, session) {
@@ -2469,7 +2615,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ListsManager = ListsManager;
     }
-  }); // FILE: tables\data\lists\manager\realtime\realtime.ts
+  });
+  /***************************************************
+  FILE: tables\data\lists\manager\realtime\realtime.ts
+  ***************************************************/
 
   modules.set('./tables/data/lists/manager/realtime/realtime', {
     hash: 2873257050,
@@ -2481,7 +2630,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Realtime = void 0;
 
-      const reports_1 = require("./reports");
+      var _reports = require("./reports");
 
       class Realtime {
         #reports;
@@ -2491,14 +2640,17 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         constructor(manager) {
-          this.#reports = new reports_1.Reports(manager);
+          this.#reports = new _reports.Reports(manager);
         }
 
       }
 
       exports.Realtime = Realtime;
     }
-  }); // FILE: tables\data\lists\manager\realtime\reports.ts
+  });
+  /**************************************************
+  FILE: tables\data\lists\manager\realtime\reports.ts
+  **************************************************/
 
   modules.set('./tables/data/lists/manager/realtime/reports', {
     hash: 4249643312,
@@ -2510,7 +2662,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Reports = void 0;
 
-      const filter_1 = require("../../../filter/filter");
+      var _filter = require("../../../filter/filter");
 
       class Reports {
         #manager;
@@ -2532,23 +2684,23 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             if (!realtimeFilter.hasOwnProperty(condition.field)) continue;
 
             switch (condition.operand) {
-              case filter_1.ConditionOperand.Equal:
+              case _filter.ConditionOperand.Equal:
                 if (realtimeFilter[condition.field] !== condition.value) return false;
                 break;
 
-              case filter_1.ConditionOperand.Greater:
+              case _filter.ConditionOperand.Greater:
                 if (realtimeFilter[condition.field] <= condition.value) return false;
                 break;
 
-              case filter_1.ConditionOperand.GreaterOrEqual:
+              case _filter.ConditionOperand.GreaterOrEqual:
                 if (realtimeFilter[condition.field] < condition.value) return false;
                 break;
 
-              case filter_1.ConditionOperand.Lower:
+              case _filter.ConditionOperand.Lower:
                 if (realtimeFilter[condition.field] >= condition.value) return false;
                 break;
 
-              case filter_1.ConditionOperand.LowerOrEqual:
+              case _filter.ConditionOperand.LowerOrEqual:
                 if (realtimeFilter[condition.field] > condition.value) return false;
                 break;
             }
@@ -2568,7 +2720,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Reports = Reports;
     }
-  }); // FILE: tables\data\lists\manager\registries\filter.ts
+  });
+  /***************************************************
+  FILE: tables\data\lists\manager\registries\filter.ts
+  ***************************************************/
 
   modules.set('./tables/data/lists/manager/registries/filter', {
     hash: 2522735486,
@@ -2580,11 +2735,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.RegistryByFilter = void 0;
 
-      const compare_objects_1 = require("../../../factory/compare-objects");
+      var _compareObjects = require("../../../factory/compare-objects");
 
       class RegistryByFilter extends Map {
         informListCreated(list) {
-          const key = compare_objects_1.CompareObjects.generate(list.filter.specs);
+          const key = _compareObjects.CompareObjects.generate(list.filter.specs);
+
           const registry = this.has(key) ? this.get(key) : {
             filter: list.filter,
             lists: []
@@ -2594,7 +2750,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         informListDestroyed(list) {
-          const key = compare_objects_1.CompareObjects.generate(list.filter.specs);
+          const key = _compareObjects.CompareObjects.generate(list.filter.specs);
 
           if (!this.has(key)) {
             console.error('List filter is not in the registry of filters', list);
@@ -2615,7 +2771,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RegistryByFilter = RegistryByFilter;
     }
-  }); // FILE: tables\data\lists\manager\registries\registries.ts
+  });
+  /*******************************************************
+  FILE: tables\data\lists\manager\registries\registries.ts
+  *******************************************************/
 
   modules.set('./tables/data/lists/manager/registries/registries', {
     hash: 1636734906,
@@ -2627,7 +2786,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Registries = void 0;
 
-      const filter_1 = require("./filter");
+      var _filter = require("./filter");
 
       class Registries {
         #manager;
@@ -2636,7 +2795,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(manager) {
           this.#manager = manager;
           this.#registries = new Map();
-          this.#registries.set('filters', new filter_1.RegistryByFilter());
+          this.#registries.set('filters', new _filter.RegistryByFilter());
         }
 
         get filters() {
@@ -2655,7 +2814,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Registries = Registries;
     }
-  }); // FILE: tables\data\lists\order.ts
+  });
+  /*******************************
+  FILE: tables\data\lists\order.ts
+  *******************************/
 
   modules.set('./tables/data/lists/order', {
     hash: 4054939735,
@@ -2709,7 +2871,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Order = Order;
     }
-  }); // FILE: tables\data\lists\records.ts
+  });
+  /*********************************
+  FILE: tables\data\lists\records.ts
+  *********************************/
 
   modules.set('./tables/data/lists/records', {
     hash: 1169534636,
@@ -2794,7 +2959,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ListRecords = ListRecords;
     }
-  }); // FILE: tables\data\realtime\realtime.ts
+  });
+  /*************************************
+  FILE: tables\data\realtime\realtime.ts
+  *************************************/
 
   modules.set('./tables/data/realtime/realtime', {
     hash: 3629346848,
@@ -2806,18 +2974,24 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.realtime = void 0;
 
-      const reports_1 = require("./reports/reports");
+      var _reports = require("./reports/reports");
+      /*bundle*/
 
-      exports.realtime = new class {
-        #reports = new reports_1.Reports();
+
+      const realtime = new class {
+        #reports = new _reports.Reports();
 
         get reports() {
           return this.#reports;
         }
 
       }();
+      exports.realtime = realtime;
     }
-  }); // FILE: tables\data\realtime\reports\list.ts
+  });
+  /*****************************************
+  FILE: tables\data\realtime\reports\list.ts
+  *****************************************/
 
   modules.set('./tables/data/realtime/reports/list', {
     hash: 3728706255,
@@ -2829,16 +3003,17 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ListReport = void 0;
 
-      const tables_1 = require("../../../tables");
+      var _tables = require("../../../tables");
 
       class ListReport {
         update(tableName, filter) {
-          if (!tables_1.tables.has(tableName)) {
+          if (!_tables.tables.has(tableName)) {
             console.error(`Realtime list update notification arrived with an invalid table specification "${tableName}"`);
             return;
           }
 
-          const table = tables_1.tables.get(tableName);
+          const table = _tables.tables.get(tableName);
+
           table.lists.realtime.reports.update(filter);
         }
 
@@ -2846,7 +3021,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ListReport = ListReport;
     }
-  }); // FILE: tables\data\realtime\reports\record.ts
+  });
+  /*******************************************
+  FILE: tables\data\realtime\reports\record.ts
+  *******************************************/
 
   modules.set('./tables/data/realtime/reports/record', {
     hash: 2510156693,
@@ -2858,11 +3036,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.RecordReport = void 0;
 
-      const tables_1 = require("../../../tables");
+      var _tables = require("../../../tables");
 
       class RecordReport {
         #checkTable = tableName => {
-          if (!tables_1.tables.has(tableName)) {
+          if (!_tables.tables.has(tableName)) {
             console.error('Realtime record update notification arrived with ' + `an invalid table specification "${tableName}"`);
             return false;
           }
@@ -2880,7 +3058,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         update(tableName, pk, field, value) {
           if (!this.#checkTable(tableName)) return;
-          const table = tables_1.tables.get(tableName);
+
+          const table = _tables.tables.get(tableName);
+
           table.records.realtime.reports.update(pk, field, value);
         }
 
@@ -2888,7 +3068,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RecordReport = RecordReport;
     }
-  }); // FILE: tables\data\realtime\reports\reports.ts
+  });
+  /********************************************
+  FILE: tables\data\realtime\reports\reports.ts
+  ********************************************/
 
   modules.set('./tables/data/realtime/reports/reports', {
     hash: 107636444,
@@ -2900,18 +3083,18 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Reports = void 0;
 
-      const record_1 = require("./record");
+      var _record = require("./record");
 
-      const list_1 = require("./list");
+      var _list = require("./list");
 
       class Reports {
-        #list = new list_1.ListReport();
+        #list = new _list.ListReport();
 
         get list() {
           return this.#list;
         }
 
-        #record = new record_1.RecordReport();
+        #record = new _record.RecordReport();
 
         get record() {
           return this.#record;
@@ -2921,7 +3104,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Reports = Reports;
     }
-  }); // FILE: tables\data\records\data\factory.ts
+  });
+  /****************************************
+  FILE: tables\data\records\data\factory.ts
+  ****************************************/
 
   modules.set('./tables/data/records/data/factory', {
     hash: 3526622083,
@@ -2933,15 +3119,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.RecordsDataFactory = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const record_1 = require("./record");
+      var _record = require("./record");
 
-      const compare_objects_1 = require("../../factory/compare-objects");
+      var _compareObjects = require("../../factory/compare-objects");
 
-      const unpublished_1 = require("./unpublished");
+      var _unpublished = require("./unpublished");
 
-      class RecordsDataFactory extends ts_1.Events {
+      class RecordsDataFactory extends _ts.Events {
         #table;
 
         get table() {
@@ -2949,7 +3135,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         #identifiers = new Map();
-        #unpublished = new unpublished_1.UnpublishedRecords(this);
+        #unpublished = new _unpublished.UnpublishedRecords(this);
 
         get unpublished() {
           return this.#unpublished;
@@ -2967,13 +3153,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         get(identifier, session) {
-          const key = compare_objects_1.CompareObjects.generate(identifier, session);
+          const key = _compareObjects.CompareObjects.generate(identifier, session);
 
           if (this.#identifiers.has(key)) {
             return this.#identifiers.get(key);
           }
 
-          const record = new record_1.RecordData(this, identifier, session);
+          const record = new _record.RecordData(this, identifier, session);
           this.#identifiers.set(key, record);
           return record;
         }
@@ -2989,7 +3175,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
 
         release(identifier, session) {
-          const key = compare_objects_1.CompareObjects.generate(identifier, session);
+          const key = _compareObjects.CompareObjects.generate(identifier, session);
 
           if (!this.#identifiers.has(key)) {
             throw new Error(`Identifier "${key}" session "${session}" is not registered in the factory`);
@@ -3014,7 +3200,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RecordsDataFactory = RecordsDataFactory;
     }
-  }); // FILE: tables\data\records\data\fetcher.ts
+  });
+  /****************************************
+  FILE: tables\data\records\data\fetcher.ts
+  ****************************************/
 
   modules.set('./tables/data/records/data/fetcher', {
     hash: 461408940,
@@ -3105,7 +3294,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RecordFetcher = RecordFetcher;
     }
-  }); // FILE: tables\data\records\data\fields\field.ts
+  });
+  /*********************************************
+  FILE: tables\data\records\data\fields\field.ts
+  *********************************************/
 
   modules.set('./tables/data/records/data/fields/field', {
     hash: 2081975081,
@@ -3117,11 +3309,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Field = void 0;
 
-      const published_1 = require("./sources/published");
+      var _published = require("./sources/published");
 
-      const memory_1 = require("./sources/memory");
+      var _memory = require("./sources/memory");
 
-      const constants_1 = require("../../../../../constants");
+      var _constants = require("../../../../../constants");
 
       class Field {
         #name;
@@ -3136,13 +3328,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#record;
         }
 
-        #memory = new memory_1.MemoryFieldSource(this);
+        #memory = new _memory.MemoryFieldSource(this);
 
         get memory() {
           return this.#memory;
         }
 
-        #published = new published_1.PublishedFieldSource(this);
+        #published = new _published.PublishedFieldSource(this);
 
         get published() {
           return this.#published;
@@ -3179,7 +3371,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           } // Field value is not set
 
 
-          return constants_1.NotSet;
+          return _constants.NotSet;
         }
         /**
          * true if any of the sources (memory or published) has a value different than [NotSet, undefined] or
@@ -3203,7 +3395,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         get unpublished() {
-          return this.#memory !== constants_1.NotSet && this.#memory !== this.#published;
+          return this.#memory !== _constants.NotSet && this.#memory !== this.#published;
         }
 
         discard = () => this.#memory.discard();
@@ -3211,7 +3403,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Field = Field;
     }
-  }); // FILE: tables\data\records\data\fields\fields.ts
+  });
+  /**********************************************
+  FILE: tables\data\records\data\fields\fields.ts
+  **********************************************/
 
   modules.set('./tables/data/records/data/fields/fields', {
     hash: 1590311372,
@@ -3223,9 +3418,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Fields = void 0;
 
-      const field_1 = require("./field");
+      var _field = require("./field");
 
-      const setter_1 = require("./setter");
+      var _setter = require("./setter");
       /**
        * The record fields
        */
@@ -3247,11 +3442,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(record) {
           super();
           this.#record = record;
-          this.#setter = new setter_1.FieldsSetter(record);
+          this.#setter = new _setter.FieldsSetter(record);
           const fields = record.table.fields;
 
           for (let name of fields) {
-            const field = new field_1.Field(name, this.#record);
+            const field = new _field.Field(name, this.#record);
             this.set(name, field);
           }
         }
@@ -3285,7 +3480,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Fields = Fields;
     }
-  }); // FILE: tables\data\records\data\fields\setter.ts
+  });
+  /**********************************************
+  FILE: tables\data\records\data\fields\setter.ts
+  **********************************************/
 
   modules.set('./tables/data/records/data/fields/setter', {
     hash: 1387037198,
@@ -3347,7 +3545,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.FieldsSetter = FieldsSetter;
     }
-  }); // FILE: tables\data\records\data\fields\sources\memory.ts
+  });
+  /******************************************************
+  FILE: tables\data\records\data\fields\sources\memory.ts
+  ******************************************************/
 
   modules.set('./tables/data/records/data/fields/sources/memory', {
     hash: 1124919465,
@@ -3359,9 +3560,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.MemoryFieldSource = void 0;
 
-      const source_1 = require("./source");
+      var _source = require("./source");
 
-      class MemoryFieldSource extends source_1.FieldSource {
+      class MemoryFieldSource extends _source.FieldSource {
         constructor(field) {
           super(field);
         }
@@ -3370,7 +3571,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.MemoryFieldSource = MemoryFieldSource;
     }
-  }); // FILE: tables\data\records\data\fields\sources\published.ts
+  });
+  /*********************************************************
+  FILE: tables\data\records\data\fields\sources\published.ts
+  *********************************************************/
 
   modules.set('./tables/data/records/data/fields/sources/published', {
     hash: 1639330156,
@@ -3382,9 +3586,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.PublishedFieldSource = void 0;
 
-      const source_1 = require("./source");
+      var _source = require("./source");
 
-      class PublishedFieldSource extends source_1.FieldSource {
+      class PublishedFieldSource extends _source.FieldSource {
         constructor(field) {
           super(field, {
             modifiable: false
@@ -3395,7 +3599,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.PublishedFieldSource = PublishedFieldSource;
     }
-  }); // FILE: tables\data\records\data\fields\sources\source.ts
+  });
+  /******************************************************
+  FILE: tables\data\records\data\fields\sources\source.ts
+  ******************************************************/
 
   modules.set('./tables/data/records/data/fields/sources/source', {
     hash: 3270809056,
@@ -3407,7 +3614,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.FieldSource = void 0;
 
-      const constants_1 = require("../../../../../../constants");
+      var _constants = require("../../../../../../constants");
       /**
        * FieldSource instances are the memory and published properties of each record field
        */
@@ -3458,7 +3665,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         get assigned() {
-          return ![constants_1.NotSet, undefined].includes(this.value);
+          return ![_constants.NotSet, undefined].includes(this.value);
         }
 
         constructor(field, specs) {
@@ -3478,14 +3685,17 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         discard() {
-          this.value = constants_1.NotSet;
+          this.value = _constants.NotSet;
         }
 
       }
 
       exports.FieldSource = FieldSource;
     }
-  }); // FILE: tables\data\records\data\identifiers.ts
+  });
+  /********************************************
+  FILE: tables\data\records\data\identifiers.ts
+  ********************************************/
 
   modules.set('./tables/data/records/data/identifiers', {
     hash: 1512918363,
@@ -3497,13 +3707,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.RecordIdentifiers = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const compare_objects_1 = require("../../factory/compare-objects");
+      var _compareObjects = require("../../factory/compare-objects");
 
-      const constants_1 = require("../../../../constants");
+      var _constants = require("../../../../constants");
 
-      class RecordIdentifiers extends ts_1.Events {
+      class RecordIdentifiers extends _ts.Events {
         #record; // The initial identifier when the record was created by the manager
         // and the record is still not loaded
 
@@ -3601,7 +3811,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           for (const fieldName of index.fields) {
             const value = this.#record.fields.get(fieldName).value;
 
-            if (index.primary && [undefined, constants_1.NotSet].includes(value)) {
+            if (index.primary && [undefined, _constants.NotSet].includes(value)) {
               this.#errors.push(`Record violates the index "${indexName}" ` + `as the field "${fieldName}" has an undefined value`);
               return;
             }
@@ -3611,10 +3821,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
           return output;
         }
-
         /**
          * Updates the identifiers according to the values of the fields of the record
          */
+
+
         update() {
           const updated = new Map();
           const table = this.#record.table;
@@ -3634,7 +3845,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
               break;
             }
 
-            if (!compare_objects_1.CompareObjects.compare(identifier, this.#identifiers.get(name))) {
+            if (!_compareObjects.CompareObjects.compare(identifier, this.#identifiers.get(name))) {
               changed = true;
               break;
             }
@@ -3659,7 +3870,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RecordIdentifiers = RecordIdentifiers;
     }
-  }); // FILE: tables\data\records\data\loader.ts
+  });
+  /***************************************
+  FILE: tables\data\records\data\loader.ts
+  ***************************************/
 
   modules.set('./tables/data/records/data/loader', {
     hash: 1254370587,
@@ -3717,7 +3931,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RecordLoader = RecordLoader;
     }
-  }); // FILE: tables\data\records\data\record.ts
+  });
+  /***************************************
+  FILE: tables\data\records\data\record.ts
+  ***************************************/
 
   modules.set('./tables/data/records/data/record', {
     hash: 1434966283,
@@ -3729,19 +3946,19 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.RecordData = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const fields_1 = require("./fields/fields");
+      var _fields = require("./fields/fields");
 
-      const identifiers_1 = require("./identifiers");
+      var _identifiers = require("./identifiers");
 
-      const loader_1 = require("./loader");
+      var _loader = require("./loader");
 
-      const fetcher_1 = require("./fetcher");
+      var _fetcher = require("./fetcher");
 
-      const uuid_1 = require("../../uuid");
+      var _uuid = require("../../uuid");
 
-      class RecordData extends ts_1.Events {
+      class RecordData extends _ts.Events {
         #manager;
 
         get manager() {
@@ -3777,7 +3994,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         } // The local store, properties and methods
 
 
-        #loader = new loader_1.RecordLoader(this, this.#version);
+        #loader = new _loader.RecordLoader(this, this.#version);
 
         get loader() {
           return this.#loader;
@@ -3793,7 +4010,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         } // The fetch manager, properties and methods
 
 
-        #fetcher = new fetcher_1.RecordFetcher(this, this.#version);
+        #fetcher = new _fetcher.RecordFetcher(this, this.#version);
 
         get fetching() {
           return this.#fetcher.fetching;
@@ -3862,10 +4079,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           super();
           this.#manager = manager; // If the initial identifier is not set, then it is a locally created record
 
-          if (typeof identifier === 'string') this.#localId = (0, uuid_1.createUUID)();
+          if (typeof identifier === 'string') this.#localId = (0, _uuid.createUUID)();
           const initialIdentifier = typeof identifier === 'object' ? identifier : undefined;
-          this.#identifiers = new identifiers_1.RecordIdentifiers(this, initialIdentifier);
-          this.#fields = new fields_1.Fields(this);
+          this.#identifiers = new _identifiers.RecordIdentifiers(this, initialIdentifier);
+          this.#fields = new _fields.Fields(this);
         }
 
         #destroyed = false;
@@ -3883,7 +4100,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RecordData = RecordData;
     }
-  }); // FILE: tables\data\records\data\unpublished.ts
+  });
+  /********************************************
+  FILE: tables\data\records\data\unpublished.ts
+  ********************************************/
 
   modules.set('./tables/data/records/data/unpublished', {
     hash: 1550269948,
@@ -3895,7 +4115,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.UnpublishedRecords = void 0;
 
-      const record_1 = require("./record");
+      var _record = require("./record");
 
       class UnpublishedRecords {
         #recordsDataFactory;
@@ -3907,14 +4127,14 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         #records = new Map();
 
         create(session) {
-          const record = new record_1.RecordData(this.#recordsDataFactory, undefined, session);
+          const record = new _record.RecordData(this.#recordsDataFactory, undefined, session);
           this.#records.set(record.localId, record);
           return record;
         }
 
         getUnpublished(localId) {
           if (this.#records.has(localId)) return this.#records.get(localId);
-          const record = new record_1.RecordData(this.#recordsDataFactory, localId);
+          const record = new _record.RecordData(this.#recordsDataFactory, localId);
           this.#records.set(record.localId, record);
           return record;
         }
@@ -3923,7 +4143,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.UnpublishedRecords = UnpublishedRecords;
     }
-  }); // FILE: tables\data\records\manager.ts
+  });
+  /***********************************
+  FILE: tables\data\records\manager.ts
+  ***********************************/
 
   modules.set('./tables/data/records/manager', {
     hash: 3803602193,
@@ -3935,15 +4158,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.RecordsManager = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const factory_1 = require("./data/factory");
+      var _factory = require("./data/factory");
 
-      const factory_2 = require("./wrapped/factory");
+      var _factory2 = require("./wrapped/factory");
 
-      const realtime_1 = require("./realtime/realtime");
+      var _realtime = require("./realtime/realtime");
 
-      class RecordsManager extends ts_1.Events {
+      class RecordsManager extends _ts.Events {
         #recordsDataFactory;
 
         get recordsDataFactory() {
@@ -3961,7 +4184,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#recordsDataFactory.unpublished;
         }
 
-        #realtime = new realtime_1.Realtime(this);
+        #realtime = new _realtime.Realtime(this);
 
         get realtime() {
           return this.#realtime;
@@ -3970,8 +4193,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(table) {
           super();
           this.#table = table;
-          this.#recordsDataFactory = new factory_1.RecordsDataFactory(table);
-          this.#wrappedFactory = new factory_2.WrappedFactory(table, this.#recordsDataFactory);
+          this.#recordsDataFactory = new _factory.RecordsDataFactory(table);
+          this.#wrappedFactory = new _factory2.WrappedFactory(table, this.#recordsDataFactory);
           this.#recordsDataFactory.wrappedFactory = this.#wrappedFactory;
         }
 
@@ -3991,7 +4214,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RecordsManager = RecordsManager;
     }
-  }); // FILE: tables\data\records\realtime\realtime.ts
+  });
+  /*********************************************
+  FILE: tables\data\records\realtime\realtime.ts
+  *********************************************/
 
   modules.set('./tables/data/records/realtime/realtime', {
     hash: 3868646380,
@@ -4003,7 +4229,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Realtime = void 0;
 
-      const reports_1 = require("./reports");
+      var _reports = require("./reports");
 
       class Realtime {
         #reports;
@@ -4013,14 +4239,17 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         constructor(manager) {
-          this.#reports = new reports_1.Reports(manager);
+          this.#reports = new _reports.Reports(manager);
         }
 
       }
 
       exports.Realtime = Realtime;
     }
-  }); // FILE: tables\data\records\realtime\reports.ts
+  });
+  /********************************************
+  FILE: tables\data\records\realtime\reports.ts
+  ********************************************/
 
   modules.set('./tables/data/records/realtime/reports', {
     hash: 2951830057,
@@ -4072,7 +4301,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Reports = Reports;
     }
-  }); // FILE: tables\data\records\wrapped\factory.ts
+  });
+  /*******************************************
+  FILE: tables\data\records\wrapped\factory.ts
+  *******************************************/
 
   modules.set('./tables/data/records/wrapped/factory', {
     hash: 3965804558,
@@ -4084,11 +4316,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.WrappedFactory = void 0;
 
-      const factory_1 = require("../../factory/factory");
+      var _factory = require("../../factory/factory");
 
-      const record_1 = require("./record");
+      var _record = require("./record");
 
-      class WrappedFactory extends factory_1.Factory {
+      class WrappedFactory extends _factory.Factory {
         #recordsDataFactory;
 
         get recordsDataFactory() {
@@ -4101,7 +4333,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         create(key, instanceId, identifier, session) {
-          return new record_1.WrappedRecord(this, key, instanceId, identifier, session);
+          return new _record.WrappedRecord(this, key, instanceId, identifier, session);
         }
 
         get(identifier, session) {
@@ -4112,7 +4344,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.WrappedFactory = WrappedFactory;
     }
-  }); // FILE: tables\data\records\wrapped\fields\field.ts
+  });
+  /************************************************
+  FILE: tables\data\records\wrapped\fields\field.ts
+  ************************************************/
 
   modules.set('./tables/data/records/wrapped/fields/field', {
     hash: 3140957279,
@@ -4153,7 +4388,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.WrappedRecordField = WrappedRecordField;
     }
-  }); // FILE: tables\data\records\wrapped\fields\fields.ts
+  });
+  /*************************************************
+  FILE: tables\data\records\wrapped\fields\fields.ts
+  *************************************************/
 
   modules.set('./tables/data/records/wrapped/fields/fields', {
     hash: 2527122907,
@@ -4165,7 +4403,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.WrappedRecordFields = void 0;
 
-      const field_1 = require("./field");
+      var _field = require("./field");
 
       class WrappedRecordFields extends Map {
         constructor(wrappedRecord) {
@@ -4175,7 +4413,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           } = wrappedRecord.manager.table;
 
           for (const name of fields) {
-            this.set(name, new field_1.WrappedRecordField(name, wrappedRecord));
+            this.set(name, new _field.WrappedRecordField(name, wrappedRecord));
           }
         }
 
@@ -4183,7 +4421,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.WrappedRecordFields = WrappedRecordFields;
     }
-  }); // FILE: tables\data\records\wrapped\record.ts
+  });
+  /******************************************
+  FILE: tables\data\records\wrapped\record.ts
+  ******************************************/
 
   modules.set('./tables/data/records/wrapped/record', {
     hash: 538147968,
@@ -4195,11 +4436,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.WrappedRecord = void 0;
 
-      const product_1 = require("../../factory/product");
+      var _product = require("../../factory/product");
 
-      const fields_1 = require("./fields/fields");
+      var _fields = require("./fields/fields");
 
-      class WrappedRecord extends product_1.Product {
+      class WrappedRecord extends _product.Product {
         #identifier;
 
         get identifier() {
@@ -4283,7 +4524,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           recordsDataFactory.on(`identifier.${key}.record.changed`, this.#update);
           const record = recordsDataFactory.get(identifier, session);
           this.#update(record);
-          this.#fields = new fields_1.WrappedRecordFields(this);
+          this.#fields = new _fields.WrappedRecordFields(this);
         }
 
         destroy() {
@@ -4304,7 +4545,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.WrappedRecord = WrappedRecord;
     }
-  }); // FILE: tables\data\uuid.ts
+  });
+  /************************
+  FILE: tables\data\uuid.ts
+  ************************/
 
   modules.set('./tables/data/uuid', {
     hash: 3597707760,
@@ -4314,7 +4558,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.createUUID = void 0;
+      exports.createUUID = createUUID;
 
       function createUUID() {
         let dt = new Date().getTime();
@@ -4324,10 +4568,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return (c === 'x' ? r : r & 0x3 | 0x8).toString(16);
         });
       }
-
-      exports.createUUID = createUUID;
     }
-  }); // FILE: tables\indices\index.ts
+  });
+  /****************************
+  FILE: tables\indices\index.ts
+  ****************************/
 
   modules.set('./tables/indices/index', {
     hash: 118857724,
@@ -4428,7 +4673,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Index = Index;
     }
-  }); // FILE: tables\indices\indices.ts
+  });
+  /******************************
+  FILE: tables\indices\indices.ts
+  ******************************/
 
   modules.set('./tables/indices/indices', {
     hash: 4208019504,
@@ -4440,7 +4688,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Indices = void 0;
 
-      const index_1 = require("./index");
+      var _index = require("./index");
       /**
        * The indices collection
        */
@@ -4468,7 +4716,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           }
 
           for (const [indexName, indexSpecs] of Object.entries(specs)) {
-            this.set(indexName, new index_1.Index(indexName, indexSpecs));
+            this.set(indexName, new _index.Index(indexName, indexSpecs));
           }
 
           this.#primary = [...this.values()].find(index => index.primary);
@@ -4499,7 +4747,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Indices = Indices;
     }
-  }); // FILE: tables\local-database\counters\counters.ts
+  });
+  /***********************************************
+  FILE: tables\local-database\counters\counters.ts
+  ***********************************************/
 
   modules.set('./tables/local-database/counters/counters', {
     hash: 3506280268,
@@ -4511,15 +4762,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.LocalDBCounters = void 0;
 
-      const memory_1 = require("./memory");
+      var _memory = require("./memory");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const compare_objects_1 = require("../../data/factory/compare-objects");
+      var _compareObjects = require("../../data/factory/compare-objects");
 
       class LocalDBCounters {
         #db;
-        #memory = new memory_1.MemoryLocalDBCounters();
+        #memory = new _memory.MemoryLocalDBCounters();
 
         get memory() {
           return this.#memory;
@@ -4533,10 +4784,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           filter = filter ? filter : []; // Order the filter by field to assure that the generated key be unique
 
           filter = filter.sort((c1, c2) => c1.field > c2.field ? -1 : 1);
-          return compare_objects_1.CompareObjects.generate(filter, attributes);
+          return _compareObjects.CompareObjects.generate(filter, attributes);
         };
         #save = (key, value) => {
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['counters'], 'readwrite');
           const store = transaction.objectStore('counters');
           let rq;
@@ -4574,7 +4825,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         #load = key => {
           if (this.#memory.has(key)) return Promise.resolve(this.#memory.get(key));
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['counters'], 'readonly');
           const store = transaction.objectStore('counters');
           let rq;
@@ -4606,7 +4857,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LocalDBCounters = LocalDBCounters;
     }
-  }); // FILE: tables\local-database\counters\memory.ts
+  });
+  /*********************************************
+  FILE: tables\local-database\counters\memory.ts
+  *********************************************/
 
   modules.set('./tables/local-database/counters/memory', {
     hash: 447541486,
@@ -4622,7 +4876,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.MemoryLocalDBCounters = MemoryLocalDBCounters;
     }
-  }); // FILE: tables\local-database\lists\lists.ts
+  });
+  /*****************************************
+  FILE: tables\local-database\lists\lists.ts
+  *****************************************/
 
   modules.set('./tables/local-database/lists/lists', {
     hash: 128161166,
@@ -4634,15 +4891,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.LocalDBLists = void 0;
 
-      const memory_1 = require("./memory");
+      var _memory = require("./memory");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const compare_objects_1 = require("../../data/factory/compare-objects");
+      var _compareObjects = require("../../data/factory/compare-objects");
 
       class LocalDBLists {
         #db;
-        #memory = new memory_1.MemoryLocalDBLists();
+        #memory = new _memory.MemoryLocalDBLists();
 
         get memory() {
           return this.#memory;
@@ -4656,10 +4913,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           filter = filter ? filter : []; // Order the filter by field to assure that the generated key be unique
 
           filter = filter.sort((c1, c2) => c1.field > c2.field ? -1 : 1);
-          return compare_objects_1.CompareObjects.generate(filter, attributes);
+          return _compareObjects.CompareObjects.generate(filter, attributes);
         };
         #save = value => {
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['lists'], 'readwrite');
           const store = transaction.objectStore('lists');
           let rq;
@@ -4698,7 +4955,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         #load = key => {
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['lists'], 'readonly');
           const store = transaction.objectStore('lists');
           let rq;
@@ -4733,7 +4990,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LocalDBLists = LocalDBLists;
     }
-  }); // FILE: tables\local-database\lists\memory.ts
+  });
+  /******************************************
+  FILE: tables\local-database\lists\memory.ts
+  ******************************************/
 
   modules.set('./tables/local-database/lists/memory', {
     hash: 1311343063,
@@ -4749,7 +5009,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.MemoryLocalDBLists = MemoryLocalDBLists;
     }
-  }); // FILE: tables\local-database\local-database.ts
+  });
+  /********************************************
+  FILE: tables\local-database\local-database.ts
+  ********************************************/
 
   modules.set('./tables/local-database/local-database', {
     hash: 1877598121,
@@ -4761,15 +5024,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.LocalDB = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const records_1 = require("./records/records");
+      var _records = require("./records/records");
 
-      const lists_1 = require("./lists/lists");
+      var _lists = require("./lists/lists");
 
-      const unpublished_1 = require("./records/unpublished");
+      var _unpublished = require("./records/unpublished");
 
-      const counters_1 = require("./counters/counters");
+      var _counters = require("./counters/counters");
 
       class LocalDB {
         #table;
@@ -4784,25 +5047,25 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#db;
         }
 
-        #records = new records_1.LocalDBRecords(this);
+        #records = new _records.LocalDBRecords(this);
 
         get records() {
           return this.#records;
         }
 
-        #unpublished = new unpublished_1.LocalDBUnpublished(this);
+        #unpublished = new _unpublished.LocalDBUnpublished(this);
 
         get unpublished() {
           return this.#unpublished;
         }
 
-        #lists = new lists_1.LocalDBLists(this);
+        #lists = new _lists.LocalDBLists(this);
 
         get lists() {
           return this.#lists;
         }
 
-        #counters = new counters_1.LocalDBCounters(this);
+        #counters = new _counters.LocalDBCounters(this);
 
         get counters() {
           return this.#counters;
@@ -4819,7 +5082,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         prepare() {
           if (!this.#table.cache.enabled) return Promise.resolve();
           if (this.#prepared) return this.#prepared;
-          this.#prepared = new ts_1.PendingPromise();
+          this.#prepared = new _ts.PendingPromise();
           const table = this.#table;
           const name = `plm-table:${table.name}`;
           const version = table.version;
@@ -4873,7 +5136,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LocalDB = LocalDB;
     }
-  }); // FILE: tables\local-database\records\memory.ts
+  });
+  /********************************************
+  FILE: tables\local-database\records\memory.ts
+  ********************************************/
 
   modules.set('./tables/local-database/records/memory', {
     hash: 628666919,
@@ -4885,11 +5151,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.MemoryLocalDBRecords = void 0;
 
-      const compare_objects_1 = require("../../data/factory/compare-objects");
+      var _compareObjects = require("../../data/factory/compare-objects");
 
       class MemoryLocalDBRecords extends Map {
         generateKey = (pk, accessToken) => {
-          return compare_objects_1.CompareObjects.generate(pk, accessToken);
+          return _compareObjects.CompareObjects.generate(pk, accessToken);
         };
 
         exists(pk, accessToken) {
@@ -4919,7 +5185,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.MemoryLocalDBRecords = MemoryLocalDBRecords;
     }
-  }); // FILE: tables\local-database\records\records.ts
+  });
+  /*********************************************
+  FILE: tables\local-database\records\records.ts
+  *********************************************/
 
   modules.set('./tables/local-database/records/records', {
     hash: 1001634314,
@@ -4931,13 +5200,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.LocalDBRecords = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const memory_1 = require("./memory");
+      var _memory = require("./memory");
 
       class LocalDBRecords {
         #db;
-        #memory = new memory_1.MemoryLocalDBRecords();
+        #memory = new _memory.MemoryLocalDBRecords();
 
         get memory() {
           return this.#memory;
@@ -4948,7 +5217,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         #save = value => {
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['records'], 'readwrite');
           const store = transaction.objectStore('records');
           let rq;
@@ -5020,7 +5289,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             throw new Error(`Primary key field "${pkField}" not specified`);
           }
 
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['records'], 'readonly');
           const store = transaction.objectStore('records');
           accessToken = accessToken ? accessToken : '';
@@ -5082,7 +5351,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LocalDBRecords = LocalDBRecords;
     }
-  }); // FILE: tables\local-database\records\unpublished.ts
+  });
+  /*************************************************
+  FILE: tables\local-database\records\unpublished.ts
+  *************************************************/
 
   modules.set('./tables/local-database/records/unpublished', {
     hash: 3016430800,
@@ -5094,7 +5366,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.LocalDBUnpublished = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
       class LocalDBUnpublished {
         #db;
@@ -5105,7 +5377,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         #save = (localId, data) => {
           if (!localId || !data) throw new Error('Invalid parameters');
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['unpublished'], 'readwrite');
           const store = transaction.objectStore('unpublished');
           const rq = store.put(data);
@@ -5123,7 +5395,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         #load = localId => {
-          const promise = new ts_1.PendingPromise();
+          const promise = new _ts.PendingPromise();
           const transaction = this.#db.db.transaction(['unpublished'], 'readonly');
           const store = transaction.objectStore('unpublished');
           let rq = store.get(localId);
@@ -5150,7 +5422,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LocalDBUnpublished = LocalDBUnpublished;
     }
-  }); // FILE: tables\properties\properties.ts
+  });
+  /************************************
+  FILE: tables\properties\properties.ts
+  ************************************/
 
   modules.set('./tables/properties/properties', {
     hash: 3016071899,
@@ -5162,13 +5437,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Properties = void 0;
 
-      const item_1 = require("./types/item");
+      var _item = require("./types/item");
 
-      const items_1 = require("./types/items");
+      var _items = require("./types/items");
 
-      const collection_1 = require("./types/collection");
+      var _collection = require("./types/collection");
 
-      const item_selector_1 = require("./types/item-selector");
+      var _itemSelector = require("./types/item-selector");
       /**
        * The properties of the table / item
        */
@@ -5199,13 +5474,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           let property;
 
           if (specs.Item) {
-            property = new item_1.ItemProperty(this.#table, name, specs);
+            property = new _item.ItemProperty(this.#table, name, specs);
           } else if (specs.selector) {
-            property = new item_selector_1.ItemSelectorProperty(this.#table, name, specs);
+            property = new _itemSelector.ItemSelectorProperty(this.#table, name, specs);
           } else if (specs.Items) {
-            property = new items_1.ItemsProperty(this.#table, name, specs);
+            property = new _items.ItemsProperty(this.#table, name, specs);
           } else if (specs.Collection) {
-            property = new collection_1.CollectionProperty(this.#table, name, specs);
+            property = new _collection.CollectionProperty(this.#table, name, specs);
           } else {
             console.error('Property specs:', specs);
             throw new Error(`Property "${name}" not recognized`);
@@ -5224,7 +5499,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Properties = Properties;
     }
-  }); // FILE: tables\properties\property.ts
+  });
+  /**********************************
+  FILE: tables\properties\property.ts
+  **********************************/
 
   modules.set('./tables/properties/property', {
     hash: 792239610,
@@ -5291,7 +5569,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Property = Property;
     }
-  }); // FILE: tables\properties\types\collection.ts
+  });
+  /******************************************
+  FILE: tables\properties\types\collection.ts
+  ******************************************/
 
   modules.set('./tables/properties/types/collection', {
     hash: 1481966213,
@@ -5303,9 +5584,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CollectionProperty = void 0;
 
-      const property_1 = require("../property");
+      var _property = require("../property");
 
-      class CollectionProperty extends property_1.Property {
+      class CollectionProperty extends _property.Property {
         get type() {
           return 'collection';
         }
@@ -5344,7 +5625,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CollectionProperty = CollectionProperty;
     }
-  }); // FILE: tables\properties\types\item-selector.ts
+  });
+  /*********************************************
+  FILE: tables\properties\types\item-selector.ts
+  *********************************************/
 
   modules.set('./tables/properties/types/item-selector', {
     hash: 1649674982,
@@ -5356,9 +5640,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemSelectorProperty = void 0;
 
-      const property_1 = require("../property");
+      var _property = require("../property");
 
-      class ItemSelectorProperty extends property_1.Property {
+      class ItemSelectorProperty extends _property.Property {
         get type() {
           return 'item-selector';
         }
@@ -5390,7 +5674,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemSelectorProperty = ItemSelectorProperty;
     }
-  }); // FILE: tables\properties\types\item.ts
+  });
+  /************************************
+  FILE: tables\properties\types\item.ts
+  ************************************/
 
   modules.set('./tables/properties/types/item', {
     hash: 2288763140,
@@ -5402,9 +5689,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemProperty = void 0;
 
-      const property_1 = require("../property");
+      var _property = require("../property");
 
-      class ItemProperty extends property_1.Property {
+      class ItemProperty extends _property.Property {
         get type() {
           return 'item';
         }
@@ -5443,7 +5730,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemProperty = ItemProperty;
     }
-  }); // FILE: tables\properties\types\items.ts
+  });
+  /*************************************
+  FILE: tables\properties\types\items.ts
+  *************************************/
 
   modules.set('./tables/properties/types/items', {
     hash: 937206479,
@@ -5455,9 +5745,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemsProperty = void 0;
 
-      const property_1 = require("../property");
+      var _property = require("../property");
 
-      class ItemsProperty extends property_1.Property {
+      class ItemsProperty extends _property.Property {
         get type() {
           return 'items';
         }
@@ -5512,7 +5802,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemsProperty = ItemsProperty;
     }
-  }); // FILE: tables\queries\batch\batch.ts
+  });
+  /**********************************
+  FILE: tables\queries\batch\batch.ts
+  **********************************/
 
   modules.set('./tables/queries/batch/batch', {
     hash: 674774478,
@@ -5524,7 +5817,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Batch = void 0;
 
-      const request_1 = require("./request");
+      var _request = require("./request");
 
       class Batch {
         #specs;
@@ -5555,7 +5848,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         exec(value) {
           if (!value) throw new Error('Invalid parameters, value must be set');
-          const rq = new request_1.BatchRequest(value);
+          const rq = new _request.BatchRequest(value);
           this.#queue.push(rq);
           this.#requests.set(rq.id, rq);
           clearTimeout(this.#timer);
@@ -5605,7 +5898,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Batch = Batch;
     }
-  }); // FILE: tables\queries\batch\request.ts
+  });
+  /************************************
+  FILE: tables\queries\batch\request.ts
+  ************************************/
 
   modules.set('./tables/queries/batch/request', {
     hash: 3368031555,
@@ -5617,7 +5913,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.BatchRequest = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
       let id = 0;
 
@@ -5634,7 +5930,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#value;
         }
 
-        #promise = new ts_1.PendingPromise();
+        #promise = new _ts.PendingPromise();
 
         get promise() {
           return this.#promise;
@@ -5648,7 +5944,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.BatchRequest = BatchRequest;
     }
-  }); // FILE: tables\queries\counter.ts
+  });
+  /******************************
+  FILE: tables\queries\counter.ts
+  ******************************/
 
   modules.set('./tables/queries/counter', {
     hash: 2188437533,
@@ -5660,7 +5959,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CounterQuery = void 0;
 
-      const batch_1 = require("./batch/batch");
+      var _batch = require("./batch/batch");
 
       class CounterQuery {
         #table;
@@ -5668,7 +5967,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor(table) {
           this.#table = table;
-          this.#batch = new batch_1.Batch({
+          this.#batch = new _batch.Batch({
             module: table.module,
             action: table.batch.actions.count,
             max: table.batch.max
@@ -5714,7 +6013,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CounterQuery = CounterQuery;
     }
-  }); // FILE: tables\queries\data.ts
+  });
+  /***************************
+  FILE: tables\queries\data.ts
+  ***************************/
 
   modules.set('./tables/queries/data', {
     hash: 109746743,
@@ -5726,7 +6028,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.DataQuery = void 0;
 
-      const batch_1 = require("./batch/batch");
+      var _batch = require("./batch/batch");
 
       class DataQuery {
         #table;
@@ -5734,7 +6036,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor(table) {
           this.#table = table;
-          this.#batch = new batch_1.Batch({
+          this.#batch = new _batch.Batch({
             module: table.module,
             action: table.batch.actions.data,
             max: table.batch.max
@@ -5797,7 +6099,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.DataQuery = DataQuery;
     }
-  }); // FILE: tables\queries\list.ts
+  });
+  /***************************
+  FILE: tables\queries\list.ts
+  ***************************/
 
   modules.set('./tables/queries/list', {
     hash: 1194419818,
@@ -5809,7 +6114,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ListQuery = void 0;
 
-      const batch_1 = require("./batch/batch");
+      var _batch = require("./batch/batch");
 
       class ListQuery {
         #table;
@@ -5817,7 +6122,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor(table) {
           this.#table = table;
-          this.#batch = new batch_1.Batch({
+          this.#batch = new _batch.Batch({
             module: table.module,
             action: table.batch.actions.list,
             max: table.batch.max
@@ -5951,7 +6256,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ListQuery = ListQuery;
     }
-  }); // FILE: tables\queries\queries.ts
+  });
+  /******************************
+  FILE: tables\queries\queries.ts
+  ******************************/
 
   modules.set('./tables/queries/queries', {
     hash: 1132816002,
@@ -5963,11 +6271,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Queries = void 0;
 
-      const data_1 = require("./data");
+      var _data = require("./data");
 
-      const list_1 = require("./list");
+      var _list = require("./list");
 
-      const counter_1 = require("./counter");
+      var _counter = require("./counter");
 
       class Queries {
         #data;
@@ -5975,9 +6283,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         #counter;
 
         constructor(table) {
-          this.#data = new data_1.DataQuery(table);
-          this.#list = new list_1.ListQuery(table);
-          this.#counter = new counter_1.CounterQuery(table);
+          this.#data = new _data.DataQuery(table);
+          this.#list = new _list.ListQuery(table);
+          this.#counter = new _counter.CounterQuery(table);
         }
 
         async data(fields, attributes) {
@@ -5996,7 +6304,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Queries = Queries;
     }
-  }); // FILE: tables\table.ts
+  });
+  /********************
+  FILE: tables\table.ts
+  ********************/
 
   modules.set('./tables/table', {
     hash: 1647223119,
@@ -6008,19 +6319,19 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Table = void 0;
 
-      const properties_1 = require("./properties/properties");
+      var _properties = require("./properties/properties");
 
-      const indices_1 = require("./indices/indices");
+      var _indices = require("./indices/indices");
 
-      const local_database_1 = require("./local-database/local-database");
+      var _localDatabase = require("./local-database/local-database");
 
-      const queries_1 = require("./queries/queries");
+      var _queries = require("./queries/queries");
 
-      const manager_1 = require("./data/lists/manager/manager");
+      var _manager = require("./data/lists/manager/manager");
 
-      const manager_2 = require("./data/records/manager");
+      var _manager2 = require("./data/records/manager");
 
-      const manager_3 = require("./data/counter/manager");
+      var _manager3 = require("./data/counter/manager");
       /**
        * Table data access
        *
@@ -6070,25 +6381,25 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#indices;
         }
 
-        #localDB = new local_database_1.LocalDB(this);
+        #localDB = new _localDatabase.LocalDB(this);
 
         get localDB() {
           return this.#localDB;
         }
 
-        #records = new manager_2.RecordsManager(this);
+        #records = new _manager2.RecordsManager(this);
 
         get records() {
           return this.#records;
         }
 
-        #lists = new manager_1.ListsManager(this);
+        #lists = new _manager.ListsManager(this);
 
         get lists() {
           return this.#lists;
         }
 
-        #counters = new manager_3.CountersManager(this);
+        #counters = new _manager3.CountersManager(this);
 
         get counters() {
           return this.#counters;
@@ -6123,9 +6434,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             enabled: this.#specs.cache
           } : null;
           typeof this.#specs.cache === 'object' && !this.#specs.cache.hasOwnProperty('limit') ? this.#specs.cache.limit = 30 : null;
-          this.#indices = new indices_1.Indices(this, specs.indices);
-          this.#properties = new properties_1.Properties(this, specs.properties);
-          this.#queries = new queries_1.Queries(this);
+          this.#indices = new _indices.Indices(this, specs.indices);
+          this.#properties = new _properties.Properties(this, specs.properties);
+          this.#queries = new _queries.Queries(this);
           this.#localDB.prepare().catch(exc => console.error(exc.stack));
         }
 
@@ -6138,7 +6449,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Table = Table;
     }
-  }); // FILE: tables\tables.ts
+  });
+  /*********************
+  FILE: tables\tables.ts
+  *********************/
 
   modules.set('./tables/tables', {
     hash: 3857649849,
@@ -6150,12 +6464,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.tables = exports.Tables = void 0;
 
-      const table_1 = require("./table");
+      var _table = require("./table");
 
       class Tables extends Map {
         register(name, specs) {
           if (this.has(name)) throw new Error(`Table ${name} is already registered`);
-          const table = new table_1.Table(name, specs);
+          const table = new _table.Table(name, specs);
           super.set(name, table);
           return table;
         }
@@ -6168,9 +6482,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       }
 
       exports.Tables = Tables;
-      exports.tables = new Tables();
+      /*bundle*/
+
+      const tables = new Tables();
+      exports.tables = tables;
     }
-  }); // FILE: tree\collection.ts
+  });
+  /***********************
+  FILE: tree\collection.ts
+  ***********************/
 
   modules.set('./tree/collection', {
     hash: 2038126333,
@@ -6182,11 +6502,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.CollectionNode = void 0;
 
-      const node_1 = require("./node");
+      var _node = require("./node");
 
-      const item_1 = require("./item");
+      var _item = require("./item");
 
-      class CollectionNode extends node_1.Node {
+      class CollectionNode extends _node.Node {
         get is() {
           return 'collection';
         }
@@ -6227,7 +6547,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           if (typeof specs !== 'object') throw new Error('Invalid parameters');
           if (specs.counters && !(specs.counters instanceof Array)) throw new Error('Invalid counters specification');
           this.#counters = new Set(specs.counters);
-          this.#items = new item_1.ItemNode(table, {
+          this.#items = new _item.ItemNode(table, {
             properties: specs.properties
           }, parent);
           this.#view = specs.view;
@@ -6239,7 +6559,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.CollectionNode = CollectionNode;
     }
-  }); // FILE: tree\item-selector.ts
+  });
+  /**************************
+  FILE: tree\item-selector.ts
+  **************************/
 
   modules.set('./tree/item-selector', {
     hash: 321000369,
@@ -6251,9 +6574,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemSelectorNode = void 0;
 
-      const node_1 = require("./node");
+      var _node = require("./node");
 
-      class ItemSelectorNode extends node_1.Node {
+      class ItemSelectorNode extends _node.Node {
         get is() {
           return 'item-selector';
         }
@@ -6290,7 +6613,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemSelectorNode = ItemSelectorNode;
     }
-  }); // FILE: tree\item.ts
+  });
+  /*****************
+  FILE: tree\item.ts
+  *****************/
 
   modules.set('./tree/item', {
     hash: 2904687249,
@@ -6302,11 +6628,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemNode = void 0;
 
-      const node_1 = require("./node");
+      var _node = require("./node");
 
-      const properties_1 = require("./properties");
+      var _properties = require("./properties");
 
-      class ItemNode extends node_1.Node {
+      class ItemNode extends _node.Node {
         get is() {
           return 'item';
         }
@@ -6328,7 +6654,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           specs = specs ? specs : {};
           if (typeof specs !== 'object') throw new Error('Invalid parameters');
           this.#specs = specs;
-          this.#properties = new properties_1.Properties(this.table);
+          this.#properties = new _properties.Properties(this.table);
           this.#properties.register(specs.properties, this);
         }
 
@@ -6336,7 +6662,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemNode = ItemNode;
     }
-  }); // FILE: tree\items.ts
+  });
+  /******************
+  FILE: tree\items.ts
+  ******************/
 
   modules.set('./tree/items', {
     hash: 3754893300,
@@ -6348,11 +6677,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ItemsNode = void 0;
 
-      const node_1 = require("./node");
+      var _node = require("./node");
 
-      const item_1 = require("./item");
+      var _item = require("./item");
 
-      class ItemsNode extends node_1.Node {
+      class ItemsNode extends _node.Node {
         get is() {
           return 'items';
         }
@@ -6366,7 +6695,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(table, specs, parent, property) {
           super(table, specs, parent, property);
           if (typeof specs !== 'object') throw new Error('Invalid parameters');
-          this.#items = new item_1.ItemNode(table, {
+          this.#items = new _item.ItemNode(table, {
             properties: specs.properties
           }, parent, property);
         }
@@ -6375,7 +6704,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.ItemsNode = ItemsNode;
     }
-  }); // FILE: tree\node.ts
+  });
+  /*****************
+  FILE: tree\node.ts
+  *****************/
 
   modules.set('./tree/node', {
     hash: 3376246137,
@@ -6387,11 +6719,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Node = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const tables_1 = require("../tables/tables");
+      var _tables = require("../tables/tables");
 
-      class Node extends ts_1.Events {
+      class Node extends _ts.Events {
         #property;
 
         get property() {
@@ -6450,8 +6782,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           if (property && typeof property !== 'object') throw new Error('Invalid "property" parameter');
           this.#property = property;
           if (!table) throw new Error('Parameter "table" is required');
-          if (!tables_1.tables.has(table)) throw new Error(`Table "${table}" is not registered`);
-          this.#table = tables_1.tables.get(table);
+          if (!_tables.tables.has(table)) throw new Error(`Table "${table}" is not registered`);
+          this.#table = _tables.tables.get(table);
           specs = specs ? specs : {};
           this.#session = specs.session ? specs.session : parent ? parent.session : undefined;
           this.#parent = parent;
@@ -6480,7 +6812,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Node = Node;
     }
-  }); // FILE: tree\properties.ts
+  });
+  /***********************
+  FILE: tree\properties.ts
+  ***********************/
 
   modules.set('./tree/properties', {
     hash: 2822505680,
@@ -6555,7 +6890,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Properties = Properties;
     }
-  }); // FILE: tree\specs.ts
+  });
+  /******************
+  FILE: tree\specs.ts
+  ******************/
 
   modules.set('./tree/specs', {
     hash: 3754493840,

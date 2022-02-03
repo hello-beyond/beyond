@@ -27,5 +27,14 @@
       bottom: -10px;
     }
 
+    .item {
+      margin-top: 15px;
+
+      &.two-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
   }
 }

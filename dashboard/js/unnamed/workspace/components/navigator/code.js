@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _code, _code2, _code3) {
+define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -10,16 +10,22 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   _exports.OLDNavigatorBoard = OLDNavigatorBoard;
   _exports.useNavigatorContext = void 0;
   //Beyond  UI
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/navigator/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/navigator/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
+
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -27,7 +33,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   /*****************
   FILE: navigator.js
   *****************/
-
 
   class Navigator extends HTMLElement {
     constructor() {
@@ -42,10 +47,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   }
 
   window.customElements.define('dashboard-navigator', Navigator);
-  /************
-  JSX PROCESSOR
-  ************/
-
   /***********
   __iframe.jsx
   ***********/
@@ -339,4 +340,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-navigator__container.is-fetching .ds-navigator__bar .ds-navigator__form input{background:rgba(255,255,255,.1)}.ds-navigator__container .ds-navigator__bar{display:flex;align-items:center;width:100%;z-index:1000}.ds-navigator__container .ds-navigator__bar .ds-navigator__form{width:100%;display:grid;padding:5px 0;grid-gap:5px;grid-template-columns:auto 1fr auto}.ds-navigator__container .ds-navigator__bar .ds-navigator__form input{width:100%;padding:8px;color:#fff;outline:0;border:none;background:#000;box-shadow:none}.ds-navigator__container .ds-navigator__bar .ds-navigator__form .beyond-icon-button{background:#333}.ds-navigator__container .ds-navigator__bar .ds-navigator__form .beyond-icon-button svg{fill:#fff}.ds-navigator__container .navigator__fetching-container{position:absolute;top:0;left:0;bottom:0;right:0;display:flex;align-self:center;justify-content:center;justify-items:center}.ds-navigator__container .navigator__fetching-container .ds-spinner__container{display:flex;align-self:center;justify-content:center;justify-items:center}.ds-navigator__container{display:grid;height:100%;width:100%;grid-template-rows:auto 1fr;position:relative;overflow-x:auto;grid-gap:0}.ds-navigator__container .ds-navigator__iframe__container{display:flex;align-items:center;justify-content:center;flex-basis:max-content;align-items:center}.ds-navigator__container .ds-navigator__iframe__container iframe{height:100%;width:100%}.ds-navigator__container .ds-navigator__iframe__container iframe.iframe--responsive{height:142mm;width:72.5mm}.ds-navigator__container .ds-navigator__iframe__container{align-items:center}.ds-navigator__container .ds-navigator__resizer{position:absolute;top:0;bottom:0;left:0;z-index:2;height:100%;width:15px;cursor:col-resize;background:#333}.ds-navigator__container .ds-navigator__resizer:hover{background:#343434}.ds-navigator__container.is-resizing .ds-navigator__resizer__shadow{display:block}.ds-navigator__container .ds-navigator__resizer__shadow{position:absolute;top:0;left:0;bottom:15px;right:0;display:none}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

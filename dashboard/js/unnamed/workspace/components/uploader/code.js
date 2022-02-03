@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _code, _code2) {
+define(["exports", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6,24 +6,25 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
   });
   _exports.Uploader = Uploader;
   //WORKSPACE CONTEXT
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/uploader/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/uploader/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /***********
   uploader.jsx
   ***********/
-
 
   function Uploader({
     onLoadFile,
@@ -72,4 +73,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/unnamed/component
       ref: btn
     }, children);
   }
+
+  __pkg.initialise();
 });

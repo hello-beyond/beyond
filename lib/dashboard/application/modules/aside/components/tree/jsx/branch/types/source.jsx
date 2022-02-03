@@ -18,12 +18,12 @@ function DSSourceBranch({branch, level}) {
     const onClick = event => {
         event.preventDefault();
         event.stopPropagation();
-
         openFile({
             type: 'source',
+            applicationId: branch.application.id,
+            moduleId: branch.module.id,
             source: branch.item,
             path: branch.link,
-            module: branch?.module,
             processor: branch.extension
         });
     };

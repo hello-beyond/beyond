@@ -9,7 +9,7 @@ function BeeActions({bee, texts}) {
     const [fetching, setFetching] = React.useState(bee?.status === 'initialising');
     if (!bee) return null;
 
-    const icons = {stopped: 'play', running: 'restart'};
+    const icons = {stopped: 'play', running: 'refresh'};
     const action = bee.status !== 'initialising' && icons[bee.status];
     const stop = async event => {
         event.stopPropagation();

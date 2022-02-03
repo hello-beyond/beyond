@@ -38,6 +38,7 @@
         display: grid;
         grid-template-columns: 1fr;
         grid-gap: 5px;
+        position: relative;
         width: 100%;
 
         input {
@@ -45,7 +46,7 @@
           background: $beyond-gray-darker-color;
           outline: none !important;
           color: $beyond-text-on-secondary;
-          border: 1px solid $beyond-gray-lighter-color;
+          border: 0;
           padding: 15px;
           font-size: 16px;
 
@@ -55,8 +56,11 @@
         }
 
         .form__actions {
-          margin: 15px;
+
           display: flex;
+          position: absolute;
+          right: 10px;
+          top: 5px;
           gap: 8px;
           justify-content: flex-end;
         }

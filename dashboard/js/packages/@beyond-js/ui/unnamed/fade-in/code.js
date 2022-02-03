@@ -1,28 +1,29 @@
-define(["exports", "react", "react-dom"], function (_exports, React, ReactDOM) {
+define(["exports", "react", "react-dom"], function (_exports, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/fade-in/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/fade-in/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /**********
   fade-in.jsx
   **********/
-
 
   class FadeIn extends React.Component {
     constructor() {
@@ -77,4 +78,6 @@ define(["exports", "react", "react-dom"], function (_exports, React, ReactDOM) {
   }
 
   _exports.default = FadeIn;
+
+  __pkg.initialise();
 });

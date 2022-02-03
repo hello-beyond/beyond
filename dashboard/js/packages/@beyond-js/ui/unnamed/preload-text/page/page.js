@@ -1,28 +1,29 @@
-define(["exports", "react", "react-dom", "/libraries/beyond-ui/empty/code", "/libraries/beyond-ui/form/code", "/libraries/beyond-ui/import/code", "/libraries/beyond-ui/preload-text/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _code4) {
+define(["exports", "/libraries/beyond-ui/empty/code", "/libraries/beyond-ui/form/code", "/libraries/beyond-ui/import/code", "/libraries/beyond-ui/preload-text/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.Page = Page;
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/preload-text/page/page', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/preload-text/page/page', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /**************
   jsx\control.jsx
   **************/
-
 
   class Control extends React.Component {
     constructor(props) {
@@ -57,4 +58,6 @@ define(["exports", "react", "react-dom", "/libraries/beyond-ui/empty/code", "/li
     this.container.id = 'graphs-empty-page';
     this.container.appendChild(wrapper);
   }
+
+  __pkg.initialise();
 });

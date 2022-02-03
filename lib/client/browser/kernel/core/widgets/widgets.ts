@@ -2,7 +2,8 @@ import {BeyondWidget} from "./widget";
 import {instances} from "./instances/instances";
 import type {NodeWidget} from "./instances/node";
 
-export interface WidgetSpecs {
+export /*bundle*/
+interface WidgetSpecs {
     name: string
     id: string,
     is?: string,

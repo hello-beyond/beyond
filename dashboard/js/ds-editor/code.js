@@ -1,15 +1,20 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _code, _js, _code2) {
+define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "react", "react-dom"], function (_exports, _code, _js, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.MonacoDependency = _exports.EditorView = _exports.Editor = void 0;
+  _exports.Editor = void 0;
+  _exports.EditorView = EditorView;
+  _exports.MonacoDependency = void 0;
   _exports.getEditorManager = getEditorManager;
   _exports.monacoDependency = void 0;
   //dashboard
   //models
   //CONTEXTS
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
@@ -17,13 +22,16 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
     "txt": {
       "multilanguage": true
     }
-  });
+  }, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
+
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -36,7 +44,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
    * beyond_context
    * @type {string}
    */
-
 
   const BUNDLE_DEPENDENCY = `
 import {Bundle, Module} from '@beyond-js/kernel/core/ts';
@@ -148,10 +155,25 @@ export const module = <Module>null;
   _exports.monacoDependency = monacoDependency;
 
   class Editor extends _js.ReactiveModel {
-    _application;
+    #type;
+    /**
+     *@property {ModuleModel}  #module Represents the moduleModel object
+     */
+
+    #module;
+
+    get module() {
+      return this.#module;
+    }
+
+    #project;
+
+    get project() {
+      return this.#project;
+    }
 
     get application() {
-      return this._application;
+      return this.#project;
     }
 
     _bundleDependency = BUNDLE_DEPENDENCY;
@@ -166,10 +188,10 @@ export const module = <Module>null;
      */
 
 
-    _currentSource;
+    #currentSource;
 
     get currentSource() {
-      return this._currentSource;
+      return this.#currentSource;
     }
 
     _currentProcessor;
@@ -178,10 +200,10 @@ export const module = <Module>null;
       return this._currentProcessor;
     }
 
-    _dependency;
+    #dependency;
 
     get dependency() {
-      return this._dependency;
+      return this.#dependency;
     }
 
     _id;
@@ -190,10 +212,10 @@ export const module = <Module>null;
       return this._id;
     }
 
-    _instance;
+    #instance;
 
     get instance() {
-      return this._instance;
+      return this.#instance;
     }
 
     _files = new Map();
@@ -213,16 +235,10 @@ export const module = <Module>null;
       this.monaco.editor.setModelLanguage(this.model, language);
     }
 
-    _module;
-
-    get module() {
-      return this._module;
-    }
-
-    _monaco;
+    #monaco;
 
     get monaco() {
-      return this._monaco;
+      return this.#monaco;
     }
     /**
      * The current active Model instance of monaco editor
@@ -232,17 +248,18 @@ export const module = <Module>null;
 
 
     _model;
-    _unpublished;
+    #unpublished;
 
     get unpublished() {
-      return this._unpublished;
+      return this.#unpublished;
     }
+
+    #currentModel;
 
     get currentModel() {
-      return this._currentModel;
+      return this.#currentModel;
     }
 
-    _sources;
     _disposablesEvents = [];
     /***
      * Represent the source of the file opened.
@@ -250,7 +267,15 @@ export const module = <Module>null;
      * @private
      */
 
-    _source;
+    #source;
+
+    get source() {
+      return this.#source;
+    }
+
+    get filename() {
+      return this.#source?.filename;
+    }
 
     get settings() {
       return monacoDependency.settings;
@@ -261,21 +286,15 @@ export const module = <Module>null;
      */
 
 
-    _position;
+    #position;
 
-    constructor(specs) {
+    constructor({
+      application,
+      id,
+      type
+    }) {
       super();
-      const {
-        application,
-        id,
-        path,
-        position,
-        source,
-        processor,
-        module,
-        type
-      } = specs;
-      this._application = application;
+      this.#project = application;
 
       if (!monacoDependency || !monacoDependency.ready) {
         throw Error('The monaco dependency is not loaded correctly');
@@ -288,24 +307,14 @@ export const module = <Module>null;
        * @private
        */
 
-      this._dependency = monacoDependency;
-      this._module = module; //TODO: @editor
+      this.#dependency = monacoDependency; //TODO: @editor
 
-      this._monaco = monacoDependency.monaco;
-      this._path = path;
-      this._processor = processor;
-      this._source = source;
-      this._position = position;
-      this._type = type;
+      this.#monaco = monacoDependency.monaco;
+      this.#type = type;
       this.save = this.save.bind(this);
       this.setUnpublished = this.setUnpublished.bind(this);
       this.updateSettings = this.updateSettings.bind(this);
-      monacoDependency.settings.bind('settings.changed', this.updateSettings);
-
-      if (source) {
-        this._currentModel = this.dependency.models.get(type ?? 'source', source, processor);
-      } // if (source && processor) this.addFile(bundle, this.currentProcessor, source, true);
-
+      monacoDependency.settings.bind('settings.changed', this.updateSettings); // if (source && processor) this.addFile(bundle, this.currentProcessor, source, true);
     }
 
     updateSettings() {
@@ -318,67 +327,116 @@ export const module = <Module>null;
       settings.model = this.currentModel ?? this.dependency.defaultModel;
       this.setDependency(this._bundleDependency, 'beyond_context'); // editor box
 
-      this._instance = this.monaco.editor.create(selector, settings);
+      this.#instance = this.monaco.editor.create(selector, settings);
+      /**
+       * TODO: check if it's necessary
+       */
 
-      this._instance.updateOptions({
-        readOnly: this._type === 'dependency'
-      });
-
-      if (this._position?.column) {
-        this.instance.setPosition(this._position);
-        this._position = undefined;
+      if (this.#position?.column) {
+        this.instance.setPosition(this.#position);
+        this.#position = undefined;
       }
 
       this.instance.focus();
 
       this._setActions();
+
+      if (this.#source) {
+        this.loadFile();
+      }
     }
+
+    loadFile() {
+      const model = this.#dependency.models.get(this.#type, this.#source, this._currentProcessor);
+      this.#currentModel = model;
+      this.instance.setModel(model);
+      this.instance.updateOptions({
+        readOnly: this.#type === 'dependency'
+      });
+      this.triggerEvent();
+
+      if (this.module) {
+        this.loadDependencies();
+      }
+    }
+
+    loadDependencies = () => {
+      this.module?.bundles?.items?.forEach(bundle => {
+        const {
+          dependencies: {
+            model
+          }
+        } = bundle;
+        model.items.forEach(item => {
+          if (!item.declaration) {
+            console.warn(`the next declaration is undefined : ${item.id}`);
+            return;
+          }
+
+          this.setDependency(item.declaration.code, item.resource);
+        });
+      });
+    };
     /**
      *
-     * @param bundle
+     * @param module
+     * @param type
      * @param processor
      * @param source
      * @param active
      */
 
-
-    addFile(type, processor, source, active) {
-      this.files.set(source.id, {
-        type: type,
-        source: source,
-        processor: processor
-      });
-
-      if (active) {
-        // const file = this.model.getFile( processor, source.id);
-        this._currentSource = source;
-        this._source = source;
-        this._currentProcessor = processor;
-
-        if (!source.code) {
-          console.error('El objeto pasado no posee codigo');
-          return;
-        }
-
-        const model = this._dependency.models.get(type, source, processor);
-
-        this._currentModel = model;
-
-        if (this.instance) {
-          this.instance.setModel(model);
-        }
-
-        this.instance.updateOptions({
-          readOnly: type === 'dependency'
-        });
+    addFile({
+      module,
+      type,
+      processor,
+      source,
+      active
+    }) {
+      if (!source.code) {
+        console.error('El objeto pasado no posee codigo');
+        return;
       }
 
-      this.triggerEvent();
+      this.files.set(source.id, {
+        type,
+        source,
+        processor,
+        module
+      });
+      this.#module = module;
+      this.#currentSource = source;
+
+      if (this.#source) {
+        this.#source.unbind('change', this.#listenFileChanges);
+        this.#source = undefined;
+      }
+
+      this.#source = source;
+      this.#source.bind('change', this.#listenFileChanges);
+      this._currentProcessor = processor;
+      this.#type = type;
+      if (active) this.triggerEvent();
+
+      if (!this.instance) {
+        return;
+      }
+
+      this.loadFile();
     }
 
-    setUnpublished(value = true) {
-      this._unpublished = this._source.code !== this.instance.getModel().getValue();
-      this.triggerEvent('model.changed');
+    #listenFileChanges = () => {
+      this.setUnpublished();
+    };
+
+    setUnpublished() {
+      if (!this.instance) {
+        this.#unpublished = false;
+        return;
+      }
+
+      this.#unpublished = this.#source.code !== this.instance?.getModel().getValue();
+      this.triggerEvent();
     }
     /**
      * Adds actions to monaco instance.
@@ -468,18 +526,18 @@ export const module = <Module>null;
       this.triggerEvent();
 
       try {
-        if (!this._source) {
+        if (!this.#source) {
           throw Error('The source object does not exist');
         }
 
-        await this._source.save({
+        await this.#source.save({
           applicationId: this.application.id,
           moduleId: this.module.id,
-          file: this._source?.file,
+          file: this.#source?.file,
           source: this.instance.getModel().getValue()
-        });
-        this.setUnpublished(false);
-        this.triggerEvent('change');
+        }); // this.setUnpublished(false);
+
+        this.triggerEvent();
       } catch (e) {
         console.error("error saving file", e);
       }
@@ -493,7 +551,7 @@ export const module = <Module>null;
   /**
    * Map of editor's manager created.
    *
-   * Each application has an EditorManager
+   * Each project has an EditorManager
    * @type {Map<any, any>}
    */
 
@@ -502,6 +560,8 @@ export const module = <Module>null;
   const managers = new Map();
   /**
    * Manages the editor instances created by the panels
+   *
+   * Each panel has it's own editor
    *
    */
 
@@ -521,6 +581,10 @@ export const module = <Module>null;
 
     _instanceId;
     _items = new Map();
+    /**
+     * Represent the list of editor instances
+     * @returns {Map<unknown, unknown>}
+     */
 
     get items() {
       return this._items;
@@ -532,21 +596,23 @@ export const module = <Module>null;
       return this._favorites;
     }
 
-    _application;
+    _project;
 
-    get application() {
-      return this._application;
+    get project() {
+      return this._project;
     }
 
     get monaco() {
       return monacoDependency.monaco;
     }
 
-    constructor(application) {
+    constructor(project) {
       super();
       this._instanceId = performance.now();
-      this._application = application;
+      this._project = project;
     }
+
+    #dependencies = new Map();
 
     get(id) {
       return this.items.get(id);
@@ -559,11 +625,11 @@ export const module = <Module>null;
 
 
     create = specs => {
-      if (this.items.has(specs.id)) return;
+      if (this.items.has(specs.id)) return this.items.get(specs.id);
       const editor = new Editor(specs);
       this.items.set(specs.id, editor);
 
-      if (!!this.sources.size) {
+      if (!!this.#dependencies.size) {
         this._processEditorModels(editor);
       }
 
@@ -574,12 +640,31 @@ export const module = <Module>null;
      *
      */
 
-    setModule(module) {
-      this.sources.set(module.id, module);
+    setModuleManager(module) {
+      module?.bundles?.items.forEach(bundle => {
+        const process = () => {
+          if (bundle.dependencies.ready) {
+            return;
+          }
 
-      if (!!this.items.size) {
-        this._processSources(module);
-      }
+          bundle.dependencies.items.forEach(dependency => {
+            if (dependency.external) {
+              return console.log("la dependencia es externa");
+            }
+
+            this.#dependencies.set(dependency.id, dependency);
+          });
+
+          this._processSources();
+        };
+
+        if (!bundle.dependencies.ready) {
+          bundle.dependencies.bind('change', process);
+          return;
+        }
+
+        process();
+      });
     }
 
     _processSources() {
@@ -593,44 +678,22 @@ export const module = <Module>null;
 
 
     _processEditorModels(editor) {
-      if (this._application.backend?.core?.path) {
-        const {
-          core
-        } = this._application.backend;
-        core.sources.items.forEach(source => editor.setDependency(source.code, `beyond_core/${source.basename}`));
-      }
-
-      if (this._application.backend?.sessions?.path) {
-        const {
-          sessions
-        } = this._application.backend;
-        sessions.sources.items.forEach(source => editor.setDependency(source, 'beyond_core'));
-      }
-
-      this.sources.forEach(source => {
-        source.bundles.forEach(bundle => {
-          bundle.dependencies?.items.forEach(dependency => {
-            if (!dependency.declaration) {
-              return;
-            }
-
-            editor.setDependency(dependency.declaration.code, dependency.resource);
-          });
-        });
+      this.#dependencies.forEach(dependency => {
+        editor.setDependency(dependency.declaration.code, dependency.resource);
       });
     }
 
   }
 
-  function getEditorManager(application) {
-    if (!application || !application.id) {
-      console.error("cannot access to an undefined application");
+  function getEditorManager(project) {
+    if (!project || !project.id) {
+      console.error("cannot access to an undefined project");
       return;
     }
 
-    if (managers.has(application.id)) return managers.get(application.id);
-    let editorManager = new Manager(application);
-    managers.set(application.id, editorManager);
+    if (managers.has(project.id)) return managers.get(project.id);
+    let editorManager = new Manager(project);
+    managers.set(project.id, editorManager);
     return editorManager;
   }
   /**************
@@ -645,10 +708,10 @@ export const module = <Module>null;
       ts: 'typescript',
       scss: 'scss'
     });
-    _items = new Map();
+    #items = new Map();
 
     get items() {
-      return this._items;
+      return this.#items;
     }
 
     _default;
@@ -658,11 +721,11 @@ export const module = <Module>null;
       return this._default;
     }
 
-    _monaco;
+    #monaco;
 
     constructor(monaco) {
       super();
-      this._monaco = monaco;
+      this.#monaco = monaco;
     }
     /**
      * Generates the model of a code
@@ -680,19 +743,15 @@ export const module = <Module>null;
         const path = '/node_modules/';
         uri = `${path}${source.label}.ts`;
       } else {
-        uri = `${source.file}`.replace('C:', '');
-        uri = `${source.file}`.replace('D:', '');
+        uri = `${source.file}`.replace(/^[A-Z]:/, '');
       }
 
-      if (this._items.has(uri)) return this._items.get(uri);
-
-      const model = this._monaco.editor.createModel(source.code, this._languages[processor], // language
-      this._monaco.Uri.file(uri) // uri
+      if (this.#items.has(uri)) return this.#items.get(uri);
+      const model = this.#monaco.editor.createModel(source.code, this._languages[processor], // language
+      this.#monaco.Uri.file(uri) // uri
       ); //we save a local map for all files
 
-
-      this._items.set(uri, model);
-
+      this.#items.set(uri, model);
       return model;
     }
 
@@ -820,10 +879,6 @@ export const module = <Module>null;
     }
 
   }
-  /************
-  JSX PROCESSOR
-  ************/
-
   /**********
   context.jsx
   **********/
@@ -838,82 +893,43 @@ export const module = <Module>null;
   *********/
 
 
-  class EditorView extends React.Component {
-    /**
-     * @param {object} props.editor Editor Model object
-     * @param {object} props.panel The module controller
-     * @params {string} props.processor The processor type of the file
-     * @params {string} props.file The filename
-     * @params {string} props.id Identifier of the module
-     * @param props
-     */
-    constructor(props) {
-      super(props);
-      this.state = {
-        ready: false
+  function EditorView(props) {
+    const {
+      panel,
+      editor
+    } = props;
+    const [isUnpublished, setIsUnpublished] = React.useState();
+    const vs = React.useRef();
+    (0, _code3.useBinder)([editor], () => setIsUnpublished(editor.unpublished));
+    React.useEffect(() => {
+      editor.init(vs.current);
+      vs.current.addEventListener('click', panel.setActive);
+      return () => {
+        vs.current.removeEventListener('click', panel.setActive);
+        editor.removeListeners();
       };
-      this.vs = React.createRef();
-      this.editor = props.editor;
-      this.id = props.editor.id;
-      this.panel = props.panel;
-      this.listenChanges = this.listenChanges.bind(this);
-
-      this.updateState = () => this.setState({});
-
-      this.disposables = [];
-      this.setActive = this.setActive.bind(this);
-    }
-
-    setActive() {
-      this.panel.setActive();
-    }
-
-    listenChanges() {
-      this.setState({
-        isUnpublished: true
-      });
-    }
-
-    componentDidMount() {
-      const data = this.state.file ? {
-        file: this.state.file,
-        processor: this.state.processor
-      } : {};
-      this.editor.init(this.vs.current);
-      this.vs.current.addEventListener('click', this.setActive);
-      this.editor.bind('change', this.updateState);
-    }
-
-    componentWillUnmount() {
-      this.vs.current.removeEventListener('click', this.setActive);
-      this.editor.unbind('change', this.updateState);
-      this.editor.removeListeners(); // this.editor && this.editor.instance.dispose();
-      // this.panel.editor.delete(this.id, this.editor);
-    }
-
-    render() {
-      const cls = `ds-editor__container ${this.state.unpublished ? ' is-unpublished' : ''} `;
-      return /*#__PURE__*/React.createElement("div", {
-        className: cls
-      }, this.state.isUnpublished ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-        className: "ds-editor__icons"
-      }, /*#__PURE__*/React.createElement(_code.DSIcon, {
-        icon: "save"
-      }))) : null, /*#__PURE__*/React.createElement("div", {
-        className: "vs-editor",
-        ref: this.vs
-      }));
-    }
-
+    }, []);
+    const cls = `ds-editor__container ${isUnpublished ? ' is-unpublished' : ''} `;
+    return /*#__PURE__*/React.createElement("div", {
+      className: cls
+    }, isUnpublished && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "ds-editor__icons"
+    }, /*#__PURE__*/React.createElement(_code.DSIcon, {
+      title: "tienes cambios por guardar",
+      icon: "save"
+    }))), /*#__PURE__*/React.createElement("div", {
+      className: "vs-editor",
+      ref: vs
+    }));
   }
-
-  _exports.EditorView = EditorView;
-  EditorView.contextType = _code2.DSWorkspaceContext;
   /**********
   SCSS STYLES
   **********/
 
+
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-editor__container{display:flex;flex-wrap:wrap;flex-basis:100%;position:relative;width:100%;height:100%}.ds-editor__container .vs-editor{width:100%;height:100%}.ds-editor__container:not(:last-child){border-right:1px solid #e36152}.ds-editor__container .ds-editor__icons{position:absolute;right:50px;top:20px;z-index:200}.beyond-element-modal.ds-modal .ds-modal-editor{padding:30px}.beyond-element-modal.ds-modal .ds-modal-editor form{width:100%;display:grid;grid-gap:15px}.beyond-element-modal.ds-modal .ds-modal-editor .beyond-alert{margin-bottom:30px}.beyond-element-modal.ds-modal .ds-modal-editor input{border:1px solid #e4e5dc;outline:0;padding:8px;width:100%}.beyond-element-modal.ds-modal .ds-modal-editor input:focus,.beyond-element-modal.ds-modal .ds-modal-editor input:hover{border:1px solid #82837f}.beyond-element-modal.ds-modal .ds-modal-editor .actions{display:grid;justify-items:center}.beyond-element-modal.ds-modal .ds-modal-editor .actions .beyond-button{margin-top:30px;min-width:200px}.ds-page.ds-editor-page .preload-content{display:flex;height:100%;width:100%;align-items:center;justify-content:center}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-editor__container{display:flex;flex-wrap:wrap;flex-basis:100%;position:relative;width:100%;height:100%}.ds-editor__container .vs-editor{width:100%;height:100%}.ds-editor__container:not(:last-child){border-right:1px solid #e36152}.ds-editor__container .ds-editor__icons{position:absolute;right:20px;top:20px;z-index:200;fill:#E36152}.beyond-element-modal.ds-modal .ds-modal-editor{padding:30px}.beyond-element-modal.ds-modal .ds-modal-editor form{width:100%;display:grid;grid-gap:15px}.beyond-element-modal.ds-modal .ds-modal-editor .beyond-alert{margin-bottom:30px}.beyond-element-modal.ds-modal .ds-modal-editor input{border:1px solid #e4e5dc;outline:0;padding:8px;width:100%}.beyond-element-modal.ds-modal .ds-modal-editor input:focus,.beyond-element-modal.ds-modal .ds-modal-editor input:hover{border:1px solid #82837f}.beyond-element-modal.ds-modal .ds-modal-editor .actions{display:grid;justify-items:center}.beyond-element-modal.ds-modal .ds-modal-editor .actions .beyond-button{margin-top:30px;min-width:200px}.ds-page.ds-editor-page .preload-content{display:flex;height:100%;width:100%;align-items:center;justify-content:center}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

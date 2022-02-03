@@ -1,9 +1,6 @@
 import {Events} from "../utils/events/events";
-import {Beyond} from "../beyond";
 import type {Service} from "./service";
 import {PendingPromise} from "../utils/pending-promise/pending-promise";
-
-declare function require(module: string): any;
 
 declare class ManagedService extends Events {
     get status(): Promise<string>;
@@ -40,7 +37,7 @@ export class Initiator {
         }
         this.#promise = new PendingPromise();
 
-        const beyond = <Beyond>(require('../beyond')).beyond;
+        const beyond = require('../beyond').beyond;
         if (!beyond.local || this.#local) return;
 
         this.#local = <BeyondLocal>(await beyond.import('@beyond-js/local/main/ts')).local;

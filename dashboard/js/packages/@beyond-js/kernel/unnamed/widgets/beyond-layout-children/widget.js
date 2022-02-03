@@ -19,7 +19,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
 
   const __pkg = bundle.package();
 
-  const modules = new Map(); // FILE: controller.ts
+  const modules = new Map();
+  /******************
+  FILE: controller.ts
+  ******************/
 
   modules.set('./controller', {
     hash: 158981409,
@@ -31,11 +34,13 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
       });
       exports.Controller = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const ts_2 = require("@beyond-js/kernel/routing/ts");
+      var _ts2 = require("@beyond-js/kernel/routing/ts");
+      /*bundle*/
 
-      class Controller extends ts_1.BeyondWidgetController {
+
+      class Controller extends _ts.BeyondWidgetController {
         #layout;
         #active;
         #mounted = new Map(); // Identify the layout of the current widget
@@ -53,8 +58,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
             iterate = parent;
           }
 
-          if (!layouts.length || layouts[0].widget.localName === ts_1.beyond.application.layout) {
-            this.#layout = ts_2.routing.manager.main;
+          if (!layouts.length || layouts[0].widget.localName === _ts.beyond.application.layout) {
+            this.#layout = _ts2.routing.manager.main;
           }
         }; // Render the layouts and pages of this container
 
@@ -99,7 +104,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
 
       exports.Controller = Controller;
     }
-  }); // FILE: widget.ts
+  });
+  /**************
+  FILE: widget.ts
+  **************/
 
   modules.set('./widget', {
     hash: 2746090060,
@@ -110,6 +118,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
         value: true
       });
       exports.Widget = void 0;
+      /*bundle*/
 
       class Widget {}
 

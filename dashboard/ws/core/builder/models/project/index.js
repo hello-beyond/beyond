@@ -1,4 +1,3 @@
-const Service = require('./service');
 const Deployment = require('./deployment');
 module.exports = class Project extends require('../file-manager') {
     _id;
@@ -10,31 +9,41 @@ module.exports = class Project extends require('../file-manager') {
      * @type {string}
      * @private
      */
-    _fileName = 'application.json';
-    #basename = 'application.json';
+    _fileName = 'project.json';
+    #basename = 'project.json';
 
     _templates = {
-        empty: './applications/empty',
-        react: './applications/react',
-        web: './applications/web',
-        node: './applications/node',
-        backend: './applications/backend',
-        library: './applications/library',
-        express: './applications/express'
+        empty: './projects/empty',
+        react: './projects/react',
+        web: './projects/web',
+        node: './projects/node',
+        backend: './projects/backend',
+        library: './projects/library',
+        express: './projects/express',
+        'web-backend': './projects/web-backend'
     };
 
     skeleton = [
         'version',
-        'title', 'name', 'description',
-        'layout', 'template', 'languages',
+        'scope', 'name', 'title', 'description',
+        'layout', 'template', 'languages', 'params',
+
         {name: 'modules', type: 'object'},
-        'static', 'scope', 'deployment',
         {name: 'backend', type: 'object'},
         {name: 'node', type: 'object'},
         {name: 'ssr', type: 'object'},
         {name: 'externals', type: 'object'},
-
+        'deployment', 'static'
     ];
+
+    #params;
+    get params() {
+        return this.#params.structure;
+    }
+
+    set params(value) {
+        this.#params.set(value);
+    }
 
     get id() {
         return this._id;
@@ -87,11 +96,12 @@ module.exports = class Project extends require('../file-manager') {
     }
 
     constructor(path, specs = undefined) {
-        super(path, 'application.json');
+        super(path, 'project.json');
         // this.#backend = new Service(path, this);
 
         this.#languages = new (require('./languages'))();
         this.#deployment = new Deployment(this.file.dirname);
+        this.#params = new (require('./params'))();
         this.#modules = new (require('./modules'))(path, '');
         this._load();
         /**
@@ -111,11 +121,11 @@ module.exports = class Project extends require('../file-manager') {
     async create(type, specs) {
         const fs = global.utils.fs;
         if (!type) {
-            throw 'The type of application was not specified';
+            throw 'The type of project was not specified';
         }
 
         const folder = this._setId(specs.name)
-        if (!folder) throw Error('The application instance requires a name');
+        if (!folder) throw Error('The project instance requires a name');
 
         if (!this._templates.hasOwnProperty(type)) {
             /**
@@ -132,15 +142,39 @@ module.exports = class Project extends require('../file-manager') {
         const current = require('path').resolve(tplPath, this._templates[type]);
 
         await fs.copy(current, this.file.dirname);
+
         await this._load();
 
-        this.#deployment.setDistribution(this.#deployment.getDefault({port: specs.port}));
+        this.#deployment.addPlatforms(specs.platforms);
+
         this.save(specs);
+        await this.readFiles(specs);
+        // return this.install();
+    }
+
+    install() {
+        return new Promise((resolve, reject) => {
+            const {exec} = require('child_process');
+            exec('npm install', {
+                cwd: this.file.dirname
+            }, (error, stdout, stderr) => {
+                if (error) {
+                    console.log("error", error);
+                }
+                if (stderr) {
+                    console.log("stderr", stderr);
+                }
+                resolve();
+            });
+        })
     }
 
     save(values = {}) {
-        const json = {deployment: this.#deployment.getProperties()};
-        super.save(Object.assign(values, json));
+        const json = {
+            deployment: this.#deployment.getProperties()
+        };
+
+        super.save({...values, ...json});
     }
 
     set(object) {
@@ -148,4 +182,36 @@ module.exports = class Project extends require('../file-manager') {
     }
 
     setDistribution = distribution => this.#deployment.setDistribution(distribution);
+
+    async readFiles(specs, dirname) {
+        const {readdir, save, promises} = global.utils.fs;
+
+        dirname = dirname ?? this.file.dirname
+        const files = await readdir(dirname);
+
+        let items = [];
+        let filenames = [];
+        files.forEach(file => {
+            if (file === 'project.json') return;
+
+            const filename = `${dirname}\\${file}`;
+            if (!filename.includes('.')) {
+                //is directory
+                this.readFiles(specs, filename)
+                return;
+            }
+            filenames.push(filename);
+            items.push(promises.readFile(filename, {encoding: 'utf-8'}));
+        });
+
+        items.size = 0;
+        const contents = await Promise.all(items);
+        contents.forEach((content, index) => {
+            content = content.replace(/\$\[scope]/gm, specs.scope ? `@${specs.scope}/` : ``);
+            content = content.replace(/\$\[name]/gm, specs.name);
+            items.push(save(filenames[index], content, 'utf-8'))
+        });
+
+        await Promise.all(items);
+    }
 }

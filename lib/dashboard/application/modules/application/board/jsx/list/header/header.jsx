@@ -1,7 +1,6 @@
-function Header() {
+function HeaderList() {
     let {texts, displayView, setDisplayView} = useAppContext();
     texts = texts.navbar;
-
     /**
      * Changes the view from list view to grid and vice versa
      * @param event
@@ -16,8 +15,7 @@ function Header() {
         localStorage.setItem('beyond.lists.view', view);
         setDisplayView(view);
 
-    }
-
+    };
     return (
         <div className="ds-board__application application-header">
             <div className="left-col">

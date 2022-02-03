@@ -20,10 +20,19 @@ interface BundleSpecs {
     layoutId?: string
 }
 
+interface FieldSpecs {
+    title?: string,
+    name?: string,
+    description?: string,
+    hmr?: string,
+    transpile?: string
+}
+
 interface EditSpecs {
     dirname: string,
     moduleId: string,
     title?: string,
+    name?: string,
     description?: string,
     bundle?: string,
     bundles?: { hmr: boolean } | { ts: { transpile: boolean } },
@@ -60,8 +69,21 @@ class ApplicationModule extends Item {
      * Module shortcuts
      */
     get name(): string {
-        const module = this.module;
+        const {module} = this;
         return module?.name;
+    }
+
+    set name(value: string) {
+        this.module && (this.module.name = value);
+    }
+
+    get description(): string {
+        const {module} = this;
+        return module?.description;
+    }
+
+    set description(value: string) {
+        this.module && (this.module.description = value);
     }
 
     get route(): string {
@@ -116,7 +138,7 @@ class ApplicationModule extends Item {
         return bundle;
     }
 
-    saveField(field: string, value: string | boolean) {
+    saveField(field: FieldSpecs, value: string | boolean) {
         const specs: EditSpecs = {moduleId: this.id, dirname: this.module.path};
 
         if (field === 'hmr') specs.bundles = {hmr: <boolean>value};
@@ -125,6 +147,7 @@ class ApplicationModule extends Item {
             specs.bundles = {ts: {transpile: <boolean>value}};
         } else field === 'title' ? specs.title = <string>value : specs.description = <string>value;
 
+        console.log('/builder/module/edit', specs)
         return module.execute('/builder/module/edit', specs);
     }
 

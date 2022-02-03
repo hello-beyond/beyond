@@ -6,7 +6,6 @@ function EditField({field}) {
 
     const label = texts[field];
     const fieldValue = module[field] ?? texts.empty[field];
-
     const toggleEdit = () => setEdit(!edit);
     const onSubmit = event => {
         event.preventDefault();
@@ -19,17 +18,6 @@ function EditField({field}) {
         setValue(target.value);
     };
 
-    if (!fieldValue) {
-        return (
-            <div className="item-formation">
-                <div>{label}</div>
-                <form onSubmit={onSubmit} className="form-group">
-                    <input autoComplete="off" onChange={onEdit} name={field} defaultValue={value}/>
-                </form>
-            </div>
-        )
-    }
-
     if (edit) {
         return (
 
@@ -37,14 +25,11 @@ function EditField({field}) {
                 <div>{label} </div>
                 <form onSubmit={onSubmit} className="form-group">
                     <input autoComplete="off" onChange={onEdit} name={field} defaultValue={value}/>
-                    <FadeIn>
-                        <div className="form__actions">
-                            <BeyondButton className="btn primary" type="submit">Guardar</BeyondButton>
-                            <BeyondButton className="secondary rbtn btn-secondary" onClick={toggleEdit}
-                                          type="button">Cerrar</BeyondButton>
-                        </div>
-
-                    </FadeIn>
+                    <div className="form__actions">
+                        <DSIconButton className="btn primary" type="submit" icon="save"/>
+                        <DSIconButton className="circle secondary btn btn-secondary" onClick={toggleEdit}
+                                      type="button" icon="close"/>
+                    </div>
                 </form>
             </div>
 

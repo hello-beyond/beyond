@@ -16,4 +16,17 @@ module.exports = function () {
             return {status: false, error: e};
         }
     }
+
+    this.getWD = async () => {
+        try {
+            const wd = await ipcManager.getWd();
+            return {
+                status: true,
+                data: {wd}
+            }
+        }
+        catch (e) {
+            return {status: false, error: e};
+        }
+    }
 }

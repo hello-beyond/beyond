@@ -3,13 +3,12 @@ function PreloadItem() {
     return (
         <div className="ds-item_list">
             <div className="item-info">
-                <h4 className="bold title-app">
-                    <BeyondPreloadText height={`10px`} width={`30px`}/>
-                </h4>
-                <p className="p1">
-                    <BeyondPreloadText height={`10px`} width={`50px`}/></p>
-                <p className="p2 primary-text">
-                    <BeyondPreloadText height={`10px`} width={`100px`}/></p>
+                <h4 className="link bold"><BeyondPreloadText color="#fff" height="150px"/></h4>
+                <p className="p1"><BeyondPreloadText color="#fff" height="250px"/></p>
+                <a className="link" target="_blank">
+                    <BeyondPreloadText height="50px"/>
+                </a>
+                <p className="p2 primary-dark-color"><BeyondPreloadText height="50px" className="primary"/></p>
             </div>
             <div className="right-col actions">
                 <DashboardIconButton icon="upload" className="circle" disabled/>

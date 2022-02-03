@@ -1,13 +1,14 @@
-define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (_exports2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/react-widget/ts", "@beyond-js/kernel/routing/ts"], function (_exports2, dependency_0, dependency_1, dependency_2) {
   "use strict";
 
   Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports2.ssr = _exports2.hmr = void 0;
+  _exports2.renderer = _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
-  dependencies.set('@beyond-js/kernel/routing/ts', dependency_1);
+  dependencies.set('@beyond-js/kernel/react-widget/ts', dependency_1);
+  dependencies.set('@beyond-js/kernel/routing/ts', dependency_2);
   const {
     beyond
   } = globalThis;
@@ -19,63 +20,72 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
 
   const __pkg = bundle.package();
 
-  const modules = new Map(); // FILE: renderer.ts
+  const modules = new Map();
+  /****************
+  FILE: renderer.ts
+  ****************/
 
   modules.set('./renderer', {
-    hash: 3879896924,
+    hash: 1056602364,
     creator: function (require, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.ssr = void 0;
+      exports.renderer = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const ts_2 = require("@beyond-js/kernel/routing/ts");
+      var _ts2 = require("@beyond-js/kernel/routing/ts");
+      /*bundle*/
 
-      exports.ssr = new class {
-        async render(uri) {
+
+      const renderer = new class {
+        async render(_uri) {
           const {
             page,
-            error
-          } = await ts_2.routing.page(uri);
+            error,
+            redirected,
+            uri
+          } = await _ts2.routing.page(_uri);
+          if (redirected) return {
+            redirected
+          };
           if (error) return {
             errors: [error]
           };
           const {
-            name
+            element
           } = page;
 
-          if (!ts_1.beyond.widgets.has(name)) {
+          if (!_ts.beyond.widgets.has(element)) {
             return {
-              errors: [`Widget name "${name}" is not registered`]
+              errors: [`Widget element "${element}" is not registered`]
             };
           }
 
-          const specs = ts_1.beyond.widgets.get(name);
-          const bundle = await ts_1.beyond.import(specs.id);
+          const specs = _ts.beyond.widgets.get(element);
+
+          const bundle = await _ts.beyond.import(specs.id);
           const {
             Controller
           } = bundle;
 
           if (!Controller || typeof Controller !== 'function') {
             return {
-              errors: [`Widget "${name}" does not export its Controller`]
+              errors: [`Widget "${element}" does not export its Controller`]
             };
           }
 
           try {
-            const controller = new Controller(specs, this, bundle);
+            const controller = new Controller(specs, uri);
             const {
               html,
-              css,
               errors
             } = controller.render();
             return {
               html,
-              css,
               errors
             };
           } catch (exc) {
@@ -86,6 +96,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
         }
 
       }();
+      exports.renderer = renderer;
     }
   });
   const hmr = new function () {
@@ -94,11 +105,11 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"],
     this.off = (event, listener) => void 0;
   }();
   _exports2.hmr = hmr;
-  let ssr;
-  _exports2.ssr = ssr;
+  let renderer;
+  _exports2.renderer = renderer;
 
   __pkg.exports.process = function (require, _exports) {
-    _exports2.ssr = ssr = _exports.ssr = require('./renderer').ssr;
+    _exports2.renderer = renderer = _exports.renderer = require('./renderer').renderer;
   };
 
   __pkg.initialise(modules);

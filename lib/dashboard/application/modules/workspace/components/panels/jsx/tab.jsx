@@ -24,6 +24,10 @@ export function PanelTab({panel, item, id}) {
     useBinder([contextMenu], openContextMenu, 'fired.tab');
     useBinder([contextMenu], () => toggleContextMenu(false), 'closed');
     useBinder([panel], () => setName(panel.tabs.get(id).label), `tab.change.${id}`);
+    useBinder([panel, panel.editor], () => {
+        if (panel?.editor?.filename !== name) return;
+        setUnpublished(panel.editor.unpublished)
+    });
 
     React.useEffect(() => {
         if (item.type !== 'editor') return;
@@ -38,7 +42,6 @@ export function PanelTab({panel, item, id}) {
 
     const onClose = event => {
         event.stopPropagation();
-
         panel.closeTab(item);
     };
 

@@ -2,8 +2,7 @@ import type {Transversal} from "./transversal";
 import type {Bundle} from "../bundles/bundle";
 import type {Package} from "../bundles/package/package";
 import type {Creators} from "../bundles/package/ims/ims";
-import type {IProcessorsSpecs} from "../modules/module";
-import {instances} from "../bundles/instances/instances";
+import {IBundleFactorySpecs, instances} from "../bundles/instances/instances";
 
 export type BundleWrapperFnc = (transversal: Transversal, bundle: Bundle, __pkg: Package) => Creators;
 
@@ -25,7 +24,7 @@ export class TransversalBundle {
         return this.#hash;
     }
 
-    readonly #specs: IProcessorsSpecs;
+    readonly #specs: IBundleFactorySpecs;
     get specs() {
         return this.#specs;
     }
@@ -52,7 +51,7 @@ export class TransversalBundle {
         !this.#created && this.#create();
     }
 
-    constructor(transversal: Transversal, id: string, hash: number, specs: IProcessorsSpecs, creator: BundleWrapperFnc) {
+    constructor(transversal: Transversal, id: string, hash: number, specs: IBundleFactorySpecs, creator: BundleWrapperFnc) {
         this.#transversal = transversal;
         this.#id = id;
         this.#hash = hash;

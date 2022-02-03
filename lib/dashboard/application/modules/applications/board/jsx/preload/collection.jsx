@@ -1,30 +1,22 @@
 function PreloadCollection({header}) {
 
     return (
-        <>
-            {
-                header &&
-                <DsHeaderBar>
-                    <header className="app-header">
-                        <div className="info-list">
-                            <h4>&nbsp;</h4>
-                        </div>
-                    </header>
-                </DsHeaderBar>
-            }
-            <div className="ds-container">
-                <section>
-                    <PreloadHeader title='Applications'/>
-                    <PreloadItem/>
-                </section>
-                <section>
-                    <PreloadHeader title='Libraries'/>
-                    <PreloadItem/>
-                    <PreloadItem/>
-                    <PreloadItem/>
-                </section>
-            </div>
-        </>
+        <div className="ds-projects-board">
+            <header className="list_header">
+                <h4>
+                    <BeyondPreloadText height="17px" width="50px"/>
+                </h4>
+
+                <div className="actions">
+                    <div className="link">
+                        <BeyondPreloadText height="17px" width="50px"/>
+                    </div>
+                    <span><BeyondPreloadText height="17px" width="50px"/></span>
+                </div>
+            </header>
+            <PreloadItem/>
+            <PreloadItem/>
+        </div>
     )
 
 }

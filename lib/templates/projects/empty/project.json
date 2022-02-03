@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "name": "empty-app",
+  "template": "template/template.json",
+  "modules": {
+    "path": "./modules"
+  },
+  "deployment": {
+  }
+}

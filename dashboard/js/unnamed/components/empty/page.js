@@ -25,4 +25,6 @@ define(["exports"], function (_exports) {
 
 
   function Page() {}
+
+  __pkg.initialise();
 });

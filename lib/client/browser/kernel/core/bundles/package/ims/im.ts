@@ -20,7 +20,7 @@ export class InternalModule {
         return this.#id;
     }
 
-    readonly #hash: number;
+    #hash: number;
     get hash() {
         return this.#hash;
     }
@@ -62,9 +62,10 @@ export class InternalModule {
         this.#create(trace);
     }
 
-    update(creator: IMWrapperFunction) {
+    update(creator: IMWrapperFunction, hash: number) {
         this.#created = false;
         this.#creator = creator;
+        this.#hash = hash;
     }
 
     constructor(pkg: Package, id: string, hash: number, creator: IMWrapperFunction, require: Require) {

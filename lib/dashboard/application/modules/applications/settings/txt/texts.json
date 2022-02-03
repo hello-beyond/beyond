@@ -7,6 +7,9 @@
     },
     "name": "Distribution name",
     "platform": {
+      "applications": {
+        "select": "Project"
+      },
       "label": "Platform",
       "options": {
         "web": "Web",
@@ -15,14 +18,14 @@
         "ios": "iOS",
         "ssr": "SSR",
         "node": "Node"
+      },
+      "environment": "Environment",
+      "port": {
+        "label": "Port",
+        "error": "Port isn't available",
+        "success": "Port checked and available",
+        "tooltip": "Check port"
       }
-    },
-    "environment": "Environment",
-    "port": {
-      "label": "Port",
-      "error": "Port isn't available",
-      "success": "Port checked and available",
-      "tooltip": "Check port"
     },
     "ts": "TS",
     "default": "default",
@@ -36,9 +39,6 @@
     "environments": {
       "dev": "Development",
       "prod": "Production"
-    },
-    "applications": {
-      "select": "Application"
     }
   },
   "es": {
@@ -79,7 +79,7 @@
         "prod": "Production"
       },
       "applications": {
-        "select": "Applicacion"
+        "select": "Proyecto"
       }
     }
   }

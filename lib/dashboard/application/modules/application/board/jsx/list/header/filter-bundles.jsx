@@ -8,7 +8,12 @@ function FilterBundles({texts}) {
     const {bundles} = model;
 
     const [active, setActive] = React.useState(model.filterBundle);
-    useBinder([model], () => setActive(model.filterBundle));
+    // useBinder([model], () => setActive(model.filterBundle));
+    React.useEffect(() => {
+        const onChange = () => setActive(model.filterBundle);
+        model.bind('change', onChange);
+        return () => model.unbind('change', onChange);
+    }, [])
     const changeFilter = event => {
         const {bundle} = event.currentTarget.dataset;
         model.filterBundle = bundle;

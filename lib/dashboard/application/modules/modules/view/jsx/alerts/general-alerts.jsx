@@ -1,8 +1,10 @@
 function GeneralAlerts() {
 
     const {model} = useModuleContext();
-    const total = model.alerts.total;
+
     // let output = [];
+    const [total, setTotal] = React.useState(model.alerts.total)
+    useBinder([model], () => setTotal(model.alerts.total))
 
     if (total < 1) return null;
 

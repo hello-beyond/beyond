@@ -72,6 +72,7 @@ module.exports = function (ipc) {
         }
         return app.save();
     }
+
     this.edit = async params => {
         const app = await getApp(params.applicationId);
         return app.save(params);

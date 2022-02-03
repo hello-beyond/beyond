@@ -18,22 +18,21 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
   const __pkg = bundle.package();
 
-  const modules = new Map(); // FILE: application-styles.ts
+  const modules = new Map();
+  /**************************
+  FILE: application-styles.ts
+  **************************/
 
   modules.set('./application-styles', {
     hash: 3695846442,
     creator: function (require, exports) {
       "use strict";
 
-      Object.defineProperty(exports, "__esModule", {
-        value: true
-      });
+      var _beyond_context = require("beyond_context");
 
-      const beyond_context_1 = require("beyond_context");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
-
-      new class ApplicationStyles extends ts_1.Events {
+      new class ApplicationStyles extends _ts.Events {
         /**
          * The application styles has changed, therefore it must be updated
          */
@@ -43,7 +42,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           this.trigger(`${is}:change`);
         };
         #subscribe = async () => {
-          const socket = await beyond_context_1.module.socket;
+          const socket = await _beyond_context.module.socket;
           socket.on('application-styles', () => this.#update('application'));
           socket.on('global-styles', () => this.#update('global'));
         };
@@ -56,10 +55,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       }();
     }
-  }); // FILE: local.ts
+  });
+  /*************
+  FILE: local.ts
+  *************/
 
   modules.set('./local', {
-    hash: 752988096,
+    hash: 2079923543,
     creator: function (require, exports) {
       "use strict";
 
@@ -68,29 +70,30 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.local = void 0;
 
-      const beyond_context_1 = require("beyond_context");
+      var _beyond_context = require("beyond_context");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const services_1 = require("./services/services");
+      var _services = require("./services/services");
 
-      class BeyondLocal extends ts_1.Events {
+      class BeyondLocal extends _ts.Events {
         #onchange = message => {
           const {
             bundle,
             processor,
+            extname,
             distribution,
             language
           } = message;
-          this.trigger(`change:${bundle}//${distribution}//${language}`, processor);
+          this.trigger(`change:${bundle}//${distribution}`, processor, extname, language);
         };
 
         get services() {
-          return services_1.services;
+          return _services.services;
         }
 
         #subscribe = async () => {
-          const socket = await beyond_context_1.module.socket;
+          const socket = await _beyond_context.module.socket;
           socket.on('processor/change', this.#onchange);
         };
 
@@ -100,10 +103,16 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
       }
+      /*bundle*/
 
-      exports.local = new BeyondLocal();
+
+      const local = new BeyondLocal();
+      exports.local = local;
     }
-  }); // FILE: services\service.ts
+  });
+  /************************
+  FILE: services\service.ts
+  ************************/
 
   modules.set('./services/service', {
     hash: 624765756,
@@ -115,11 +124,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.ManagedService = void 0;
 
-      const beyond_context_1 = require("beyond_context");
+      var _beyond_context = require("beyond_context");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      class ManagedService extends ts_1.Events {
+      class ManagedService extends _ts.Events {
         #service;
         #id;
 
@@ -143,7 +152,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             throw new Error('Cannot check the status of beyond-local, ' + 'as beyond-local is the service used to check the status of the services');
           }
 
-          return await beyond_context_1.module.execute('libraries/status', this.#params());
+          return await _beyond_context.module.execute('libraries/status', this.#params());
         };
 
         get status() {
@@ -151,18 +160,21 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         }
 
         async start() {
-          await beyond_context_1.module.execute('libraries/start', this.#params());
+          await _beyond_context.module.execute('libraries/start', this.#params());
         }
 
         async stop() {
-          await beyond_context_1.module.execute('libraries/stop', this.#params());
+          await _beyond_context.module.execute('libraries/stop', this.#params());
         }
 
       }
 
       exports.ManagedService = ManagedService;
     }
-  }); // FILE: services\services.ts
+  });
+  /*************************
+  FILE: services\services.ts
+  *************************/
 
   modules.set('./services/services', {
     hash: 793868436,
@@ -174,21 +186,25 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.services = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const service_1 = require("./service");
+      var _service = require("./service");
+      /*bundle*/
 
-      exports.services = new class extends Map {
+
+      const services = new class extends Map {
         constructor() {
           super();
 
-          const add = service => service.connect && this.set(service.host, new service_1.ManagedService(service));
+          const add = service => service.connect && this.set(service.host, new _service.ManagedService(service));
 
-          add(ts_1.beyond.application);
-          ts_1.beyond.libraries.forEach(library => add(library));
+          add(_ts.beyond.application);
+
+          _ts.beyond.libraries.forEach(library => add(library));
         }
 
       }();
+      exports.services = services;
     }
   });
   let local, services;

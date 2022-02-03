@@ -7,9 +7,13 @@ function PreloadItem() {
                     <BeyondPreloadText height={`10px`} width={`30px`}/>
                 </h4>
                 <p className="p1">
-                    <BeyondPreloadText height={`10px`} width={`50px`}/></p>
+                    <BeyondPreloadText height={`7px`} width={`50px`}/></p>
+                <a className="link">
+                    <BeyondPreloadText height={`7px`} width={`100px`}/>
+                </a>
                 <p className="p2 primary-text">
-                    <BeyondPreloadText height={`10px`} width={`100px`}/></p>
+                    <BeyondPreloadText height={`7px`} width={`300px`} className="primary"/>
+                </p>
             </div>
             <div className="right-col actions">
                 <DashboardIconButton icon="upload" className="circle" disabled/>

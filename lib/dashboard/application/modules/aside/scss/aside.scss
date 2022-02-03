@@ -11,6 +11,7 @@ $ds-aside-item-hover: darken($beyond-secondary-color, 10%);
   align-items: start;
   background: $beyond-secondary-color;
   transition: all 200ms linear;
+  height: calc(100vh - 81px);
 
   &.hide-detail {
     .ds__aside__detail {

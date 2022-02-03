@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code"], function (_exports, React, ReactDOM, _code, _code2) {
+define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6,6 +6,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
   });
   _exports.BHtml = BHtml;
   _exports.BeyondAlert = BeyondAlert;
+  _exports.DSBoard = void 0;
   _exports.DSCard = DSCard;
   _exports.DSCards = DSCards;
   _exports.DS_ICONS = _exports.DSSpinner = _exports.DSIconButton = _exports.DSIcon = void 0;
@@ -15,17 +16,24 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
   _exports.DsFetchingBlock = DsFetchingBlock;
   _exports.FadeIn = _exports.DsSpinner = void 0;
   _exports.Link = Link;
+  _exports.SmallCard = SmallCard;
   _exports.useForm = _exports.TREE_ICONS = void 0;
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/core-components/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/core-components/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
+
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -33,7 +41,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
   /*************
   FILE: files.js
   *************/
-
 
   const styles2 = `style="fill:#FFA789"`;
   const FILE_ICONS = {
@@ -337,6 +344,10 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
   *************/
 
   const ICONS = {
+    scan: {
+      viewBox: '0 0 24 24',
+      icon: `<path d="M12.01 5.5L10 8h4l-1.99-2.5zM18 10v4l2.5-1.99L18 10zM6 10l-2.5 2.01L6 14v-4zm8 6h-4l2.01 2.5L14 16zm7-13H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z"></path>`
+    },
     project: {
       viewBox: '0 0 512 512',
       icon: `<path d="m374.726562 138.636719h117.273438c11.046875 0 20-8.953125 20-20v-98.636719c0-11.046875-8.953125-20-20-20h-117.273438c-11.042968 0-20 8.953125-20 20v29.316406h-98.726562c-11.046875 0-20 8.957032-20 20v166.683594h-78v-58.667969c0-11.046875-8.953125-20-20-20h-118c-11.046875 0-20 8.953125-20 20v157.332031c0 11.046876 8.953125 20 20 20h118c11.046875 0 20-8.953124 20-20v-58.664062h78v166.683594c0 11.042968 8.953125 20 20 20h98.726562v29.316406c0 11.046875 8.957032 20 20 20h117.273438c11.046875 0 20-8.953125 20-20v-98.636719c0-11.046875-8.953125-20-20-20h-117.273438c-11.042968 0-20 8.953125-20 20v29.320313h-78.726562v-146.683594h78.726562v29.316406c0 11.046875 8.957032 20 20 20h117.273438c11.046875 0 20-8.953125 20-20v-98.632812c0-11.046875-8.953125-20-20-20h-117.273438c-11.042968 0-20 8.953125-20 20v29.316406h-78.726562v-146.683594h78.726562v29.320313c0 11.046875 8.957032 20 20 20zm-256.726562 176.03125h-78v-117.335938h78zm276.726562 98.695312h77.273438v58.636719h-77.273438zm0-186.679687h77.273438v58.632812h-77.273438zm0-186.683594h77.273438v58.636719h-77.273438zm0 0"/>`
@@ -344,9 +355,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
     android: `<path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"></path>`,
     appleBrands: {
       viewBox: '0 0 15.126 18',
-      icon: `<path class="a"
-          d="M16.646,41.512A3.752,3.752,0,0,1,18.656,38.1a4.318,4.318,0,0,0-3.4-1.792c-1.427-.113-2.986.832-3.556.832-.6,0-1.985-.792-3.07-.792C6.383,36.388,4,38.14,4,41.7a10.016,10.016,0,0,0,.579,3.263C5.093,46.443,6.95,50.06,8.887,50c1.013-.024,1.728-.719,3.046-.719,1.278,0,1.941.719,3.07.719,1.953-.028,3.633-3.315,4.123-4.794a3.984,3.984,0,0,1-2.479-3.693Zm-2.275-6.6A3.785,3.785,0,0,0,15.336,32a4.261,4.261,0,0,0-2.729,1.4,3.844,3.844,0,0,0-1.029,2.889A3.375,3.375,0,0,0,14.372,34.913Z"
-          transform="translate(-4 -32)"/>`
+      icon: `<path d="M16.646,41.512A3.752,3.752,0,0,1,18.656,38.1a4.318,4.318,0,0,0-3.4-1.792c-1.427-.113-2.986.832-3.556.832-.6,0-1.985-.792-3.07-.792C6.383,36.388,4,38.14,4,41.7a10.016,10.016,0,0,0,.579,3.263C5.093,46.443,6.95,50.06,8.887,50c1.013-.024,1.728-.719,3.046-.719,1.278,0,1.941.719,3.07.719,1.953-.028,3.633-3.315,4.123-4.794a3.984,3.984,0,0,1-2.479-3.693Zm-2.275-6.6A3.785,3.785,0,0,0,15.336,32a4.261,4.261,0,0,0-2.729,1.4,3.844,3.844,0,0,0-1.029,2.889A3.375,3.375,0,0,0,14.372,34.913Z" transform="translate(-4 -32)"/>`
     },
     archive: {
       viewBox: "0 0 26.374 30.966",
@@ -356,6 +365,10 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
     },
     appTemplate: {
       icon: `<path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path>`
+    },
+    distributions: {
+      icon: `<path d="M33.24,40.86l27.67-9.21c0.33-0.11,0.68-0.1,0.98,0v0l28.03,9.6c0.69,0.23,1.11,0.9,1.04,1.6 c0.01,0.03,0.01,0.07,0.01,0.11v32.6h-0.01c0,0.56-0.31,1.11-0.85,1.38L62.28,91.08c-0.23,0.14-0.51,0.22-0.8,0.22 c-0.31,0-0.6-0.09-0.84-0.25l-27.9-14.55c-0.53-0.28-0.83-0.81-0.83-1.37h0V42.4C31.9,41.61,32.48,40.97,33.24,40.86L33.24,40.86 L33.24,40.86z M24.28,21.66l8.46,8.46c0.74,0.74,0.74,1.93,0,2.67c-0.73,0.73-1.93,0.73-2.66,0l-8.4-8.4l0.23,5.56 c0,0.05,0,0.11-0.02,0.16c-0.13,0.42-0.4,0.78-0.74,1.03c-0.34,0.25-0.75,0.4-1.2,0.4c-0.56,0.01-1.08-0.22-1.45-0.59 c-0.38-0.37-0.61-0.88-0.62-1.45c-0.16-3.2-0.49-6.78-0.49-9.93c0-0.64,0.22-1.18,0.61-1.56c0.38-0.37,0.9-0.59,1.52-0.6 c2.68-0.1,7.21,0.26,10,0.46c0.56,0.01,1.07,0.23,1.43,0.6c0.36,0.36,0.59,0.86,0.61,1.41v0.05c0,0.56-0.23,1.08-0.6,1.45 c-0.36,0.36-0.86,0.59-1.41,0.6l-0.04,0l0,0c-1.7,0-3.01-0.12-4.31-0.24L24.28,21.66L24.28,21.66z M7.04,59.58H19 c1.04,0,1.88,0.84,1.88,1.88s-0.84,1.88-1.88,1.88H7.12l4.1,3.77c0.04,0.04,0.07,0.08,0.1,0.13c0.2,0.39,0.27,0.83,0.2,1.25 c-0.06,0.41-0.25,0.81-0.57,1.13c-0.39,0.4-0.92,0.61-1.44,0.61c-0.53,0-1.06-0.19-1.46-0.59c-2.37-2.15-5.14-4.45-7.37-6.68 C0.22,62.52,0,61.99,0,61.45c0-0.53,0.22-1.05,0.65-1.49c1.82-1.97,5.29-4.91,7.4-6.74c0.4-0.39,0.92-0.59,1.44-0.59 c0.51,0,1.02,0.19,1.42,0.56l0.04,0.04c0.4,0.4,0.6,0.93,0.6,1.45c0,0.51-0.19,1.02-0.57,1.42l-0.02,0.03l0,0 c-1.2,1.21-2.21,2.04-3.22,2.87L7.04,59.58L7.04,59.58z M21.66,98.6l8.46-8.46c0.73-0.73,1.93-0.73,2.66,0 c0.74,0.74,0.74,1.93,0,2.67l-8.4,8.4l5.56-0.23c0.05,0,0.11,0.01,0.16,0.02c0.42,0.14,0.78,0.4,1.03,0.74 c0.25,0.34,0.4,0.75,0.4,1.2c0,0.56-0.22,1.08-0.59,1.45c-0.37,0.38-0.88,0.61-1.45,0.62c-3.2,0.16-6.78,0.49-9.94,0.49 c-0.64,0-1.18-0.22-1.56-0.6c-0.37-0.38-0.59-0.9-0.6-1.52c-0.11-2.68,0.26-7.21,0.46-10c0.01-0.56,0.23-1.07,0.6-1.43 c0.36-0.36,0.86-0.59,1.4-0.61h0.05c0.56,0,1.08,0.23,1.45,0.6c0.36,0.36,0.59,0.86,0.61,1.41l0,0.03l0,0 c0.01,1.71-0.12,3.01-0.24,4.31L21.66,98.6L21.66,98.6z M59.58,115.83v-11.96c0-1.04,0.84-1.88,1.88-1.88 c1.04,0,1.88,0.84,1.88,1.88v11.88l3.77-4.1c0.04-0.04,0.08-0.07,0.13-0.1c0.39-0.2,0.83-0.27,1.25-0.2 c0.41,0.06,0.81,0.25,1.13,0.57c0.4,0.39,0.61,0.92,0.61,1.45c0,0.53-0.19,1.06-0.59,1.46c-2.15,2.37-4.45,5.14-6.68,7.37 c-0.46,0.45-0.99,0.68-1.53,0.68c-0.53,0-1.05-0.22-1.49-0.65c-1.97-1.82-4.91-5.28-6.74-7.4c-0.39-0.4-0.59-0.92-0.59-1.44 c0-0.51,0.19-1.03,0.56-1.42l0.04-0.04c0.4-0.4,0.93-0.6,1.45-0.6c0.51,0,1.02,0.19,1.42,0.57l0.02,0.02l0,0 c1.21,1.2,2.04,2.21,2.87,3.22L59.58,115.83L59.58,115.83z M98.6,101.22l-8.46-8.46c-0.74-0.74-0.74-1.93,0-2.67 c0.73-0.73,1.93-0.73,2.66,0l8.4,8.4l-0.23-5.56c0-0.05,0-0.11,0.02-0.16c0.13-0.42,0.4-0.78,0.74-1.03c0.34-0.25,0.75-0.4,1.2-0.4 c0.56-0.01,1.08,0.22,1.45,0.59c0.38,0.37,0.61,0.88,0.62,1.45c0.16,3.2,0.49,6.78,0.49,9.94c0,0.64-0.22,1.18-0.61,1.56 c-0.38,0.37-0.9,0.59-1.52,0.6c-2.68,0.1-7.21-0.26-10-0.46c-0.56-0.01-1.07-0.23-1.43-0.6c-0.36-0.36-0.59-0.86-0.61-1.41v-0.05 c0-0.56,0.23-1.08,0.6-1.45c0.36-0.36,0.86-0.59,1.41-0.61l0.04,0l0,0c1.71-0.01,3.01,0.12,4.3,0.24L98.6,101.22L98.6,101.22z M115.84,63.29h-11.96c-1.04,0-1.89-0.84-1.89-1.88c0-1.04,0.85-1.88,1.89-1.88h11.88l-4.1-3.77c-0.04-0.04-0.07-0.08-0.1-0.13 c-0.2-0.39-0.27-0.83-0.2-1.25c0.06-0.41,0.25-0.81,0.57-1.13c0.4-0.4,0.92-0.61,1.45-0.61c0.53,0,1.06,0.19,1.46,0.59 c2.37,2.15,5.14,4.45,7.37,6.68c0.45,0.46,0.68,0.99,0.67,1.53c0,0.53-0.22,1.05-0.65,1.49c-1.82,1.97-5.29,4.91-7.4,6.74 c-0.4,0.39-0.92,0.59-1.44,0.59c-0.51,0-1.03-0.19-1.42-0.56l-0.04-0.04c-0.4-0.4-0.6-0.93-0.6-1.45c0-0.51,0.19-1.03,0.57-1.42 l0.02-0.03l0,0c1.2-1.21,2.21-2.04,3.22-2.87L115.84,63.29L115.84,63.29z M101.21,24.28l-8.46,8.46c-0.73,0.73-1.93,0.73-2.66,0 c-0.74-0.74-0.74-1.93,0-2.66l8.4-8.4l-5.56,0.23c-0.05,0-0.11-0.01-0.16-0.02c-0.42-0.14-0.78-0.4-1.03-0.74 c-0.25-0.34-0.4-0.75-0.4-1.2c0-0.56,0.22-1.08,0.59-1.45c0.37-0.38,0.88-0.61,1.45-0.62c3.2-0.16,6.78-0.49,9.94-0.49 c0.64,0,1.18,0.22,1.56,0.6c0.37,0.38,0.59,0.9,0.6,1.52c0.11,2.68-0.26,7.21-0.46,10c-0.01,0.56-0.23,1.07-0.6,1.44 c-0.36,0.36-0.86,0.59-1.41,0.61h-0.05c-0.56,0-1.08-0.23-1.45-0.6c-0.36-0.36-0.59-0.86-0.61-1.41l0-0.03l0,0 c0-1.71,0.12-3.01,0.24-4.31L101.21,24.28L101.21,24.28z M63.29,7.04V19c0,1.04-0.84,1.88-1.88,1.88c-1.04,0-1.89-0.84-1.89-1.88 V7.13l-3.76,4.09c-0.04,0.04-0.08,0.07-0.13,0.1c-0.39,0.2-0.83,0.27-1.25,0.2c-0.41-0.06-0.81-0.25-1.13-0.57 c-0.4-0.39-0.61-0.92-0.61-1.44c0-0.53,0.19-1.06,0.59-1.46c2.15-2.37,4.45-5.14,6.68-7.37C60.35,0.22,60.89,0,61.43,0 c0.53,0,1.05,0.22,1.49,0.65c1.97,1.82,4.91,5.28,6.74,7.4c0.39,0.4,0.59,0.92,0.59,1.44c0,0.51-0.19,1.02-0.56,1.42l-0.04,0.04 c-0.4,0.4-0.93,0.6-1.45,0.6c-0.51,0-1.02-0.19-1.42-0.57l-0.03-0.02l0,0c-1.21-1.2-2.04-2.21-2.87-3.22L63.29,7.04L63.29,7.04z M39.36,64.75c0-0.59,0.48-1.08,1.08-1.08c0.59,0,1.08,0.48,1.08,1.08v4.39c0,0.03,0,0.07-0.01,0.11c0,0.15,0.02,0.27,0.05,0.37 c0.02,0.03,0.03,0.06,0.06,0.08l2.69,1.25c0.54,0.25,0.77,0.89,0.53,1.43c-0.25,0.54-0.88,0.77-1.42,0.53l-2.75-1.28 c-0.05-0.02-0.1-0.04-0.14-0.08c-0.44-0.28-0.75-0.65-0.94-1.11c-0.15-0.37-0.22-0.78-0.21-1.22v-0.07L39.36,64.75L39.36,64.75 L39.36,64.75z M59.93,87.21V56.02L35,44.72v29.48L59.93,87.21L59.93,87.21L59.93,87.21z M87.86,45.09L63.03,56.04v31.2l24.83-12.62 V45.09L87.86,45.09L87.86,45.09z M61.38,34.74l-23.57,7.85l23.68,10.74L85.17,42.9L61.38,34.74L61.38,34.74L61.38,34.74z"/>`,
+      viewBox: '0 0 122.87 122.88'
     },
     compile: {
       viewBox: "0 0 32 32",
@@ -669,10 +682,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
 
   _exports.TREE_ICONS = TREE_ICONS;
   const DS_ICONS = Object.assign(ICONS, TREE_ICONS);
-  /************
-  JSX PROCESSOR
-  ************/
-
   _exports.DS_ICONS = DS_ICONS;
 
   function _extends() {
@@ -773,10 +782,26 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       icon: "close"
     }));
   }
+  /********
+  board.jsx
+  ********/
+
+
+  const DSBoard = ({
+    children,
+    className
+  }) => {
+    const cls = `ds__board ${className ? `${className}` : ''}`;
+    return /*#__PURE__*/React.createElement("div", {
+      className: cls
+    }, children);
+  };
   /*******
   card.jsx
   *******/
 
+
+  _exports.DSBoard = DSBoard;
 
   function DSCard({
     header,
@@ -788,10 +813,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
   }
 
   function DSCards({
-    children
+    children,
+    className
   }) {
+    const cls = `ds-cards__container${className ? ` ${className}` : ''} `;
     return /*#__PURE__*/React.createElement("section", {
-      className: "ds-cards__container"
+      className: cls
     }, children);
   }
   /************************
@@ -959,6 +986,32 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
       onClick: navigate
     }, children);
   }
+  /*************
+  small-card.jsx
+  *************/
+
+
+  function SmallCard({
+    icon,
+    header,
+    content,
+    children
+  }) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "ds-small-card card"
+    }, icon && /*#__PURE__*/React.createElement("section", {
+      className: "ds-small-card__icon"
+    }, /*#__PURE__*/React.createElement(DSIcon, {
+      className: "circle primary",
+      icon: icon
+    })), /*#__PURE__*/React.createElement("section", {
+      className: "content"
+    }, header && /*#__PURE__*/React.createElement("h5", {
+      className: "ds-small-card__header"
+    }, header), content !== 'undefined' && /*#__PURE__*/React.createElement("span", {
+      className: "ds-small-card__detail"
+    }, content)));
+  }
   /**********
   spinner.jsx
   **********/
@@ -1040,6 +1093,8 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/spinner/code", "@beyond-
 
   _exports.useForm = useForm;
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-alert{padding:15px;color:#fff;position:relative;display:grid;align-items:center;align-content:center;border-radius:2px;box-shadow:0 10px 13px -7px #000,0 2px 11px 3px transparent}.beyond-alert.alert-icon,.beyond-alert.alert-icon-left{grid-template-columns:auto 1fr}.beyond-alert.alert-icon-right{grid-template-columns:1fr auto}.beyond-alert .alert-icon{padding:0 10px;display:flex}.beyond-alert h3{margin:0;text-transform:uppercase}.beyond-alert p{margin:0;text-transform:uppercase}.beyond-alert.alert-info{background-color:var(--beyond-info-color)}.beyond-alert.alert-success{background:var(--beyond-success-color)}.beyond-alert.alert-danger,.beyond-alert.alert-error{background:#d2281e}.beyond-alert.alert-warning{background:#f7d994}.beyond-alert .beyond-alert__close-icon{height:.8rem;width:.8rem;position:absolute;top:15px;right:15px}.beyond-alert .beyond-alert__close-icon svg{height:.6rem;width:.6rem}.beyond-alert.hiding-component{opacity:0;transition:all .3s ease-in-out}.beyond-alert.hiding-component *{display:none;transition:all 150ms ease-in-out}.ds-cards__container{margin:15px 0;display:flex;flex-wrap:wrap;gap:15px;--multiplier:calc(40rem - 100%)}.ds-cards__container .ds-cards__card{padding:30px;display:flex;min-width:33%;max-width:100%;flex-grow:1;flex-basis:calc(var(--multiplier) * 999);flex-direction:column;background:#050910;border-radius:5px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.ds-cards__container .ds-cards__card:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.ds-cards__container .ds-cards__card header{font-size:1.2rem;text-align:center;color:#ffa789;margin-bottom:15px}.ds-cards__container .ds-cards__card .card__actions{display:flex;justify-content:center;margin-top:30px}.ds-cards__container .ds-cards__card .card__actions .beyond-button{width:60%}.module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;align-items:center;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.ds-spinner__container{padding:60px}.ds-spinner__container .beyond-element-spinner{width:110px;height:110px}.cssload-container{position:relative}.cssload-whirlpool,.cssload-whirlpool::after,.cssload-whirlpool::before{position:absolute;top:50%;left:50%;border:1px solid #ccc;border-left-color:#000;border-radius:974px;-o-border-radius:974px;-ms-border-radius:974px;-webkit-border-radius:974px;-moz-border-radius:974px}.cssload-whirlpool{margin:-24px 0 0 -24px;height:49px;width:49px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::before{content:"";margin:-22px 0 0 -22px;height:43px;width:43px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::after{content:"";margin:-28px 0 0 -28px;height:55px;width:55px;animation:cssload-rotate 2.3s linear infinite;-o-animation:cssload-rotate 2.3s linear infinite;-ms-animation:cssload-rotate 2300ms linear infinite;-webkit-animation:cssload-rotate 2.3s linear infinite;-moz-animation:cssload-rotate 2.3s linear infinite}@keyframes cssload-rotate{100%{transform:rotate(360deg)}}@-o-keyframes cssload-rotate{100%{-o-transform:rotate(360deg)}}@-ms-keyframes cssload-rotate{100%{-ms-transform:rotate(360deg)}}@-webkit-keyframes cssload-rotate{100%{-webkit-transform:rotate(360deg)}}@-moz-keyframes cssload-rotate{100%{-moz-transform:rotate(360deg)}}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-alert{padding:15px;color:#fff;position:relative;display:grid;align-items:center;align-content:center;border-radius:2px;box-shadow:0 10px 13px -7px #000,0 2px 11px 3px transparent}.beyond-alert.alert-icon,.beyond-alert.alert-icon-left{grid-template-columns:auto 1fr}.beyond-alert.alert-icon-right{grid-template-columns:1fr auto}.beyond-alert .alert-icon{padding:0 10px;display:flex}.beyond-alert h3{margin:0;text-transform:uppercase}.beyond-alert p{margin:0;text-transform:uppercase}.beyond-alert.alert-info{background-color:var(--beyond-info-color)}.beyond-alert.alert-success{background:var(--beyond-success-color)}.beyond-alert.alert-danger,.beyond-alert.alert-error{background:#d2281e}.beyond-alert.alert-warning{background:#f7d994}.beyond-alert .beyond-alert__close-icon{height:.8rem;width:.8rem;position:absolute;top:15px;right:15px}.beyond-alert .beyond-alert__close-icon svg{height:.6rem;width:.6rem}.beyond-alert.hiding-component{opacity:0;transition:all .3s ease-in-out}.beyond-alert.hiding-component *{display:none;transition:all 150ms ease-in-out}.ds__board .board__header__actions{display:flex;align-content:center;justify-content:center;gap:10px}.ds__board .board__header__actions .bee--action{align-self:center}.ds__board .board__header__actions .beyond-icon-button{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:#050910;fill:#fff;transition:all .3s ease-in}.ds__board .pd-base{padding:2rem}.ds__board .board__header{padding:2rem;display:flex;justify-content:space-between;align-items:center}.ds__board .board__header .pathname{color:#a2000a}.ds__board .board__header .scanned__section{gap:10px}.ds-cards__container{margin:15px 0;display:flex;flex-wrap:wrap;gap:15px;--multiplier:calc(40rem - 100%)}.ds-cards__container .ds-cards__card{padding:30px;display:flex;min-width:33%;max-width:100%;flex-grow:1;flex-basis:calc(var(--multiplier) * 999);flex-direction:column;background:#050910;border-radius:5px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.ds-cards__container .ds-cards__card:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.ds-cards__container .ds-cards__card header{font-size:1.2rem;text-align:center;color:#ffa789;margin-bottom:15px}.ds-cards__container .ds-cards__card .card__actions{display:flex;justify-content:center;margin-top:30px}.ds-cards__container .ds-cards__card .card__actions .beyond-button{width:60%}.module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;align-items:center;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.ds-small-card{margin:1rem 0;padding:1rem;display:flex;gap:1rem;background:#050910;min-width:200px}.ds-small-card .ds-small-card__icon{display:flex;place-content:center;align-self:center}.ds-small-card .ds-small-card__icon svg{width:50px;border-radius:50%;height:50px;padding:1rem;background:var(--beyond-primary-color)}.ds-small-card .ds-small-card__header{padding:5px 0;font-size:1rem;font-weight:lighter}.ds-small-card .ds-small-card__detail{font-size:2rem;font-weight:bolder;color:var(--beyond-primary-accent-color)}.ds-spinner__container{padding:60px}.ds-spinner__container .beyond-element-spinner{width:110px;height:110px}.cssload-container{position:relative}.cssload-whirlpool,.cssload-whirlpool::after,.cssload-whirlpool::before{position:absolute;top:50%;left:50%;border:1px solid #ccc;border-left-color:#000;border-radius:974px;-o-border-radius:974px;-ms-border-radius:974px;-webkit-border-radius:974px;-moz-border-radius:974px}.cssload-whirlpool{margin:-24px 0 0 -24px;height:49px;width:49px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::before{content:"";margin:-22px 0 0 -22px;height:43px;width:43px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::after{content:"";margin:-28px 0 0 -28px;height:55px;width:55px;animation:cssload-rotate 2.3s linear infinite;-o-animation:cssload-rotate 2.3s linear infinite;-ms-animation:cssload-rotate 2300ms linear infinite;-webkit-animation:cssload-rotate 2.3s linear infinite;-moz-animation:cssload-rotate 2.3s linear infinite}@keyframes cssload-rotate{100%{transform:rotate(360deg)}}@-o-keyframes cssload-rotate{100%{-o-transform:rotate(360deg)}}@-ms-keyframes cssload-rotate{100%{-ms-transform:rotate(360deg)}}@-webkit-keyframes cssload-rotate{100%{-webkit-transform:rotate(360deg)}}@-moz-keyframes cssload-rotate{100%{-moz-transform:rotate(360deg)}}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

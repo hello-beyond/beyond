@@ -628,4 +628,6 @@ define(["exports"], function (_exports) {
 
     this.abort = () => xhr ? xhr.abort() : null;
   }
+
+  __pkg.initialise();
 });

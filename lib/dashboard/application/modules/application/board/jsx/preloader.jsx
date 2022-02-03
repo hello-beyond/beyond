@@ -1,35 +1,40 @@
 function Preloader() {
     return (
-        <div>
+        <div className="ds__board">
+            <div className="application__detail">
+                <section className="board__header">
+                    <header>
+                        <h2><BeyondPreloadText height="17px" width="50px"/></h2>
+                        <span className="pathname"><BeyondPreloadText height="7px" width="150px"/></span>
+                    </header>
+                    <div className="board__header__actions flex-center flex-container">
 
-            <div className="workspace__board ds-board__application application__board">
-                <header>
-                    <h2><BeyondPreloadText height="10px" width="100px"/></h2>
-                    <div className="actions">
-                        <BeyondButton style={{
-                            width: '150px'
-                        }} className="btn primary">
+                        <div className="scanned__section  flex-center flex-container">
+                            <span className="title"><BeyondPreloadText height="7px" width="100px"/></span>
+
+                            <div className="detail_item">
+                                ...
+                            </div>
+                            <button className="beyond-icon-button circle button--fetching">
+                                <BeyondSpinner active className="primary"/>
+                            </button>
+                        </div>
+                        <BeyondButton icon="distributions" className="btn primary"/>
+                        <DSIconButton className="circle bee--action action--play" icon="compile"/>
+                        <DSIconButton icon="play"/>
+                        <button className="beyond-icon-button circle button--fetching">
+                            <BeyondSpinner active className="primary"/>
+                        </button>
+                        <BeyondButton className="btn primary">
                             <BeyondSpinner className="on-primary"/>
                         </BeyondButton>
-                    </div>
-                </header>
-                <section>
-                    <div className="item-information">
-                        <div><BeyondPreloadText height="7px" width="50px"/></div>
-                        <div className="description-item">
-                            <DSIconButton icon="edit"/>
-                        </div>
-
-                    </div>
-                    <div className="item-information">
-                        <div><BeyondPreloadText height="7px" width="50px"/></div>
-                        <div className="description-item">
-
-                            <DSIconButton icon="edit"/>
-                        </div>
 
                     </div>
                 </section>
+                <div className="pd-base">
+                    <span className="link"> <BeyondPreloadText height="7px" width="50px"/></span>
+                </div>
+
 
             </div>
 

@@ -1,5 +1,4 @@
 function Theme() {
-
     const {editorSettings, texts: {controls}} = useConfigContext();
 
     const handleChange = ele => {

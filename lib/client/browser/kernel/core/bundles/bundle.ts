@@ -1,9 +1,10 @@
 import type {Container} from "./bundles";
 import type {BeyondWidget} from "../widgets/widget";
-import {BundleStyles} from "./styles";
+import {BundleStyles} from "./styles/styles";
 import {Package} from "./package/package";
 import {dependencies, IDependencies} from "./instances/dependencies";
 import {Dependencies} from "./dependencies";
+import {HMR} from "./hmr";
 
 export /*bundle*/
 class Bundle extends Map<string, Package> {
@@ -20,6 +21,11 @@ class Bundle extends Map<string, Package> {
     readonly #multilanguage: boolean;
     get multilanguage() {
         return this.#multilanguage;
+    }
+
+    readonly #hmr: HMR;
+    get hmr() {
+        return this.#hmr;
     }
 
     package(language?: string): Package {
@@ -72,6 +78,7 @@ class Bundle extends Map<string, Package> {
         deps && dependencies.register(deps);
         this.#dependencies.update(deps);
 
+        this.#hmr = new HMR(this);
         this.#styles = new BundleStyles(this);
     }
 }

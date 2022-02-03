@@ -20,7 +20,7 @@ function ApplicationsSettings() {
             texts
         }}>
             <ApplicationsSelect/>
-            {selected && <ListDistributions texts={texts.distribution}/>}
+            {selected && <AppDistributions texts={texts.distribution} application={selected}/>}
         </AppsSettingsContext.Provider>
 
     )

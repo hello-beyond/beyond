@@ -1,13 +1,9 @@
 import type {widgets, WidgetSpecs} from './widgets';
-import type {beyond} from "../beyond";
 import type {BeyondWidgetController} from "./controller/controller";
 import {instances} from "./instances/instances";
 import type {NodeWidget} from "./instances/node";
 
-type Beyond = typeof beyond;
 type Widgets = typeof widgets;
-
-declare function require(module: string): any;
 
 const Element = typeof HTMLElement === 'undefined' ? null : HTMLElement;
 
@@ -65,8 +61,8 @@ export class BeyondWidget extends Element {
     #holders = new Set(['connected', 'loaded']);
 
     #initialise = () => {
-        const beyond: Beyond = require('../beyond').beyond;
-        beyond.import(this.#id).then(bundle => {
+        const {beyond} = require('../beyond');
+        beyond.import(this.#id).then((bundle: any) => {
             this.#bundle = bundle;
             this.#loading = false;
             this.#loaded = true;
@@ -75,7 +71,7 @@ export class BeyondWidget extends Element {
 
             const event = new CustomEvent('bundle.loaded', {bubbles: true, composed: true});
             this.dispatchEvent(event);
-        }).catch(exc => {
+        }).catch((exc: Error) => {
             console.log(`Error loading widget "${this.#id}"`, exc.stack);
             this.#error = exc.message;
             this.#loading = false;
@@ -88,7 +84,7 @@ export class BeyondWidget extends Element {
 
         this.attachShadow({mode: 'open'});
 
-        const widgets: Widgets = <Widgets>require('./widgets').widgets;
+        const widgets: Widgets = require('./widgets').widgets;
         if (!widgets.has(this.localName)) throw new Error(`Widget name "${this.localName}" is not registered`);
 
         this.#id = widgets.get(this.localName).id;

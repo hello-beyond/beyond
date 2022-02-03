@@ -1,15 +1,39 @@
-body {
-  overflow-y: auto !important;
-}
-.icon-container {
+
+.page__icons-container {
   text-align: center;
   padding: 30px;
 
+  header {
+    display: flex;
+    align-content: flex-start;
+  }
+
+  .page__content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 15px;
+
+  }
+
+  .input__search {
+    width: 100%;
+    background: transparent;
+    border: 1px solid $beyond-text-on-primary;
+    margin: 0 0 15px 0;
+    padding: 8px;
+    color: $beyond-text-on-primary;
+  }
+
+  svg {
+    fill: white;
+  }
+
   pre {
     display: block;
-    padding: 9.5px;
+    padding: 9.5px 20px;
     margin: 0 0 10px;
     font-size: 13px;
+    text-align: left;
     line-height: 1.42857143;
     color: #333;
     word-break: break-all;
@@ -17,6 +41,12 @@ body {
     background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 4px;
+    cursor: pointer;
+    transition: 300ms all ease-in;
+
+    &:hover {
+      background: $beyond-gray-light-color;
+    }
   }
 
   .icon-list {
@@ -32,6 +62,7 @@ body {
       grid-gap: 10px;
       transition: 250ms background-color;
       cursor: pointer;
+      border: 1px solid $beyond-secondary-dark-color;
 
       &:hover {
         background: #263145;

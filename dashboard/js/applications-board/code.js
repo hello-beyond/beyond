@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/preload-text/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _ts, _js, _code, _code2, _code3, _code4, _code5, _code6) {
+define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/preload-text/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _ts, _js, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6,28 +6,29 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
   });
   _exports.ApplicationsBoard = ApplicationsBoard;
   //WORKSPACE CONTEXT
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
   const bundle = beyond.bundles.obtain('@beyond-js/dashboard/applications-board/code', false, {
     "txt": {
-      "multilanguage": false
+      "multilanguage": true
     }
-  });
+  }, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /**********
   actions.jsx
   **********/
-
 
   function ApplicationActions({
     application
@@ -52,12 +53,12 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     }, /*#__PURE__*/React.createElement(BeeActions, {
       bee: application.bee,
       texts: texts.actions
-    }), !!application.errors.length && /*#__PURE__*/React.createElement(_code5.DashboardIconButton, {
+    }), !!application.errors.length && /*#__PURE__*/React.createElement(_code5.DSIconButton, {
       icon: "error",
       title: `total: ${application.errors.length}`,
       className: "circle error-icon",
       onClick: event => compile(event, 'client', application)
-    }), /*#__PURE__*/React.createElement(_code5.DashboardIconButton, {
+    }), /*#__PURE__*/React.createElement(_code5.DSIconButton, {
       icon: "compile",
       title: texts.actions.compile,
       className: "circle",
@@ -99,7 +100,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
       className: "link bold"
     }, application.name), /*#__PURE__*/React.createElement("p", {
       className: "p1"
-    }, description), /*#__PURE__*/React.createElement("a", {
+    }, description), application.port && /*#__PURE__*/React.createElement("a", {
       onClick: openNavigator,
       href: application.url,
       className: "link",
@@ -131,7 +132,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     if (!bee) return null;
     const icons = {
       stopped: 'play',
-      running: 'restart'
+      running: 'refresh'
     };
     const action = bee.status !== 'initialising' && icons[bee.status];
 
@@ -231,7 +232,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
         creteApp: showAppForm
       }
     }, /*#__PURE__*/React.createElement("main", {
-      className: "ds-applications-board"
+      className: "ds-projects-board"
     }, /*#__PURE__*/React.createElement("header", {
       className: "list_header"
     }, /*#__PURE__*/React.createElement("h4", null, headerTexts.title), /*#__PURE__*/React.createElement("div", {
@@ -239,7 +240,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     }, /*#__PURE__*/React.createElement("div", {
       className: "link",
       onClick: showAppForm
-    }, texts.actions.create), /*#__PURE__*/React.createElement("span", null, applications.items.length, " ", headerTexts.title))), apps));
+    }, texts.actions.create), /*#__PURE__*/React.createElement("span", null, applications.items.length, " ", headerTexts.title))), /*#__PURE__*/React.createElement("section", {
+      className: "ds-board__list-container"
+    }, apps)));
   }
   /********
   empty.jsx
@@ -281,17 +284,24 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
   function PreloadCollection({
     header
   }) {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, header && /*#__PURE__*/React.createElement(DsHeaderBar, null, /*#__PURE__*/React.createElement("header", {
-      className: "app-header"
+    return /*#__PURE__*/React.createElement("div", {
+      className: "ds-projects-board"
+    }, /*#__PURE__*/React.createElement("header", {
+      className: "list_header"
+    }, /*#__PURE__*/React.createElement("h4", null, /*#__PURE__*/React.createElement(_code3.BeyondPreloadText, {
+      height: "17px",
+      width: "50px"
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "actions"
     }, /*#__PURE__*/React.createElement("div", {
-      className: "info-list"
-    }, /*#__PURE__*/React.createElement("h4", null, "\xA0")))), /*#__PURE__*/React.createElement("div", {
-      className: "ds-container"
-    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement(PreloadHeader, {
-      title: "Applications"
-    }), /*#__PURE__*/React.createElement(PreloadItem, null)), /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement(PreloadHeader, {
-      title: "Libraries"
-    }), /*#__PURE__*/React.createElement(PreloadItem, null), /*#__PURE__*/React.createElement(PreloadItem, null), /*#__PURE__*/React.createElement(PreloadItem, null))));
+      className: "link"
+    }, /*#__PURE__*/React.createElement(_code3.BeyondPreloadText, {
+      height: "17px",
+      width: "50px"
+    })), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement(_code3.BeyondPreloadText, {
+      height: "17px",
+      width: "50px"
+    })))), /*#__PURE__*/React.createElement(PreloadItem, null), /*#__PURE__*/React.createElement(PreloadItem, null));
   }
   /*****************
   preload\header.jsx
@@ -325,13 +335,19 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
     })), /*#__PURE__*/React.createElement("p", {
       className: "p1"
     }, /*#__PURE__*/React.createElement(_code3.BeyondPreloadText, {
-      height: `10px`,
+      height: `7px`,
       width: `50px`
+    })), /*#__PURE__*/React.createElement("a", {
+      className: "link"
+    }, /*#__PURE__*/React.createElement(_code3.BeyondPreloadText, {
+      height: `7px`,
+      width: `100px`
     })), /*#__PURE__*/React.createElement("p", {
       className: "p2 primary-text"
     }, /*#__PURE__*/React.createElement(_code3.BeyondPreloadText, {
-      height: `10px`,
-      width: `100px`
+      height: `7px`,
+      width: `300px`,
+      className: "primary"
     }))), /*#__PURE__*/React.createElement("div", {
       className: "right-col actions"
     }, /*#__PURE__*/React.createElement(_code5.DashboardIconButton, {
@@ -476,6 +492,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/ts", "
   **********/
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.after-loading{animation:show 1s 1}@keyframes show{0%{opacity:0}100%{height:100%;opacity:1}}.no-scroll{overflow:hidden!important}.preload-container{display:flex;position:absolute;position:absolute;top:0;left:0;bottom:0;right:0;background:#000;z-index:3;align-items:center;justify-content:center;transition:all .3s ease-in}.preload-container .animation-container{display:flex;align-items:center;justify-content:center}.preload-container.finishing-preload{background:#ff0}.preload-container .overlay{position:absolute;bottom:-100px;left:0;background:red;z-index:5;transform:skewY(11deg);width:100%;transition:all 2ms ease-in;opacity:0;height:0}.preload-container .overlay.close{transition:all .3s ease-in;height:130vh;opacity:1}.preload-container .circle span{position:absolute;top:0;left:0;bottom:0;right:0;border-radius:50%;background:#050910;height:400px;width:400px;margin:auto;animation:pulse 2.5s linear infinite;animation-delay:calc(.5s * var(--i));transition:all .3s ease-in}@keyframes pulse{0%{transform:scale(1);opacity:.5}90%{transform:scale(3);opacity:.75}100%{transform:scale(4);opacity:0}}.preload-container.finishing .beyond-element-image{position:absolute;margin:auto;z-index:10;transition:all 1.3s ease-in-out;animation:appear 2s 1;overflow:hidden}.preload-container.finishing .animation-container{height:100%;width:100%;transform:rotate(0);transition:all .3s linear}.preload-container.finishing .animation-container .line{animation:0;transition:all .1s linear;opacity:0}.preload-container.finishing .animation-container .animate-svg__container .ds-preload__icon-container{animation:twist .9s 1;transform-origin:center;transform-box:fill-box;animation-fill-mode:forwards}.preload-container.finishing .animation-container .animate-svg__container .ds-preload__icon-container .ds-preload__icon{height:88px;left:-22px}@keyframes appear{0%{height:0;width:0}90%{height:auto;width:auto;opacity:1}}@keyframes twist{from{transform:rotate(0)}to{transform:rotate(360deg);opacity:0}}.preload-container .beyond-element-image{opacity:0;position:absolute;margin:auto}.preload-container .animation-container{position:relative;height:50%;transition:all .3s ease-in;width:50%;transform:rotate(30deg)}.preload-container .animation-container .animate-svg__container{align-items:center;justify-content:center;display:flex;position:absolute;top:0;left:0;bottom:0;right:0}.preload-container .animation-container .animate-svg__container .ds-preload__icon{z-index:20;height:150px;width:150px;margin:auto;animation:rotate 2s linear infinite;transform-origin:center;transform-box:fill-box;animation-fill-mode:forwards}.preload-container .animation-container .line{position:absolute;height:100px;width:2px;border:2px solid;z-index:1;margin:15px;transform:rotate(30deg);animation:move .3s infinite;animation-fill-mode:forwards}.preload-container .animation-container .line.line-one{margin-top:-100px;margin-left:-200px}.preload-container .animation-container .line.line-one-two{margin-top:-280px;margin-left:-80px;border-color:rgba(255,255,200,.1)}.preload-container .animation-container .line.line-three{margin-left:-20px;border-color:rgba(255,255,200,.1);margin-top:-150px;display:none}.preload-container .animation-container .line.line-two{margin-left:200px;margin-top:150px}.preload-container .animation-container .line.line-two-two{border-color:rgba(255,255,200,.1);margin-left:130px;margin-top:30px}@keyframes move{from{transform:translateY(-150px)}to{transform:translateY(150px)}}@keyframes rotate{0%{transform:rotate(0)}13%{transform:rotate(30deg) scale(1.1)}26%{transform:rotate(45deg) scale(1.01)}39%{transform:rotate(30deg) scale(1)}50%{transform:rotate(0) scale(1.1)}63%{transform:rotate(-30deg) scale(1.01)}76%{transform:rotate(-45deg) scale(1.02)}89%{transform:rotate(-30deg)}}.actions .beyond-icon-button.bee--action,.ds-applications-board .item-information .beyond-icon-button.bee--action{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:#050910;fill:#fff;transition:all .3s ease-in}.actions .beyond-icon-button.bee--action.action--play,.ds-applications-board .item-information .beyond-icon-button.bee--action.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.actions .beyond-icon-button.bee--action.action--stop,.ds-applications-board .item-information .beyond-icon-button.bee--action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.ds-applications-board .ds-item_list{border-bottom:1px solid #f0f0f0;padding:20px;display:grid;justify-content:space-between;align-items:center;flex-flow:row;cursor:pointer;transition:all .2s ease-in;grid-template-columns:1fr 1fr}.ds-applications-board .ds-item_list:last-child{border-bottom:none;margin-bottom:20px}.ds-applications-board .ds-item_list:hover{transition:all .2s ease-in-out;background:rgba(5,9,16,.5)}.ds-applications-board .ds-item_list .p2{padding:0}.ds-applications-board .ds-item_list .right-col{text-align:right;justify-content:flex-end}.ds-applications-board .ds-item_list .p1,.ds-applications-board .ds-item_list h3,.ds-applications-board .ds-item_list h4{margin:0;padding:0}.ds-applications-board .ds-item_list .actions,.ds-applications-board .ds-item_list .item-information{display:flex;gap:8px}.ds-applications-board .ds-item_list .actions .action-icon:hover .beyond-icon,.ds-applications-board .ds-item_list .item-information .action-icon:hover .beyond-icon{border:1px solid #a2000a;background:#a2000a;transition:all .3s ease-in}.ds-applications-board .ds-item_list .actions .beyond-icon-button.error-icon .beyond-icon,.ds-applications-board .ds-item_list .item-information .beyond-icon-button.error-icon .beyond-icon{background:#d2281e}.ds-applications-board .ds-item_list .actions .beyond-icon-button,.ds-applications-board .ds-item_list .item-information .beyond-icon-button{border:1px solid #121f36;border-radius:50%;padding:10px;height:3.2rem;width:3.2rem;background:#050910;fill:#fff;transition:all .3s ease-in}.ds-applications-board .ds-item_list .actions .beyond-icon-button .beyond-ripple,.ds-applications-board .ds-item_list .item-information .beyond-icon-button .beyond-ripple{border-radius:50%}.ds-applications-board .ds-item_list .actions .beyond-icon-button.error-icon,.ds-applications-board .ds-item_list .item-information .beyond-icon-button.error-icon{background:#d2281e}.ds-applications-board .ds-item_list .actions .beyond-icon-button.warning-icon,.ds-applications-board .ds-item_list .item-information .beyond-icon-button.warning-icon{fill:#F7D994}.ds-applications-board .ds-item_list .actions .beyond-icon-button.bee--action,.ds-applications-board .ds-item_list .item-information .beyond-icon-button.bee--action{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;background:#050910;fill:#fff;transition:all .3s ease-in}.ds-applications-board .ds-item_list .actions .beyond-icon-button.bee--action.action--play,.ds-applications-board .ds-item_list .item-information .beyond-icon-button.bee--action.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.ds-applications-board .ds-item_list .actions .beyond-icon-button.bee--action.action--stop,.ds-applications-board .ds-item_list .item-information .beyond-icon-button.bee--action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.ds-applications-board .ds-item_list .blank-page{min-height:50vh;display:grid;align-items:center;justify-content:center;text-align:center}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-applications-board .list_header{display:flex;justify-content:space-between;flex-flow:row;border-top-right-radius:15px;background-image:linear-gradient(to right,#313c50 0,#050910 100%);color:#fff;padding:2px 15px;align-items:center}.ds-applications-board .list_header .actions{display:grid;grid-auto-flow:column;grid-gap:15px;align-items:center}.ds-applications-board .list_header .information-text{color:#313c50}.ds-applications-board .beyond-icon-button.button--fetching{height:3.2rem;width:3.2rem;border:1px solid #121f36;opacity:.5}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.after-loading{animation:show 1s 1}@keyframes show{0%{opacity:0}100%{height:100%;opacity:1}}.no-scroll{overflow:hidden!important}.preload-container{display:flex;position:absolute;position:absolute;top:0;left:0;bottom:0;right:0;background:#000;z-index:3;align-items:center;justify-content:center;transition:all .3s ease-in}.preload-container .animation-container{display:flex;align-items:center;justify-content:center}.preload-container.finishing-preload{background:#ff0}.preload-container .overlay{position:absolute;bottom:-100px;left:0;background:red;z-index:5;transform:skewY(11deg);width:100%;transition:all 2ms ease-in;opacity:0;height:0}.preload-container .overlay.close{transition:all .3s ease-in;height:130vh;opacity:1}.preload-container .circle span{position:absolute;top:0;left:0;bottom:0;right:0;border-radius:50%;background:#050910;height:400px;width:400px;margin:auto;animation:pulse 2.5s linear infinite;animation-delay:calc(.5s * var(--i));transition:all .3s ease-in}@keyframes pulse{0%{transform:scale(1);opacity:.5}90%{transform:scale(3);opacity:.75}100%{transform:scale(4);opacity:0}}.preload-container.finishing .beyond-element-image{position:absolute;margin:auto;z-index:10;transition:all 1.3s ease-in-out;animation:appear 2s 1;overflow:hidden}.preload-container.finishing .animation-container{height:100%;width:100%;transform:rotate(0);transition:all .3s linear}.preload-container.finishing .animation-container .line{animation:0;transition:all .1s linear;opacity:0}.preload-container.finishing .animation-container .animate-svg__container .ds-preload__icon-container{animation:twist .9s 1;transform-origin:center;transform-box:fill-box;animation-fill-mode:forwards}.preload-container.finishing .animation-container .animate-svg__container .ds-preload__icon-container .ds-preload__icon{height:88px;left:-22px}@keyframes appear{0%{height:0;width:0}90%{height:auto;width:auto;opacity:1}}@keyframes twist{from{transform:rotate(0)}to{transform:rotate(360deg);opacity:0}}.preload-container .beyond-element-image{opacity:0;position:absolute;margin:auto}.preload-container .animation-container{position:relative;height:50%;transition:all .3s ease-in;width:50%;transform:rotate(30deg)}.preload-container .animation-container .animate-svg__container{align-items:center;justify-content:center;display:flex;position:absolute;top:0;left:0;bottom:0;right:0}.preload-container .animation-container .animate-svg__container .ds-preload__icon{z-index:20;height:150px;width:150px;margin:auto;animation:rotate 2s linear infinite;transform-origin:center;transform-box:fill-box;animation-fill-mode:forwards}.preload-container .animation-container .line{position:absolute;height:100px;width:2px;border:2px solid;z-index:1;margin:15px;transform:rotate(30deg);animation:move .3s infinite;animation-fill-mode:forwards}.preload-container .animation-container .line.line-one{margin-top:-100px;margin-left:-200px}.preload-container .animation-container .line.line-one-two{margin-top:-280px;margin-left:-80px;border-color:rgba(255,255,200,.1)}.preload-container .animation-container .line.line-three{margin-left:-20px;border-color:rgba(255,255,200,.1);margin-top:-150px;display:none}.preload-container .animation-container .line.line-two{margin-left:200px;margin-top:150px}.preload-container .animation-container .line.line-two-two{border-color:rgba(255,255,200,.1);margin-left:130px;margin-top:30px}@keyframes move{from{transform:translateY(-150px)}to{transform:translateY(150px)}}@keyframes rotate{0%{transform:rotate(0)}13%{transform:rotate(30deg) scale(1.1)}26%{transform:rotate(45deg) scale(1.01)}39%{transform:rotate(30deg) scale(1)}50%{transform:rotate(0) scale(1.1)}63%{transform:rotate(-30deg) scale(1.01)}76%{transform:rotate(-45deg) scale(1.02)}89%{transform:rotate(-30deg)}}.actions .beyond-icon-button.bee--action,.ds-projects-board .item-information .beyond-icon-button.bee--action{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:#050910;fill:#fff;transition:all .3s ease-in}.actions .beyond-icon-button.bee--action.action--play,.ds-projects-board .item-information .beyond-icon-button.bee--action.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.actions .beyond-icon-button.bee--action.action--stop,.ds-projects-board .item-information .beyond-icon-button.bee--action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.ds-board__list-container .ds-item_list{border-bottom:1px solid #f0f0f0;padding:20px;display:grid;justify-content:space-between;align-items:center;flex-flow:row;cursor:pointer;transition:all .2s ease-in;grid-template-columns:1fr 1fr}.ds-board__list-container .ds-item_list:last-child{border-bottom:none;margin-bottom:20px}.ds-board__list-container .ds-item_list:hover{transition:all .2s ease-in-out;background:rgba(5,9,16,.5)}.ds-board__list-container .ds-item_list .p2{padding:0}.ds-board__list-container .ds-item_list .right-col{text-align:right;justify-content:flex-end}.ds-board__list-container .ds-item_list .p1,.ds-board__list-container .ds-item_list h3,.ds-board__list-container .ds-item_list h4{margin:0;padding:0}.ds-board__list-container .ds-item_list .actions,.ds-board__list-container .ds-item_list .item-information{display:flex;gap:8px}.ds-board__list-container .ds-item_list .actions .action-icon:hover .beyond-icon,.ds-board__list-container .ds-item_list .item-information .action-icon:hover .beyond-icon{border:1px solid #a2000a;background:#a2000a;transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.error-icon .beyond-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.error-icon .beyond-icon{background:#d2281e}.ds-board__list-container .ds-item_list .actions .beyond-icon-button,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button{border:1px solid #121f36;border-radius:50%;padding:10px;height:3.2rem;width:3.2rem;background:#050910;fill:#fff;transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button .beyond-ripple,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button .beyond-ripple{border-radius:50%}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.error-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.error-icon{background:#d2281e}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.warning-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.warning-icon{fill:#F7D994}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;background:#050910;fill:#fff;transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action.action--play,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action.action--stop,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.ds-board__list-container .ds-item_list .blank-page{min-height:50vh;display:grid;align-items:center;justify-content:center;text-align:center}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-projects-board .list_header{display:flex;justify-content:space-between;flex-flow:row;border-top-right-radius:15px;background-image:linear-gradient(to right,#313c50 0,#050910 100%);color:#fff;padding:2px 15px;align-items:center}.ds-projects-board .list_header .actions{display:grid;grid-auto-flow:column;grid-gap:15px;align-items:center}.ds-projects-board .list_header .information-text{color:#313c50}.ds-projects-board .beyond-icon-button.button--fetching{height:3.2rem;width:3.2rem;border:1px solid #121f36;opacity:.5}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

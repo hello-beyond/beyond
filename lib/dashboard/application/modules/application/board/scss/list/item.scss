@@ -3,7 +3,8 @@
   .module-list__item {
 
     display: grid;
-    grid-template-columns: 30%  1fr 1fr;
+    grid-template-columns: 1fr  auto auto;
+    align-content: center;
     grid-gap: $ds-column-grid-gap;
     justify-content: space-between;
     align-items: center;

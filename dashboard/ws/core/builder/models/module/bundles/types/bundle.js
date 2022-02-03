@@ -12,8 +12,13 @@ module.exports = class Bundle extends require('../../../file-manager') {
      * @private
      */
     _type;
+
     get type() {
         return this._type;
+    }
+
+    get identifier() {
+        return this._identifier;
     }
 
     /**
@@ -23,6 +28,11 @@ module.exports = class Bundle extends require('../../../file-manager') {
     get path() {
         return this.file.basename;
     }
+
+    /**
+     * Defines if the bundle uses an only processor
+     */
+    #alone;
 
     /**
      * Bundle constructor
@@ -39,19 +49,20 @@ module.exports = class Bundle extends require('../../../file-manager') {
         this.setValues(specs);
     }
 
-    get identifier() {
-        return this._identifier;
-    }
-
     setValues(specs) {
         this._checkProperties(specs, true);
+        if (specs.bundle) this._type = specs.bundle;
+        if (specs.alone) {
+            this.#alone = true;
+            this.#processors.add(specs.alone, {...specs, path: false})
+            return;
+        }
         this.#processors.TYPES.forEach((properties, processor) => {
             const has = specs.hasOwnProperty(processor) || specs?.processors?.includes(processor);
             if (!has) return;
             specs = Object.assign({skeleton: properties}, specs)
             this.#processors.add(processor, specs);
         });
-        if (specs.bundle) this._type = specs.bundle;
 
     }
 
@@ -77,8 +88,15 @@ module.exports = class Bundle extends require('../../../file-manager') {
     }
 
     getProperties() {
-        const props = super.getProperties();
-        this.#processors.items.forEach(processor => props[processor.type] = processor.getProperties());
+        let props = super.getProperties();
+
+        this.#processors.items.forEach(processor => {
+            if (this.#alone) {
+                props = {...props, ...(processor.getProperties())};
+
+            }
+            else props[processor.type] = processor.getProperties()
+        });
         return props;
     }
 

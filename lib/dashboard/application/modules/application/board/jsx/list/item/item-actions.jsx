@@ -5,7 +5,6 @@ function ItemActions({module}) {
     const updateState = newState => setState({...state, ...newState});
     const openModal = (e) => {
         e.stopPropagation();
-        console.log(1, module)
         updateState({modal: true});
     }
     const openConfirm = () => updateState({confirm: true});

@@ -22,6 +22,7 @@ module.exports = function (ipc) {
                 return {status: 'ok', error: 'The module already exists'};
             }
 
+            await module.load();
             await module.create(params);
             return {status: 'ok', data: true};
         }
@@ -71,6 +72,7 @@ module.exports = function (ipc) {
         if (params.static && module._static) return;
 
         delete params.moduleId;
+        await module.load();
         await module.save(params);
 
         return data;

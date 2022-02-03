@@ -18,7 +18,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
   const __pkg = bundle.package();
 
-  const modules = new Map(); // FILE: config\config.ts
+  const modules = new Map();
+  /*********************
+  FILE: config\config.ts
+  *********************/
 
   modules.set('./config/config', {
     hash: 539937088,
@@ -30,18 +33,18 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.RoutingConfig = void 0;
 
-      const pages_1 = require("./pages");
+      var _pages = require("./pages");
 
-      const layouts_1 = require("./layouts");
+      var _layouts = require("./layouts");
 
       class RoutingConfig {
-        #layouts = new layouts_1.LayoutsConfig();
+        #layouts = new _layouts.LayoutsConfig();
 
         get layouts() {
           return this.#layouts;
         }
 
-        #pages = new pages_1.PagesConfig();
+        #pages = new _pages.PagesConfig();
 
         get pages() {
           return this.#pages;
@@ -51,7 +54,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.RoutingConfig = RoutingConfig;
     }
-  }); // FILE: config\layouts.ts
+  });
+  /**********************
+  FILE: config\layouts.ts
+  **********************/
 
   modules.set('./config/layouts', {
     hash: 1325939906,
@@ -112,7 +118,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LayoutsConfig = LayoutsConfig;
     }
-  }); // FILE: config\pages.ts
+  });
+  /********************
+  FILE: config\pages.ts
+  ********************/
 
   modules.set('./config/pages', {
     hash: 198396567,
@@ -181,7 +190,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.PagesConfig = PagesConfig;
     }
-  }); // FILE: history\history.ts
+  });
+  /***********************
+  FILE: history\history.ts
+  ***********************/
 
   modules.set('./history/history', {
     hash: 1392004946,
@@ -193,9 +205,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.BeyondHistory = void 0;
 
-      const position_1 = require("./position");
+      var _position = require("./position");
 
-      const records_1 = require("./records");
+      var _records = require("./records");
       /**
        * Beyond keeps its own history list
        * @constructor
@@ -270,8 +282,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         constructor(events) {
           this.#events = events;
-          this.#position = new position_1.HistoryPosition(this.#events);
-          this.#records = new records_1.HistoryRecords(this.#position);
+          this.#position = new _position.HistoryPosition(this.#events);
+          this.#records = new _records.HistoryRecords(this.#position);
           window.addEventListener('popstate', () => this.#position.updateSessionStorageFromState()); // When the position in the sessionStorage is not set, it is the first navigation on the tab
           // When the history.state position is not set, it is when the user refreshes the page
 
@@ -292,7 +304,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.BeyondHistory = BeyondHistory;
     }
-  }); // FILE: history\position.ts
+  });
+  /************************
+  FILE: history\position.ts
+  ************************/
 
   modules.set('./history/position', {
     hash: 3297864936,
@@ -400,7 +415,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.HistoryPosition = HistoryPosition;
     }
-  }); // FILE: history\records.ts
+  });
+  /***********************
+  FILE: history\records.ts
+  ***********************/
 
   modules.set('./history/records', {
     hash: 587652707,
@@ -461,7 +479,6 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           const position = this.#records.length.toString();
           sessionStorage.setItem('__beyond_navigation_position', position);
         }
-
         /**
          * Reset the list of records from the current position
          * This is required when:
@@ -472,6 +489,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
          * In step 3 is required this method, to clean the records from position 1, and after this
          * execution, the navigation flow can push page3
          */
+
+
         resetFromPosition() {
           const position = this.#position.getFromSessionStorage();
           position && position < this.#records.length ? this.#records = this.#records.slice(0, position) : null;
@@ -487,7 +506,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.HistoryRecords = HistoryRecords;
     }
-  }); // FILE: layouts\abstract-classes\layouts\layout.ts
+  });
+  /***********************************************
+  FILE: layouts\abstract-classes\layouts\layout.ts
+  ***********************************************/
 
   modules.set('./layouts/abstract-classes/layouts/layout', {
     hash: 1360728010,
@@ -499,9 +521,11 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.LayoutContainer = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
+      /*bundle*/
 
-      class LayoutContainer extends ts_1.Events {
+
+      class LayoutContainer extends _ts.Events {
         #layoutManager;
 
         get container() {
@@ -518,7 +542,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LayoutContainer = LayoutContainer;
     }
-  }); // FILE: layouts\abstract-classes\layouts\legacy.ts
+  });
+  /***********************************************
+  FILE: layouts\abstract-classes\layouts\legacy.ts
+  ***********************************************/
 
   modules.set('./layouts/abstract-classes/layouts/legacy', {
     hash: 2180641383,
@@ -529,6 +556,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
       exports.LayoutLegacy = void 0;
+
+      var _layout = require("./layout");
       /**
        * It is required to allow backward compatibility
        * The reason why it exists is because the layout manager creates an instance of the Layout
@@ -536,7 +565,6 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
        * properties of Layout doesn't work under this design, the LayoutLegacy solves this issue
        */
 
-      const layout_1 = require("./layout");
 
       class LayoutLegacy {
         base;
@@ -546,7 +574,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         unbind = (event, listener) => this.base.unbind(event, listener);
 
         constructor(layoutManager) {
-          this.base = new layout_1.LayoutContainer(layoutManager);
+          this.base = new _layout.LayoutContainer(layoutManager);
         }
 
         get container() {
@@ -558,7 +586,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LayoutLegacy = LayoutLegacy;
     }
-  }); // FILE: layouts\abstract-classes\pages\legacy.ts
+  });
+  /*********************************************
+  FILE: layouts\abstract-classes\pages\legacy.ts
+  *********************************************/
 
   modules.set('./layouts/abstract-classes/pages/legacy', {
     hash: 1713806598,
@@ -569,6 +600,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
       exports.PageLegacy = void 0;
+
+      var _pageContainer = require("./page-container");
       /**
        * It is required to allow backward compatibility
        * The reason why it exists is because the page manager creates an instance of the Page
@@ -576,13 +609,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
        * properties of Page doesn't work under this design, the PageLegacy solves this issue
        */
 
-      const page_container_1 = require("./page-container");
 
       class PageLegacy {
         base;
 
         constructor(pageManager) {
-          this.base = new page_container_1.PageContainer(pageManager);
+          this.base = new _pageContainer.PageContainer(pageManager);
         }
 
         get container() {
@@ -617,7 +649,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.PageLegacy = PageLegacy;
     }
-  }); // FILE: layouts\abstract-classes\pages\page-container.ts
+  });
+  /*****************************************************
+  FILE: layouts\abstract-classes\pages\page-container.ts
+  *****************************************************/
 
   modules.set('./layouts/abstract-classes/pages/page-container', {
     hash: 3651745821,
@@ -628,6 +663,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
       exports.PageContainer = void 0;
+      /*bundle*/
 
       class PageContainer {
         #container;
@@ -678,7 +714,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.PageContainer = PageContainer;
     }
-  }); // FILE: layouts\layout-manager\layout-manager.ts
+  });
+  /*********************************************
+  FILE: layouts\layout-manager\layout-manager.ts
+  *********************************************/
 
   modules.set('./layouts/layout-manager/layout-manager', {
     hash: 480716395,
@@ -690,15 +729,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.LayoutManager = void 0;
 
-      const pages_1 = require("./pages/pages");
+      var _pages = require("./pages/pages");
 
-      const load_1 = require("./load");
+      var _load = require("./load");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const layouts_1 = require("../../config/layouts");
+      var _layouts = require("../../config/layouts");
 
-      class LayoutManager extends layouts_1.LayoutConfig {
+      class LayoutManager extends _layouts.LayoutConfig {
         #pages;
 
         get pages() {
@@ -711,7 +750,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#container;
         }
 
-        #loader = new load_1.LayoutLoader(this);
+        #loader = new _load.LayoutLoader(this);
         load = async () => this.name === 'default' ? null : this.#loader.load();
 
         get loaded() {
@@ -732,7 +771,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.name === 'default' ? this.#container : this.#loader.pagesContainer;
         }
 
-        #rendered = new ts_1.PendingPromise();
+        #rendered = new _ts.PendingPromise();
         rendered = () => this.#rendered.resolve();
 
         get ready() {
@@ -752,13 +791,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         constructor(name, routingConfig) {
           super(routingConfig.layouts.has(name) ? routingConfig.layouts.get(name) : undefined);
           if (this.name === 'default') this.rendered();
-          this.#pages = new pages_1.Pages(this, routingConfig);
+          this.#pages = new _pages.Pages(this, routingConfig);
           const container = 'body > .layouts-container';
           const element = document.createElement('div');
           this.#container = document.querySelector(container).appendChild(element);
         }
 
-        #cancellationToken = new ts_1.CancellationToken();
+        #cancellationToken = new _ts.CancellationToken();
 
         async show(uri) {
           const cancellationTokenId = this.#cancellationToken.reset();
@@ -805,31 +844,34 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.LayoutManager = LayoutManager;
     }
-  }); // FILE: layouts\layout-manager\load.ts
+  });
+  /***********************************
+  FILE: layouts\layout-manager\load.ts
+  ***********************************/
 
   modules.set('./layouts/layout-manager/load', {
     hash: 2997887930,
     creator: function (require, exports) {
       "use strict";
 
-      var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.LayoutLoader = void 0;
+
+      var _ts = require("@beyond-js/kernel/core/ts");
+
+      var _layout = require("../abstract-classes/layouts/layout");
+
+      var _legacy = require("../abstract-classes/layouts/legacy");
+
+      var __decorate = void 0 && (void 0).__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
             r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
             d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
       };
-
-      Object.defineProperty(exports, "__esModule", {
-        value: true
-      });
-      exports.LayoutLoader = void 0;
-
-      const ts_1 = require("@beyond-js/kernel/core/ts");
-
-      const layout_1 = require("../abstract-classes/layouts/layout");
-
-      const legacy_1 = require("../abstract-classes/layouts/legacy");
 
       class LayoutLoader {
         #layoutManager;
@@ -880,7 +922,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           let LayoutImported;
 
           try {
-            LayoutImported = (await ts_1.beyond.import(bundle)).Layout;
+            LayoutImported = (await _ts.beyond.import(bundle)).Layout;
           } catch (exc) {
             return failed(`Error importing layout from bundle "${bundle}"`, exc);
           }
@@ -891,8 +933,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
           try {
             // Required for backward compatibility
-            if (!(LayoutImported.prototype instanceof layout_1.LayoutContainer)) {
-              LayoutImported.prototype = new legacy_1.LayoutLegacy(this.#layoutManager);
+            if (!(LayoutImported.prototype instanceof _layout.LayoutContainer)) {
+              LayoutImported.prototype = new _legacy.LayoutLegacy(this.#layoutManager);
             }
 
             this.#layout = new LayoutImported(this.#layoutManager);
@@ -915,35 +957,38 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       }
 
-      __decorate([ts_1.SingleCall], LayoutLoader.prototype, "load", null);
-
       exports.LayoutLoader = LayoutLoader;
+
+      __decorate([_ts.SingleCall], LayoutLoader.prototype, "load", null);
     }
-  }); // FILE: layouts\layout-manager\pages\page-manager\loader.ts
+  });
+  /********************************************************
+  FILE: layouts\layout-manager\pages\page-manager\loader.ts
+  ********************************************************/
 
   modules.set('./layouts/layout-manager/pages/page-manager/loader', {
     hash: 88288278,
     creator: function (require, exports) {
       "use strict";
 
-      var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.PageLoader = void 0;
+
+      var _ts = require("@beyond-js/kernel/core/ts");
+
+      var _pageContainer = require("../../../abstract-classes/pages/page-container");
+
+      var _legacy = require("../../../abstract-classes/pages/legacy");
+
+      var __decorate = void 0 && (void 0).__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
             r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
             d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
       };
-
-      Object.defineProperty(exports, "__esModule", {
-        value: true
-      });
-      exports.PageLoader = void 0;
-
-      const ts_1 = require("@beyond-js/kernel/core/ts");
-
-      const page_container_1 = require("../../../abstract-classes/pages/page-container");
-
-      const legacy_1 = require("../../../abstract-classes/pages/legacy");
 
       class PageLoader {
         #pageManager; // The imported module where the Page is exported
@@ -989,8 +1034,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
             } // Required for backward compatibility
 
 
-            if (!(PageImported.prototype instanceof page_container_1.PageContainer)) {
-              PageImported.prototype = new legacy_1.PageLegacy(this.#pageManager);
+            if (!(PageImported.prototype instanceof _pageContainer.PageContainer)) {
+              PageImported.prototype = new _legacy.PageLegacy(this.#pageManager);
             }
 
             this.#page = new PageImported(this.#pageManager);
@@ -1017,7 +1062,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           const bundle = this.#pageManager.bundle;
 
           try {
-            this.#importedModule = await ts_1.beyond.import(bundle);
+            this.#importedModule = await _ts.beyond.import(bundle);
           } catch (exc) {
             return this.#pageError(`Error importing page from bundle "${bundle}"`, exc);
           }
@@ -1030,11 +1075,14 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       }
 
-      __decorate([ts_1.SingleCall], PageLoader.prototype, "load", null);
-
       exports.PageLoader = PageLoader;
+
+      __decorate([_ts.SingleCall], PageLoader.prototype, "load", null);
     }
-  }); // FILE: layouts\layout-manager\pages\page-manager\page-manager.ts
+  });
+  /**************************************************************
+  FILE: layouts\layout-manager\pages\page-manager\page-manager.ts
+  **************************************************************/
 
   modules.set('./layouts/layout-manager/pages/page-manager/page-manager', {
     hash: 3283275834,
@@ -1046,20 +1094,20 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.PageManager = void 0;
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const loader_1 = require("./loader");
+      var _loader = require("./loader");
 
-      const pages_1 = require("../../../../config/pages");
+      var _pages = require("../../../../config/pages");
 
-      class PageManager extends pages_1.PageConfig {
+      class PageManager extends _pages.PageConfig {
         #pagesContainer;
 
         get pagesContainer() {
           return this.#pagesContainer;
         }
 
-        #loader = new loader_1.PageLoader(this);
+        #loader = new _loader.PageLoader(this);
         load = async () => this.#loader.load();
         #uri;
 
@@ -1081,7 +1129,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           this.#uri = uri;
         }
 
-        #cancellationToken = new ts_1.CancellationToken();
+        #cancellationToken = new _ts.CancellationToken();
 
         async show() {
           const cancellationTokenId = this.#cancellationToken.reset();
@@ -1105,7 +1153,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.PageManager = PageManager;
     }
-  }); // FILE: layouts\layout-manager\pages\pages.ts
+  });
+  /******************************************
+  FILE: layouts\layout-manager\pages\pages.ts
+  ******************************************/
 
   modules.set('./layouts/layout-manager/pages/pages', {
     hash: 1685652701,
@@ -1117,9 +1168,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Pages = void 0;
 
-      const page_manager_1 = require("./page-manager/page-manager");
+      var _pageManager = require("./page-manager/page-manager");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
       class Pages {
         #layoutManager;
@@ -1137,7 +1188,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         } // Avoid to continue the execution on asynchronous calls, when a newest call's been made
 
 
-        #cancellationToken = new ts_1.CancellationToken();
+        #cancellationToken = new _ts.CancellationToken();
 
         async show(uri) {
           const currentCancellationToken = this.#cancellationToken.reset();
@@ -1155,7 +1206,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           } else {
             if (!this.#routingConfig.pages.has(route)) throw Error(`Route "${route}" not found`);
             const pageConfig = this.#routingConfig.pages.get(route);
-            page = new page_manager_1.PageManager(uri, pageConfig, this.#layoutManager.pagesContainer);
+            page = new _pageManager.PageManager(uri, pageConfig, this.#layoutManager.pagesContainer);
             this.#instances.set(uri.pathname, page);
           }
 
@@ -1174,7 +1225,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Pages = Pages;
     }
-  }); // FILE: layouts\layouts.ts
+  });
+  /***********************
+  FILE: layouts\layouts.ts
+  ***********************/
 
   modules.set('./layouts/layouts', {
     hash: 320378259,
@@ -1186,9 +1240,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
       exports.Layouts = void 0;
 
-      const layout_manager_1 = require("./layout-manager/layout-manager");
+      var _layoutManager = require("./layout-manager/layout-manager");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
       class Layouts {
         #config;
@@ -1204,7 +1258,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         } // Avoid to continue the execution on asynchronous calls, when a newest call's been made
 
 
-        #cancellationToken = new ts_1.CancellationToken(); // Navigate the uri once the active layout is set
+        #cancellationToken = new _ts.CancellationToken(); // Navigate the uri once the active layout is set
 
         #navigate = uri => {
           this.#active.show(uri).catch(exc => console.error(`Error showing layout "${this.#active.name}"`, exc.stack));
@@ -1240,7 +1294,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           if (this.#instances.has(layoutName)) {
             layout = this.#instances.get(layoutName);
           } else {
-            layout = new layout_manager_1.LayoutManager(layoutName, this.#config);
+            layout = new _layoutManager.LayoutManager(layoutName, this.#config);
             this.#instances.set(layoutName, layout);
           }
 
@@ -1258,7 +1312,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Layouts = Layouts;
     }
-  }); // FILE: routing.ts
+  });
+  /***************
+  FILE: routing.ts
+  ***************/
 
   modules.set('./routing', {
     hash: 1696938853,
@@ -1268,27 +1325,28 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.routing = exports.Routing = exports.RoutingMode = void 0;
+      exports.routing = exports.RoutingMode = exports.Routing = void 0;
 
-      const uri_1 = require("./uri/uri");
+      var _uri = require("./uri/uri");
 
-      const layouts_1 = require("./layouts/layouts");
+      var _layouts = require("./layouts/layouts");
 
-      const config_1 = require("./config/config");
+      var _config = require("./config/config");
 
-      const ts_1 = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/kernel/core/ts");
 
-      const history_1 = require("./history/history");
+      var _history = require("./history/history");
 
       var RoutingMode;
+      exports.RoutingMode = RoutingMode;
 
       (function (RoutingMode) {
         RoutingMode[RoutingMode["Hash"] = 0] = "Hash";
         RoutingMode[RoutingMode["Pathname"] = 1] = "Pathname";
-      })(RoutingMode = exports.RoutingMode || (exports.RoutingMode = {}));
+      })(RoutingMode || (exports.RoutingMode = RoutingMode = {}));
 
       class Routing {
-        #events = new ts_1.Events();
+        #events = new _ts.Events();
         #valid = true;
 
         get valid() {
@@ -1301,13 +1359,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#mode;
         }
 
-        #config = new config_1.RoutingConfig();
+        #config = new _config.RoutingConfig();
 
         get config() {
           return this.#config;
         }
 
-        #layouts = new layouts_1.Layouts(this.#config);
+        #layouts = new _layouts.Layouts(this.#config);
         #uri;
 
         get uri() {
@@ -1316,7 +1374,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         missing;
         redirect;
-        #history = new history_1.BeyondHistory(this.#events);
+        #history = new _history.BeyondHistory(this.#events);
 
         get history() {
           return this.#history;
@@ -1372,15 +1430,15 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         replaceState(state, title, url) {
           this.#history.replaceState(state, title, url);
           this.update().catch(exc => console.error(exc.stack));
-        }
+        } // Avoid to continue the execution on asynchronous calls, when a newest call's been made
 
-        // Avoid to continue the execution on asynchronous calls, when a newest call's been made
-        #cancellationToken = new ts_1.CancellationToken();
+
+        #cancellationToken = new _ts.CancellationToken();
         update = async () => {
           if (!this.#initialised) return;
           const cancellationTokenId = this.#cancellationToken.reset();
           if (this.#uri && this.#uri.href === location.href) return;
-          const uri = new uri_1.URI(location.href);
+          const uri = new _uri.URI(location.href);
           this.#uri = uri;
           const redirected = await this.#redirect(uri);
           if (!this.#cancellationToken.check(cancellationTokenId)) return;
@@ -1403,18 +1461,24 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       }
 
       exports.Routing = Routing;
-      exports.routing = new Routing();
-      window.routing = exports.routing;
+      /*bundle*/
 
-      beyond.navigate = (url, state) => exports.routing.pushState(url, state);
+      const routing = new Routing();
+      exports.routing = routing;
+      window.routing = routing;
 
-      beyond.pushState = (url, state) => exports.routing.pushState(url, state);
+      beyond.navigate = (url, state) => routing.pushState(url, state);
 
-      beyond.back = () => exports.routing.back();
+      beyond.pushState = (url, state) => routing.pushState(url, state);
 
-      window.addEventListener('popstate', () => exports.routing.update().catch(exc => console.error(exc.stack)));
+      beyond.back = () => routing.back();
+
+      window.addEventListener('popstate', () => routing.update().catch(exc => console.error(exc.stack)));
     }
-  }); // FILE: uri\querystring.ts
+  });
+  /***********************
+  FILE: uri\querystring.ts
+  ***********************/
 
   modules.set('./uri/querystring', {
     hash: 341598707,
@@ -1444,7 +1508,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.QueryString = QueryString;
     }
-  }); // FILE: uri\route.ts
+  });
+  /*****************
+  FILE: uri\route.ts
+  *****************/
 
   modules.set('./uri/route', {
     hash: 1632476785,
@@ -1541,7 +1608,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.Route = Route;
     }
-  }); // FILE: uri\uri.ts
+  });
+  /***************
+  FILE: uri\uri.ts
+  ***************/
 
   modules.set('./uri/uri', {
     hash: 2888599651,
@@ -1552,6 +1622,10 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
       exports.URI = void 0;
+
+      var _route = require("./route");
+
+      var _querystring = require("./querystring");
       /**
        * Uri parser
        *
@@ -1559,9 +1633,6 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
        * @constructor
        */
 
-      const route_1 = require("./route");
-
-      const querystring_1 = require("./querystring");
 
       class URI {
         #parser = document.createElement('a');
@@ -1632,8 +1703,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           this.#url = !url ? '/' : url;
           const hash = parser.hash.startsWith('#') ? parser.hash.substr(1) : '';
           this.#pathname = routing.mode === RoutingMode.Hash ? `/${hash}` : parser.pathname;
-          this.#qs = new querystring_1.QueryString(parser.search);
-          this.#route = new route_1.Route(this);
+          this.#qs = new _querystring.QueryString(parser.search);
+          this.#route = new _route.Route(this);
         }
 
         initialise = () => this.#route.initialise();

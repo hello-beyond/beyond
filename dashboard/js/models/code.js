@@ -1,4 +1,4 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6,7 +6,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   });
   _exports.BundleManager = void 0;
   _exports.DSDatabase = DSDatabase;
-  _exports.applicationsFactory = _exports.ModuleModel = _exports.ModuleManager = _exports.Dashboard = void 0;
+  _exports.applicationsFactory = _exports.ModuleModel = _exports.ModuleManager = _exports.DSUser = _exports.DSModel = void 0;
   const {
     beyond
   } = globalThis;
@@ -143,22 +143,18 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this._static;
     }
 
-    _template = {};
+    #template = {};
 
     get template() {
-      return this._template;
+      return this.#template;
     }
-
-    _errors = [];
 
     get errors() {
-      return this._errors;
+      return this.application.errors;
     }
 
-    _warnings = [];
-
     get warnings() {
-      return this._warnings;
+      return this.application.warnings;
     }
 
     _modulesTree;
@@ -245,20 +241,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       });
       this.application.bind('change', this.checkLoaded);
       this.application.bind('change', this.validateErrors);
-      this.application.bind('change', this.checkModulesErrors);
+      this.application.bind('change', this.triggerEvent);
       this.application.fetch();
       this._moduleManager = new ModuleManager(this, moduleId);
       this._favorites = _code3.FavoritesFactory.get(this.application.id, this);
 
       this._favorites.bind('change', this.triggerEvent);
-
-      window._app = this;
     }
 
     checkLoaded = () => {
       if (!this.application.tree.landed) return;
-
-      this._checkErrors();
 
       this._processModules();
 
@@ -269,8 +261,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       this.triggerEvent();
       this.application.unbind('change', this.checkLoaded);
     };
-
-    _checkErrors() {}
 
     _processModules() {
       const items = this.itemsByContainer('application').map(module => module);
@@ -286,17 +276,19 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       const {
         template: {
           application,
-          processors
+          processors,
+          global
         }
       } = this.application;
-      this._template.application = _code2.TreeFactory.get('template', [this.application, application, application.sources.items]);
-      this._template.processors = new Map();
+      this.#template.application = _code2.TreeFactory.get('template', [this.application, application, application.sources.items]);
+      this.#template.global = _code2.TreeFactory.get('template', [this.application, global, global.sources.items]);
+      this.#template.processors = new Map();
       processors.forEach(processor => {
         if (!processor.path) return;
 
-        const tree = _code2.TreeFactory.get('template', [this.application, processor, processor.sources.items, this._template, this._template]);
+        const tree = _code2.TreeFactory.get('template', [this.application, processor, processor.sources.items, this.#template, this.#template]);
 
-        this._template.processors.set(processor.processor, tree);
+        this.#template.processors.set(processor.processor, tree);
       });
     }
 
@@ -336,77 +328,18 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       const specs = {
         id: this.application.id,
         application: this.application
-      };
-
-      _code4.DSNotifications.register(this.application.errors, specs);
-    };
-    checkModulesErrors = () => {
-      if (!this.application.am) return;
-
-      const setNotifications = am => {
-        if (!am.tree.landed || this.moduleManager.models.has(am.id)) {
-          return;
-        }
-
-        const specs = {
-          id: am.id,
-          module: am
-        };
-
-        _code4.DSNotifications.register(am.module.errors, specs);
-
-        am.bundles.forEach(bundle => {
-          _code4.DSNotifications.register(bundle.errors, {
-            id: bundle.id,
-            module: am
-          });
-        });
-      };
-
-      this.application.am.items.forEach(setNotifications);
+      }; // DSNotifications.register(this.application.errors, specs);
     };
   }
-  /*****************
-  FILE: dashboard.js
-  *****************/
-
-
-  class DSModel extends _js.ReactiveModel {
-    _db;
-
-    get db() {
-      return this._db;
-    }
-
-    ready() {
-      return this.db.initialised;
-    }
-
-    constructor() {
-      super();
-      const database = new DSDatabase();
-      database.initialise();
-      this._db = database;
-    }
-
-    async initialise() {
-      return this.db.initialise();
-    }
-
-    store = name => this.db.store(name);
-  }
-
-  const Dashboard = new DSModel();
   /***********************
   FILE: database\config.js
   ***********************/
 
-  _exports.Dashboard = Dashboard;
 
   function getConfig() {
     const CONFIG = Object.freeze({
       DB: 'beyond.dashboard',
-      VERSION: 4
+      VERSION: 6
     }); //TODO validar uso de tablas list, records, storages y unpublished
 
     const tables = {
@@ -424,17 +357,38 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
           unique: false
         }]]
       },
-      workspace: {
-        name: 'workspace',
+      workspaces: {
+        name: 'workspaces',
+        config: {
+          keyPath: 'wd'
+        },
+        indexes: [['wd', 'wd', {
+          unique: true
+        }], ['lastAccess', 'lastAccess']]
+      },
+      user: {
+        name: 'user',
         config: {
           keyPath: 'id',
           autoIncrement: true
         },
         indexes: [['id', 'id', {
           unique: true
-        }], ['application', 'application', {
+        }], ['email', 'email', {
           unique: true
-        }], ['panels', 'panels'], ['config', 'config']]
+        }], ['cover', 'cover']]
+      },
+      workspace: {
+        name: 'workspace',
+        config: {
+          keyPath: 'wd',
+          autoIncrement: true
+        },
+        indexes: [['id', 'id', {
+          unique: true
+        }], ['panels', 'panels'], ['config', 'config'], ['wd', 'wd', {
+          unique: true
+        }]]
       }
     };
     const stores = [];
@@ -481,10 +435,75 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     this.store = name => db.stores.has(name) ? db.stores.get(name) : false;
   }
+  /****************
+  FILE: ds-model.js
+  ****************/
+
+
+  class DSModelObject extends _js.ReactiveModel {
+    _db;
+
+    get db() {
+      return this._db;
+    }
+
+    ready() {
+      return this.db.initialised;
+    }
+
+    #initialising;
+    #wd;
+
+    get wd() {
+      return this.#wd;
+    }
+
+    #lastAccess;
+
+    get lastAccess() {
+      return this.#lastAccess;
+    }
+
+    constructor() {
+      super();
+      const database = new DSDatabase();
+      database.initialise();
+      this._db = database;
+    }
+
+    async initialise(wd) {
+      if (this.#initialising) return this.#initialising;
+      this.#initialising = this.db.initialise();
+      await this.#initialising;
+      this.#lastAccess = performance.now();
+      const data = await DSModel.db.store('workspace').get(wd);
+
+      if (!data) {
+        await this.db.store('workspace').save({
+          wd,
+          lastAccess: performance.now(),
+          panels: {
+            items: new Map()
+          },
+          opened: new Set()
+        });
+      }
+
+      return this.db.store('workspaces').save({
+        wd,
+        lastAccess: this.#lastAccess
+      });
+    }
+
+    store = name => this.db.store(name);
+  }
+
+  const DSModel = new DSModelObject();
   /***************
   FILE: factory.js
   ***************/
 
+  _exports.DSModel = DSModel;
 
   class ApplicationsFactory {
     _applications = new Map();
@@ -505,11 +524,378 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   }
 
   const applicationsFactory = new ApplicationsFactory();
-  /*****************************
-  FILE: module\bundle-manager.js
-  *****************************/
+  /**************************************
+  FILE: module\bundles\bundles-manager.js
+  **************************************/
 
   _exports.applicationsFactory = applicationsFactory;
+
+  class BundlesManager extends _js.ReactiveModel {
+    #applicationManager;
+
+    get applicationManager() {
+      return this.#applicationManager;
+    }
+
+    #bundlesTree;
+
+    get bundlesTree() {
+      return this.#bundlesTree;
+    }
+
+    #bundles;
+
+    get bundles() {
+      return this.#bundles;
+    }
+
+    get fetching() {
+      let fetching = false;
+      this.items.forEach(bundle => {
+        if (bundle.fetching) fetching = true;
+      });
+      return fetching;
+    }
+
+    #items = new Map();
+
+    get items() {
+      return this.#items;
+    }
+
+    get consumers() {
+      let consumers = [];
+      const set = new Set();
+      this.items.forEach(bundle => {
+        const {
+          items
+        } = bundle.consumers;
+        items.forEach(item => {
+          if (set.has(item.id)) return;
+          consumers.push(item);
+          set.add(item.id);
+        });
+      });
+      return consumers;
+    }
+
+    get dependencies() {
+      let dependencies = [];
+      const set = new Set();
+      this.items.forEach(bundle => {
+        const {
+          items
+        } = bundle.dependencies;
+        items.forEach(item => {
+          if (set.has(item.id)) return;
+          set.add(item.id);
+          dependencies.push(item);
+        });
+      });
+      return dependencies;
+    }
+
+    #txt;
+    #module;
+
+    get module() {
+      return this.#module;
+    }
+
+    get id() {
+      return `${this.#module.id}////bundles-manager`;
+    }
+
+    #processed = new Set();
+
+    constructor(module, bundlesTree, bundles, txt) {
+      super();
+      this.#module = module;
+      this.#applicationManager = module.applicationManager;
+      this.#bundlesTree = bundlesTree;
+      this.#bundles = bundles;
+      this.#txt = txt;
+      this.#process();
+    }
+
+    check() {
+      this.items.forEach(bundle => {
+        console.log(5, bundle.dependencies.check());
+      });
+    }
+
+    #process() {
+      this.#bundles.forEach(bundle => {
+        if (bundle.name === 'txt') return;
+        const bundleManager = new BundleManager(this.#applicationManager, this.#bundlesTree, bundle, this.#txt);
+
+        const onProcess = () => {
+          this.#processed.add(bundleManager.id);
+
+          if (!bundleManager.processed) {
+            return;
+          }
+
+          if (this.items.size === this.#processed.size) {
+            this.triggerEvent('bundles.processed');
+            this.triggerEvent('change');
+            bundleManager.unbind('change', onProcess);
+          }
+        };
+
+        bundleManager.bind('change', onProcess);
+        bundleManager.bind('change', () => this.triggerEvent());
+        this.items.set(bundle.name, bundleManager);
+        if (bundleManager.processed) onProcess();
+      });
+    }
+    /**
+     * loads a consumer or dependency module
+     *
+     * @param type
+     * @param moduleId
+     * @param bundleId
+     * @returns {Promise<void>}
+     */
+
+
+    async load(type, moduleId, bundleId) {
+      const module = await this.#applicationManager.moduleManager.load(moduleId);
+      if (!['consumers', 'dependencies'].includes(type)) throw new Error(`the property ${type} required to load does not exists`);
+      this.items.forEach(item => {
+        const object = item[type];
+        if (!object.entries.has(bundleId)) return;
+        object.setItem(bundleId, module);
+        this.triggerEvent(`${module.am.id}.change`);
+        this.triggerEvent();
+      });
+    }
+
+  }
+  /********************************
+  FILE: module\bundles\consumers.js
+  ********************************/
+
+
+  class ConsumersManager extends _js.ReactiveModel {
+    #ready;
+
+    get ready() {
+      return this.#ready;
+    }
+
+    #model;
+
+    get model() {
+      return this.#model;
+    }
+
+    #entries = new Map();
+
+    get entries() {
+      return this.#entries;
+    }
+
+    #items = [];
+
+    get items() {
+      return Array.from(this.#entries.values());
+    }
+
+    #applicationManager;
+    #modules = new Map();
+
+    get modules() {
+      return this.#modules;
+    }
+
+    #bundle;
+
+    get bundle() {
+      return this.#bundle;
+    }
+
+    constructor(bundle, application, tree, specs = {
+      load: true
+    }) {
+      super();
+      this.#applicationManager = application;
+      this.#bundle = bundle;
+      if (specs.load) this.load();
+    }
+
+    load() {
+      const specs = {
+        tree: {
+          properties: {
+            bundle: true
+          }
+        },
+        filter: [{
+          field: 'bundle',
+          operand: 0,
+          value: this.bundle.id
+        }]
+      };
+      this.#model = new _ts.Consumers(specs);
+      this.#model.bind('change', this.#check);
+      this.#model.fetch();
+      window.c = this.#model;
+    }
+
+    #check = () => {
+      if (!this.#model.tree.landed) return;
+      this.triggerEvent(); // const branch = this.tree.items.get(this.bundle.name);
+      // branch.addConsumers(this.#model);
+
+      const {
+        moduleManager
+      } = this.#applicationManager;
+      this.#model.items.forEach(item => {
+        const module = moduleManager.getItem(item.moduleId);
+
+        if (!module) {
+          /**
+           * TODO: @julio check iterations
+           */
+          return;
+        }
+
+        this.#entries.set(item.bundle.id, {
+          id: item.bundle.id,
+          bundle: item.bundle,
+          name: `${module.name}/${item.bundle?.name}`,
+          consumer: item,
+          module: module
+        });
+      });
+      this.#ready = true;
+      this.#model.unbind('change', this.#check); //TODO: @julio check events
+
+      this.triggerEvent('consumers.loaded');
+      this.triggerEvent();
+    };
+
+    setItem(bundleId, module) {
+      const item = this.#entries.get(bundleId);
+      item.module = module;
+      item.loaded = true;
+      this.#entries.set(bundleId, item);
+      this.triggerEvent();
+    }
+
+  }
+  /***********************************
+  FILE: module\bundles\dependencies.js
+  ***********************************/
+
+
+  class DependenciesManager extends _js.ReactiveModel {
+    #ready = false;
+
+    get ready() {
+      return this.#ready;
+    }
+
+    #model;
+
+    get model() {
+      return this.#model;
+    }
+
+    #entries = new Map();
+
+    get entries() {
+      return this.#entries;
+    }
+
+    get items() {
+      return Array.from(this.#entries.values());
+    }
+
+    #bundle;
+
+    get bundle() {
+      return this.#bundle;
+    }
+
+    #tree;
+    #applicationManager;
+
+    constructor(bundle, application, tree, specs = {
+      load: true
+    }) {
+      super();
+      this.#bundle = bundle;
+      this.#applicationManager = application;
+      this.#tree = tree;
+      if (bundle.processors.has('ts')) this.load(bundle.processors.get('ts').id);
+    }
+
+    load(processorId) {
+      const specs = {
+        tree: {
+          properties: {
+            bundle: true,
+            declaration: true
+          }
+        },
+        filter: [{
+          field: 'processor',
+          operand: 0,
+          value: processorId
+        }]
+      };
+      this.#model = new _ts.ProcessorDependencies(specs);
+      this.#model.bind('change', this.#check);
+      this.#model.fetch();
+      window.d = this.#model;
+    }
+
+    #check = () => {
+      if (!this.model.tree.landed) return;
+      this.#model.items.forEach(item => {
+        const module = moduleManager.getItem(item.moduleId);
+
+        if (item.external) {
+          this.#entries.set(item.id, {
+            id: item.id,
+            name: item.resource,
+            dependency: item
+          });
+          return;
+        }
+
+        if (!module && !item.external) return false;
+        this.#entries.set(item.bundle.id, {
+          id: item.bundle.id,
+          bundle: item.bundle,
+          name: `${module.name}/${item.bundle.name}`,
+          dependency: item,
+          module
+        });
+      });
+      this.#ready = true;
+      this.#model.unbind('change', this.#check); //TODO: @julio check events
+
+      this.triggerEvent('dependencies.ready');
+      this.triggerEvent();
+    };
+    check = () => this.#check();
+
+    setItem(bundleId, module) {
+      const item = this.#entries.get(bundleId);
+      item.module = module;
+      item.loaded = true;
+      this.#entries.set(bundleId, item);
+      this.triggerEvent();
+    }
+
+  }
+  /******************************
+  FILE: module\bundles\manager.js
+  ******************************/
+
 
   class BundleManager extends _js.ReactiveModel {
     #tree = new Map();
@@ -530,6 +916,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     get name() {
       return this.#bundle.name;
+    }
+
+    get fetching() {
+      return this.#dependencies?.fetching || this.#consumers?.fetching || this.#compiler?.fetching;
     }
 
     HAS_DEPENDENCIES = ['ts'];
@@ -569,112 +959,53 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     }
 
     get diagnostics() {
-      const processor = this.bundle.processors.get('ts');
-      if (!processor) return {};
-      return processor?.compiler?.diagnostics ?? {};
+      return this.#compiler?.diagnostics ?? {};
     }
 
-    #am;
+    #consumersReady;
+    #dependenciesReady;
+
+    get processed() {
+      if (!this.bundle.processors.has('ts')) return true;
+      return !!this.#compiler && this.#consumersReady && this.#dependenciesReady;
+    }
+
+    get totalFiles() {
+      let total = 0;
+      if (!this.#bundle.tree.landed) return total;
+      this.#bundle.processors.forEach(processor => {
+        total += processor.sources.items.length;
+      });
+      return total;
+    }
     /**
      *
      * @param {ApplicationModel} application
      * @param tree {TreeFactory} Tree of module's bundles.
      * @param bundle
      * @param txt
-     * @param am
      */
 
-    constructor(application, tree, bundle, am, txt) {
+
+    constructor(application, tree, bundle, txt) {
       super();
-      this.#am = am;
-      const processors = bundle.processors;
       this.#bundle = bundle;
       this.#tree = tree;
       this.#application = application;
-      if (txt) processors.set('txt', txt.processors.get('txt')); // this.#processors = processors;
+      this.#dependencies = new DependenciesManager(bundle, application, tree);
+      this.#consumers = new ConsumersManager(bundle, application, tree);
+      this.consumers.bind('change', this.triggerEvent);
+      this.dependencies.bind('change', this.triggerEvent); // if (txt) processors.set('txt', txt.processors.get('txt'));
 
       this._process();
     }
 
-    _process() {
+    async _process() {
       this.bundle.processors.forEach(processor => {
         if (!this.HAS_DEPENDENCIES.includes(processor.name)) return;
-        this.loadDependencies(processor.id);
-        this.loadConsumers(processor.id);
         this.loadCompiler(processor.id);
       });
     }
-
-    loadDependencies(processorId) {
-      const specs = {
-        tree: {
-          properties: {
-            bundle: true,
-            declaration: true
-          }
-        },
-        filter: [{
-          field: 'processor',
-          operand: 0,
-          value: processorId
-        }]
-      };
-      const dependencies = new _ts.ProcessorDependencies(specs);
-      dependencies.bind('change', this._checkDependencies);
-      dependencies.fetch();
-      this.#dependencies = dependencies;
-    }
-
-    loadConsumers() {
-      const specs = {
-        tree: {
-          properties: {
-            bundle: {
-              properties: {
-                processors: {
-                  properties: {
-                    compiler: true,
-                    dependencies: true
-                  }
-                }
-              }
-            }
-          }
-        },
-        filter: [{
-          field: 'bundle',
-          operand: 0,
-          value: this.bundle.id
-        }]
-      };
-      const collection = new _ts.Consumers(specs);
-      collection.bind('change', this._checkConsumers);
-      collection.fetch();
-      this.#consumers = collection;
-    }
-
-    _checkConsumers = () => {
-      if (!this.consumers.tree.landed) return;
-      this.triggerEvent();
-      const branch = this.tree.items.get(this.bundle.name);
-      branch.addConsumers(this.consumers);
-      this.consumers.unbind('change', this._checkDependencies);
-      this.triggerEvent('consumers.loaded');
-    };
-    _checkDependencies = () => {
-      if (!this.dependencies.landed) return;
-
-      if (this.dependencies.landed) {
-        const branch = this.tree.items.get(this.bundle.name);
-        branch.addDependencies(this.dependencies);
-        this.triggerEvent();
-      }
-
-      if (this.dependencies.tree.landed) {
-        this.dependencies.unbind('change', this._checkDependencies);
-        this.triggerEvent('dependencies.loaded');
-      }
-    };
 
     getFile(file, processorName) {
       file = file.replace(/\//g, '\\');
@@ -695,17 +1026,12 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
           id: processor.id
         }
       });
-      compiler.bind('change', () => {
-        const specs = {
-          id: processor.id,
-          module: this.#am,
-          bundle: this.#bundle
-        };
-
-        _code4.DSNotifications.register(compiler.diagnostics, specs);
-      });
-      await compiler.fetch();
       this.#compiler = compiler;
+
+      const onload = () => this.triggerEvent();
+
+      compiler.bind('change', onload);
+      compiler.fetch();
     }
 
   }
@@ -721,21 +1047,36 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   _exports.BundleManager = BundleManager;
 
   class ModuleManager extends _js.ReactiveModel {
-    _application;
+    #application;
 
     get application() {
-      return this._application;
+      return this.#application;
     }
+
+    #editorManager;
     /**
      * Return the active module
      * @private
      */
 
-
-    _active;
+    #active;
 
     get active() {
-      return this._active;
+      return this.#active;
+    }
+    /**
+     * Returns the total of modules
+     */
+
+
+    get total() {
+      return this.#application.am.items.length;
+    }
+
+    #processed = new Set();
+
+    get processed() {
+      return this.#processed.size;
     }
 
     #models = new Map();
@@ -750,6 +1091,11 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this.#promises;
     }
 
+    setProcessed(id) {
+      this.#processed.add(id);
+      this.triggerEvent();
+    }
+
     get ready() {}
     /**
      *
@@ -761,8 +1107,9 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     constructor(application, moduleId) {
       super();
-      this._application = application;
-      this._editorManager = (0, _code.getEditorManager)(application.application);
+      this.#application = application;
+      window.moduleManager = this;
+      this.#editorManager = (0, _code.getEditorManager)(application.application);
       const saved = localStorage.getItem('dashboard.module.active');
       if (!moduleId && saved) moduleId = saved;
 
@@ -779,8 +1126,8 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     async setActive(id) {
       try {
-        this._active = await this.load(id);
-        window._module = this._active;
+        this.#active = await this.load(id);
+        window.module = this.#active;
         localStorage.setItem('dashboard.module.active', id);
       } catch (e) {
         console.error(e);
@@ -797,15 +1144,11 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     async load(moduleId) {
       try {
         if (!moduleId) {
-          console.trace(moduleId);
+          // console.trace(moduleId)
           return;
         }
 
-        const model = await this.getInstance(moduleId);
-
-        this._editorManager.setModule(model);
-
-        return model;
+        return this.getInstance(moduleId);
       } catch (e) {
         console.error(104.6, "error", e);
       }
@@ -829,21 +1172,21 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       if (this.models.has(id)) {
         this.promises.delete(id);
         promise.resolve(this.models.get(id));
-      } else {
-        const model = new ModuleModel(id, this.application);
-        if (model.ready) return promise.resolve(model);
-
-        const response = () => {
-          model.unbind('model.loaded', response);
-          this.models.set(model.id, model);
-          this.triggerEvent('model.loaded');
-          promise.resolve(model);
-          this.promises.delete(id);
-        };
-
-        model.bind('model.loaded', response);
+        return promise;
       }
 
+      const model = new ModuleModel(id, this.application, this);
+      if (model.ready) return promise.resolve(model);
+
+      const response = () => {
+        model.unbind('model.loaded', response);
+        this.models.set(model.id, model);
+        promise.resolve(model);
+        this.triggerEvent('model.loaded');
+        this.promises.delete(id);
+      };
+
+      model.bind('model.loaded', response);
       return promise;
     }
     /**
@@ -861,6 +1204,28 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this.setActive(id);
     }
 
+    loadAll = async () => {
+      const promises = [];
+      this.#application.am.items.forEach(item => promises.push(this.getInstance(item.id)));
+
+      try {
+        const items = await Promise.all(promises); // DSNotifications.addModules(items);
+      } catch (exc) {
+        console.error(exc);
+      }
+    };
+    /**
+     * Is used only to get a moduleItem without load it as a module-model object.
+     * @param itemId
+     * @returns {*}
+     */
+
+    getItem(itemId) {
+      return this.#application.am?.items.find(item => {
+        return item.id === itemId;
+      });
+    }
+
   }
   /***************************
   FILE: module\module-model.js
@@ -874,7 +1239,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   _exports.ModuleManager = ModuleManager;
 
   class ModuleModel extends _js.ReactiveModel {
-    _tree = {
+    #tree = {
       properties: {
         module: {
           properties: {
@@ -883,42 +1248,53 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
         },
         bundles: {
           properties: {
-            consumers: {
-              properties: {
-                bundle: true
-              }
-            },
             processors: {
               properties: {
+                dependencies: true,
                 sources: true,
-                overwrites: true,
-                compiler: true // dependencies: {
-                //     properties: {
-                //         bundle: true,
-                //         // declaration: true
-                //     }
-                // }
-
+                overwrites: true
               }
             }
           }
         }
       }
     };
-    _applicationManager;
+    #applicationManager;
+
+    get applicationManager() {
+      return this.#applicationManager;
+    }
 
     get application() {
-      return this._applicationManager.application;
+      return this.#applicationManager.application;
     }
 
     get applicationId() {
       return this.am?.container?.id;
     }
 
-    _bundles = new Map();
+    #sources = new Map();
+
+    get sources() {
+      return this.#sources;
+    }
+
+    get processed() {
+      let processed = true;
+      this.bundles.forEach(item => {
+        if (!item.processed) processed = false;
+      });
+      return processed;
+    }
 
     get bundles() {
-      return this._bundles;
+      return this.#bundlesManager;
+    }
+
+    #bundlesManager;
+
+    get bundlesManager() {
+      return this.#bundlesManager;
     }
 
     get id() {
@@ -938,10 +1314,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this.am?.name ?? name;
     }
 
-    _bundlesTree;
+    #bundlesTree;
 
     get bundlesTree() {
-      return this._bundlesTree;
+      return this.#bundlesTree;
     }
     /**
      * @private {ApplicationModule}
@@ -963,49 +1339,37 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this.#am;
     }
 
-    _processors = new Set();
-
-    get processors() {
-      return this._processors;
-    }
-
-    _ready;
+    #ready;
 
     get ready() {
-      return this.am.tree.landed && this._ready;
+      return this.am.tree.landed && this.#ready;
     }
 
-    _updating;
+    #updating;
 
     get updating() {
-      return this._updating;
+      return this.#updating;
     }
 
-    _backend;
-
-    get backend() {
-      return this._backend;
-    }
-
-    _static;
+    #_static;
 
     get static() {
-      return this._static;
+      return this.#_static;
     }
 
-    _errors = [];
+    #errors = [];
 
     get errors() {
-      return this._errors;
+      return this.#am.module?.errors ?? [];
     }
 
-    _warnings = [];
+    #warnings = [];
 
     get warnings() {
-      return this._warnings;
+      return this.#am.module?.warnings ?? [];
     }
 
-    _found;
+    #found;
 
     get found() {
       return this.#am?.found;
@@ -1018,11 +1382,19 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       };
     }
 
-    constructor(moduleId, application) {
+    get totalFiles() {
+      let total = 0;
+      this.bundles.items.forEach(bundle => total += bundle.totalFiles);
+      return total;
+    }
+
+    #moduleManager;
+
+    constructor(moduleId, application, moduleManager) {
       super();
-      this._applicationManager = application;
+      this.#moduleManager = moduleManager;
+      this.#applicationManager = application;
       this.checkLoaded = this.checkLoaded.bind(this);
-      this.validateErrors = this.validateErrors.bind(this);
       this.load(moduleId);
     }
     /**
@@ -1036,19 +1408,17 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     load(moduleId, concat = false) {
       if (this.#am) {
         this.#am.off('change', this.triggerEvent);
-        this.#am.off('change', this.validateErrors);
         this.#am = undefined;
       }
 
-      moduleId = concat ? `${this._applicationManager.id}//${moduleId}` : moduleId;
+      moduleId = concat ? `${this.#applicationManager.id}//${moduleId}` : moduleId;
       this.#am = new _ts.ApplicationModule({
         identifier: {
           id: moduleId
         },
-        tree: this._tree
+        tree: this.#tree
       });
       this.#am.on('change', this.checkLoaded);
-      this.am.on('change', this.validateErrors);
       this.fetch();
     }
     /**
@@ -1060,8 +1430,8 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     checkLoaded() {
       if (!this.am.found) {
-        this._ready = true;
-        this._found = false;
+        this.#ready = true;
+        this.#found = false;
         this.triggerEvent('model.loaded');
       }
 
@@ -1073,11 +1443,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
       if (this.am.module?.static) {
         const specs = [this.application, this.am, this.am.module.static.items];
-        this._static = _code2.TreeFactory.get('static', specs);
+        this.#_static = _code2.TreeFactory.get('static', specs);
       }
 
+      this.am.bundles.forEach(bundle => {
+        bundle.processors.forEach(item => {
+          item.sources.items.forEach(source => this.#sources.set(source.id, source));
+        });
+      });
       this.am.on('change', this.triggerEvent);
-      this._ready = true;
+      this.#ready = true;
       this.triggerEvent('model.loaded');
     }
     /**
@@ -1092,51 +1467,21 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       const txt = this.am.getBundle('txt');
       const {
         application,
-        module,
-        module: {
+        am,
+        am: {
           bundles
         }
       } = this;
-      const processors = new Set();
-      this._bundlesTree = _code2.TreeFactory.get('module', [application, module, [...bundles.values()]]);
-      bundles.forEach(bundle => {
-        if (bundle.name === 'txt') return;
-        this.bundles.set(bundle.name, new BundleManager(this._applicationManager, this._bundlesTree, bundle, this.#am, txt));
-        bundle.processors.forEach(processor => processors.add(processor.name));
-      });
-      /**
-       * TODO: @julio the processors set object is used only to show the
-       * processors tags into the module view. The processors badges are also
-       * showed into the application's module list. Both ui modules may
-       * take the processors information from the same model.
-       * @type {Set<any>}
-       * @private
-       */
+      this.#bundlesTree = _code2.TreeFactory.get('module', [application, am, [...bundles.values()]]);
+      this.#bundlesManager = new BundlesManager(this, this.#bundlesTree, bundles, txt);
+      this.#bundlesManager.bind('change', this.triggerEvent);
 
-      this._processors = processors;
-    }
-
-    validateErrors() {
-      if (!this.am.tree.landed) return;
-      const specs = {
-        id: this.am.id,
-        module: this.am
+      const onProcessed = () => {
+        this.#moduleManager.setProcessed(this.id);
+        this.#bundlesManager.unbind('bundles.processed', onProcessed);
       };
 
-      _code4.DSNotifications.register(this.am.module.errors, specs);
-
-      this.am.bundles.forEach(bundle => {
-        const specs = {
-          id: bundle.id,
-          module: this.am
-        };
-
-        _code4.DSNotifications.register(bundle.errors, specs); // bundle.processors.forEach(p => {
-        //     const specs = {id: p.id, module: this.am, bundle: bundle};
-        //     DSNotifications.register(p.compiler.diagnostics, specs);
-        // });
-
-      });
+      this.#bundlesManager.bind('bundles.processed', onProcessed);
     }
 
     getFile(bundleName, processorContainer, fileName) {
@@ -1231,6 +1576,11 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
               properties: {
                 sources: true
               }
+            },
+            global: {
+              properties: {
+                sources: true
+              }
             }
           }
         },
@@ -1253,4 +1603,89 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       }
     }
   };
+  /************
+  FILE: user.js
+  ************/
+
+  /**
+   * Represent the current dashboard user
+   */
+
+  class DSUser extends _js.ReactiveModel {
+    #name;
+
+    get name() {
+      return this.#name;
+    }
+
+    set name(value) {
+      if (!value || value === this.#name) return;
+      if (typeof value !== 'string') throw new Error('the name must be a string');
+      this.#name = value;
+      localStorage.setItem('ds.user.name', value);
+    }
+
+    #hasAccess;
+
+    get hasAccess() {
+      return this.#hasAccess;
+    }
+
+    #code;
+
+    get code() {
+      return this.#code;
+    }
+
+    #email;
+
+    get email() {
+      return this.#email;
+    }
+
+    #dashboard;
+    #validated;
+
+    get validated() {
+      return this.#validated;
+    }
+
+    constructor(dashboard) {
+      super();
+      this.#dashboard = dashboard;
+      this.#check();
+    }
+
+    #check() {
+      this.#name = localStorage.getItem('ds.user.name');
+      this.#code = localStorage.getItem('ds.user.code');
+      this.#email = localStorage.getItem('ds.user.email');
+      this.#validated = !!this.#name && this.#code;
+    }
+
+    async register(name, code) {
+      const response = await this.validate(code);
+
+      if (response) {
+        this.#name = name;
+        localStorage.setItem('ds.user.name', name);
+        localStorage.setItem('ds.user.code', code);
+      }
+
+      return response;
+    }
+
+    async validate(code) {
+      const response = await this.#dashboard.validate(code);
+      this.#validated = true;
+      this.#hasAccess = response;
+      this.triggerEvent();
+      return response;
+    }
+
+  }
+
+  _exports.DSUser = DSUser;
+
+  __pkg.initialise();
 });

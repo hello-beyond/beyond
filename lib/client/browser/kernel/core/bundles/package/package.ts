@@ -2,7 +2,7 @@ import type {Bundle} from "../bundle";
 import {Creators, InternalModules} from "./ims/ims";
 import {Require} from "./require/require";
 import {Exports} from "./exports/exports";
-import {HMR} from "./hmr/hmr";
+import {PackageHMR} from "./hmr";
 
 export class Package {
     readonly #bundle: Bundle;
@@ -16,7 +16,7 @@ export class Package {
     }
 
     get multilanguage() {
-        return !!this.#language;
+        return this.#language !== '.';
     }
 
     readonly #require: Require;
@@ -26,7 +26,7 @@ export class Package {
         return this.#ims;
     }
 
-    readonly #hmr: HMR;
+    readonly #hmr: PackageHMR;
     get hmr() {
         return this.#hmr;
     }
@@ -38,13 +38,13 @@ export class Package {
 
     constructor(bundle: Bundle, language: string) {
         this.#bundle = bundle;
-        this.#language = language;
+        this.#language = language ? language : '.';
 
         this.#ims = new InternalModules(this);
         this.#require = new Require(this);
         this.#ims._require = this.#require;
         this.#exports = new Exports(this.#require);
-        this.#hmr = new HMR(this);
+        this.#hmr = new PackageHMR(this);
     }
 
     #initialised = false;

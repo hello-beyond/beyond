@@ -1,10 +1,13 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _ts, _code4, _code5, _code6) {
+define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _ts, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.Page = Page;
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
@@ -12,21 +15,19 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
     "txt": {
       "multilanguage": true
     }
-  });
+  }, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /**************
   compilation.jsx
   **************/
-
 
   class CompilationModal extends React.Component {
     constructor(props) {
@@ -470,4 +471,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/modal/code", "@beyond-js
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-modal.ds-modal-compilation .beyond-element-spinner{position:absolute;right:20px;top:20px}.ds-modal.ds-modal-compilation .hidden{display:none}.ds-modal.ds-modal-compilation .beyond-button{display:grid;width:70%;margin:auto}.ds-modal.ds-modal-compilation .ds-modal__content{padding:20px;position:relative;display:grid}.ds-modal.ds-modal-compilation .ds-modal__content .compilation__message,.ds-modal.ds-modal-compilation .ds-modal__content .ds-modal__actions{margin:15px 0 0}.ds-modal.ds-modal-compilation .list-builds{list-style:none;padding:20px}.ds-modal.ds-modal-compilation .list-builds li{border-bottom:1px solid #f0f0f0;display:grid;grid-template-columns:1fr auto;padding:8px;align-items:center}.ds-modal.ds-modal-compilation .list-builds li h5{padding:0;color:#ff8056}.ds-modal.ds-modal-compilation .list-builds li:last-child{border-bottom:none}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

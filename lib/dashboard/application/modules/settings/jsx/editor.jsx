@@ -1,15 +1,14 @@
 function EditorSettings() {
-
     const {texts, editorSettings} = useConfigContext();
     const attrs = {};
     if (!editorSettings.unpublished) attrs.disabled = true;
 
+    const [, setState] = React.useState({});
     const onSave = async event => {
         event.stopPropagation();
         event.preventDefault();
-        await controller.editorSettings.save();
-        setState({...state, fetching: true});
-        window.setTimeout(() => setState({...state, fetching: false}), 300);
+        await editorSettings.save();
+        setState({});
     };
     const onChange = event => {
         event.stopPropagation();
@@ -43,7 +42,7 @@ function EditorSettings() {
                 </div>
             </section>
             {
-                (editorSettings.unpublished) &&
+                editorSettings.unpublished &&
                 <footer className="settings__actions">
                     <BeyondButton {...attrs} onClick={onSave} className="btn primary">
                         {texts.actions.save}

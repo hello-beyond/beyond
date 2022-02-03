@@ -66,8 +66,8 @@ class Index {
     async _load() {
         if (!this.validate()) return;
         const content = await this.#file.readJSON();
-        this._checkProperties(content);
 
+        this._checkProperties(content);
     }
 
     /**
@@ -99,7 +99,6 @@ class Index {
      */
     save(values) {
         if (typeof values === 'object') this._checkProperties(values);
-
         this.#file.writeJSON(this.getProperties(), this.#file.file);
     }
 
@@ -125,6 +124,7 @@ class Index {
             },
             number: value => Number(value)
         }
+
         Object.keys(specs).forEach(property => {
             if (this?._reserved?.includes(property)) return;
             property = this.skeleton.find(item => item === property || item?.name === property);
@@ -137,6 +137,7 @@ class Index {
             }
 
             this[property] = specs[property];
+
         });
 
     }

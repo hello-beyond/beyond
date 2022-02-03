@@ -35,7 +35,7 @@ export function ApplicationsBoard() {
     if (!applications.items.length) apps = <Empty/>;
     return (
         <DSApplicationsContext.Provider value={{texts, timeUpdated: state.timeUpdated, creteApp: showAppForm}}>
-            <main className="ds-applications-board">
+            <main className="ds-projects-board">
                 <header className="list_header">
                     <h4>{headerTexts.title}</h4>
                     <div className="actions">
@@ -43,7 +43,10 @@ export function ApplicationsBoard() {
                         <span>{applications.items.length} {headerTexts.title}</span>
                     </div>
                 </header>
-                {apps}
+                <section className="ds-board__list-container">
+                    {apps}
+                </section>
+
             </main>
         </DSApplicationsContext.Provider>
     );

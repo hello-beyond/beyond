@@ -1,24 +1,26 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code"], function (_exports, React, ReactDOM, _code, _code2) {
+define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.TabsContent = _exports.Tabs = _exports.BeyondTabs = _exports.BeyondTab = void 0;
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/tabs/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/ui/tabs/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -204,4 +206,6 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/icon/code", "@beyond-js/
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-tabs .beyond-tabs-content{position:relative}.beyond-tabs-container{display:flex;height:100%;width:100%;position:relative;flex-direction:column}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items{width:50px;height:100%;position:relative}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items .tabs-container{position:sticky;top:8px}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items{display:flex;background:#d3d3d3;height:100%}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items .tabs-container{width:100%;display:flex}.beyond-tabs-container .beyond-tabs-items{z-index:999}.beyond-tabs-container .beyond-tabs-items .beyond-tab{display:flex;align-items:center;justify-content:center;position:relative;padding:15px;flex-grow:1}.beyond-tabs-container .beyond-tabs-items .beyond-tab.tab-active svg{fill:white}.beyond-tabs-container .beyond-tabs-items .beyond-tab svg{margin:auto;cursor:pointer}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

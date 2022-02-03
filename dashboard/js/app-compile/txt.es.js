@@ -17,63 +17,44 @@ define([], function () {
   const __pkg = bundle.package('es');
 
   __pkg.exports.process = (require, _exports) => _exports.txt = {
-    "title": "Compila tu aplicación",
-    "subtitle": "Optimizada y lista para producción",
-    "compress": "¿Desea comprimir?",
-    "rebuild": "¿Desea compilar iconos y splash si no han sido creados?",
-    "builds": {
-      "message": "Ver compilaciones anteriores",
-      "title": "Compilaciones previas",
-      "subtitle": "Historico de compilaciones por plataforma y tipo.",
-      "platform": "Plataforma",
-      "path": "Path"
+    "errors": {
+      "noSelected": "the application selected does not has distributions",
+      "ALREADY_EXISTS": "Ya existe una distribución con esta configuración",
+      "PORT_USED": "Ya existe una distribución con el puerto indicado"
     },
-    "actions": {
-      "compile": "Compilar",
-      "change": "Cambiar",
-      "close": "Cerrar",
-      "finish": "Continuar"
-    },
-    "compilation": {
-      "start": "Empezando proceso de compilación",
-      "title": "Proceso de compilación",
-      "subtitle": "Haciendo magia con tu código.",
-      "finished": "La compilación se realizó exitosamente."
-    },
-    "environments": {
-      "title": "Selecciona el entorno de compilación",
-      "titleSelected": "Entorno",
-      "dev": {
-        "title": "Desarrollo",
-        "description": "Compila el código de la aplicación generando bundles sin comprimir que permitan realizar pruebas y revisar el código."
+    "name": "Nombre",
+    "platform": {
+      "label": "Plataforma",
+      "options": {
+        "web": "Web",
+        "backend": "Backend",
+        "android": "Android",
+        "ios": "iOS",
+        "ssr": "SSR",
+        "node": "Node"
       },
-      "prod": {
-        "title": "Producción",
-        "description": "El código queda optimizado para producción, con los bundles comprimidos y minificados."
-      }
-    },
-    "platforms": {
-      "title": "Selecciona la plataforma",
-      "titleSelected": "Plataforma",
-      "mobile": {
-        "title": "Mobile",
-        "description": "Se genera código listo para compilar con cordova/phonegap"
+      "environment": "Entorno",
+      "checkType": "Comprobación de tipos",
+      "port": {
+        "label": "Puerto",
+        "error": "El puerto no está disponible",
+        "success": "Puerto disponible",
+        "tooltip": "Check port"
       },
-      "web": {
-        "title": "Web",
-        "description": "Código compilado para SPA."
-      }
-    },
-    "so": {
-      "title": "¿Que sistema operativo vas a compilar?",
-      "titleSelected": "Sistema operativo",
-      "android": {
-        "title": "Android",
-        "description": "Se genera código listo para compilar con cordova/phonegap"
+      "ts": "TS",
+      "default": "default",
+      "ssr": "ssr",
+      "titleModal": "Creememos Una nueva distribucion",
+      "modalHeader": "Elige la configuracion para la distribucion",
+      "compress": "Comprimir",
+      "add": "Añadir",
+      "title": "Distribuciones",
+      "environments": {
+        "dev": "Development",
+        "prod": "Production"
       },
-      "ios": {
-        "title": "IOs",
-        "description": "Código compilado para SPA."
+      "applications": {
+        "select": "Proyecto"
       }
     }
   };

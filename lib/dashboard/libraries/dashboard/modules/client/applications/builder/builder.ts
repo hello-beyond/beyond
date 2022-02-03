@@ -51,8 +51,6 @@ export class ApplicationBuilder extends Events {
     private onMessage = (message: MessageSpecs) => {
         if (message.type !== 'build/application/message') return;
 
-        console.log(message.text);
-
         this.#processing = false;
         this.#messages.push(message);
         this.trigger('change');

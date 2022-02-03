@@ -1,7 +1,7 @@
 function AlertBox({title, type, elements}) {
     if (!elements.length) return null;
 
-    const output = elements.map(item => <li key={item}>{item}</li>);
+    const output = elements.map(item => <li key={item.id}>{item.message}</li>);
     return (
 
         <BeyondAlert type={type}>

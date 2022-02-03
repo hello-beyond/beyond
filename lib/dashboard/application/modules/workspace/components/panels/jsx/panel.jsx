@@ -9,7 +9,6 @@
  * @constructor
  */
 export function PanelView({panel}) {
-
     const [state, setState] = React.useState({total: panel.tabs.size, activeTab: panel.activeItem});
     const {activeTab} = state;
     const tab = panel.tabs.get(activeTab);
@@ -22,7 +21,10 @@ export function PanelView({panel}) {
         return () => ref.current?.removeEventListener('click', onClick);
     }, []);
 
-    if (!tab) return null;
+    if (!tab || tab.type === 'editor' && !panel.editor) {
+
+        return null;
+    }
     const Control = tab.type === 'editor' ? EditorView : tab.control;
     const tabs = [];
     panel.tabs.forEach((item, id) => {
@@ -31,7 +33,6 @@ export function PanelView({panel}) {
 
     const specs = {panel: panel}
     if (tab.type === 'editor') specs.editor = panel.editor;
-
     return (
         <div ref={ref} className="ds__panel">
             <section className="ds__tabs-container">

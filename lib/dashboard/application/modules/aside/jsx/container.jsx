@@ -33,7 +33,7 @@ export function WorspaceAside() {
             texts: controller?.texts,
             ready: controller?.ready,
             setActiveAside: workspace.aside.setActive,
-            panel: controller?.aside,
+            panel: aside.panel,
             moduleManager: workspace?.application?.moduleManager
         });
 

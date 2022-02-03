@@ -43,7 +43,6 @@ class ApplicationDeployment extends Item {
 
         try {
             const response = await module.execute('builder/application/setDistribution', specs)
-            console.log(1, "response", response)
             return response;
         } catch (e) {
             console.error(e)

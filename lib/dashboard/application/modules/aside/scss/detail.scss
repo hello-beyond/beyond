@@ -1,13 +1,15 @@
 .ds__aside .ds__aside__detail {
 
   padding: 0;
-  z-index: 999;
+  z-index: 2;
   min-width: 220px;
   max-width: 220px;
   position: sticky;
   align-items: start;
   top: 50px;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 81px);
+  overflow: hidden;
+
   width: 100%;
   transition: all 300ms linear;
 

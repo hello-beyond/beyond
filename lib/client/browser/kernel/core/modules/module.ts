@@ -9,7 +9,10 @@ import type {Beyond} from "../beyond";
 
 export type Container = Application | Library;
 
-export interface IProcessorsSpecs {
+export interface IModuleSpecs {
+    dirname?: string
+
+    // To know if the module has a txt bundle
     txt?: {
         multilanguage: boolean
     }
@@ -37,6 +40,29 @@ class Module {
         return this.#id;
     }
 
+    readonly #dirname: string;
+    get dirname(): string {
+        // dirname is a property that is only available in node environments (node, backend)
+        if (typeof window === 'object') return;
+
+        const {beyond} = this;
+        if (beyond.local) return this.#dirname;
+
+        // In production, resolve the dirname of the module
+        const pkg = this.package ? this.package.id : this.container.id;
+
+        // The path relative to the application
+        const relative = this.id.slice(pkg.length + 1);
+
+        if (pkg === beyond.application.id) {
+            // __dirname is the path where the bundle @beyond-js/kernel/core is located (node_modules/@beyond-js/kernel/core)
+            require('path').resolve(__dirname, '../../../..', relative);
+        } else {
+            const resolved = require.resolve(pkg);
+            return require('path').join(resolved, relative);
+        }
+    }
+
     #beyond: Beyond;
     get beyond(): Beyond {
         if (this.#beyond) return this.#beyond;
@@ -45,8 +71,9 @@ class Module {
 
     get pathname(): string {
         const {beyond} = this;
-        const path = this.id.slice(this.package ? this.package.id.length + 1 : this.container.id.length + 1);
-        return this.#container.id === beyond.application.id ? path : `${(<Library>this.container).pathname}/${path}`;
+        const pkg = this.package ? this.package.id : this.container.id;
+        const path = this.id.slice(pkg.length + 1);
+        return pkg === beyond.application.id ? path : `${(<Library>this.container).pathname}/${path}`;
     }
 
     readonly #bundles = new Bundles(this);
@@ -73,17 +100,18 @@ class Module {
      * Module constructor
      *
      * @param {string} id The module id
-     * @param {IProcessorsSpecs} processors Processors specification (actually only txt is supported)
+     * @param {IModuleSpecs} specs
      * @param {Container} container Can be a library, an application or undefined (external modules)
      */
-    constructor(id: string, processors: IProcessorsSpecs, container?: Container) {
-        processors = processors ? processors : {};
+    constructor(id: string, specs: IModuleSpecs, container?: Container) {
+        specs = specs ? specs : {};
 
         this.#id = id;
+        this.#dirname = specs.dirname;
         this.#package = !container ? new PackageData(id) : undefined;
         this.#container = container;
 
-        const {txt} = processors;
+        const {txt} = specs; // To know if the bundle's container has a txt bundle
         txt && (this.#texts = new ModuleTexts(this, 'txt', txt.multilanguage));
     }
 }

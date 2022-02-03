@@ -50,7 +50,7 @@ export class InternalModules {
 
             const im = this.#ims.get(id);
             if (im.hash === hash) return;
-            im.update(creator);
+            im.update(creator, hash);
         });
     }
 }

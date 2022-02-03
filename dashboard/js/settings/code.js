@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-select/code", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/applications-settings/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/ds-contexts/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7) {
+define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/ds-select/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/applications-settings/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _js, _code5, _code6, _code7, _code8, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -9,6 +9,9 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   /**
    * CONTEXTS
    */
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
@@ -16,17 +19,16 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     "txt": {
       "multilanguage": true
     }
-  });
+  }, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -60,7 +62,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const [active, setActive] = React.useState('general');
     const tabs = {
       general: EditorSettings,
-      apps: _code3.ApplicationsSettings
+      apps: _code6.ApplicationsSettings
     };
     React.useEffect(() => {
       const controller = new Controller();
@@ -86,7 +88,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       unpublished
     } = editorSettings;
     const Control = tabs[active];
-    return /*#__PURE__*/React.createElement(_code7.ConfigContext.Provider, {
+    return /*#__PURE__*/React.createElement(_code8.ConfigContext.Provider, {
       value: {
         editorSettings,
         active,
@@ -97,7 +99,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       }
     }, /*#__PURE__*/React.createElement("div", {
       className: "workspace__board"
-    }, /*#__PURE__*/React.createElement(Tabs, null), /*#__PURE__*/React.createElement(_code3.ApplicationsSettings, null)));
+    }, /*#__PURE__*/React.createElement(Tabs, null), /*#__PURE__*/React.createElement(Control, null)));
   }
   /*********
   editor.jsx
@@ -108,20 +110,16 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     const {
       texts,
       editorSettings
-    } = (0, _code7.useConfigContext)();
+    } = (0, _code8.useConfigContext)();
     const attrs = {};
     if (!editorSettings.unpublished) attrs.disabled = true;
+    const [, setState] = React.useState({});
 
     const onSave = async event => {
       event.stopPropagation();
       event.preventDefault();
-      await controller.editorSettings.save();
-      setState({ ...state,
-        fetching: true
-      });
-      window.setTimeout(() => setState({ ...state,
-        fetching: false
-      }), 300);
+      await editorSettings.save();
+      setState({});
     };
 
     const onChange = event => {
@@ -152,13 +150,13 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       className: "settings-item"
     }, /*#__PURE__*/React.createElement("label", {
       htmlFor: ""
-    }, texts.controls.wordWrap.label), /*#__PURE__*/React.createElement(_code6.BeyondSwitch, {
+    }, texts.controls.wordWrap.label), /*#__PURE__*/React.createElement(_code7.BeyondSwitch, {
       name: "wordWrap",
       value: editorSettings.wordWrap,
       onChange: onChange
     }))), editorSettings.unpublished && /*#__PURE__*/React.createElement("footer", {
       className: "settings__actions"
-    }, /*#__PURE__*/React.createElement(_code6.BeyondButton, _extends({}, attrs, {
+    }, /*#__PURE__*/React.createElement(_code7.BeyondButton, _extends({}, attrs, {
       onClick: onSave,
       className: "btn primary"
     }), texts.actions.save)));
@@ -174,7 +172,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       tabs,
       setActive,
       texts
-    } = (0, _code7.useConfigContext)();
+    } = (0, _code8.useConfigContext)();
     const output = Object.keys(tabs).map(key => {
       const onClick = () => setActive(key);
 
@@ -200,7 +198,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       texts: {
         controls
       }
-    } = (0, _code7.useConfigContext)();
+    } = (0, _code8.useConfigContext)();
 
     const handleChange = ele => {
       editorSettings.theme = ele.value;
@@ -221,7 +219,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }];
     return /*#__PURE__*/React.createElement("div", {
       className: "form-column"
-    }, /*#__PURE__*/React.createElement("label", null, controls.theme.label), /*#__PURE__*/React.createElement(_code.DSSelect, {
+    }, /*#__PURE__*/React.createElement("label", null, controls.theme.label), /*#__PURE__*/React.createElement(_code4.DSSelect, {
       options: options,
       value: editorSettings.theme,
       onSelect: handleChange
@@ -254,7 +252,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     constructor() {
       super();
       module.texts.bind('change', this.triggerEvent);
-      this.#editorSettings = _code2.monacoDependency.settings;
+      this.#editorSettings = _code5.monacoDependency.settings;
       this.#editorSettings.bind('change', this.triggerEvent);
     }
 
@@ -271,4 +269,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.workspace__board{--border-color:var(--beyond-gray-darker-color);--border-color-focus:var(--beyond-gray-dark-color);display:flex;flex-direction:column;justify-content:center}.workspace__board label{padding:15px 0}.workspace__board .settings__item{padding:15px 0;display:grid;gap:10px}.workspace__board .settings__item input{background:0 0;border:1px solid var(--border-color);padding:8px;color:var(--beyond-text-on-primary);outline:0}.workspace__board .settings__item input:hover{border-color:var(--border-color-focus)}.workspace__board .form{align-self:normal}.workspace__board .settings__actions{margin-top:15px;padding:15px 0;justify-content:flex-end;align-items:center;display:flex;border-top:1px solid var(--beyond-gray-light-color)}.workspace__board .relative__container{position:relative}.workspace__board .relative__container .beyond-element-spinner{position:absolute;right:15px;top:10px}.settings__tabs-list{list-style:none;display:flex;gap:8px;padding:0}.settings__tabs-list li{padding:8px 15px;text-transform:upper;border-radius:2px;cursor:pointer}.settings__tabs-list li.tab--active,.settings__tabs-list li:active{background:rgba(240,240,240,.4)}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export /*bundle*/
-class Page extends React.Component {
+class Widget extends React.Component {
     render() {
         return (
             <>

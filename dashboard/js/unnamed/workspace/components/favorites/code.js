@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/workspace-tree/code"], function (_exports, React, ReactDOM, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/workspace-tree/code", "react", "react-dom"], function (_exports, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -9,20 +9,22 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
   //models
   //beyond-ui
   //CONTEXT
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/favorites/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/favorites/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -195,7 +197,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       super();
       this._application = application;
       this._moduleManager = application.moduleManager;
-      if (!this._moduleManager) console.trace(0.1, this._moduleManager);
 
       this.onRename = () => this.triggerEvent('favorite.renamed');
 
@@ -210,8 +211,8 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
 
     async _check() {
       this._promise = new PendingPromise();
-      await _code5.Dashboard.initialise();
-      const favorites = await _code5.Dashboard.db.store('favorites');
+      await _code5.DSModel.initialise();
+      const favorites = await _code5.DSModel.db.store('favorites');
       this._db = favorites;
       const items = await favorites.getAll();
       items.forEach(item => {
@@ -568,7 +569,7 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
       this._application = parent.application;
       this._id = id;
       this._now = performance.now();
-      this._store = _code5.Dashboard.db.store('favorites');
+      this._store = _code5.DSModel.db.store('favorites');
       this.rename = this.rename.bind(this);
       this._createTree = this._createTree.bind(this);
       if (tree) this._loadItems(tree);
@@ -802,4 +803,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard-lib/models/js", "
     }
 
   }
+
+  __pkg.initialise();
 });

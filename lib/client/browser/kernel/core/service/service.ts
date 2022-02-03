@@ -5,8 +5,6 @@ import {SingleCall} from "../utils/execution-control/single-call/single-call";
 import {ServiceIOConfiguration} from "./io";
 import {Initiator} from "./initiator";
 
-declare function require(module: string): any;
-
 interface ILocalConfig {
     id: string
 }

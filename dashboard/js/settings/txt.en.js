@@ -32,7 +32,7 @@ define([], function () {
     },
     "tabs": {
       "general": "General",
-      "apps": "Applications"
+      "apps": "Projects"
     },
     "actions": {
       "save": "Save"

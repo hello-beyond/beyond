@@ -26,7 +26,7 @@ export function ConfigBoard() {
         <ConfigContext.Provider value={{editorSettings, active, unpublished, texts, tabs, setActive}}>
             <div className="workspace__board">
                 <Tabs/>
-                <ApplicationsSettings/>
+                <Control/>
             </div>
         </ConfigContext.Provider>
 

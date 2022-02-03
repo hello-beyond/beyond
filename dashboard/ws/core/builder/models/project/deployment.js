@@ -28,6 +28,7 @@ module.exports = class Deployment extends require('../file-manager') {
         super(path);
         this.#path = path;
         if (specs) this.set(specs);
+
     }
 
     getProperties() {
@@ -38,15 +39,19 @@ module.exports = class Deployment extends require('../file-manager') {
         return json;
     }
 
-    getDefault = (specs) => ({...this.#default, ...specs});
+    getDefault = (specs) => {
+
+        return ({...this.#default, ...specs});
+    }
 
     setDistribution = distribution => {
+
         if (!distribution.port || !distribution.platform) {
             return {error: 'INVALID_CONFIG', code: 1};
         }
 
         let compute = {...distribution};
-        delete compute.port
+        delete compute.port;
         const newDistribution = new Distribution(this.path, distribution);
         const list = Array.from(this.#distributions.values());
 
@@ -58,6 +63,7 @@ module.exports = class Deployment extends require('../file-manager') {
             return {error: 'PORT_USED', code: 2}
         }
         const key = `${distribution.platform}-${distribution.port}`;
+        console.log(4, key)
         this.#distributions.set(key, newDistribution)
         return true;
     }
@@ -69,6 +75,20 @@ module.exports = class Deployment extends require('../file-manager') {
             delete data.distributions;
         }
         Object.keys(data).forEach(property => this[property] = data[property]);
+    }
+
+    /**
+     * This method is used when a project is created to add default distributions.
+     * @param platforms
+     */
+    addPlatforms(platforms) {
+        console.log(2, platforms)
+        platforms.forEach(platform => {
+
+            if (platform.platform === 'web') delete platform.inspectPort
+            const response = this.setDistribution({...platform, name: `distribution-${platform.platform}`})
+            console.log(20, response)
+        });
     }
 
 }

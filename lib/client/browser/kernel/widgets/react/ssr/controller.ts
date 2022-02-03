@@ -15,7 +15,7 @@ class ReactWidgetController extends BeyondWidgetControllerSSR {
     render(): IWidgetRendered {
         const {Widget} = this.bundle.package().exports.values;
         if (!Widget) {
-            return {errors: [`Widget "${this.name}" does not export a Widget class`]};
+            return {errors: [`Widget "${this.element}" does not export a Widget class`]};
         }
 
         // Render the widget

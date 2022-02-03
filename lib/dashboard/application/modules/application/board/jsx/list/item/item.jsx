@@ -28,11 +28,16 @@ function Item({module, application}) {
                 {module.module.name && <p className="p1 bold">{module.module.name}</p>}
                 {module.module.description && <span className="p1 light">{module.description}</span>}
             </div>
-            <div className="item-information">
+            <div className="ds-module-list__item__info">
                 {!!warnings.length && <DashboardIcon icon="warning" className='warning-icon'/>}
                 {!!errors.length && <DashboardIcon icon="error" className='error-icon'/>}
             </div>
             <div className="col  actions right-col">
+                {/*<DSIconButton*/}
+                {/*    icon="scan" title={`total: ${application.errors.length}`}*/}
+                {/*    className="circle"*/}
+                {/*    onClick={onScan}/>*/}
+
                 <div className="processors__list">
                     <Processors module={module}/>
                 </div>

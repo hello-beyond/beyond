@@ -1,23 +1,25 @@
 function Toolbar() {
-
-
+    const {workspace: {user, application}} = useDSWorkspaceContext();
     const cls = "primary";
-    // if (controller.processing) specs.disabled = true;
-
-    const items = [
-        ['Home', '/'],
-        // ['App', `/application/${application.id}`],
-        // /    [module.name, '']
-    ];
+    const items = [['Home']];
+    if (application) {
+        items.push([
+            `${application.application.name}`, () => workspace.openApp(application.application.id)
+        ]);
+    }
     return (
-
         <section className={`ds-toolbar ${cls}`}>
             <div className="toolbar__aside__logo"/>
             <div className="group-items-toolbar">
                 <DsBreadcrumb items={items}/>
-                <NotificationPanel/>
-            </div>
+                <div className="right__panel">
+                    <section className=" user__label">
+                        {user.name}
+                    </section>
+                    <NotificationPanel/>
+                </div>
 
+            </div>
         </section>
-    )
+    );
 }

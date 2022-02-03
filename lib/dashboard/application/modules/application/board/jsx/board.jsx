@@ -1,12 +1,10 @@
 export function ApplicationBoard(props) {
-
     const [displayView, setDisplayView] = React.useState(localStorage.getItem('beyond.lists.view') ?? 'table');
     const [state, setState] = React.useState({});
     const {panel, workspace} = useDSWorkspaceContext();
     const {id, moduleId} = props?.specs ?? {};
 
     React.useEffect(() => {
-
         if (!id) return;
 
         const onChange = () => {
@@ -20,23 +18,21 @@ export function ApplicationBoard(props) {
         controller.start(workspace, id, moduleId);
         controller.bind('change', onChange);
         if (controller.ready) onChange();
-        return () => {
-            controller.unbind('change', onChange);
-        }
+        return () => controller.unbind('change', onChange);
     }, [id]);
 
     if (!state.ready || controller.currentId !== id) return <Preloader/>;
     const value = {application: controller.application, texts: controller.texts, displayView, setDisplayView, id}
-    return (
 
+    return (
         <AppContext.Provider value={value}>
-            <div className="application__board">
-                <Detail/>
+            <div className="ds__board">
+                <Header/>
                 <article>
-                    <Header/>
+                    <HeaderList/>
                     <ModulesList/>
                 </article>
             </div>
         </AppContext.Provider>
-    )
+    );
 }

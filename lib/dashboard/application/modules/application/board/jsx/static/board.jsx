@@ -1,6 +1,3 @@
-const StaticContext = React.createContext();
-const useStaticContext = () => React.useContext(StaticContext);
-
 export function StaticBoard({specs}) {
     const {image, type} = specs;
     if (!image) return null;

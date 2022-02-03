@@ -1,3 +1,5 @@
+//TODO @julio @felix este archivo ya no se usa?
+// tiene una configuracion en el board, validar
 export function ApplicationConfig() {
     let {texts: {actions}, application} = useAppContext();
     const model = application?.application;
@@ -5,14 +7,13 @@ export function ApplicationConfig() {
 
     const {declarations} = model;
     const {itemsProcessed, total} = declarations;
-
     const [state, setState] = React.useState({});
     useBinder([model, declarations], () => setState({}));
 
     const generateDeclarations = () => declarations.update();
 
     return (
-        <div className="workspace__board ds-board__application application__board">
+        <div className="workspace__board ds-board__application ds__board">
             <header>
                 <h2>{model.name}</h2>
                 <div className="actions">

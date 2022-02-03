@@ -78,7 +78,9 @@ class Events {
             return this;
         }
 
-        if (!this.#listeners.has(event)) return this;
+        if (!this.#listeners.has(event)) {
+            return this;
+        }
 
         const e = this.#listeners.get(event);
         const filtered: ListenerSpecs[] = e.filter(item => item.listener !== listener);

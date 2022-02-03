@@ -8,7 +8,7 @@
     "header": {
       "title": "Projects",
       "projectsTitle": "Projects",
-      "applications": "Applications",
+      "applications": "Projects",
       "libraries": "Libraries",
       "elements": "Elements",
       "titleHeader": "Project name goes here title",
@@ -45,10 +45,9 @@
       "info": "¿Que es esto?"
     },
     "header": {
-      "title": "Projectos",
-      "projectsTitle": "Projectos",
-      "applications": "Applications",
-      "libraries": "Librarias",
+      "title": "Proyectos",
+      "projectsTitle": "Proyectos",
+      "applications": "Proyectos",
       "elements": "Elementos",
       "titleHeader": "El nombre del proyecto va aquí",
       "showApps": "Información del proyecto",
@@ -56,12 +55,6 @@
       "selectView": "Vista",
       "welcome": "Bienvenido:",
       "logIn": "Inicio de sesion:"
-    },
-    "applications": {
-      "libraries": "Librarias",
-      "libAssoc": "Associated libraries",
-      "modules": "Moduleos",
-      "modAssoc": "Associated modules"
     },
     "application": {
       "description": "No posee descripcion"

@@ -1,4 +1,4 @@
-import {Module, Container, IProcessorsSpecs} from './module';
+import {Module, IModuleSpecs, Container} from './module';
 
 export class Modules extends Map<string, Module> {
     readonly #container: Container;
@@ -11,10 +11,10 @@ export class Modules extends Map<string, Module> {
         this.#container = container;
     }
 
-    obtain(id: string, specs: IProcessorsSpecs): Module {
+    obtain(id: string, specs: IModuleSpecs): Module {
         if (this.has(id)) return this.get(id);
 
-        const module = new Module(id, specs, this.#container);
+        const module = new Module(id, {txt: specs.txt}, this.#container);
         this.set(id, module);
         return module;
     }

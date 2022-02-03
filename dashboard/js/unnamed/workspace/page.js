@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/settings/code", "@beyond-js/dashboard/applications-board/code", "@beyond-js/dashboard/unnamed/application/create/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/unnamed/application/board/code", "@beyond-js/dashboard/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/unnamed/workspace/components/notifications/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/unnamed/modules/view/code", "@beyond-js/dashboard/unnamed/modules/create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code"], function (_exports, React, ReactDOM, _code, _code2, _code3, _js, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/settings/code", "@beyond-js/dashboard/applications-board/code", "@beyond-js/dashboard/unnamed/application/create/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/unnamed/application/board/code", "@beyond-js/dashboard/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/unnamed/modules/view/code", "@beyond-js/dashboard/unnamed/modules/create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -11,6 +11,9 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   //Beyond  UI
   //Libraries
   //Dashboard
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
@@ -18,13 +21,16 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     "txt": {
       "multilanguage": true
     }
-  });
+  }, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
+
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -33,8 +39,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   FILE: aside.js
   *************/
 
-
-  class WorkspaceAside extends _js.ReactiveModel {
+  class WorkspaceAside extends _ts.ReactiveModel {
     #preaside;
 
     get preaside() {
@@ -154,7 +159,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   ********************/
 
 
-  class ContextMenu extends _js.ReactiveModel {
+  class ContextMenu extends _ts.ReactiveModel {
     _event;
 
     get event() {
@@ -226,12 +231,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       });
 
       _code18.DSBoards.add('settings', {
-        control: _code8.ConfigBoard,
+        control: _code9.ConfigBoard,
         label: 'settings'
       });
 
       _code18.DSBoards.add('applications', {
-        control: _code9.ApplicationsBoard,
+        control: _code10.ApplicationsBoard,
         label: 'apps'
       });
 
@@ -242,19 +247,17 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
       _code18.DSBoards.add('compile', {
         control: _code12.CompileBoard,
-        label: 'Compile App'
+        label: 'compile'
       });
     })();
 
     const specs = {};
-    let board = 'applications';
 
     if (this.qs.has('application_id')) {
       specs.id = this.qs.get('application_id');
-      board = 'application';
     }
 
-    const workspace = new Workspace(board, specs);
+    const workspace = new Workspace(specs);
     ReactDOM.render(React.createElement(DSWorkspace, {
       workspace,
       board: this.vdir
@@ -274,22 +277,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       tree: {
         properties: {
           bee: true,
-          libraries: {
-            properties: {
-              library: {
-                properties: {
-                  bee: true
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    LIBRARIES: {
-      tree: {
-        properties: {
-          bee: true
+          am: true
         }
       }
     }
@@ -298,7 +286,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   FILE: uploader.js
   ****************/
 
-  class UploaderController extends _js.ReactiveModel {
+  class UploaderController extends _ts.ReactiveModel {
     _uploader;
 
     get uploader() {
@@ -440,74 +428,58 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
   *****************/
 
 
-  const Workspace = class extends _js.ReactiveModel {
-    _contextMenu;
+  const Workspace = class extends _ts.ReactiveModel {
+    #contextMenu;
 
     get contextMenu() {
-      return this._contextMenu;
+      return this.#contextMenu;
     }
 
     get types() {
       return [{}];
     }
 
-    _panels;
+    #panels;
 
     get panels() {
-      return this._panels;
+      return this.#panels;
     }
 
-    _uploader;
+    #uploader;
 
     get uploader() {
-      return this._uploader;
+      return this.#uploader;
     }
 
-    #username;
-
-    get username() {
-      return this.#username;
-    }
-
-    _active;
+    #active;
 
     get active() {
-      return this._active;
+      return this.#active;
     }
 
     set active(value) {
       if (value === this.active) return;
-      this._active = value;
+      this.#active = value;
       this.triggerEvent();
     }
 
     get application() {
-      return this._active;
+      return this.#active;
     }
 
-    #validated;
-
-    get validated() {
-      return this.#validated;
-    }
-
-    #hasPermission;
-
-    get hasPermission() {
-      return this.#hasPermission;
-    }
-
-    _applications;
+    #appsOpened = new Set();
+    #applications;
 
     get applications() {
-      return this._applications;
+      return this.#applications;
     }
 
+    #store;
     #firstTime = true;
 
     get ready() {
-      if (this.#firstTime && this.applications.tree.landed) this.#firstTime = false;
-      const isReady = this.#validated && (!this.#firstTime || this.applications.tree.landed);
+      if (this.#dsmodel?.ready && this.#firstTime && this.applications.tree.landed) this.#firstTime = false;
+      const isReady = this.#user.validated && (!this.#firstTime || this.applications.tree.landed);
       return isReady && module.texts.ready;
     }
 
@@ -527,36 +499,91 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       return this.#dashboard;
     }
 
+    #dsmodel;
+
+    get dsmodel() {
+      return this.#dsmodel;
+    }
+
     #aside;
 
     get aside() {
       return this.#aside;
     }
+    /**
+     * @property {DSUser}
+     */
 
-    constructor(board, specs = {}) {
-      super();
-      this._contextMenu = new ContextMenu();
-      this._panels = new _code16.PanelsManager(_code18.DSBoards, this);
-      this._uploader = new UploaderController(this);
 
-      this._panels.add(board, specs);
+    #user;
 
-      this.#aside = new WorkspaceAside(this);
-      this.#dashboard = new _ts.Dashboard();
-      this.openBoard = this.openBoard.bind(this); //we validate the userCode
-
-      this.#validate(localStorage.getItem('ds.user.code'));
-      this.listenApplications = this.listenApplications.bind(this);
-      this._applications = new _ts.Applications(TREE.APPS);
-      this.applications.bind('change', this.triggerEvent);
-      this.applications.bind('change', this.listenApplications);
-      module.texts.bind('change', this.triggerEvent);
-
-      this._applications.fetch();
-
-      window._w = this;
+    get user() {
+      return this.#user;
     }
 
+    #wd;
+
+    get wd() {
+      return this.#wd;
+    }
+
+    constructor(specs = {}) {
+      super();
+      this.#applications = new _ts.Applications(TREE.APPS);
+      this.#dashboard = _ts.Dashboard;
+      this.#user = new _code8.DSUser(this.#dashboard);
+      this.applications.bind('change', this.triggerEvent);
+      this.applications.bind('change', this.#addNotifications);
+      this.#user.bind('change', this.triggerEvent);
+      module.texts.bind('change', this.triggerEvent);
+      this.#applications.fetch();
+      this.#dsmodel = _code8.DSModel;
+      window.workspace = this;
+      this.#load(specs);
+    }
+
+    #addNotifications = () => {
+      if (!this.applications.tree.landed) return;
+
+      _code17.DSNotifications.start(this.applications.items);
+    };
+
+    async #load() {
+      this.#wd = await _ts.Dashboard.getWD();
+      await this.#dsmodel.initialise(this.#wd);
+      await _code8.DSModel.initialise();
+      this.#store = _code8.DSModel.db.store('workspace');
+      const data = await this.#store.get(this.#wd);
+      const apps = Array.from(data.opened.values());
+
+      if (!!apps.length) {
+        const promises = apps.map(id => _code8.applicationsFactory.get(id));
+        await Promise.all(promises);
+      }
+
+      if (data.activeApp) {
+        this.#active = await _code8.applicationsFactory.get(data.activeApp);
+        this.#appsOpened.add(data.activeApp);
+      }
+
+      this.#contextMenu = new ContextMenu();
+      this.#uploader = new UploaderController(this);
+      this.#aside = new WorkspaceAside(this);
+      this.#panels = new _code16.PanelsManager(_code18.DSBoards, this, data.panels);
+      this.#panels.bind('panels.updated', this.#save);
+      this.openBoard = this.openBoard.bind(this); //we validate the userCode
+
+      this.user.validate(this.user.code);
+    }
+
+    #save = () => {
+      this.#store.save({
+        wd: this.#wd,
+        opened: this.#appsOpened,
+        panels: this.#panels.getData(),
+        activeApp: this.active?.application?.id
+      });
+    };
     setState = state => {
       this.#state = Object.assign(this.#state, state);
       this.triggerEvent();
@@ -568,17 +595,23 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
      */
 
     openBoard(name, specs) {
-      this._panels.active.add(name, specs);
+      this.#panels.active.add(name, specs);
     }
 
     openApp = async id => {
       this.active = await this.getApplication(id);
+      this.#appsOpened.add(id);
       const specs = {
         id,
         name: `app.${id}`
       };
       this.openBoard('application', specs);
     };
+
+    closeApp(id) {
+      this.#appsOpened.delete(id);
+      this.#save();
+    }
 
     openNavigator(id, url) {
       this.openBoard('navigator', {
@@ -589,7 +622,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
     getApplication(id, moduleId, element) {
       if ([undefined, NaN].includes(id)) return;
-      return _code11.applicationsFactory.get(parseInt(id), moduleId, element);
+      return _code8.applicationsFactory.get(parseInt(id), moduleId, element);
     }
     /**
      *
@@ -604,43 +637,12 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       specs.application = this.application.application;
       this.panels.active.openFile(specs);
     };
-
-    listenApplications() {
-      this.applications.items.forEach(app => {
-        if (_code11.applicationsFactory.applications.has(app.id)) return;
-
-        _code17.DSNotifications.register(app.errors, {
-          id: app.id,
-          application: app
-        });
-      });
-    }
-
     register = async (name, code) => {
-      const response = await this.#validate(code);
-
-      if (response) {
-        this.#username = name;
-        localStorage.setItem('ds.user.name', name);
-        localStorage.setItem('ds.user.code', code);
-      }
-
+      const response = await this.user.register(name, code);
       window.setTimeout(() => this.triggerEvent(), 1000);
       return response;
     };
-
-    async #validate(code) {
-      const response = await this.#dashboard.validate(code);
-      this.#validated = true;
-      this.#hasPermission = response;
-      return response;
-    }
-
   };
-  /************
-  JSX PROCESSOR
-  ************/
-
   _exports.Workspace = Workspace;
 
   function _extends() {
@@ -933,20 +935,25 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
     }, /*#__PURE__*/React.createElement("div", {
       className: "item-info"
     }, /*#__PURE__*/React.createElement("h4", {
-      className: "bold title-app"
+      className: "link bold"
     }, /*#__PURE__*/React.createElement(BeyondPreloadText, {
-      height: `10px`,
-      width: `30px`
+      color: "#fff",
+      height: "150px"
     })), /*#__PURE__*/React.createElement("p", {
       className: "p1"
     }, /*#__PURE__*/React.createElement(BeyondPreloadText, {
-      height: `10px`,
-      width: `50px`
-    })), /*#__PURE__*/React.createElement("p", {
-      className: "p2 primary-text"
+      color: "#fff",
+      height: "250px"
+    })), /*#__PURE__*/React.createElement("a", {
+      className: "link",
+      target: "_blank"
     }, /*#__PURE__*/React.createElement(BeyondPreloadText, {
-      height: `10px`,
-      width: `100px`
+      height: "50px"
+    })), /*#__PURE__*/React.createElement("p", {
+      className: "p2 primary-dark-color"
+    }, /*#__PURE__*/React.createElement(BeyondPreloadText, {
+      height: "50px",
+      className: "primary"
     }))), /*#__PURE__*/React.createElement("div", {
       className: "right-col actions"
     }, /*#__PURE__*/React.createElement(_code5.DashboardIconButton, {
@@ -1032,11 +1039,19 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
 
   function Toolbar() {
-    const cls = "primary"; // if (controller.processing) specs.disabled = true;
+    const {
+      workspace: {
+        user,
+        application
+      }
+    } = (0, _code18.useDSWorkspaceContext)();
+    const cls = "primary";
+    const items = [['Home']];
 
-    const items = [['Home', '/'] // ['App', `/application/${application.id}`],
-    // /    [module.name, '']
-    ];
+    if (application) {
+      items.push([`${application.application.name}`, () => workspace.openApp(application.application.id)]);
+    }
+
     return /*#__PURE__*/React.createElement("section", {
       className: `ds-toolbar ${cls}`
     }, /*#__PURE__*/React.createElement("div", {
@@ -1045,7 +1060,11 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       className: "group-items-toolbar"
     }, /*#__PURE__*/React.createElement(_code7.DsBreadcrumb, {
       items: items
-    }), /*#__PURE__*/React.createElement(_code17.NotificationPanel, null)));
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "right__panel"
+    }, /*#__PURE__*/React.createElement("section", {
+      className: " user__label"
+    }, user.name), /*#__PURE__*/React.createElement(_code17.NotificationPanel, null))));
   }
   /************
   workspace.jsx
@@ -1096,7 +1115,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       });
     }
 
-    if (!workspace.hasPermission) {
+    if (!workspace.user.hasAccess) {
       return /*#__PURE__*/React.createElement(DeveloperForm, {
         texts: workspace.texts,
         workspace: workspace
@@ -1129,7 +1148,7 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
       className: "ds-application-view-layout"
     }, /*#__PURE__*/React.createElement(Toolbar, null), /*#__PURE__*/React.createElement(AppErrors, null), /*#__PURE__*/React.createElement(_code14.WorspaceAside, null), /*#__PURE__*/React.createElement("div", {
       className: "ds__main-container"
-    }, /*#__PURE__*/React.createElement(_code16.Panels, null)), /*#__PURE__*/React.createElement(FooterBar, null))), showModal && /*#__PURE__*/React.createElement(_code10.ApplicationCreate, {
+    }, /*#__PURE__*/React.createElement(_code16.Panels, null)), /*#__PURE__*/React.createElement(FooterBar, null))), showModal && /*#__PURE__*/React.createElement(_code11.ApplicationCreate, {
       closeModal: () => {
         setShowModal(false);
       }
@@ -1148,6 +1167,8 @@ define(["exports", "react", "react-dom", "@beyond-js/ui/image/code", "@beyond-js
 
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-alert{border-radius:0}.beyond-alert .beyond-alert_content{display:grid;align-items:center}.beyond-alert ul{display:grid;list-style:none;padding:0;margin:0;align-items:center}.beyond-alert ul li:first-letter{text-transform:uppercase}.beyond-alert.alert-warning{color:#533c06}.container__early__form{display:flex;align-items:center;justify-content:center;height:100vh;justify-items:center;flex-direction:column;max-width:500px;margin:auto;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form 0%{opacity:0}.container__early__form 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .warning-text{color:#f7d994;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form .warning-text 0%{opacity:0}.container__early__form .warning-text 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .logo img{max-width:200px}.container__early__form header{text-align:center;margin-bottom:30px}.container__early__form header h1{font-size:20px;margin-left:1rem}.container__early__form.ending .elements__section{opacity:.1}.container__early__form.ending.ending-left .elements__section{-webkit-animation-name:fadeOutLeft;-moz-animation-name:fadeOutLeft;-ms-animation-name:fadeOutLeft;-o-animation-name:fadeOutLeft;animation-name:fadeOutLeft;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-moz-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-ms-keyframes fadeOutLeft{.container__early__form.ending.ending-left .elements__section 0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}.container__early__form.ending.ending-left .elements__section 100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-o-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}.container__early__form .elements__section{display:flex;justify-content:center;flex-direction:column;align-items:center}.container__early__form form{width:100%}.container__early__form form .form-group{display:flex;border-radius:4px}.container__early__form form .form-group .form-sub-group{position:relative}.container__early__form form .form-group .form-sub-group:last-child{flex-grow:1}.container__early__form form .form-group .form-sub-group .beyond-element-input{color:#fff}.container__early__form form .form-group .form-sub-group label{position:absolute;top:0;left:0;cursor:text;transform-origin:0 0;transition:all .3s}.container__early__form form .upper-text{text-transform:uppercase}.container__early__form form .form__actions{margin:40px 0;display:flex;justify-items:center;align-content:center;justify-content:center}.container__early__form form .form__actions .beyond-button{height:40px;width:60%}.container__early__form form .form__actions .beyond-button[disabled]{opacity:.2}.container__early__form form .early__message{font-size:1.1rem;padding:0 20px;text-align:center;color:#ff8056}.early-access__container{display:flex;align-items:center;justify-content:center;flex-direction:column;width:100%}.early-access__container header h1{color:#ff8056}.early-access__container form{display:grid;gap:15px}.early-access__container form label{display:inline-grid;text-align:center;font-size:1.4rem}.early-access__container form input{margin-top:30px;border:1px solid #ff8056;background:0 0;padding:15px;border-radius:15px;font-size:1.5rem;color:#ff8056;text-transform:uppercase;text-align:center;outline:0}.app__empty__container{height:100%;width:100%;display:flex;justify-content:center;align-items:top;padding-top:15%}.ds-footer-bar{grid-area:footer;z-index:8;position:fixed;bottom:0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;left:0;right:0;padding:8px 15px;background:#050910;display:flex;justify-content:space-between;align-items:center}.ds-footer-bar *{font-size:10px;padding:0}.ds-footer-bar h1,.ds-footer-bar h2,.ds-footer-bar h3,.ds-footer-bar p{padding:0;margin:0}.ds-footer-bar span{display:inline-flex;padding:0 5px}.ds-footer-bar .primary-text{color:#ff8056}.ds-footer-bar .beyond-button{background:#000;border:0;color:#fff}.ds__main-container{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#000}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-application-view-layout{display:grid;height:100%;grid-template-areas:"toolbar toolbar" "errors errors" "aside panel" "aside panel" "footer footer";grid-template-columns:auto 1fr;grid-template-rows:auto auto 1fr auto;overflow:no-display}.ds-application-view-layout .ds-toolbar{grid-area:toolbar;z-index:2}.ds-application-view-layout .ds__aside{grid-area:aside}.ds-application-view-layout .ds__workspace__errors{grid-area:errors}.ds-application-view-layout .ds__main-content{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#1a1a1a}.dashboard-layout .ds-toolbar .toolbar__aside__logo{background:url("/images/logo.png") no-repeat center center #313c50;background-size:50%;width:274px;display:flex;align-items:center;justify-content:center;height:50px}.dashboard-layout.aside-hidden .ds-toolbar .toolbar__aside__logo{width:54px;background-image:url("/images/beyond-iso.png");background-size:35%;overflow:hidden}.dashboard-layout .ds-toolbar{display:flex;position:sticky;justify-content:flex-start;align-items:center;gap:20px;height:50px;top:0;transition:all .3s linear;background:#121f36}.dashboard-layout .ds-toolbar .group-items-toolbar{display:flex;justify-content:space-between;width:100%;height:100%;align-items:center}.dashboard-layout .ds-toolbar .ds-editor__module-name{display:flex;gap:15px;align-items:center}.dashboard-layout .ds-toolbar .ds-editor__module-name .beyond-icon{fill:#fff}';
+  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-alert{border-radius:0}.beyond-alert .beyond-alert_content{display:grid;align-items:center}.beyond-alert ul{display:grid;list-style:none;padding:0;margin:0;align-items:center}.beyond-alert ul li:first-letter{text-transform:uppercase}.beyond-alert.alert-warning{color:#533c06}.container__early__form{display:flex;align-items:center;justify-content:center;height:100vh;justify-items:center;flex-direction:column;max-width:500px;margin:auto;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form 0%{opacity:0}.container__early__form 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .warning-text{color:#f7d994;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form .warning-text 0%{opacity:0}.container__early__form .warning-text 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .logo img{max-width:200px}.container__early__form header{text-align:center;margin-bottom:30px}.container__early__form header h1{font-size:20px;margin-left:1rem}.container__early__form.ending .elements__section{opacity:.1}.container__early__form.ending.ending-left .elements__section{-webkit-animation-name:fadeOutLeft;-moz-animation-name:fadeOutLeft;-ms-animation-name:fadeOutLeft;-o-animation-name:fadeOutLeft;animation-name:fadeOutLeft;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-moz-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-ms-keyframes fadeOutLeft{.container__early__form.ending.ending-left .elements__section 0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}.container__early__form.ending.ending-left .elements__section 100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-o-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}.container__early__form .elements__section{display:flex;justify-content:center;flex-direction:column;align-items:center}.container__early__form form{width:100%}.container__early__form form .form-group{display:flex;border-radius:4px}.container__early__form form .form-group .form-sub-group{position:relative}.container__early__form form .form-group .form-sub-group:last-child{flex-grow:1}.container__early__form form .form-group .form-sub-group .beyond-element-input{color:#fff}.container__early__form form .form-group .form-sub-group label{position:absolute;top:0;left:0;cursor:text;transform-origin:0 0;transition:all .3s}.container__early__form form .upper-text{text-transform:uppercase}.container__early__form form .form__actions{margin:40px 0;display:flex;justify-items:center;align-content:center;justify-content:center}.container__early__form form .form__actions .beyond-button{height:40px;width:60%}.container__early__form form .form__actions .beyond-button[disabled]{opacity:.2}.container__early__form form .early__message{font-size:1.1rem;padding:0 20px;text-align:center;color:#ff8056}.early-access__container{display:flex;align-items:center;justify-content:center;flex-direction:column;width:100%}.early-access__container header h1{color:#ff8056}.early-access__container form{display:grid;gap:15px}.early-access__container form label{display:inline-grid;text-align:center;font-size:1.4rem}.early-access__container form input{margin-top:30px;border:1px solid #ff8056;background:0 0;padding:15px;border-radius:15px;font-size:1.5rem;color:#ff8056;text-transform:uppercase;text-align:center;outline:0}.app__empty__container{height:100%;width:100%;display:flex;justify-content:center;align-items:top;padding-top:15%}.ds-footer-bar{grid-area:footer;z-index:8;position:fixed;bottom:0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;left:0;right:0;padding:8px 15px;background:#050910;display:flex;justify-content:space-between;align-items:center}.ds-footer-bar *{font-size:10px;padding:0}.ds-footer-bar h1,.ds-footer-bar h2,.ds-footer-bar h3,.ds-footer-bar p{padding:0;margin:0}.ds-footer-bar span{display:inline-flex;padding:0 5px}.ds-footer-bar .primary-text{color:#ff8056}.ds-footer-bar .beyond-button{background:#000;border:0;color:#fff}.ds__main-container{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#000;z-index:1}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-application-view-layout{display:grid;height:100%;grid-template-areas:"toolbar toolbar" "errors errors" "aside panel" "aside panel" "footer footer";grid-template-columns:auto 1fr;grid-template-rows:auto auto 1fr auto;overflow:no-display}.ds-application-view-layout .ds-toolbar{grid-area:toolbar;z-index:2}.ds-application-view-layout .ds__aside{grid-area:aside}.ds-application-view-layout .ds__workspace__errors{grid-area:errors}.ds-application-view-layout .ds__main-content{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#1a1a1a}.dashboard-layout .ds-toolbar .toolbar__aside__logo{background:url("/images/logo.png") no-repeat center center #313c50;background-size:50%;width:274px;display:flex;align-items:center;justify-content:center;height:50px}.dashboard-layout.aside-hidden .ds-toolbar .toolbar__aside__logo{width:54px;background-image:url("/images/beyond-iso.png");background-size:35%;overflow:hidden}.dashboard-layout .ds-toolbar{display:flex;position:sticky;justify-content:flex-start;align-items:center;gap:20px;height:50px;top:0;transition:all .3s linear;background:#121f36}.dashboard-layout .ds-toolbar .group-items-toolbar{display:flex;justify-content:space-between;width:100%;height:100%;align-items:center}.dashboard-layout .ds-toolbar .group-items-toolbar .right__panel{display:flex;gap:15px;place-items:center;height:100%}.dashboard-layout .ds-toolbar .ds-editor__module-name{display:flex;gap:15px;align-items:center}.dashboard-layout .ds-toolbar .ds-editor__module-name .beyond-icon{fill:#fff}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });

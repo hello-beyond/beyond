@@ -1,11 +1,5 @@
 {
   "en": {
-    "module": {
-      "empty": {
-        "title": "Select a module",
-        "description": "Go to the application tab and select the module you want to use as a work table"
-      }
-    },
     "empty": "Selecciona un modulo para que puedas ver su contenido",
     "backend": {
       "title": "Backend code",
@@ -46,14 +40,6 @@
         "description": "Here you will see each element added as a favorite"
       }
     },
-    "template": {
-      "title": "Template",
-      "description": "El template permite definir la configuración de estilos general de la aplicación y los overwrites.",
-      "styles": {
-        "title": "Estilos",
-        "description": "Estilos generales de la aplicación, que serán compartidos entre todos los módulos."
-      }
-    },
     "overwrites": {
       "title": "Overwrites",
       "description": "Los overwrites de un módulo te permiten customizar el diseño y los textos de un módulo."
@@ -68,12 +54,6 @@
     }
   },
   "es": {
-    "module": {
-      "empty": {
-        "title": "Select a module",
-        "description": "Go to the application tab and select the module you want to use as a work table"
-      }
-    },
     "empty": "Selecciona un modulo para que puedas ver su contenido",
     "backend": {
       "title": "Backend code",

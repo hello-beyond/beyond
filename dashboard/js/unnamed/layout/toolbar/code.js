@@ -1,4 +1,4 @@
-define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/code"], function (_exports, React, ReactDOM, _code) {
+define(["exports", "@beyond-js/dashboard/core-components/code", "react", "react-dom"], function (_exports, _code, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -7,24 +7,25 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
   _exports.DSToolbar = DSToolbar;
   _exports.Page = Page;
   _exports.svgs = void 0;
+  const dependencies = new Map();
+  dependencies.set('react', dependency_0);
+  dependencies.set('react-dom', dependency_1);
   const {
     beyond
   } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/layout/toolbar/code', false, {});
+  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/layout/toolbar/code', false, {}, dependencies);
   const {
     container
   } = bundle;
   const module = container.is === 'module' ? container : void 0;
 
   const __pkg = bundle.package();
-  /************
-  JSX PROCESSOR
-  ************/
 
+  const React = dependencies.get('react');
+  const ReactDOM = dependencies.get('react-dom');
   /**********
   toolbar.jsx
   **********/
-
 
   function DSToolbar({
     items,
@@ -99,4 +100,6 @@ define(["exports", "react", "react-dom", "@beyond-js/dashboard/core-components/c
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown{position:absolute;top:3.5rem;width:300px;transform:translateX(-90%);background-color:#242526;border:1px solid #474a4d;overflow:hidden}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu{width:100%}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item{height:auto;text-decoration-line:none;display:flex;align-items:center;transition:background .5s;padding:1rem 1rem 0 1rem}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item svg{height:3rem;width:3rem;fill:#D2281E}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .error{fill:#D2281E}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .warning{fill:#F7C700}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .icon-button{margin-right:.5rem}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .icon-button:hover{filter:none}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item:hover{background-color:#525357}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .icon-right{margin-left:auto}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .information-notification{display:flex;justify-content:space-between;width:90%;text-transform:capitalize;flex-wrap:wrap;padding-left:1rem}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .information-notification .name-archivo{color:#fff}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item .information-notification .number-line{color:#7fff00}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .dropdown .menu .menu-item p{text-transform:capitalize;color:#d2281e}.dashboard-layout .ds-toolbar .toolbar__aside__logo{background:url("/images/logo.png") no-repeat center center #313c50;background-size:50%;width:274px;display:flex;align-items:center;justify-content:center;height:50px}.dashboard-layout.aside-hidden .ds-toolbar .toolbar__aside__logo{width:54px;background-image:url("/images/beyond-iso.png");background-size:35%;overflow:hidden}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .icon-button{position:relative;display:flex;align-items:center;justify-content:center;width:35px;height:35px;color:#000;background:var(--beyond-border-variant-color);border:none;outline:0;border-radius:50%}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .icon-button:hover{cursor:pointer}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .icon-button:active{background:#ccc}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .icon-button .icon-bell{margin-right:-.5rem}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .icon-button .icon-button__badge{position:absolute;top:-5px;right:-10px;width:20px;height:20px;background:#d2281e;color:#fff;display:flex;justify-content:center;align-items:center;border-radius:50%}.dashboard-layout .ds-toolbar .group-items-toolbar .box-notifycation .hide{display:none}';
   bundle.styles.appendToDOM();
+
+  __pkg.initialise();
 });
