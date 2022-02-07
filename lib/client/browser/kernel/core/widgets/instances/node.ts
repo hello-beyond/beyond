@@ -1,4 +1,4 @@
-import type {BeyondWidget} from "../widget";
+import type {BeyondWidget} from "../widget/widget";
 
 export /*bundle*/
 class NodeWidget {

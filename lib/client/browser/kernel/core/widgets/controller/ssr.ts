@@ -14,5 +14,5 @@ interface IWidgetRendered {
  */
 export /*bundle*/
 abstract class BeyondWidgetControllerSSR extends BeyondWidgetControllerBase {
-    abstract render(): IWidgetRendered;
+    abstract render(props: Record<string, any>): IWidgetRendered;
 }

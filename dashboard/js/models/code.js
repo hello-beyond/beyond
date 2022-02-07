@@ -44,6 +44,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return `application//${this.application.id}//`;
     }
 
+    get name() {
+      return this.application.name;
+    }
+
     get containers() {
       const items = ['all', 'application'];
       this.application.libraries?.items?.forEach(item => items.push(item.library.name));

@@ -1,6 +1,4 @@
-import type {BeyondWidget} from "../widget";
-import type {WidgetSpecs} from "../widgets";
-import type {NodeWidget} from "../instances/node";
+import type {BeyondWidget} from "../widget/widget";
 import type {BundleStyles} from "../../bundles/styles/styles";
 import {instances} from "../../bundles/instances/instances";
 import {BeyondWidgetControllerBase} from "./base";
@@ -16,17 +14,13 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
         return this.#component;
     }
 
-    get node(): NodeWidget {
-        return this.#component.node;
-    }
-
     #body: HTMLSpanElement;
     get body() {
         return this.#body;
     }
 
-    protected constructor(specs: WidgetSpecs, component: BeyondWidget) {
-        super(specs);
+    protected constructor(component: BeyondWidget) {
+        super(component.specs);
         this.#component = component;
     }
 

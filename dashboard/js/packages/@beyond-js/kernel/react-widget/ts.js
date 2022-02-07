@@ -1,4 +1,4 @@
-define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts", "react-dom/server"], function (_exports2, dependency_0, dependency_1, dependency_2, dependency_3) {
+define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts"], function (_exports2, dependency_0, dependency_1, dependency_2) {
   "use strict";
 
   Object.defineProperty(_exports2, "__esModule", {
@@ -9,7 +9,6 @@ define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts", 
   dependencies.set('react-dom/server.js', dependency_0);
   dependencies.set('react', dependency_1);
   dependencies.set('@beyond-js/kernel/core/ts', dependency_2);
-  dependencies.set('react-dom/server', dependency_3);
   const {
     beyond
   } = globalThis;
@@ -27,7 +26,7 @@ define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts", 
   ******************/
 
   modules.set('./controller', {
-    hash: 524773098,
+    hash: 770152333,
     creator: function (require, exports) {
       "use strict";
 
@@ -45,7 +44,7 @@ define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts", 
 
 
       class ReactWidgetController extends _ts.BeyondWidgetControllerSSR {
-        render() {
+        render(props) {
           const {
             Widget
           } = this.bundle.package().exports.values;
@@ -57,7 +56,17 @@ define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts", 
           } // Render the widget
 
 
-          const html = ReactDOMServer.renderToString(React.createElement(Widget));
+          let html;
+
+          try {
+            html = ReactDOMServer.renderToString(React.createElement(Widget, props));
+          } catch (exc) {
+            console.log(exc.stack);
+            return {
+              errors: [exc.message]
+            };
+          }
+
           return {
             html
           };
@@ -73,7 +82,7 @@ define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts", 
   ************/
 
   modules.set('./page', {
-    hash: 439715757,
+    hash: 1127446281,
     creator: function (require, exports) {
       "use strict";
 
@@ -83,42 +92,10 @@ define(["exports", "react-dom/server.js", "react", "@beyond-js/kernel/core/ts", 
       exports.PageReactWidgetController = void 0;
 
       var _controller = require("./controller");
-
-      var ReactDOMServer = require("react-dom/server");
-
-      var React = require("react");
       /*bundle*/
 
 
-      class PageReactWidgetController extends _controller.ReactWidgetController {
-        #uri;
-
-        constructor(specs, uri) {
-          super(specs);
-          this.#uri = uri;
-        }
-
-        render() {
-          const {
-            Widget
-          } = this.bundle.package().exports.values;
-
-          if (!Widget) {
-            return {
-              errors: [`Widget "${this.element}" does not export a Widget class`]
-            };
-          } // Render the widget
-
-
-          const html = ReactDOMServer.renderToString(React.createElement(Widget, {
-            uri: this.#uri
-          }));
-          return {
-            html
-          };
-        }
-
-      }
+      class PageReactWidgetController extends _controller.ReactWidgetController {}
 
       exports.PageReactWidgetController = PageReactWidgetController;
     }

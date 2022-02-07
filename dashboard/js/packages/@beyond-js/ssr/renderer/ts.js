@@ -1,4 +1,4 @@
-define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/react-widget/ts", "@beyond-js/kernel/routing/ts"], function (_exports2, dependency_0, dependency_1, dependency_2) {
+define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts", "cheerio"], function (_exports2, dependency_0, dependency_1, dependency_2) {
   "use strict";
 
   Object.defineProperty(_exports2, "__esModule", {
@@ -7,8 +7,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/react-widget/
   _exports2.renderer = _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
-  dependencies.set('@beyond-js/kernel/react-widget/ts', dependency_1);
-  dependencies.set('@beyond-js/kernel/routing/ts', dependency_2);
+  dependencies.set('@beyond-js/kernel/routing/ts', dependency_1);
+  dependencies.set('cheerio', dependency_2);
   const {
     beyond
   } = globalThis;
@@ -21,12 +21,70 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/react-widget/
   const __pkg = bundle.package();
 
   const modules = new Map();
+  /********************
+  FILE: renderWidget.ts
+  ********************/
+
+  modules.set('./renderWidget', {
+    hash: 1831138265,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.renderWidget = renderWidget;
+
+      var _ts = require("@beyond-js/kernel/core/ts");
+
+      async function renderWidget(element, props) {
+        if (!_ts.beyond.widgets.has(element)) {
+          return {
+            errors: [`Widget element "${element}" is not registered`]
+          };
+        }
+
+        const specs = _ts.beyond.widgets.get(element);
+
+        const bundle = await _ts.beyond.import(specs.id);
+        const {
+          Controller
+        } = bundle;
+
+        if (!Controller || typeof Controller !== 'function') {
+          return {
+            errors: [`Widget "${element}" does not export its Controller`]
+          };
+        }
+
+        try {
+          const controller = new Controller(specs, props);
+          await controller.fetch?.();
+          const css = controller.bundle.styles.external ? controller.bundle.pathname : void 0;
+          const {
+            html,
+            errors
+          } = controller.render(props);
+          return {
+            html,
+            errors,
+            css
+          };
+        } catch (exc) {
+          console.log(exc.stack);
+          return {
+            errors: exc.message
+          };
+        }
+      }
+    }
+  });
   /****************
   FILE: renderer.ts
   ****************/
 
   modules.set('./renderer', {
-    hash: 1056602364,
+    hash: 3219917497,
     creator: function (require, exports) {
       "use strict";
 
@@ -38,11 +96,17 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/react-widget/
       var _ts = require("@beyond-js/kernel/core/ts");
 
       var _ts2 = require("@beyond-js/kernel/routing/ts");
+
+      var _renderWidget = require("./renderWidget");
+
+      var _cheerio = require("cheerio");
       /*bundle*/
 
 
       const renderer = new class {
         async render(_uri) {
+          const widgets = new Map();
+          const hierarchy = [];
           const {
             page,
             error,
@@ -55,44 +119,55 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/react-widget/
           if (error) return {
             errors: [error]
           };
+          let html, errors, css; // Render the application main layout
+
+          const main = _ts.beyond.application.layout;
+          main && hierarchy.push(main);
+          ({
+            html,
+            errors,
+            css
+          } = main ? await (0, _renderWidget.renderWidget)(main) : {
+            html: void 0,
+            errors: void 0,
+            css: void 0
+          });
+          main && widgets.set(main, {
+            html,
+            errors,
+            css
+          }); // Find child widgets
+
+          const $ = _cheerio.default.load(html);
+
+          if ($('menu-layout').length) {// ({html, errors, css} = await renderWidget('menu-layout'));
+            // widgets.set('menu-layout', {html, errors, css});
+          }
+
           const {
-            element
+            element,
+            parents
           } = page;
+          ({
+            html,
+            errors,
+            css
+          } = await (0, _renderWidget.renderWidget)(element, {
+            uri
+          }));
+          hierarchy.push(element);
+          widgets.set(element, {
+            html,
+            errors,
+            css
+          }); // Render the ascending layouts of the page
 
-          if (!_ts.beyond.widgets.has(element)) {
-            return {
-              errors: [`Widget element "${element}" is not registered`]
-            };
-          }
+          void parents; // The parents layouts of the page
 
-          const specs = _ts.beyond.widgets.get(element);
-
-          const bundle = await _ts.beyond.import(specs.id);
-          const {
-            Controller
-          } = bundle;
-
-          if (!Controller || typeof Controller !== 'function') {
-            return {
-              errors: [`Widget "${element}" does not export its Controller`]
-            };
-          }
-
-          try {
-            const controller = new Controller(specs, uri);
-            const {
-              html,
-              errors
-            } = controller.render();
-            return {
-              html,
-              errors
-            };
-          } catch (exc) {
-            return {
-              exception: exc.stack
-            };
-          }
+          return {
+            hierarchy,
+            widgets: [...widgets]
+          };
         }
 
       }();

@@ -4,7 +4,7 @@ define(["exports"], function (_exports2) {
   Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports2.widgets = _exports2.beyond = _exports2.WidgetSpecs = _exports2.SingleCall = _exports2.PendingPromise = _exports2.NodeWidget = _exports2.ModuleTexts = _exports2.Module = _exports2.ListenerFunction = _exports2.IWidgetRendered = _exports2.Events = _exports2.Collection = _exports2.CancellationToken = _exports2.BundleStyles = _exports2.Bundle = _exports2.BeyondWidgetControllerSSR = _exports2.BeyondWidgetControllerBase = _exports2.BeyondWidgetController = _exports2.ActionsBridge = void 0;
+  _exports2.widgets = _exports2.beyond = _exports2.WidgetSpecs = _exports2.WidgetControllerLoader = _exports2.SingleCall = _exports2.PendingPromise = _exports2.NodeWidget = _exports2.ModuleTexts = _exports2.Module = _exports2.ListenerFunction = _exports2.IWidgetRendered = _exports2.Events = _exports2.Collection = _exports2.CancellationToken = _exports2.BundleStyles = _exports2.Bundle = _exports2.BeyondWidgetControllerSSR = _exports2.BeyondWidgetControllerBase = _exports2.BeyondWidgetController = _exports2.ActionsBridge = void 0;
   const amd_require = require;
   let __pkg = {
     exports: {}
@@ -508,7 +508,7 @@ define(["exports"], function (_exports2) {
   **********************/
 
   modules.set('./bundles/bundle', {
-    hash: 539277548,
+    hash: 1915300510,
     creator: function (require, exports) {
       "use strict";
 
@@ -1305,7 +1305,7 @@ define(["exports"], function (_exports2) {
   *****************************/
 
   modules.set('./bundles/styles/styles', {
-    hash: 403429166,
+    hash: 2068978473,
     creator: function (require, exports) {
       "use strict";
 
@@ -1341,6 +1341,10 @@ define(["exports"], function (_exports2) {
         set mode(value) {
           if (value !== 'external') throw new Error(`Invalid mode "${value}"`);
           this.#mode = value;
+        }
+
+        get external() {
+          return this.#mode === 'external';
         }
 
         #beyond;
@@ -3412,7 +3416,7 @@ define(["exports"], function (_exports2) {
   *******************************/
 
   modules.set('./widgets/controller/base', {
-    hash: 2341052564,
+    hash: 946207193,
     creator: function (require, exports) {
       "use strict";
 
@@ -3422,6 +3426,8 @@ define(["exports"], function (_exports2) {
       exports.BeyondWidgetControllerBase = void 0;
 
       var _beyond = require("../../beyond");
+
+      var _pendingPromise = require("../../utils/pending-promise/pending-promise");
       /*bundle*/
 
 
@@ -3449,6 +3455,12 @@ define(["exports"], function (_exports2) {
           return this.#specs.layout;
         }
 
+        #ready = new _pendingPromise.PendingPromise();
+
+        get ready() {
+          return this.#ready;
+        }
+
         constructor(specs) {
           this.#specs = specs;
 
@@ -3457,6 +3469,7 @@ define(["exports"], function (_exports2) {
           }
 
           this.#bundle = _beyond.beyond.bundles.get(specs.id);
+          this.fetch?.().catch(exc => console.log(exc instanceof Error ? exc.stack : exc));
         }
 
       }
@@ -3469,7 +3482,7 @@ define(["exports"], function (_exports2) {
   *************************************/
 
   modules.set('./widgets/controller/controller', {
-    hash: 722357762,
+    hash: 2980531295,
     creator: function (require, exports) {
       "use strict";
 
@@ -3495,18 +3508,14 @@ define(["exports"], function (_exports2) {
           return this.#component;
         }
 
-        get node() {
-          return this.#component.node;
-        }
-
         #body;
 
         get body() {
           return this.#body;
         }
 
-        constructor(specs, component) {
-          super(specs);
+        constructor(component) {
+          super(component.specs);
           this.#component = component;
         }
 
@@ -3602,7 +3611,7 @@ define(["exports"], function (_exports2) {
   ******************************/
 
   modules.set('./widgets/controller/ssr', {
-    hash: 257661608,
+    hash: 1183020236,
     creator: function (require, exports) {
       "use strict";
 
@@ -3629,40 +3638,58 @@ define(["exports"], function (_exports2) {
   ***********************************/
 
   modules.set('./widgets/instances/instances', {
-    hash: 1432891200,
+    hash: 3518843442,
     creator: function (require, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.instances = void 0;
+      exports.roots = exports.instances = void 0;
 
       var _node = require("./node"); // To identify which element a shadow root belongs to
 
 
-      const roots = new Map(); // Maintains a tree of widget instances
+      const shadowRoots = new Map(); // The widgets that are the roots of the tree of widgets
+
+      const roots = new Set(); // Maintains a tree of widget instances
       // NodeWidget is an object with a tree structure (parent, children)
 
+      exports.roots = roots;
       const instances = new class extends Map {
+        /**
+         * Returns the node of the parent widget of an HTML element
+         *
+         * @param {HTMLElement} element
+         */
+        parent(element) {
+          const root = element.getRootNode();
+          if (!shadowRoots.has(root)) return; // The BeyondWidget
+
+          const widget = shadowRoots.get(root); // The Node of the BeyondWidget
+
+          return this.get(widget);
+        }
+
         register(widget) {
           if (!widget.shadowRoot) throw new Error('Shadow root is not attached'); // Register the shadowRoot belonging to the widget that is being registered,
           // as it will be required to identify this widget as the parent of the future child widgets
 
-          roots.set(widget.shadowRoot, widget); // The root node of the current widget is the shadowRoot of the parent widget
+          shadowRoots.set(widget.shadowRoot, widget); // The root node of the current widget is the shadowRoot of the parent widget
           // that should have been registered previously
 
-          const root = widget.getRootNode(); // If the root node is the page document, the widget has no parent
+          const rootNode = widget.getRootNode(); // If the root node is the page document, the widget has no parent
           // If the root is not found, the widget is inside a non BeyondJS web component
 
-          if (root === document || !roots.has(root)) {
+          if (rootNode === document || !shadowRoots.has(rootNode)) {
             const node = new _node.NodeWidget(widget);
             this.set(widget, node);
+            roots.add(widget);
             return node;
           } // Now the parent widget has been identified
 
 
-          const parent = roots.get(root);
+          const parent = shadowRoots.get(rootNode);
           const node = new _node.NodeWidget(widget, this.get(parent));
           this.get(parent).children.add(node);
           this.set(widget, node);
@@ -3678,7 +3705,7 @@ define(["exports"], function (_exports2) {
   ******************************/
 
   modules.set('./widgets/instances/node', {
-    hash: 2505773292,
+    hash: 3699833135,
     creator: function (require, exports) {
       "use strict";
 
@@ -3730,50 +3757,31 @@ define(["exports"], function (_exports2) {
       exports.NodeWidget = NodeWidget;
     }
   });
-  /**********************
-  FILE: widgets\widget.ts
-  **********************/
+  /*****************************
+  FILE: widgets\widget\loader.ts
+  *****************************/
 
-  modules.set('./widgets/widget', {
-    hash: 359381524,
+  modules.set('./widgets/widget/loader', {
+    hash: 3727128528,
     creator: function (require, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
-      exports.BeyondWidget = void 0;
+      exports.WidgetControllerLoader = void 0;
 
-      var _instances = require("./instances/instances");
+      var _events = require("../../utils/events/events");
+      /*bundle*/
 
-      const Element = typeof HTMLElement === 'undefined' ? null : HTMLElement;
 
-      class BeyondWidget extends Element {
+      class WidgetControllerLoader extends _events.Events {
+        #component;
         #specs;
-
-        get is() {
-          return this.#specs.is;
-        }
-
-        get route() {
-          return this.#specs.route;
-        }
-
-        get layout() {
-          return this.#specs.layout;
-        }
-
         #bundle;
 
         get bundle() {
           return this.#bundle;
-        } // To identify where the widget is in the widgets tree
-
-
-        #node;
-
-        get node() {
-          return this.#node;
         }
 
         #controller;
@@ -3810,7 +3818,7 @@ define(["exports"], function (_exports2) {
         #initialise = () => {
           const {
             beyond
-          } = require('../beyond');
+          } = require('../../beyond');
 
           beyond.import(this.#id).then(bundle => {
             this.#bundle = bundle;
@@ -3818,11 +3826,7 @@ define(["exports"], function (_exports2) {
             this.#loaded = true;
             this.#holders.delete('loaded');
             this.#render();
-            const event = new CustomEvent('bundle.loaded', {
-              bubbles: true,
-              composed: true
-            });
-            this.dispatchEvent(event);
+            this.trigger('controller.loaded');
           }).catch(exc => {
             console.log(`Error loading widget "${this.#id}"`, exc.stack);
             this.#error = exc.message;
@@ -3830,17 +3834,20 @@ define(["exports"], function (_exports2) {
           });
         };
 
-        constructor(specs) {
+        constructor(component) {
           super();
-          this.#specs = specs;
-          this.attachShadow({
-            mode: 'open'
-          });
+          this.#component = component;
+          const {
+            localName
+          } = component;
 
-          const widgets = require('./widgets').widgets;
+          const {
+            widgets
+          } = require('../widgets');
 
-          if (!widgets.has(this.localName)) throw new Error(`Widget name "${this.localName}" is not registered`);
-          this.#id = widgets.get(this.localName).id;
+          if (!widgets.has(localName)) throw new Error(`Widget name "${localName}" is not registered`);
+          const specs = this.#specs = widgets.get(localName);
+          this.#id = specs.id;
           this.#initialise();
         }
 
@@ -3852,21 +3859,120 @@ define(["exports"], function (_exports2) {
           } = this.#bundle;
 
           if (!Controller || typeof Controller !== 'function') {
-            const message = `Widget "${this.localName}" does not export its Controller`;
+            const message = `Widget "${this.#component.localName}" does not export its Controller`;
             console.error(message);
             this.#error = message;
             return;
           }
 
-          this.#controller = new Controller(this.#specs, this, this.#bundle);
+          this.#controller = new Controller(this.#component);
           this.#controller.initialise();
         };
 
         connectedCallback() {
-          this.#holders.delete('connected'); // Register the widget in the instances registry after connectedCallback is done
-
-          this.#node = _instances.instances.register(this);
+          this.#holders.delete('connected');
           this.#render();
+        }
+
+      }
+
+      exports.WidgetControllerLoader = WidgetControllerLoader;
+    }
+  });
+  /*****************************
+  FILE: widgets\widget\widget.ts
+  *****************************/
+
+  modules.set('./widgets/widget/widget', {
+    hash: 2021346451,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.BeyondWidget = void 0;
+
+      var _loader = require("./loader");
+
+      var _instances = require("../instances/instances"); // In SSR environment HTMLElement is not defined
+
+
+      const Element = typeof HTMLElement === 'undefined' ? null : HTMLElement;
+
+      class BeyondWidget extends Element {
+        #loader;
+
+        get loader() {
+          return this.#loader;
+        }
+
+        get controller() {
+          return this.#loader.controller;
+        } // To identify where the widget is in the widgets tree
+
+
+        #wnode;
+
+        get wnode() {
+          return this.#wnode;
+        }
+
+        get wparent() {
+          return this.#wnode.parent.widget;
+        }
+
+        get wchildren() {
+          return [...this.#wnode.children].map(({
+            widget
+          }) => widget);
+        }
+
+        #specs;
+
+        get specs() {
+          return this.#specs;
+        }
+
+        get is() {
+          return this.#specs.is;
+        }
+
+        get route() {
+          return this.#specs.route;
+        }
+
+        get layout() {
+          return this.#specs.layout;
+        }
+
+        #oncontroller = () => {
+          const event = new CustomEvent('controller.loaded', {
+            bubbles: true,
+            composed: true
+          });
+          this.dispatchEvent(event);
+        };
+
+        constructor() {
+          super();
+          this.attachShadow({
+            mode: 'open'
+          });
+
+          const {
+            widgets
+          } = require('../widgets');
+
+          this.#specs = widgets.get(this.localName);
+          this.#loader = new _loader.WidgetControllerLoader(this);
+          this.#loader.on('controller.loaded', this.#oncontroller);
+        }
+
+        connectedCallback() {
+          // Register the widget in the instances registry after connectedCallback is done
+          this.#wnode = _instances.instances.register(this);
+          this.#loader.connectedCallback();
         }
 
       }
@@ -3879,7 +3985,7 @@ define(["exports"], function (_exports2) {
   ***********************/
 
   modules.set('./widgets/widgets', {
-    hash: 903879976,
+    hash: 3870793822,
     creator: function (require, exports) {
       "use strict";
 
@@ -3888,7 +3994,7 @@ define(["exports"], function (_exports2) {
       });
       exports.widgets = void 0;
 
-      var _widget = require("./widget");
+      var _widget = require("./widget/widget");
 
       var _instances = require("./instances/instances");
       /*bundle*/
@@ -3896,7 +4002,11 @@ define(["exports"], function (_exports2) {
 
       const widgets = new class BeyondWidgets extends Map {
         get instances() {
-          return new Set(_instances.instances.values());
+          return _instances.instances;
+        }
+
+        get roots() {
+          return [..._instances.roots];
         }
 
         register(specs) {
@@ -3911,13 +4021,12 @@ define(["exports"], function (_exports2) {
               return;
             }
 
-            this.set(name, specs);
-            'customElements' in globalThis && customElements.define(name, class extends _widget.BeyondWidget {
-              constructor() {
-                super(specs);
-              }
+            this.set(name, specs); // Do not register the custom elements when rendering in the server
 
-            });
+            if (typeof window !== 'object') return; // In SSR mode the custom elements required by the page are created by the hydrator
+
+            if (customElements.get(name)) return;
+            customElements.define(name, class extends _widget.BeyondWidget {});
           });
         }
 
@@ -3925,9 +4034,10 @@ define(["exports"], function (_exports2) {
       exports.widgets = widgets;
     }
   });
-  let beyond, Bundle, BundleStyles, Module, ModuleTexts, ActionsBridge, Collection, Events, ListenerFunction, CancellationToken, SingleCall, PendingPromise, BeyondWidgetControllerBase, BeyondWidgetController, IWidgetRendered, BeyondWidgetControllerSSR, NodeWidget, WidgetSpecs, widgets;
+  let beyond, Bundle, BundleStyles, Module, ModuleTexts, ActionsBridge, Collection, Events, ListenerFunction, CancellationToken, SingleCall, PendingPromise, BeyondWidgetControllerBase, BeyondWidgetController, IWidgetRendered, BeyondWidgetControllerSSR, NodeWidget, WidgetControllerLoader, WidgetSpecs, widgets;
   _exports2.widgets = widgets;
   _exports2.WidgetSpecs = WidgetSpecs;
+  _exports2.WidgetControllerLoader = WidgetControllerLoader;
   _exports2.NodeWidget = NodeWidget;
   _exports2.BeyondWidgetControllerSSR = BeyondWidgetControllerSSR;
   _exports2.IWidgetRendered = IWidgetRendered;
@@ -3964,6 +4074,7 @@ define(["exports"], function (_exports2) {
     _exports2.IWidgetRendered = IWidgetRendered = _exports.IWidgetRendered = require('./widgets/controller/ssr').IWidgetRendered;
     _exports2.BeyondWidgetControllerSSR = BeyondWidgetControllerSSR = _exports.BeyondWidgetControllerSSR = require('./widgets/controller/ssr').BeyondWidgetControllerSSR;
     _exports2.NodeWidget = NodeWidget = _exports.NodeWidget = require('./widgets/instances/node').NodeWidget;
+    _exports2.WidgetControllerLoader = WidgetControllerLoader = _exports.WidgetControllerLoader = require('./widgets/widget/loader').WidgetControllerLoader;
     _exports2.WidgetSpecs = WidgetSpecs = _exports.WidgetSpecs = require('./widgets/widgets').WidgetSpecs;
     _exports2.widgets = widgets = _exports.widgets = require('./widgets/widgets').widgets;
   };

@@ -11,7 +11,8 @@ export function PanelTab({panel, item, id}) {
 
     let label = typeof item === 'string' ? item : item.label;
 
-    if (item.type !== 'editor' && item.path !== 'module') label = texts.labels[item.label];
+    if (!label && item.type !== 'editor' && item.path !== 'module') label = texts.labels[item.label];
+
     const [name, setName] = React.useState(label);
     if (panel.activeItem !== id) attrs.onClick = () => changeTab(item);
     const changeTab = item => panel.changeTab(item);

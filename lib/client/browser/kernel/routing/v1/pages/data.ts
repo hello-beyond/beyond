@@ -1,6 +1,5 @@
 import type {URI} from "../uri/uri";
 import type {IParents} from "../config/pages/page";
-import type {routing as trouting} from '../routing';
 
 declare function require(module: string): any;
 
@@ -22,7 +21,7 @@ export class PageInstanceData {
     }
 
     #config() {
-        const routing = <typeof trouting>require('../routing').routing;
+        const {routing} = require('../routing');
         return routing.config.pages.get(this.#element);
     }
 

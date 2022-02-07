@@ -13,7 +13,9 @@ export function PanelView({panel}) {
     const {activeTab} = state;
     const tab = panel.tabs.get(activeTab);
     const ref = React.useRef(null);
-    useBinder([panel], () => setState({...state, total: panel.tabs.size, activeTab: panel.activeItem}));
+    useBinder([panel], () => {
+        setState({...state, total: panel.tabs.size, activeTab: panel.activeItem})
+    });
 
     React.useEffect(() => {
         const onClick = event => panel.setActive();
@@ -22,7 +24,6 @@ export function PanelView({panel}) {
     }, []);
 
     if (!tab || tab.type === 'editor' && !panel.editor) {
-
         return null;
     }
     const Control = tab.type === 'editor' ? EditorView : tab.control;
