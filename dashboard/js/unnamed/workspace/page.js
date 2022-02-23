@@ -553,8 +553,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       await this.#dsmodel.initialise(this.#wd);
       await _code8.DSModel.initialise();
       this.#store = _code8.DSModel.db.store('workspace');
-      const data = await this.#store.get(this.#wd); // console.log(1, data);
-
+      const data = await this.#store.get(this.#wd);
       const apps = Array.from(data.opened.values());
 
       if (!!apps.length) {
@@ -578,12 +577,6 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
     }
 
     #save = () => {
-      // console.log(100, "guardamos", {
-      //     wd: this.#wd,
-      //     opened: this.#appsOpened,
-      //     panels: this.#panels.getData(),
-      //     activeApp: this.active?.application?.id
-      // })
       this.#store.save({
         wd: this.#wd,
         opened: this.#appsOpened,

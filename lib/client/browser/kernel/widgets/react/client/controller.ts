@@ -4,7 +4,7 @@ import {retargetEvents} from "./retarget-events";
 import {BeyondWidgetController} from '@beyond-js/kernel/core/ts';
 
 export /*bundle*/
-abstract class ReactWidgetController extends BeyondWidgetController {
+class ReactWidgetController extends BeyondWidgetController {
     mount(Widget: any) {
         // Render the widget
         ReactDOM.render(React.createElement(Widget, {component: this.component}), this.body);

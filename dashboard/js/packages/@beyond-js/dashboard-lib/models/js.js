@@ -250,7 +250,7 @@ define(["exports"], function (_exports) {
       const {
         platforms
       } = items.find(item => item.name === this.type);
-      const data = platforms.map(item => {
+      return platforms.map(item => {
         let platform = {
           platform: item
         };
@@ -267,9 +267,6 @@ define(["exports"], function (_exports) {
 
         return platform;
       });
-      const index = data.findIndex(item => item.platform === 'web');
-      if (index >= 0) data[index].default = true;else data[0].default = true;
-      return data;
     }
 
     #navigatePort = 4080;

@@ -14,6 +14,14 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
   dependencies.set('@beyond-js/kernel/routing/ts', dependency_1);
   const transversal = beyond.transversals.obtain('start', '', dependencies);
+  /*************
+  BUNDLE: WIDGET
+  *************/
+
+  beyond.widgets.register([{
+    "name": "beyond-layout-children",
+    "id": "@beyond-js/kernel/unnamed/widgets/beyond-layout-children/widget"
+  }]);
   /***********
   BUNDLE: PAGE
   ***********/

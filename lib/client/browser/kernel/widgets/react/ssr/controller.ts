@@ -11,22 +11,15 @@ interface IWidgetRendered {
 }
 
 export /*bundle*/
-abstract class ReactWidgetController extends BeyondWidgetControllerSSR {
-    render(props: Record<string, any>): IWidgetRendered {
+class ReactWidgetController extends BeyondWidgetControllerSSR {
+    render(): IWidgetRendered {
         const {Widget} = this.bundle.package().exports.values;
         if (!Widget) {
             return {errors: [`Widget "${this.element}" does not export a Widget class`]};
         }
 
         // Render the widget
-        let html: string
-        try {
-            html = ReactDOMServer.renderToString(React.createElement(Widget, props));
-        } catch (exc) {
-            console.log(exc.stack);
-            return {errors: [exc.message]};
-        }
-
+        const html = ReactDOMServer.renderToString(React.createElement(Widget));
         return {html};
     }
 }

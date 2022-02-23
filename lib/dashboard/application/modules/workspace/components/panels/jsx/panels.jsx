@@ -5,14 +5,13 @@ export function Panels() {
     const output = [];
     const container = React.useRef();
     const [state, setState] = React.useState({});
-    useBinder([panels], () => {
-        setState({...state, items: panels.items})
-    });
+    useBinder([panels], () => setState({...state, items: panels.items}));
     if (!ready) return <Preload/>;
     const pushPanel = (item, id) => <PanelView specs={item.specs} panel={item} key={`panel-${id}`}/>;
 
     panels.items.forEach((item, id) => output.push(pushPanel(item, id)));
     const addPanel = event => {
+        setState({...state, vertical: container.current.offsetWidth < 600});
         panels.add();
     };
 
@@ -20,8 +19,8 @@ export function Panels() {
     const panelsCss = {};
     const prop = vertical ? 'gridTemplateRows' : 'gridTemplateColumns';
     panelsCss[prop] = `repeat(${panels.items.size}, minmax(0, 1fr))`;
+
     const cls = `panels__container ${vertical ? 'panels--vertical' : ''}`;
-    // console.log(10)
     return (
         <WorkspacePanelsContext.Provider value={{
             addPanel,

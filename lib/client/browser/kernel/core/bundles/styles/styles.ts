@@ -26,10 +26,6 @@ class BundleStyles extends Events {
         this.#mode = value;
     }
 
-    get external(): boolean {
-        return this.#mode === 'external';
-    }
-
     #beyond: Beyond;
     get beyond(): Beyond {
         if (this.#beyond) return this.#beyond;

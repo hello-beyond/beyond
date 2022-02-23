@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 import * as React from "react";
 
 export /*bundle*/
-abstract class PageReactWidgetController extends ReactWidgetController {
+class PageReactWidgetController extends ReactWidgetController {
     #uri: URI;
     get uri() {
         return this.#uri;

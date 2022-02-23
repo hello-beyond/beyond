@@ -3,7 +3,6 @@
     "target": "es2017",
     "experimentalDecorators": true,
     "module": "es2020",
-    "moduleResolution": "Node",
-    "noImplicitAny": true
+    "moduleResolution": "Node"
   }
 }

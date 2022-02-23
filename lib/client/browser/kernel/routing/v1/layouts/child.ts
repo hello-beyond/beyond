@@ -19,7 +19,7 @@ export class Child {
         return this.#config.id;
     }
 
-    readonly #layout: Layout; // Only if the instance is a layout
+    readonly #layout; // Only if the instance is a layout
     get layout() {
         return this.#layout;
     }
@@ -36,8 +36,8 @@ export class Child {
     constructor(config: LayoutConfig | PageInstanceData) {
         this.#config = config;
 
-        const {Layout} = require('./layout');
-        config.is === 'layout' && (this.#layout = new Layout(this.#layout));
+        const CLayout = <typeof Layout>(require('./layout')).Layout;
+        config.is === 'layout' && (this.#layout = new CLayout(this.#layout));
     }
 
     show() {

@@ -5,18 +5,10 @@ import type {PageConfig, IPageConfig} from "./config/pages/page";
 import {Manager} from "./manager";
 import {widgets, CancellationToken} from "@beyond-js/kernel/core/ts";
 import {BeyondHistory} from "./history/history";
-import './beyond-layout-children/beyond-layout-children';
-import {BeyondLayoutChildrenRenderer} from './beyond-layout-children/renderer';
-import {WidgetControllerLoader} from '@beyond-js/kernel/core/ts';
 
 export enum RoutingMode {Hash, Pathname}
 
 const ssr = typeof window !== 'object';
-
-declare const __beyond_hydrator: any;
-if (typeof __beyond_hydrator === 'object') {
-    __beyond_hydrator.hydrate(WidgetControllerLoader, BeyondLayoutChildrenRenderer);
-}
 
 export class Routing {
     #mode: RoutingMode;
@@ -41,7 +33,7 @@ export class Routing {
     missing: (uri: URI) => Promise<string>;
     redirect: (uri: URI) => Promise<string>;
 
-    #history: BeyondHistory;
+    #history;
     get history() {
         return this.#history;
     }
@@ -168,7 +160,7 @@ export class Routing {
 
 export /*bundle*/ const routing = new Routing;
 
-(globalThis as any).routing = routing;
+globalThis.routing = routing;
 
 // Just for backward compatibility
 declare const beyond: any;

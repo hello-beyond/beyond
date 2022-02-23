@@ -44,7 +44,7 @@ class Layout extends Events {
         if (parents.length) {
             const parent = parents.shift();
             child = getChild(parent);
-            child.layout.select(page);
+            child.layout.select(page, page.parents);
         } else {
             child = getChild(page);
             this.children.set(page.id, child);

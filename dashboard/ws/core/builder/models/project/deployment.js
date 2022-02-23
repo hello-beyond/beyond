@@ -81,9 +81,12 @@ module.exports = class Deployment extends require('../file-manager') {
      * @param platforms
      */
     addPlatforms(platforms) {
+        console.log(2, platforms)
         platforms.forEach(platform => {
+
             if (platform.platform === 'web') delete platform.inspectPort
-            this.setDistribution({...platform, name: `distribution-${platform.platform}`})
+            const response = this.setDistribution({...platform, name: `distribution-${platform.platform}`})
+            console.log(20, response)
         });
     }
 

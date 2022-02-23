@@ -3,6 +3,7 @@ function Form() {
 
     const onSubmit = event => {
         event.preventDefault();
+
         model.create();
     };
 

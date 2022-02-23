@@ -68,7 +68,7 @@ export class HistoryRecords {
             this.#records = this.#records.slice(0, position) : null;
     };
 
-    updateCurrentURI(uri: string): void {
+    updateCurrentURI(uri): void {
         const position = this.#position.getFromSessionStorage();
         this.#records[position - 1] = uri;
         sessionStorage.setItem('__beyond_navigation_records', JSON.stringify(this.#records));
