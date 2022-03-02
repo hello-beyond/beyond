@@ -149,7 +149,7 @@ module.exports = class Project extends require('../file-manager') {
 
         this.save(specs);
         await this.readFiles(specs);
-        return this.install();
+        // return this.install();
     }
 
     install() {

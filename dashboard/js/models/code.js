@@ -619,9 +619,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     }
 
     check() {
-      this.items.forEach(bundle => {
-        console.log(5, bundle.dependencies.check());
-      });
+      this.items.forEach(bundle => {});
     }
 
     #process() {
