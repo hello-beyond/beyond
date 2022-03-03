@@ -1,4 +1,4 @@
-function ItemCloneAction({module, onClose}) {
+function ItemCloneAction({am, onClose}) {
     const [state, setState] = React.useState({modal: false, confirm: false});
 
     const updateState = newState => setState({...state, ...newState});
@@ -10,7 +10,7 @@ function ItemCloneAction({module, onClose}) {
     const onClone = async () => {
         try {
             updateState({fetching: true});
-            await module.clone(state.name);
+            await am.clone(state.name);
             onClose();
         }
         catch (e) {

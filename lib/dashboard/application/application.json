@@ -66,6 +66,7 @@
   },
   "libraries": {
     "imports": [
+      "@beyond-js/kernel",
       "@beyond-js/plm",
       "@beyond-js/ui",
       "@beyond-js/dashboard-lib"
@@ -73,7 +74,8 @@
   },
   "static": {
     "includes": [
-      "./images"
+      "./images",
+      "./vendor/require.min.js"
     ]
   }
 }

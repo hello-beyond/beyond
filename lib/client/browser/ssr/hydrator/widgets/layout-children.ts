@@ -1,8 +1,12 @@
-import type {BeyondLayoutChildrenRenderer} from '@beyond-js/kernel/core/ts';
+import type {BeyondLayoutChildrenRenderer} from '@beyond-js/kernel/routing/ts';
 import {config} from '../config';
 
+interface IBeyondLayoutChildrenRenderer {
+    new(component: HTMLElement): BeyondLayoutChildrenRenderer;
+}
+
 export const instances = new class {
-    #BeyondLayoutChildrenRenderer: BeyondLayoutChildrenRenderer;
+    #BeyondLayoutChildrenRenderer: IBeyondLayoutChildrenRenderer;
 
     #instances: Set<BeyondLayoutChildren> = new Set();
 
@@ -13,7 +17,7 @@ export const instances = new class {
         instance.hydrate(this.#BeyondLayoutChildrenRenderer);
     }
 
-    hydrate(BeyondLayoutChildrenRenderer: BeyondLayoutChildrenRenderer) {
+    hydrate(BeyondLayoutChildrenRenderer: IBeyondLayoutChildrenRenderer) {
         this.#BeyondLayoutChildrenRenderer = BeyondLayoutChildrenRenderer;
         this.#instances.forEach(instance => instance.hydrate(this.#BeyondLayoutChildrenRenderer));
     }
@@ -41,7 +45,7 @@ class BeyondLayoutChildren extends HTMLElement {
         this.shadowRoot.appendChild(el);
     }
 
-    hydrate(Renderer: BeyondLayoutChildrenRenderer) {
+    hydrate(Renderer: IBeyondLayoutChildrenRenderer) {
         this.#renderer = new Renderer(this);
     }
 }

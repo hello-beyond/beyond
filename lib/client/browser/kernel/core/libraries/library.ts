@@ -48,8 +48,6 @@ export class Library extends Service {
 
         this.#version = config.version;
         this.#package = new PackageData(config.package);
-        config.package && beyond.packages.register(config.package);
-
         super.setup(config);
     }
 }

@@ -1,4 +1,3 @@
-import type {Packages} from "../packages/packages";
 import {BeyondRequire} from "./require";
 
 declare function es6_import(module: string): Promise<any>;
@@ -8,14 +7,12 @@ declare function bimport(module: string, version?: number): Promise<any>;
 export class BeyondImport {
     #require: BeyondRequire;
 
-    readonly #packages: Packages;
     readonly #mode: string;
     readonly #baseUrl: string;
 
-    constructor(packages: Packages, mode: string, baseUrl: string) {
-        this.#packages = packages;
+    constructor(mode: string, baseUrl: string) {
         this.#mode = mode;
-        this.#baseUrl = baseUrl;
+        this.#baseUrl = baseUrl ? `${baseUrl}/packages/` : void 0;
 
         if (['amd', 'cjs'].includes(mode)) {
             this.#require = new BeyondRequire(mode);
@@ -43,8 +40,6 @@ export class BeyondImport {
         if (/^https?:\/\/.*$/.test(module)) {
             url = module;
         } else {
-            const pkg = [...this.#packages].find(pkg => pkg === module || module.startsWith(`${pkg}/`));
-            module = pkg ? 'packages/' + module : module;
             url = `${this.#baseUrl}${module}` + (version ? `?version=${version}` : '');
         }
 

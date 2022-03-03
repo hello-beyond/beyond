@@ -79,7 +79,7 @@ export class BeyondHistory {
         return routing.mode === RoutingModeEnum.Hash ? `#${uri.substr(1)}` : uri;
     }
 
-    replaceState(state: any, title, uri) {
+    replaceState(state: any, title: string, uri: string) {
         state = state ? state : {};
         if (typeof state !== 'object') throw new Error('Invalid state parameter');
 
@@ -102,7 +102,7 @@ export class BeyondHistory {
         history.pushState(state, null, this.#processBrowserURI(uri));
     }
 
-    constructor(routing, Mode: typeof RoutingMode) {
+    constructor(routing: Routing, Mode: typeof RoutingMode) {
         this.#position = new HistoryPosition();
         this.#records = new HistoryRecords(this.#position);
 

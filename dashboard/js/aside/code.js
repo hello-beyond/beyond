@@ -266,7 +266,7 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
     if (!application.application) return null;
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
       className: "ds-aside__header"
-    }, /*#__PURE__*/React.createElement("h3", null, texts.template.title)), /*#__PURE__*/React.createElement(_code7.DSTree, {
+    }, /*#__PURE__*/React.createElement("h3", null, texts.static.title)), /*#__PURE__*/React.createElement(_code7.DSTree, {
       title: texts.static.title,
       object: application.application,
       tree: application.static

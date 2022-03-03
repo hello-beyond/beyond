@@ -43,14 +43,15 @@ define([], function () {
     },
     "early": {
       "title2": "Introduce your name and access code to start with us",
-      "title": "Welcome to BeyondJS",
+      "title": "The only framework for universal JavaScript",
       "label": "Entry your early code access",
       "action": "Start",
       "error": "The code is invalid, try again",
-      "message": "BeyondJS is being launched in stages. We are actually offering early access for those who are interested to try  BeyondJS with us and to help with your appreciated  feedback.",
+      "message": "BeyondJS is being launched in stages. We are actually offering early access for those who are interested to try  BeyondJS with us and to help with your appreciated feedback.`",
       "inputs": {
         "name": "Your name",
-        "code": "Code"
+        "code": "Code",
+        "email": "Email"
       }
     }
   };

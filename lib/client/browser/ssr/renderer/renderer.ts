@@ -1,41 +1,59 @@
 import {beyond} from '@beyond-js/kernel/core/ts';
-import {PageReactWidgetController} from '@beyond-js/kernel/react-widget/ts';
 import {routing} from '@beyond-js/kernel/routing/ts';
+import {renderWidget} from './renderWidget';
+import cheerio from 'cheerio';
 
 interface IWidgetRendered {
+    html?: string,
+    errors?: string[],
+    css?: string,
+    store: object
+}
+
+interface IPageRendered {
     errors?: string[],
     warnings?: string [],
     redirected?: string,
-    html?: string,
-    css?: string,
+    hierarchy?: string[],
+    widgets?: [number, IWidgetRendered][],
     exception?: Error
 }
 
 export /*bundle*/ const renderer = new class {
-    async render(_uri: string): Promise<IWidgetRendered> {
+    async render(_uri: string): Promise<IPageRendered> {
+        const widgets: Map<number, IWidgetRendered> = new Map();
+        const hierarchy: string[] = [];
+
         const {page, error, redirected, uri} = await routing.page(_uri);
         if (redirected) return {redirected};
         if (error) return {errors: [error]};
 
-        const {element} = page;
-        if (!beyond.widgets.has(element)) {
-            return {errors: [`Widget element "${element}" is not registered`]};
+        let html: string, errors: string[], css: string, store: object;
+
+        // Render the application main layout
+        const main = beyond.application.layout;
+        ({html, errors, css, store} = main ? await renderWidget(main) : {
+            html: void 0, errors: void 0, css: void 0, store: void 0
+        });
+        main && widgets.set(hierarchy.length, {html, errors, css, store});
+        main && hierarchy.push(main);
+
+        // Find child widgets
+        const $ = cheerio.load(html);
+        if ($('menu-layout').length) {
+            // ({html, errors, css, store} = await renderWidget('menu-layout'));
+            // widgets.set(hierarchy.length, {html, errors, css, store});
+            // hierarchy.push('menu-layout');
         }
 
-        const specs = beyond.widgets.get(element);
-        const bundle = await beyond.import(specs.id);
+        const {element, parents} = page;
+        ({html, errors, css, store} = await renderWidget(element, {uri}));
+        widgets.set(hierarchy.length, {html, errors, css, store});
+        hierarchy.push(element);
 
-        const {Controller} = bundle;
-        if (!Controller || typeof Controller !== 'function') {
-            return {errors: [`Widget "${element}" does not export its Controller`]};
-        }
+        // Render the ascending layouts of the page
+        void (parents); // The parents layouts of the page
 
-        try {
-            const controller: PageReactWidgetController = new Controller(specs, uri);
-            const {html, errors} = controller.render();
-            return {html, errors};
-        } catch (exc) {
-            return {exception: exc.stack};
-        }
+        return {hierarchy, widgets: [...widgets]};
     }
 }

@@ -649,7 +649,7 @@ export const module = <Module>null;
 
           bundle.dependencies.items.forEach(dependency => {
             if (dependency.external) {
-              return console.log("la dependencia es externa");
+              return console.warn(`external dependency: ${dependency.id}`);
             }
 
             this.#dependencies.set(dependency.id, dependency);

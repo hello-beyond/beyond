@@ -134,7 +134,7 @@ class Application extends File {
     async checkStatic() {
         try {
             const specs = {applicationId: this.id, static: {"path": "./static"}};
-            await module.execute('/builder/application/checkStatic', specs);
+            await module.execute('/builder/project/checkStatic', specs);
             this.triggerEvent();
         } catch (e) {
             console.error('Error:', e);
@@ -142,13 +142,13 @@ class Application extends File {
     }
 
     createBackend() {
-        return module.execute('/builder/application/backend', {applicationId: this.id});
+        return module.execute('/builder/project/backend', {applicationId: this.id});
     }
 
     async edit(specs: object) {
         try {
             specs = {...specs, applicationId: this.id};
-            await module.execute('/builder/application/edit', specs);
+            await module.execute('/builder/project/edit', specs);
             this.triggerEvent();
         } catch (e) {
             console.error('Error:', e);

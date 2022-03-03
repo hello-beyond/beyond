@@ -1,10 +1,4 @@
-requirejs.config({
-  baseUrl: '/',
-  paths: {
-  "@beyond-js/kernel": "packages/@beyond-js/kernel",
-  "react": "packages/react",
-  "react-dom": "packages/react-dom"
-}});
+requirejs.config({baseUrl: '/packages'});
 
 
 define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (dependency_0, dependency_1) {
@@ -14,243 +8,235 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
   dependencies.set('@beyond-js/kernel/routing/ts', dependency_1);
   const transversal = beyond.transversals.obtain('start', '', dependencies);
-  /*************
-  BUNDLE: WIDGET
-  *************/
-
-  beyond.widgets.register([{
-    "name": "beyond-layout-children",
-    "id": "@beyond-js/kernel/unnamed/widgets/beyond-layout-children/widget"
-  }]);
   /***********
   BUNDLE: PAGE
   ***********/
 
   routing.config.pages.register([{
     "route": "/indexdb",
-    "bundle": "packages/@beyond-js/plm/unnamed/cache/indexeddb/tests/page/page.js",
+    "bundle": "@beyond-js/plm/unnamed/cache/indexeddb/tests/page/page",
     "vdir": false,
     "layout": "default"
   }, {
     "route": "/indexed/plm",
-    "bundle": "packages/@beyond-js/plm/unnamed/cache/indexeddb/tests/plm/page.js",
+    "bundle": "@beyond-js/plm/unnamed/cache/indexeddb/tests/plm/page",
     "vdir": false,
     "layout": "default"
   }, {
     "route": "/beyond/ui/alerts",
-    "bundle": "packages/@beyond-js/ui/unnamed/alert/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/alert/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/code",
-    "bundle": "packages/@beyond-js/ui/unnamed/code/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/code/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/template",
-    "bundle": "packages/@beyond-js/ui/unnamed/css-template/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/css-template/page/page",
     "vdir": false,
     "layout": "default"
   }, {
     "route": "/beyond/ui/empty",
-    "bundle": "packages/@beyond-js/ui/unnamed/empty/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/empty/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/form",
-    "bundle": "packages/@beyond-js/ui/unnamed/form/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/form/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui",
-    "bundle": "packages/@beyond-js/ui/unnamed/home/page.js",
+    "bundle": "@beyond-js/ui/unnamed/home/page",
     "vdir": true,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/icons/buttons",
-    "bundle": "packages/@beyond-js/ui/unnamed/icon/pages/buttons/page.js",
+    "bundle": "@beyond-js/ui/unnamed/icon/pages/buttons/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/icons",
-    "bundle": "packages/@beyond-js/ui/unnamed/icon/pages/icons/page.js",
+    "bundle": "@beyond-js/ui/unnamed/icon/pages/icons/page",
     "vdir": false,
     "layout": "editor"
   }, {
     "route": "/beyond/ui/image",
-    "bundle": "packages/@beyond-js/ui/unnamed/image/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/image/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/import",
-    "bundle": "packages/@beyond-js/ui/unnamed/import/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/import/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/instruction",
-    "bundle": "packages/@beyond-js/ui/unnamed/instruction/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/instruction/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/popper",
-    "bundle": "packages/@beyond-js/ui/unnamed/libs/popper/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/libs/popper/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/tippy",
-    "bundle": "packages/@beyond-js/ui/unnamed/libs/tippy/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/libs/tippy/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/list",
-    "bundle": "packages/@beyond-js/ui/unnamed/list/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/list/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/loading",
-    "bundle": "packages/@beyond-js/ui/unnamed/loading/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/loading/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/modals",
-    "bundle": "packages/@beyond-js/ui/unnamed/modal/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/modal/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/overlay",
-    "bundle": "packages/@beyond-js/ui/unnamed/overlay/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/overlay/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/scroll",
-    "bundle": "packages/@beyond-js/ui/unnamed/perfect-scrollbar/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/perfect-scrollbar/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/picture",
-    "bundle": "packages/@beyond-js/ui/unnamed/picture/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/picture/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/popover",
-    "bundle": "packages/@beyond-js/ui/beyond-ui-popover/page.js",
+    "bundle": "@beyond-js/ui/beyond-ui-popover/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/preloadText",
-    "bundle": "packages/@beyond-js/ui/unnamed/preload-text/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/preload-text/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/preload",
-    "bundle": "packages/@beyond-js/ui/unnamed/preload/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/preload/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/publication",
-    "bundle": "packages/@beyond-js/ui/unnamed/publication/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/publication/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/ripple",
-    "bundle": "packages/@beyond-js/ui/unnamed/ripple/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/ripple/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/select",
-    "bundle": "packages/@beyond-js/ui/unnamed/select/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/select/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/spinner",
-    "bundle": "packages/@beyond-js/ui/unnamed/spinner/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/spinner/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/swiper",
-    "bundle": "packages/@beyond-js/ui/unnamed/swiper/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/swiper/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/tabs",
-    "bundle": "packages/@beyond-js/ui/unnamed/tabs/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/tabs/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/toast",
-    "bundle": "packages/@beyond-js/ui/unnamed/toast/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/toast/page/page",
     "vdir": false
   }, {
     "route": "/beyond/ui/toolbar",
-    "bundle": "packages/@beyond-js/ui/unnamed/toolbar/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/toolbar/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/beyond/ui/waves",
-    "bundle": "packages/@beyond-js/ui/unnamed/waves/page/page.js",
+    "bundle": "@beyond-js/ui/unnamed/waves/page/page",
     "vdir": false,
     "layout": "beyond-ui"
   }, {
     "route": "/application/create",
-    "bundle": "unnamed/application/create/page/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/application/create/page/page",
     "vdir": false,
     "layout": "dashboard"
   }, {
     "route": "/beyond/dashboard/icons",
-    "bundle": "unnamed/components/core/page/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/components/core/page/page",
     "vdir": false
   }, {
     "route": "/empty",
-    "bundle": "unnamed/components/empty/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/components/empty/page",
     "vdir": false
   }, {
     "route": "/beyond/uploader",
-    "bundle": "unnamed/components/uploader/page/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/components/uploader/page/page",
     "vdir": false,
     "layout": "dashboard"
   }, {
     "route": "/layout",
-    "bundle": "unnamed/layout-test/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/layout-test/page",
     "vdir": true,
     "layout": "dashboard"
   }, {
     "route": "/library/compile",
-    "bundle": "unnamed/library/compile/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/library/compile/page",
     "vdir": true,
     "layout": "dashboard"
   }, {
     "route": "/library/modules",
-    "bundle": "unnamed/library/modules/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/library/modules/page",
     "vdir": true,
     "layout": "dashboard"
   }, {
     "route": "/library",
-    "bundle": "unnamed/library/view/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/library/view/page",
     "vdir": true,
     "layout": "dashboard"
   }, {
     "route": "/indexdb",
-    "bundle": "unnamed/models/indexeddb/tests/page/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/models/indexeddb/tests/page/page",
     "vdir": false,
     "layout": "default"
   }, {
     "route": "/indexed/plm",
-    "bundle": "unnamed/models/indexeddb/tests/plm/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/models/indexeddb/tests/plm/page",
     "vdir": false,
     "layout": "default"
   }, {
     "route": "/services/compile",
-    "bundle": "unnamed/services/compile/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/services/compile/page",
     "vdir": true,
     "layout": "dashboard"
   }, {
     "route": "/test",
-    "bundle": "unnamed/test/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/test/page",
     "vdir": false,
     "layout": "default"
   }, {
     "route": "/",
-    "bundle": "unnamed/workspace/page.js",
+    "bundle": "@beyond-js/dashboard/unnamed/workspace/page",
     "vdir": true,
     "layout": "dashboard"
   }]);
@@ -260,18 +246,18 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
 
   routing.config.layouts.register([{
     "name": "beyond-ui",
-    "bundle": "packages/@beyond-js/ui/unnamed/layout/layout/layout.js"
+    "bundle": "@beyond-js/ui/unnamed/layout/layout/layout"
   }, {
     "name": "dashboard",
-    "bundle": "unnamed/layout/dashboard/layout.js"
+    "bundle": "@beyond-js/dashboard/unnamed/layout/dashboard/layout"
   }, {
     "name": "editor",
-    "bundle": "unnamed/layout/editor/layout.js"
+    "bundle": "@beyond-js/dashboard/unnamed/layout/editor/layout"
   }]);
   const bundles = new Map();
-  /*********************
-  LIBRARY: dashboard-lib
-  *********************/
+  /*****************
+  LIBRARY: undefined
+  *****************/
 
   bundles.set('@beyond-js/dashboard-lib/start', {
     hash: 3653106571,
@@ -300,7 +286,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ************************************/
 
   bundles.set('@beyond-js/ui/popper/start', {
-    hash: 1619635500,
+    hash: 4240628911,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -309,18 +295,20 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
       *************/
 
       modules.set('./start', {
-        hash: 2840507579,
+        hash: 658201554,
         creator: function (require, exports) {
           "use strict";
 
+          var _ts = require("@beyond-js/kernel/core/ts");
+
           ((config, vendorPath) => {
             const paths = {
-              '@popperjs/core': `${vendorPath}/popper.min`
+              '@popperjs/core': `${_ts.beyond.baseUrl}/${vendorPath}/popper.min`
             };
             config({
               paths
             });
-          })(requirejs.config, `packages/@beyond-js/ui/popper/static/vendor`);
+          })(requirejs.config, `packages/@beyond-js/ui/popper/vendor`);
         }
       });
       return modules;
@@ -331,7 +319,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************/
 
   bundles.set('@beyond-js/ui/tippy/start', {
-    hash: 3142512697,
+    hash: 3326046690,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -340,18 +328,20 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
       *************/
 
       modules.set('./start', {
-        hash: 4247971240,
+        hash: 4059939561,
         creator: function (require, exports) {
           "use strict";
 
+          var _ts = require("@beyond-js/kernel/core/ts");
+
           ((config, vendorPath) => {
             const paths = {
-              'tippy': `${vendorPath}/tippy.umd`
+              'tippy': `${_ts.beyond.baseUrl}/${vendorPath}/tippy.umd`
             };
             config({
               paths
             });
-          })(requirejs.config, `packages/@beyond-js/ui/tippy/static/vendor`);
+          })(requirejs.config, `packages/@beyond-js/ui/tippy/vendor`);
         }
       });
       return modules;
@@ -362,7 +352,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************/
 
   bundles.set('@beyond-js/ui/waves/start', {
-    hash: 3036137145,
+    hash: 2510997085,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -371,18 +361,20 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
       *************/
 
       modules.set('./start', {
-        hash: 2501068193,
+        hash: 3486166342,
         creator: function (require, exports) {
           "use strict";
 
+          var _ts = require("@beyond-js/kernel/core/ts");
+
           ((config, vendorPath) => {
             const paths = {
-              'waves': `${vendorPath}/waves.min`
+              'waves': `${_ts.beyond.baseUrl}/${vendorPath}/waves.min`
             };
             config({
               paths
             });
-          })(requirejs.config, `packages/@beyond-js/ui/waves/static/vendor`);
+          })(requirejs.config, `packages/@beyond-js/ui/waves/vendor`);
         }
       });
       return modules;
@@ -475,7 +467,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   *************/
 
   bundles.set('@beyond-js/dashboard/monaco/start', {
-    hash: 2622836200,
+    hash: 581447823,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -484,14 +476,14 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
       *************/
 
       modules.set('./start', {
-        hash: 516721164,
+        hash: 3153178789,
         creator: function (require, exports) {
           "use strict";
 
           var _ts = require("@beyond-js/kernel/core/ts");
 
           (function (config) {
-            const path = `monaco/static/${!_ts.beyond.local ? 'min' : 'dev'}/vs`;
+            const path = `${_ts.beyond.baseUrl}/monaco/${!_ts.beyond.local ? 'min' : 'dev'}/vs`;
             config({
               paths: {
                 vs: path

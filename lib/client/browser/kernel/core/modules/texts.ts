@@ -70,7 +70,8 @@ class ModuleTexts<TextsDeclaration> extends Events {
         const resource: { bundle: string, pathname: string } = (() => {
             const bundle = this.#id.split('/').pop();
             const transversal = bundle === 'txt-menu';
-            const pathname = (transversal ? bundle : this.#id) + (this.#multilanguage ? `.${this.#loading}` : '');
+            const mid = transversal ? `${this.#beyond.application.package.id}/${bundle}` : this.#id;
+            const pathname = mid + (this.#multilanguage ? `.${this.#loading}` : '');
             return {bundle, pathname};
         })();
 

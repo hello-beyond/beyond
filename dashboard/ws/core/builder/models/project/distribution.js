@@ -17,7 +17,6 @@ module.exports = class Distribution extends require('../file-manager') {
     }
 
     get compute() {
-
         return crc32(equal.generate({
             platform: this.platform,
             ssr: !!this.ssr,

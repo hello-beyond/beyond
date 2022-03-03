@@ -51,15 +51,18 @@ export class Languages extends Events {
     constructor(config: ILanguagesConfig) {
         super();
 
-        // Check the supported languages, if not set, default will be english
-        config.supported = config.supported instanceof Array ? config.supported : ['en'];
-        this.#supported = new Set(config.supported);
-
         // Check if the default language is valid
         if (config.default && typeof config.default !== 'string' || config.default.length !== 2) {
             console.log(`Default language "${config.default}" is invalid`);
             config.default = undefined;
         }
+
+        // Check the supported languages, if not set, default will be english
+        const def = config.default ? config.default : 'en';
+        config.supported = config.supported instanceof Array ? config.supported : [def];
+        !config.supported.length && config.supported.push(def);
+        this.#supported = new Set(config.supported);
+
         // If default language not set or was invalid, take the first supported language
         config.default = config.default ? config.default : [...this.#supported][0];
 

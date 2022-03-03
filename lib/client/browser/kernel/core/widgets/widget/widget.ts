@@ -1,8 +1,8 @@
-import type {BeyondWidgetController} from "../controller/controller";
+import type {BeyondWidgetController} from '../controller/controller';
 import type {WidgetSpecs} from '../widgets';
-import {WidgetControllerLoader} from "./loader";
-import {instances} from "../instances/instances";
-import {NodeWidget} from "../instances/node";
+import {WidgetControllerLoader} from './loader';
+import {instances} from '../instances/instances';
+import {NodeWidget} from '../instances/node';
 
 // In SSR environment HTMLElement is not defined
 const Element = typeof HTMLElement === 'undefined' ? null : HTMLElement;

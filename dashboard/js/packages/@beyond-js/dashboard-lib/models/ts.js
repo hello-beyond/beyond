@@ -25,7 +25,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   ************************************/
 
   modules.set('./applications/builder/builder', {
-    hash: 496974219,
+    hash: 1453316079,
     creator: function (require, exports) {
       "use strict";
 
@@ -102,18 +102,26 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           if (!['development', 'production'].includes(distribution.environment)) throw new Error('Parameter "environment" is invalid');
           await this.prepare();
           const specs = {
-            name: distribution.name ? distribution.name : 'unnamed',
+            name: distribution.name ?? 'unnamed',
             platform: distribution.platform,
             ssr: distribution.ssr,
             environment: distribution.environment,
             compress: !!distribution.compress,
             icons: distribution.icons
           };
+
+          if (distribution.name === 'npm') {
+            specs.npm = true;
+            specs.platforms = {
+              node: true,
+              web: true
+            };
+          }
+
           await _beyond_context.module.execute('/build', {
             application: this.#application.path,
             distribution: specs
           });
-          console.log('Application build is done');
           this.#completed = true;
           this.#processing = false;
         }
@@ -501,7 +509,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   *************************************/
 
   modules.set('./applications/deployments/item', {
-    hash: 3851394870,
+    hash: 2098909840,
     creator: function (require, exports) {
       "use strict";
 
@@ -545,8 +553,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           };
 
           try {
-            const response = await _beyond_context.module.execute('builder/application/setDistribution', specs);
-            return response;
+            return _beyond_context.module.execute('builder/project/setDistribution', specs);
           } catch (e) {
             console.error(e);
           }
@@ -607,7 +614,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   *************************/
 
   modules.set('./applications/item', {
-    hash: 2096050607,
+    hash: 1878293943,
     creator: function (require, exports) {
       "use strict";
 
@@ -752,7 +759,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
                 "path": "./static"
               }
             };
-            await _beyond_context.module.execute('/builder/application/checkStatic', specs);
+            await _beyond_context.module.execute('/builder/project/checkStatic', specs);
             this.triggerEvent();
           } catch (e) {
             console.error('Error:', e);
@@ -760,7 +767,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         }
 
         createBackend() {
-          return _beyond_context.module.execute('/builder/application/backend', {
+          return _beyond_context.module.execute('/builder/project/backend', {
             applicationId: this.id
           });
         }
@@ -770,7 +777,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
             specs = { ...specs,
               applicationId: this.id
             };
-            await _beyond_context.module.execute('/builder/application/edit', specs);
+            await _beyond_context.module.execute('/builder/project/edit', specs);
             this.triggerEvent();
           } catch (e) {
             console.error('Error:', e);
@@ -1006,7 +1013,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   ***************************************/
 
   modules.set('./applications/modules/collection', {
-    hash: 3352965689,
+    hash: 1516841024,
     creator: function (require, exports) {
       "use strict";
 
@@ -1043,7 +1050,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
          * @param text
          * @returns {[]|void}
          */
-        //TODO @ftovar revisar funcion
 
 
         getItems({
@@ -1061,10 +1067,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
             const textSearch = item.id.includes(text) || item?.module?.name?.includes(text);
 
             if (![undefined, 'all'].includes(bundle) && (isApp || isLibrary)) {
-              // @ts-ignore
-              if (['page', 'layout'].includes(bundle) && item?.type.includes('widget')) {
+              if (item?.type.includes('widget')) {
                 const widget = item.getBundle('widget');
-                return widget?.additional?.is === bundle && textSearch;
+                return widget.type === bundle && textSearch;
               }
 
               return item.type?.includes(bundle) && textSearch;
@@ -2275,7 +2280,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   ***********************/
 
   modules.set('./dashboard/model', {
-    hash: 509699760,
+    hash: 494242649,
     creator: function (require, exports) {
       "use strict";
 
@@ -2325,7 +2330,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           this.processing = true;
 
           try {
-            const path = 'builder/application/checkPort';
+            const path = 'builder/project/checkPort';
             const response = await _beyond_context.module.execute(path, {
               port: port
             });

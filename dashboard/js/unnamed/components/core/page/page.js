@@ -39,9 +39,7 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
     const [labelIcon, setLabelIcon] = React.useState('Nombre del ícono');
     const codeCopy = React.useRef();
 
-    const filter = event => {
-      setFilterText(event.currentTarget.value);
-    };
+    const filter = event => setFilterText(event.currentTarget.value);
 
     icons = icons.filter(item => item.includes(filterText));
 
@@ -55,7 +53,6 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
       /* Copy the text inside the text field */
 
       navigator.clipboard.writeText(copyText.innerText);
-      console.log("copy", copyText.innerText);
     };
 
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("input", {

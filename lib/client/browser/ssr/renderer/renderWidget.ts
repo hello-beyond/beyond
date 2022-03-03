@@ -14,13 +14,14 @@ export async function renderWidget(element: string, props?: Record<string, any>)
     }
 
     try {
-        const controller: BeyondWidgetControllerSSR = new Controller(specs, props);
-        await controller.fetch?.();
+        const controller: BeyondWidgetControllerSSR = new Controller({specs});
+        const store = controller.createStore?.();
+        await store?.fetch();
 
         const css = controller.bundle.styles.external ? controller.bundle.pathname : void 0;
 
-        const {html, errors} = controller.render(props);
-        return {html, errors, css};
+        const {html, errors} = controller.render(Object.assign({}, props, {store}));
+        return {html, errors, css, store};
     } catch (exc) {
         console.log(exc.stack);
         return {errors: exc.message};

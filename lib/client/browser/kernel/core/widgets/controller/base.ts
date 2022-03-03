@@ -1,6 +1,16 @@
 import type {WidgetSpecs} from "../widgets";
 import type {Bundle} from "../../bundles/bundle";
 import {beyond} from "../../beyond";
+import {widgets} from "../widgets";
+
+export /*bundle*/
+interface IWidgetStore {
+    toJSON(): object;
+
+    hydrate(cached: object): void;
+
+    fetch(): Promise<void>;
+}
 
 export /*bundle*/
 abstract class BeyondWidgetControllerBase {
@@ -27,7 +37,15 @@ abstract class BeyondWidgetControllerBase {
         return this.#specs.layout;
     }
 
-    protected constructor(specs: WidgetSpecs) {
+    abstract createStore(): IWidgetStore;
+
+    protected constructor({specs, component}: Partial<{ specs: WidgetSpecs, component: HTMLElement }>) {
+        if (!specs) {
+            const {localName} = component;
+            if (!widgets.has(localName)) throw new Error(`Widget name "${localName}" is not registered`);
+            specs = widgets.get(localName);
+        }
+
         this.#specs = specs;
 
         if (!beyond.bundles.has(specs.id)) {

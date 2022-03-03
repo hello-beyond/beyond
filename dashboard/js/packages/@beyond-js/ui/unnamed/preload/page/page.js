@@ -1,10 +1,11 @@
-define(["exports", "@beyond-js/ui/empty/code", "@beyond-js/ui/form/code", "@beyond-js/ui/import/code", "@beyond-js/ui/preload/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/empty/code", "@beyond-js/ui/form/code", "@beyond-js/ui/import/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.Page = Page;
+  `import {BeyondPreload} from '@beyond-js/ui/preload/code';`;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -38,41 +39,41 @@ define(["exports", "@beyond-js/ui/empty/code", "@beyond-js/ui/form/code", "@beyo
         route: "/libraries/beyond-ui/preload-text/code.js"
       }), /*#__PURE__*/React.createElement("span", {
         className: "text-muted"
-      }, "Default Example "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("span", {
+      }, "Default Example "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload/>'), /*#__PURE__*/React.createElement(BeyondPreload, null), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("span", {
         className: "text-muted"
-      }, "Changing Color "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, {
+      }, "Changing Color "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(BeyondPreload, {
         color: "#6f6c6c"
       }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("span", {
         className: "text-muted"
-      }, "Changing Height And Width "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50%" height="30px"/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, {
+      }, "Changing Height And Width "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50%" height="30px"/>'), /*#__PURE__*/React.createElement(BeyondPreload, {
         width: "50%",
         height: "30px"
       }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("span", {
         className: "text-muted"
-      }, "Change Radius "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50%" height="30px" radio="50px"/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, {
+      }, "Change Radius "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50%" height="30px" radio="50px"/>'), /*#__PURE__*/React.createElement(BeyondPreload, {
         width: "50%",
         height: "30px",
         radio: "50px"
       }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("span", {
         className: "text-muted"
-      }, "Change Properties To Simulate Structures "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50px" height="50px" radio="50px"  color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, {
+      }, "Change Properties To Simulate Structures "), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50px" height="50px" radio="50px"  color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(BeyondPreload, {
         width: "50px",
         height: "50px",
         radio: "50px",
         color: "#6f6c6c"
-      }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="100px" height="100px" radio="0"  color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, {
+      }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="100px" height="100px" radio="0"  color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(BeyondPreload, {
         width: "100px",
         height: "100px",
         radio: "0",
         color: "#6f6c6c"
-      }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50%" height="20px" radio="50%"  color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, {
+      }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload width="50%" height="20px" radio="50%"  color="#6f6c6c"/>'), /*#__PURE__*/React.createElement(BeyondPreload, {
         width: "50%",
         height: "20px",
         radio: "50%",
         color: "#6f6c6c"
       }), /*#__PURE__*/React.createElement("hr", null), /*#__PURE__*/React.createElement("span", {
         className: "text-muted"
-      }, "Remove Animation"), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload stopAnimation={true}/>'), /*#__PURE__*/React.createElement(_code4.BeyondPreload, {
+      }, "Remove Animation"), /*#__PURE__*/React.createElement("pre", null, '<BeyondPreload stopAnimation={true}/>'), /*#__PURE__*/React.createElement(BeyondPreload, {
         stopAnimation: true
       }), /*#__PURE__*/React.createElement("hr", null));
     }

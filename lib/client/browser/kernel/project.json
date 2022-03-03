@@ -1,0 +1,29 @@
+{
+  "scope": "beyond-js",
+  "name": "kernel",
+  "version": "1.0.0",
+  "modules": {
+    "path": "./"
+  },
+  "static": {
+    "includes": "vendor"
+  },
+  "deployment": {
+    "distributions": [
+      {
+        "name": "npm",
+        "npm": true,
+        "environment": "development",
+        "platforms": {
+          "node": true,
+          "web": true
+        }
+      },
+      {
+        "name": "node",
+        "platform": "node",
+        "environment": "development"
+      }
+    ]
+  }
+}

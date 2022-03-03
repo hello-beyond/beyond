@@ -1,11 +1,10 @@
-function ItemDeleteAction({module, onClose}) {
+function ItemDeleteAction({am, onClose}) {
     const [state, setState] = React.useState({modal: false});
-
     const updateState = newState => setState({...state, ...newState});
     const onDelete = async () => {
         try {
             updateState({fetching: true});
-            await module.delete();
+            await am.delete();
             onClose();
         }
         catch (e) {
@@ -17,5 +16,5 @@ function ItemDeleteAction({module, onClose}) {
         <BeyondConfirmModal
             show className="xs ds-modal" text={'¿Desea eliminar el modulo?'}
             onConfirm={onDelete} onCancel={onClose}/>
-    )
+    );
 }

@@ -26,6 +26,10 @@ class BundleStyles extends Events {
         this.#mode = value;
     }
 
+    get external(): boolean {
+        return this.#mode === 'external';
+    }
+
     #beyond: Beyond;
     get beyond(): Beyond {
         if (this.#beyond) return this.#beyond;
@@ -44,7 +48,7 @@ class BundleStyles extends Events {
         const regexp = /#host\.([\w\d]*)#([^.]*\.[\w\d]*)/g;
         this.#value = value.replace(regexp, (match, host, resource) => {
             if (host === 'module' || host === 'library') {
-                return `${this.#bundle.container.pathname}/static/${resource}`;
+                return `${this.#bundle.container.pathname}/${resource}`;
             } else if (host === 'application') {
                 return `${this.beyond.baseUrl}${resource}`;
             }

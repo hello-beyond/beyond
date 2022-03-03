@@ -15,9 +15,7 @@ export class BeyondRequire {
         const mode = this.#mode;
         if (mode !== 'amd') throw new Error(`Setup should only be called on amd mode. Actual mode is "${mode}"`);
 
-        baseUrl = baseUrl ? baseUrl : '';
-        const root = location.protocol === 'file:' ? '' : '/';
-        baseUrl = baseUrl.startsWith(root) ? baseUrl : `${root}${baseUrl}`;
+        baseUrl = `${baseUrl}/packages`;
         amd_require.config({baseUrl});
 
         amd_require.onError = function (error) {

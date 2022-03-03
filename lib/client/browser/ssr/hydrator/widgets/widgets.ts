@@ -17,8 +17,14 @@ export const widgets = new class {
     constructor() {
         // Register the widgets required by the initial navigated page
         const {hierarchy} = config;
-        hierarchy.forEach(element => customElements.define(element, class extends Widget {
-        }));
+        hierarchy.forEach((element, index) => {
+            if (customElements.get(element)) return; // Element is already registered
+            customElements.define(element, class extends Widget {
+                constructor() {
+                    super(index);
+                }
+            });
+        });
     }
 
     registerInstance(instance: Widget) {
@@ -32,6 +38,7 @@ export const widgets = new class {
     hydrate(WidgetControllerLoader: IWidgetControllerLoader, BeyondLayoutChildrenRenderer: BeyondLayoutChildrenRenderer) {
         if (this.#initialised) throw new Error('Widgets already initialised');
 
+        this.#WidgetControllerLoader = WidgetControllerLoader;
         this.#initialised = true;
         this.#instances.forEach(instance => instance.hydrate(WidgetControllerLoader));
 

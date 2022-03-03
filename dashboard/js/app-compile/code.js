@@ -197,22 +197,19 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@
 
   function Start() {
     const {
-      texts,
       selected,
       application
     } = useCompilerContext();
-    const dists = [];
-    application.deployment.distributions.forEach(dist => {
-      dists.push( /*#__PURE__*/React.createElement(DistributionItem, {
-        key: dist.id,
-        data: dist
-      }));
-    });
+    const distributions = [];
+    application.deployment.distributions.forEach(dist => distributions.push( /*#__PURE__*/React.createElement(DistributionItem, {
+      key: dist.id,
+      data: dist
+    })));
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
       className: "pd-base"
     }, "Titulo"), /*#__PURE__*/React.createElement("ul", {
       className: `distributions__list${selected ? ' is-selected' : ''}`
-    }, dists)));
+    }, distributions)));
   }
   /***********
   JS PROCESSOR

@@ -37,7 +37,7 @@ class WidgetControllerLoader extends Events {
         return this.#loaded;
     }
 
-    #holders = new Set(['connected', 'loaded']);
+    #holders = new Set(['connected.callback', 'loaded']);
 
     #initialise = () => {
         const {beyond} = require('../../beyond');
@@ -59,7 +59,6 @@ class WidgetControllerLoader extends Events {
     constructor(component: HTMLElement) {
         super();
         this.#component = component;
-
         const {localName} = component;
 
         const {widgets} = require('../widgets');
@@ -86,8 +85,12 @@ class WidgetControllerLoader extends Events {
         this.#controller.initialise();
     };
 
+    /**
+     * Called by the widget to inform the connectedCallback
+     */
     connectedCallback() {
-        this.#holders.delete('connected');
+        if (!this.#holders.has('connected.callback')) return;
+        this.#holders.delete('connected.callback');
         this.#render();
     }
 }

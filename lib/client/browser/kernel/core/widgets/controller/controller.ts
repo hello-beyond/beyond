@@ -1,23 +1,32 @@
-import type {BeyondWidget} from "../widget";
-import type {WidgetSpecs} from "../widgets";
-import type {NodeWidget} from "../instances/node";
-import type {BundleStyles} from "../../bundles/styles/styles";
-import {instances} from "../../bundles/instances/instances";
-import {BeyondWidgetControllerBase} from "./base";
-import {Bundle} from "../../bundles/bundle";
+import type {BeyondWidget} from '../widget/widget';
+import type {BundleStyles} from '../../bundles/styles/styles';
+import {instances} from '../../bundles/instances/instances';
+import {BeyondWidgetControllerBase, IWidgetStore} from './base';
+import {Bundle} from '../../bundles/bundle';
+import {ControllerAttributes} from "./attributes";
+
+declare const __beyond_hydrator: {
+    getCachedStore: (id: number) => object;
+};
 
 /**
  * The client widget react controller
  */
 export /*bundle*/
 abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
-    readonly #component: BeyondWidget;
+    readonly #component: HTMLElement;
     get component() {
         return this.#component;
     }
 
-    get node(): NodeWidget {
-        return this.#component.node;
+    #hydratable = false;
+    get hydratable() {
+        return this.#hydratable;
+    }
+
+    #store: IWidgetStore;
+    get store(): IWidgetStore {
+        return this.#store;
     }
 
     #body: HTMLSpanElement;
@@ -25,9 +34,12 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
         return this.#body;
     }
 
-    protected constructor(specs: WidgetSpecs, component: BeyondWidget) {
-        super(specs);
+    readonly #attributes: ControllerAttributes;
+
+    protected constructor(component: HTMLElement) {
+        super({component});
         this.#component = component;
+        this.#attributes = new ControllerAttributes();
     }
 
     #hmrStylesChanged = (styles: BundleStyles) => {
@@ -71,16 +83,16 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
         this.component.shadowRoot.appendChild(global);
     }
 
-    mount(Widget: typeof BeyondWidget) {
-        void (Widget);
-    }
+    abstract mount(Widget: typeof BeyondWidget): void;
 
-    unmount() {
-    }
+    abstract unmount(): void;
 
     render() {
-        this.#body = document.createElement('span');
-        this.component.shadowRoot.appendChild(this.#body);
+        if (!this.#hydratable) {
+            this.#body = document.createElement('span');
+            this.component.shadowRoot.appendChild(this.#body);
+            this.#attributes.body = this.#body;
+        }
 
         const {Widget} = this.bundle.package().exports.values;
         if (!Widget) {
@@ -90,17 +102,39 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
         }
 
         this.mount(Widget);
+
+        // Once the widget is hydrated, next HMR refreshes are standard render calls
+        this.#hydratable = false;
     }
 
     refresh() {
         this.unmount();
         this.#body?.remove();
+        this.#body = undefined;
         this.render();
     }
 
     #refresh = () => this.refresh();
 
     initialise() {
+        const {component} = this;
+        this.#store = this.createStore?.();
+
+        if (typeof __beyond_hydrator === 'object' && component.hasAttribute('ssr-widget-id')) {
+            const hydrator = __beyond_hydrator;
+            const id = component.getAttribute('ssr-widget-id');
+            const cached = hydrator.getCachedStore(parseInt(id));
+            this.#store?.hydrate(cached);
+
+            const {shadowRoot} = this.component;
+            this.#body = <HTMLSpanElement>shadowRoot.querySelectorAll(`:scope > span`)[0];
+            this.#attributes.body = this.#body;
+            this.#hydratable = true;
+        } else {
+            this.#store?.fetch?.()
+                .catch(exc => console.log(exc instanceof Error ? exc.stack : exc));
+        }
+
         this.#setStyles();
         this.render();
         this.bundle.package().hmr.on('change', this.#refresh);

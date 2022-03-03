@@ -5,13 +5,17 @@ import {config} from './config';
 import {widgets} from "./widgets/widgets";
 
 class Hydrator {
+    getCachedStore(id: number): object {
+        return config.widgets.get(id)?.store;
+    }
+
     /* Give up the power of the widgets to the controllers */
     hydrate(WidgetControllerLoader: IWidgetControllerLoader, BeyondLayoutChildrenRenderer: BeyondLayoutChildrenRenderer) {
         widgets.hydrate(WidgetControllerLoader, BeyondLayoutChildrenRenderer);
     }
 }
 
-export const hydrator = new Hydrator();
+const hydrator = new Hydrator();
 (window as any).__beyond_hydrator = hydrator;
 
 window.onload = () => {

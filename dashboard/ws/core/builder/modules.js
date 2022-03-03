@@ -14,7 +14,7 @@ module.exports = function (ipc) {
             const {Project, Module} = (require('./models'));
 
             const app = new Project(applicationPath);
-            const name = params.bundle === 'layout' ? `layouts/${params.name}` : params.name;
+            const name = params.bundles.includes('layout') ? `layouts/${params.name}` : params.name;
 
             const module = new Module(app.modules.path, name);
 
@@ -66,13 +66,16 @@ module.exports = function (ipc) {
         let data = await ipc.exec('modules/get', [params.moduleId]);
         data = data[params.moduleId];
         const {Module} = (require('./models'));
-        const module = new Module(data.dirname ?? data.path);
 
-        //Si estamos pasando el static y ya existe no hacemos nada
-        if (params.static && module._static) return;
+        const module = new Module(data.path);
+        await module.load();
+
+        if (params.static) {
+            const includes = module.static?.includes ? module.static.includes : [];
+            !includes.includes(params.static.path) && (params.static = {includes: [params.static.path]});
+        }
 
         delete params.moduleId;
-        await module.load();
         await module.save(params);
 
         return data;

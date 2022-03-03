@@ -27,25 +27,20 @@ module.exports = class Deployment extends require('../file-manager') {
     constructor(path, specs) {
         super(path);
         this.#path = path;
-        if (specs) this.set(specs);
-
+        specs && this.set(specs);
     }
 
     getProperties() {
         const json = {distributions: []};
-        this.#distributions.forEach((d, k) => {
-            json.distributions.push(d.getProperties())
-        })
+        this.#distributions.forEach(d => json.distributions.push(d.getProperties()));
         return json;
     }
 
     getDefault = (specs) => {
-
         return ({...this.#default, ...specs});
     }
 
     setDistribution = distribution => {
-
         if (!distribution.port || !distribution.platform) {
             return {error: 'INVALID_CONFIG', code: 1};
         }
@@ -63,13 +58,11 @@ module.exports = class Deployment extends require('../file-manager') {
             return {error: 'PORT_USED', code: 2}
         }
         const key = `${distribution.platform}-${distribution.port}`;
-        console.log(4, key)
         this.#distributions.set(key, newDistribution)
         return true;
     }
 
     set(data) {
-
         if (data.distributions) {
             data.distributions.forEach(this.setDistribution);
             delete data.distributions;
@@ -82,13 +75,9 @@ module.exports = class Deployment extends require('../file-manager') {
      * @param platforms
      */
     addPlatforms(platforms) {
-        console.log(2, platforms)
         platforms.forEach(platform => {
-
             if (platform.platform === 'web') delete platform.inspectPort
-            const response = this.setDistribution({...platform, name: `distribution-${platform.platform}`})
-            console.log(20, response)
+            this.setDistribution({...platform, name: `distribution-${platform.platform}`})
         });
     }
-
 }

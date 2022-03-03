@@ -49,7 +49,7 @@ const Dashboard = new (class extends ReactiveModel {
         if (!port) throw new Error('port to check is required');
         this.processing = true;
         try {
-            const path = 'builder/application/checkPort';
+            const path = 'builder/project/checkPort';
             const response = <IPortResponse>(await module.execute(path, {port: port}));
             this.processing = false;
             return response.valid;

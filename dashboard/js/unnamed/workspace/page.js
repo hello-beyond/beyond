@@ -326,8 +326,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
         type: 'image',
         name: 'images',
         params: {},
-        url: ` http://localhost:8080/uploader`,
-        //TODO @ftovar tomar el puerto correcto de la app
+        url: `${beyond.baseUrl}/uploader`,
         input: {
           name: 'images',
           multiple: true
@@ -553,7 +552,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       await this.#dsmodel.initialise(this.#wd);
       await _code8.DSModel.initialise();
       this.#store = _code8.DSModel.db.store('workspace');
-      const data = await this.#store.get(this.#wd);
+      let data = await this.#store.get(this.#wd);
       const apps = Array.from(data.opened.values());
 
       if (!!apps.length) {
@@ -563,7 +562,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
 
       if (data.activeApp) {
         this.#active = await _code8.applicationsFactory.get(data.activeApp);
-        this.#appsOpened.add(data.activeApp);
+        if (this.#active.application.found) this.#appsOpened.add(data.activeApp);else data = await _code8.DSModel.reset(this.#wd);
       }
 
       this.#contextMenu = new ContextMenu();
@@ -571,9 +570,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       this.#aside = new WorkspaceAside(this);
       this.#panels = new _code16.PanelsManager(_code18.DSBoards, this, data.panels);
       this.#panels.bind('panels.updated', this.#save);
-      this.openBoard = this.openBoard.bind(this); //we validate the userCode
-
-      this.user.validate(this.user.code);
+      this.openBoard = this.openBoard.bind(this);
     }
 
     #save = () => {
@@ -639,7 +636,9 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
     };
     register = async (name, code) => {
       const response = await this.user.register(name, code);
-      window.setTimeout(() => this.triggerEvent(), 1000);
+      window.setTimeout(() => {
+        this.triggerEvent();
+      }, 1000);
       return response;
     };
   };
@@ -711,7 +710,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   }) {
     const [state, setState] = React.useState({
       name: "",
-      code: ""
+      email: ""
     });
     const ref = React.useRef();
 
@@ -735,20 +734,13 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
 
       try {
         window.setTimeout(async () => {
-          const response = await workspace.register(state.name, state.code);
+          await workspace.register(state.name, state.email);
           container.classList.toggle('is-fetching');
-
-          if (response) {
+          window.setTimeout(() => {
             container.classList.add('ending', 'ending-left');
-            container.closest('html').classList.toggle('is-processing');
+            container.closest('html')?.classList.toggle('is-processing');
             return;
-          }
-
-          container.closest('html').classList.toggle('is-processing');
-          setState({ ...state,
-            fetching: false,
-            error: true
-          });
+          }, 1000);
         }, 2000);
       } catch (e) {
         console.error(e);
@@ -759,12 +751,12 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
     React.useEffect(() => {
       return () => {
         const container = ref.current;
-        container.classList.add('ending', 'ending-left');
-        container.closest('html').classList.toggle('is-processing');
+        container.classList?.add('ending', 'ending-left');
+        container.closest('html').classList?.toggle('is-processing');
       };
     }, []);
     const disabled = {};
-    if (!state.name || !state.code || state.code < 6 || state.fetching) disabled.disabled = true;
+    if (!state.name || !state.email || state.fetching) disabled.disabled = true;
     return /*#__PURE__*/React.createElement("div", {
       ref: ref,
       className: "container__early__form"
@@ -776,7 +768,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       src: "/images/logo.png",
       s: true,
       alt: "logo"
-    })), /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h1", null, texts.early.title2), state.error && /*#__PURE__*/React.createElement("h5", {
+    })), /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h1", null, texts.early.title), /*#__PURE__*/React.createElement("h4", null, texts.early.title2), state.error && /*#__PURE__*/React.createElement("h5", {
       className: "warning-text"
     }, texts.early.error)), /*#__PURE__*/React.createElement("form", {
       action: "#",
@@ -797,12 +789,12 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
     }, /*#__PURE__*/React.createElement("div", {
       className: "form-sub-group"
     }, /*#__PURE__*/React.createElement(_code2.BeyondInput, {
-      name: "code",
-      label: texts.early.inputs.code,
+      name: "email",
+      label: texts.early.inputs.email,
       required: true,
-      className: "upper-text",
-      value: state.code,
-      onChange: handleInputChange
+      value: state.email,
+      onChange: handleInputChange,
+      autoComplete: "off"
     }))), /*#__PURE__*/React.createElement("div", {
       className: "form__actions"
     }, /*#__PURE__*/React.createElement(_code2.BeyondButton, _extends({

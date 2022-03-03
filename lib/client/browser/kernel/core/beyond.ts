@@ -6,7 +6,6 @@ import {widgets} from './widgets/widgets';
 import {BundlesInstances, instances} from './bundles/instances/instances';
 import {Dependencies, dependencies} from "./bundles/instances/dependencies";
 import {transversals} from "./transversals/transversals";
-import {Packages} from "./packages/packages";
 import {MessageSpec, Toast} from "./toast/toast";
 import {MessageType} from "./toast/messages";
 import type {ILibraryConfig} from "./libraries/library";
@@ -16,16 +15,13 @@ import type {ILibraryConfig} from "./libraries/library";
 export interface IBeyondDistribution {
     key?: string; // Only required in local environment to support HMR
     local?: boolean;
-    baseUrl: string;
+    baseDir: string;
     environment: string;
     mode?: string;
 }
 
-export type TPackages = [string, { errors: string[], filename: string }][];
-
 export interface IBeyondConfig {
     distribution: IBeyondDistribution;
-    packages?: TPackages;
     application?: IApplicationConfig,
     libraries?: ILibraryConfig[]
 }
@@ -33,11 +29,6 @@ export interface IBeyondConfig {
 declare const __beyond_config: IBeyondConfig;
 
 export class Beyond {
-    #packages = new Packages();
-    get packages() {
-        return this.#packages;
-    }
-
     #application = new Application(this);
     get application() {
         return this.#application;
@@ -89,6 +80,11 @@ export class Beyond {
         return this.#mode;
     }
 
+    #baseDir: string;
+    get baseDir() {
+        return this.#baseDir;
+    }
+
     #baseUrl: string;
     get baseUrl() {
         return this.#baseUrl;
@@ -109,8 +105,8 @@ export class Beyond {
         return Collection;
     }
 
-    setup(distribution: IBeyondDistribution, packages?: TPackages) {
-        const {key, local, baseUrl, environment, mode} = distribution;
+    setup(distribution: IBeyondDistribution) {
+        let {key, local, baseDir, environment, mode} = distribution;
 
         // The distribution key is only required in local environment to support HMR
         this.#distribution = local ? key : void 0;
@@ -123,19 +119,34 @@ export class Beyond {
             throw new Error(`Expected module packaging type to be "${this.#mode}" instead of "${mode}"`);
         }
 
-        this.#baseUrl = baseUrl ? baseUrl : '';
+        this.#baseDir = baseDir = (() => {
+            if (typeof window === 'undefined') return;
 
-        // Register the externals and the modules that are packages
-        const mpackages = new Map(packages);
-        mpackages?.forEach(({errors, filename}, pkg) => {
-            if (errors) {
-                console.log(`Package "${pkg}" is invalid:`, errors);
-                return;
+            baseDir = baseDir ? baseDir : '';
+            if (location.protocol === 'file:' && baseDir.startsWith('/')) {
+                return baseDir.slice(1);
+            } else if (location.protocol !== 'file:' && !baseDir.startsWith('/')) {
+                return `/${baseDir}`;
             }
-            this.#packages.register(pkg, `packages/${pkg}/${filename}`);
-        });
+            return baseDir;
+        })();
 
-        this.#import = new BeyondImport(this.#packages, this.#mode, baseUrl);
+        this.#baseUrl = (() => {
+            if (typeof window === 'undefined') return;
+
+            const {protocol, host, pathname} = location;
+            if (location.protocol === 'file:') {
+                const path = pathname.split('/');
+                path.pop(); // Remove 'index.html'
+                path.join('/');
+                return `${protocol}//${path}`;
+            } else {
+                const baseUrl = this.#baseDir === '/' ? '' : this.#baseDir;
+                return `${protocol}//${host}${baseUrl}`;
+            }
+        })();
+
+        this.#import = new BeyondImport(this.#mode, this.#baseUrl);
     }
 
     // Required for backward compatibility
@@ -168,8 +179,8 @@ export /*bundle*/ const beyond = new Beyond;
  * beyond.setup, beyond.application.setup and beyond.libraries.register
  */
 if (typeof __beyond_config === 'object') {
-    const {distribution, packages, application, libraries} = __beyond_config;
-    beyond.setup(distribution, packages);
+    const {distribution, application, libraries} = __beyond_config;
+    beyond.setup(distribution);
     beyond.application.setup(application);
     beyond.libraries.register(libraries);
 }

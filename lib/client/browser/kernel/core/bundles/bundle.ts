@@ -1,5 +1,5 @@
 import type {Container} from "./bundles";
-import type {BeyondWidget} from "../widgets/widget";
+import type {BeyondWidget} from "../widgets/widget/widget";
 import {BundleStyles} from "./styles/styles";
 import {Package} from "./package/package";
 import {dependencies, IDependencies} from "./instances/dependencies";

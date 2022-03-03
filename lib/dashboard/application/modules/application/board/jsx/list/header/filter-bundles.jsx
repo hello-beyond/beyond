@@ -28,9 +28,5 @@ function FilterBundles({texts}) {
         );
     });
 
-    return (
-        <div className="actions">
-            {filters}
-        </div>
-    )
+    return <div className="actions">{filters}</div>;
 }

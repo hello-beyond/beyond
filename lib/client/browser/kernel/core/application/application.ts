@@ -1,8 +1,11 @@
 import type {Beyond} from "../beyond";
+import type {Require} from "../import/requirejs";
 import {ILanguagesConfig, Languages} from "./languages";
 import {Modules} from "../modules/modules";
 import {PackageData} from "../package/data";
 import {IServiceConfig, Service} from "../service/service";
+
+declare const amd_require: Require;
 
 export interface IApplicationConfig extends IServiceConfig {
     package: string,
@@ -74,7 +77,12 @@ export class Application extends Service {
         this.#params = config.params;
         this.#languages = new Languages(config.languages);
 
-        config.package && this.#beyond.packages.register(config.package, '.');
+        if (typeof amd_require !== 'undefined') {
+            const paths: Record<string, string> = {};
+            paths[config.package] = this.#beyond.baseUrl;
+            amd_require.config({paths});
+        }
+
         super.setup(config);
     }
 }

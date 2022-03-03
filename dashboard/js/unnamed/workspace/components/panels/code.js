@@ -40,10 +40,10 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
      * Represents the active tab
      * @private
      */
-    _activeItem;
+    #activeItem;
 
     get activeItem() {
-      return this._activeItem;
+      return this.#activeItem;
     }
 
     _boards;
@@ -153,7 +153,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
       return {
         id: this.id,
         tabs,
-        active: this._activeItem
+        active: this.#activeItem
       };
     }
 
@@ -210,7 +210,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
         module,
         type
       } = specs;
-      this._activeItem = path;
+      this.#activeItem = path;
 
       if (!module && !moduleId) {
         throw new Error('The file requires the module or moduleId parameter');
@@ -279,9 +279,15 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
         throw Error(`The board required does not exists: ${name}`);
       }
 
-      const label = specs.label ? specs.label : control.label;
+      let label = specs.label ? specs.label : control.label;
       const labelName = specs.label ? `${name}.${label.toLowerCase().replace(/ /g, '-')}` : undefined;
       const tabName = specs.name ? specs.name : specs.moduleId ? specs.moduleId : specs.label ? labelName : name;
+
+      if (name === 'application') {
+        const application = await _code3.applicationsFactory.get(specs.id);
+        label = application.name;
+      }
+
       this.tabs.set(tabName, {
         label: label,
         type: 'content',
@@ -291,7 +297,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
         control: control.control,
         specs
       });
-      this._activeItem = tabName;
+      this.#activeItem = tabName;
       this.triggerEvent('panel.updated');
       this.triggerEvent();
     }
@@ -319,7 +325,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
       }
 
       this._source = tab._source;
-      this._activeItem = tab.id;
+      this.#activeItem = tab.id;
       this.triggerEvent();
     }
 
@@ -344,7 +350,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
         // may be the active tab, if the tab to be closed is another tab, then
         // the active tab will be the previous tab.
 
-        this._activeItem = pos === 0 ? keys[pos + 1] : keys[pos - 1];
+        this.#activeItem = pos === 0 ? keys[pos + 1] : keys[pos - 1];
         this.tabs.delete(tab.id);
         this.triggerEvent('panel.updated');
         this.triggerEvent();
@@ -407,13 +413,14 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     get ready() {
       return this.#ready;
     }
+
+    #store;
     /**
      *
      * @param boards
      * @param workspace
      * @param data
      */
-
 
     constructor(boards, workspace, data) {
       super();
@@ -459,11 +466,17 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
         items: items
       };
     };
+    /**
+     * Adds a new panel
+     * @param name
+     * @param specs
+     */
 
-    add(name, specs = {}) {
+    async add(name, specs = {}) {
       const id = this.items.size + 1;
       const active = this.active;
       const newPanel = new Panel(this, id);
+      const tab = active.tabs.get(active.activeItem);
       this._active = newPanel;
       newPanel.bind('change', this.triggerEvent);
       newPanel.bind('panel.updated', this.#triggerUpdate);
@@ -475,10 +488,10 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
         return;
       } //if the method is called without params then the new
       //editor must be have opened the current active tab
+      // const tab = active.tabs.get(active.activeItem);
 
 
-      const tab = active.tabs.get(active.activeItem);
-      tab.type === 'editor' ? newPanel.openFile(tab) : newPanel.add(tab.path, tab.specs);
+      tab.type === 'editor' ? await newPanel.openFile(tab) : await newPanel.add(tab.path, tab.specs);
       this.triggerEvent();
       this.#triggerUpdate();
     }
@@ -557,7 +570,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     const [showContextMenu, toggleContextMenu] = React.useState();
     const ref = React.useRef();
     let label = typeof item === 'string' ? item : item.label;
-    if (item.type !== 'editor' && item.path !== 'module') label = texts.labels[item.label];
+    if (!label && item.type !== 'editor' && item.path !== 'module') label = texts.labels[item.label];
     const [name, setName] = React.useState(label);
     if (panel.activeItem !== id) attrs.onClick = () => changeTab(item);
 
@@ -685,10 +698,12 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     } = state;
     const tab = panel.tabs.get(activeTab);
     const ref = React.useRef(null);
-    (0, _code5.useBinder)([panel], () => setState({ ...state,
-      total: panel.tabs.size,
-      activeTab: panel.activeItem
-    }));
+    (0, _code5.useBinder)([panel], () => {
+      setState({ ...state,
+        total: panel.tabs.size,
+        activeTab: panel.activeItem
+      });
+    });
     React.useEffect(() => {
       const onClick = event => panel.setActive();
 
@@ -741,9 +756,11 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     const output = [];
     const container = React.useRef();
     const [state, setState] = React.useState({});
-    (0, _code5.useBinder)([panels], () => setState({ ...state,
-      items: panels.items
-    }));
+    (0, _code5.useBinder)([panels], () => {
+      setState({ ...state,
+        items: panels.items
+      });
+    });
     if (!ready) return /*#__PURE__*/React.createElement(Preload, null);
 
     const pushPanel = (item, id) => /*#__PURE__*/React.createElement(PanelView, {
@@ -755,9 +772,6 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     panels.items.forEach((item, id) => output.push(pushPanel(item, id)));
 
     const addPanel = event => {
-      setState({ ...state,
-        vertical: container.current.offsetWidth < 600
-      });
       panels.add();
     };
 

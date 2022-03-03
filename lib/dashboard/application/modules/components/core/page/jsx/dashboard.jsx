@@ -1,11 +1,8 @@
 function IconsList({icons}) {
-
     const [filterText, setFilterText] = React.useState("");
     const [labelIcon, setLabelIcon] = React.useState('Nombre del ícono');
     const codeCopy = React.useRef();
-    const filter = event => {
-        setFilterText(event.currentTarget.value);
-    }
+    const filter = event => setFilterText(event.currentTarget.value);
     icons = icons.filter(item => item.includes(filterText))
     const setName = ({currentTarget: target}) => setLabelIcon(target.dataset.name);
     const copy = event => {
@@ -14,7 +11,6 @@ function IconsList({icons}) {
 
         /* Copy the text inside the text field */
         navigator.clipboard.writeText(copyText.innerText);
-        console.log("copy", copyText.innerText)
     }
     return (
         <>

@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Model} from "$[scope]$[name]/model/bridge";
-import {Header} from "$[scope]$[name]/header/code";
+import {Model} from "@testing/web-app/model/bridge";
+import {Header} from "@testing/web-app/header/code";
 
 export /*bundle*/
 function Widget(): JSX.Element {

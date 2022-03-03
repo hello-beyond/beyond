@@ -8,7 +8,12 @@ export function Header() {
 
     const {declarations} = model;
     const {itemsProcessed, total} = declarations;
+    const openNavigator = event => {
+        event.preventDefault();
+        event.stopPropagation();
 
+        workspace.openNavigator(model.id, model.url);
+    };
     useBinder([model, declarations], () => setState({}));
     useBinder([application.moduleManager], () => setProcessed(application.moduleManager.processed));
 
@@ -27,8 +32,17 @@ export function Header() {
             <section className="board__header">
                 <header>
                     <h2>{model.name} <small>{`(id: ${model.id})`}</small></h2>
-
                     <span className="pathname">{model.path}</span>
+                    {
+                        model.url &&
+                        <div>
+                            <a onClick={openNavigator}
+                               href={model.url} className="link" target="_blank">
+                                {model.url}
+                            </a>
+                        </div>
+
+                    }
                 </header>
                 <div className="board__header__actions flex-center flex-container">
                     <div className="scanned__section  flex-center flex-container">
@@ -57,16 +71,12 @@ export function Header() {
                         }
                     </BeyondButton>
                 </div>
+
             </section>
-            {
-                application.port &&
-                <a onClick={openNavigator}
-                   href={application.url} className="link" target="_blank">
-                    {`localhost:${application.port}`}
-                </a>
-            }
+
             <section className="pd-base">
-                <span className="link" onClick={() => toggleDescription(!showDescription)}> More details</span>
+
+            <span className="link" onClick={() => toggleDescription(!showDescription)}> More details</span>
                 {showDescription && <Description/>}
             </section>
         </div>

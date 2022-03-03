@@ -11,7 +11,7 @@ export function ModulesList() {
     if (!items.length) return <Empty texts={texts}/>;
 
     const Control = displayView === 'table' ? Item : GridItem;
-    const output = items.map(item => <Control module={item} key={item.id}/>);
+    const output = items.map(item => <Control am={item} key={item.id}/>);
     const cls = `ds-list list--${displayView}`;
 
     return (

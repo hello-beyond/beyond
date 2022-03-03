@@ -48,6 +48,7 @@ function BeeActions({bee, texts}) {
              <DSIconButton onClick={onClick} icon={action} className={cls} title={texts[action]}/>
             }
             <DSIconButton
+                disabled={bee.status === 'stopped'}
                 onClick={stop} icon="stop"
                 className="circle bee--action action--stop button--fetching" title={texts.stop}/>
         </>

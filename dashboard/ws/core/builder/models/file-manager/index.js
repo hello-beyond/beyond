@@ -137,9 +137,7 @@ class Index {
             }
 
             this[property] = specs[property];
-
         });
-
     }
 
     /**

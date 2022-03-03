@@ -250,7 +250,7 @@ define(["exports"], function (_exports) {
       const {
         platforms
       } = items.find(item => item.name === this.type);
-      return platforms.map(item => {
+      const data = platforms.map(item => {
         let platform = {
           platform: item
         };
@@ -267,6 +267,9 @@ define(["exports"], function (_exports) {
 
         return platform;
       });
+      const index = data.findIndex(item => item.platform === 'web');
+      if (index >= 0) data[index].default = true;else data[0].default = true;
+      return data;
     }
 
     #navigatePort = 4080;
@@ -501,11 +504,11 @@ define(["exports"], function (_exports) {
 
 
   class ModuleBundleBuilder extends ReactiveModel {
-    _bundle;
-    _applicationId;
-    _PROCESSORS = ['scss', 'less'];
-    _BUNDLES = ['page', 'widget', 'layout', 'code', 'bridge', 'typescript'];
-    _TEMPLATES = Object.freeze({
+    #bundle;
+    #applicationId;
+    #PROCESSORS = ['scss', 'less'];
+    #BUNDLES = ['page', 'widget', 'layout', 'code', 'bridge', 'typescript'];
+    #TEMPLATES = Object.freeze({
       page: {
         'id': 'page',
         'bundle': 'page'
@@ -521,53 +524,52 @@ define(["exports"], function (_exports) {
     });
 
     get applicationId() {
-      return this._applicationId;
+      return this.#applicationId;
     }
 
     get PROCESSORS() {
-      return this._PROCESSORS;
+      return this.#PROCESSORS;
     }
 
     get BUNDLES() {
-      return this._BUNDLES;
+      return this.#BUNDLES;
     }
 
     get type() {
-      return this._bundle.template ?? this._bundle.type;
+      return this.#bundle.template ?? this.#bundle.type;
     }
 
-    _origin;
+    #origin;
 
     get origin() {
-      return this._origin;
+      return this.#origin;
     }
 
     set origin(value) {
-      if (value === this._origin) return;
-      this._origin = value;
+      if (value === this.#origin) return;
+      this.#origin = value;
       this.triggerEvent();
     }
 
     get bundle() {
-      return this._bundle;
+      return this.#bundle;
     }
 
     constructor(applicationId) {
       super(applicationId);
-      this._applicationId = applicationId;
-      this._bundle = new ModuleBundle(this._applicationId);
-
-      this._bundle.bind('change', this.triggerEvent);
+      this.#applicationId = applicationId;
+      this.#bundle = new ModuleBundle(this.#applicationId);
+      this.#bundle.bind('change', this.triggerEvent);
     }
 
     setTemplate(name) {
-      if (!this._TEMPLATES.hasOwnProperty(name)) {
+      if (!this.#TEMPLATES.hasOwnProperty(name)) {
         console.warn('the template does not exists');
       }
 
-      const template = this._TEMPLATES[name];
-      this._bundle.type = template.bundle;
-      this._bundle.template = template.id;
+      const template = this.#TEMPLATES[name];
+      this.#bundle.type = template.bundle;
+      this.#bundle.template = template.id;
     }
 
     getStructure(bundle) {
@@ -575,12 +577,12 @@ define(["exports"], function (_exports) {
     }
 
     setType(type) {
-      this._bundle.type = type;
+      this.#bundle.type = type;
     }
 
     cleanType() {
-      this._bundle.type = undefined;
-      this._bundle.template = undefined;
+      this.#bundle.type = undefined;
+      this.#bundle.template = undefined;
     }
 
   }
@@ -636,7 +638,7 @@ define(["exports"], function (_exports) {
       return this._structure;
     }
 
-    _route;
+    _route = "/";
 
     get route() {
       return this._route;

@@ -1,8 +1,7 @@
 const TSConfig = require('./tsconfig');
 require('colors');
-const {join} = require('path');
+const {join, sep} = require('path');
 module.exports = class Module extends require('../file-manager') {
-
     /**
      * @deprecated
      * @type {string}
@@ -14,7 +13,8 @@ module.exports = class Module extends require('../file-manager') {
         'name',
         'description',
         'compilation',
-        'transpilation'
+        'transpilation',
+        'static'
     ];
     _templates = {
         page: './modules/templates/page',
@@ -59,8 +59,15 @@ module.exports = class Module extends require('../file-manager') {
         if (name) {
             path = join(path, name.replace(/ /g, '-').toLowerCase());
         }
-        this.loadFile(path, 'module.json')
 
+        if (name && name.includes('layouts/')) {
+            path = sep === '/' ? path : path.replace(/\\/g, '/');
+            path = path.split('/');
+            const name = path.pop();
+            path = `${path.join('/')}/${name}`;
+        }
+
+        this.loadFile(path, 'module.json');
     }
 
     /**
@@ -90,7 +97,6 @@ module.exports = class Module extends require('../file-manager') {
         catch (e) {
             console.error('error', e)
         }
-
     }
 
     load = this._load;
@@ -175,8 +181,7 @@ module.exports = class Module extends require('../file-manager') {
         this._checkProperties(params);
         const data = this.getProperties();
         this.#bundlesManager.check(params);
-        this.#bundlesManager.items.forEach((bundle, id) => data[bundle.type] = bundle.getProperties());
+        this.#bundlesManager.items.forEach(bundle => data[bundle.type] = bundle.getProperties());
         return this.file.writeJSON(data);
     }
-
 }

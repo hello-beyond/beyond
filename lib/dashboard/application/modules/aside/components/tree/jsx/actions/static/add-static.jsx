@@ -18,14 +18,12 @@ function AddStatic({closeModal, item}) {
     }, []);
     useBinder([uploader], update);
 
-    // <BeyondModal show onClose={removeAction} className="lg ds-modal ds-tree__static-form">
     return (
         <div className="ds-static-form">
             <header className="ds-modal_header">
                 <section>
                     <h4>{texts.header.title}</h4>
                     <h5 className="primary-color">{texts.header.detail}</h5>
-
                 </section>
             </header>
 
@@ -34,9 +32,9 @@ function AddStatic({closeModal, item}) {
                     <BeyondIcon icon="upload"/>
                     <h3 ref={btn}>{texts.title}</h3>
                     {state.error &&
-                     <div className="alert alert-danger">
-                         {texts.errors.invalidFiles}
-                     </div>
+                        <div className="alert alert-danger">
+                            {texts.errors.invalidFiles}
+                        </div>
                     }
                 </div>
                 <GalleryView/>
@@ -46,7 +44,6 @@ function AddStatic({closeModal, item}) {
                     </BeyondButton>
                 </div>
             </section>
-
         </div>
     );
 }

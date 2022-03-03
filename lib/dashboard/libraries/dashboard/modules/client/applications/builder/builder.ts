@@ -3,6 +3,17 @@ import {module} from "beyond_context";
 import type {Application} from "../item";
 import {ApplicationBuilds} from "./builds";
 
+interface BuildSpecs {
+    name: string,
+    platform: string,
+    ssr: boolean,
+    environment: string,
+    compress: boolean,
+    icons: string,
+    npm?: boolean
+    platforms?: object
+}
+
 interface DistributionSpecs {
     name: string
     platform: string
@@ -79,16 +90,21 @@ export class ApplicationBuilder extends Events {
 
         await this.prepare();
 
-        const specs = {
-            name: distribution.name ? distribution.name : 'unnamed',
+        const specs: BuildSpecs = {
+            name: distribution.name ?? 'unnamed',
             platform: distribution.platform,
             ssr: distribution.ssr,
             environment: distribution.environment,
             compress: !!distribution.compress,
             icons: distribution.icons
         };
+
+        if (distribution.name === 'npm') {
+            specs.npm = true;
+            specs.platforms = {node: true, web: true};
+        }
+
         await module.execute('/build', {application: this.#application.path, distribution: specs});
-        console.log('Application build is done');
 
         this.#completed = true;
         this.#processing = false;

@@ -88,7 +88,7 @@ exports.BeyondPackage = BeyondPackage;
 FILE: config.ts
 **************/
 
-modules.set('./config', {hash: 802070689, creator: function (require, exports) {
+modules.set('./config', {hash: 605659058, creator: function (require, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -121,20 +121,20 @@ exports.config = config;
 FILE: hydrator.ts
 ****************/
 
-modules.set('./hydrator', {hash: 2920398107, creator: function (require, exports) {
+modules.set('./hydrator', {hash: 979596099, creator: function (require, exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.hydrator = void 0;
 
 var _widgets = require("./widgets/widgets");
 
 var _config = require("./config");
 
 class Hydrator {
+  getCachedStore(id) {
+    return _config.config.widgets.get(id)?.store;
+  }
   /* Give up the power of the widgets to the controllers */
+
+
   hydrate(WidgetControllerLoader, BeyondLayoutChildrenRenderer) {
     _widgets.widgets.hydrate(WidgetControllerLoader, BeyondLayoutChildrenRenderer);
   }
@@ -142,7 +142,6 @@ class Hydrator {
 }
 
 const hydrator = new Hydrator();
-exports.hydrator = hydrator;
 window.__beyond_hydrator = hydrator;
 
 window.onload = () => {
@@ -159,7 +158,7 @@ window.onload = () => {
 FILE: widgets\layout-children.ts
 *******************************/
 
-modules.set('./widgets/layout-children', {hash: 3317406454, creator: function (require, exports) {
+modules.set('./widgets/layout-children', {hash: 2598113192, creator: function (require, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -227,7 +226,7 @@ customElements.define('beyond-layout-children', BeyondLayoutChildren);
 FILE: widgets\widget.ts
 **********************/
 
-modules.set('./widgets/widget', {hash: 1866005188, creator: function (require, exports) {
+modules.set('./widgets/widget', {hash: 1779661803, creator: function (require, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -238,7 +237,9 @@ exports.Widget = void 0;
 var _config = require("../config");
 
 class Widget extends HTMLElement {
+  #id;
   #loader;
+  #connected = false;
 
   #appendStyle(bundle) {
     const style = document.createElement('link');
@@ -250,8 +251,9 @@ class Widget extends HTMLElement {
     this.shadowRoot.appendChild(style);
   }
 
-  constructor() {
+  constructor(id) {
     super();
+    this.#id = id;
     this.attachShadow({
       mode: 'open'
     });
@@ -265,7 +267,7 @@ class Widget extends HTMLElement {
     const {
       html,
       css
-    } = _config.config.widgets.get(this.localName); // Append global and bundle styles
+    } = _config.config.widgets.get(id); // Append global and bundle styles
 
 
     css && this.#appendStyle(css);
@@ -279,6 +281,14 @@ class Widget extends HTMLElement {
 
   hydrate(WidgetControllerLoader) {
     this.#loader = new WidgetControllerLoader(this);
+    this.#connected && this.#loader.connectedCallback();
+  }
+
+  connectedCallback() {
+    const id = this.#id;
+    this.setAttribute('ssr-widget-id', id.toString());
+    this.#connected = true;
+    this.#loader?.connectedCallback();
   }
 
 }
@@ -290,7 +300,7 @@ exports.Widget = Widget;
 FILE: widgets\widgets.ts
 ***********************/
 
-modules.set('./widgets/widgets', {hash: 1085365057, creator: function (require, exports) {
+modules.set('./widgets/widgets', {hash: 2550769118, creator: function (require, exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -319,7 +329,16 @@ const widgets = new class {
     const {
       hierarchy
     } = _config.config;
-    hierarchy.forEach(element => customElements.define(element, class extends _widget.Widget {}));
+    hierarchy.forEach((element, index) => {
+      if (customElements.get(element)) return; // Element is already registered
+
+      customElements.define(element, class extends _widget.Widget {
+        constructor() {
+          super(index);
+        }
+
+      });
+    });
   }
 
   registerInstance(instance) {
@@ -331,6 +350,7 @@ const widgets = new class {
 
   hydrate(WidgetControllerLoader, BeyondLayoutChildrenRenderer) {
     if (this.#initialised) throw new Error('Widgets already initialised');
+    this.#WidgetControllerLoader = WidgetControllerLoader;
     this.#initialised = true;
     this.#instances.forEach(instance => instance.hydrate(WidgetControllerLoader));
 

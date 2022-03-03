@@ -1,5 +1,5 @@
 function DeveloperForm({texts, workspace}) {
-    const [state, setState] = React.useState({name: "", code: "",});
+    const [state, setState] = React.useState({name: "", email: "",});
     const ref = React.useRef();
     const handleInputChange = event => {
         const target = event.currentTarget;
@@ -16,20 +16,14 @@ function DeveloperForm({texts, workspace}) {
         container.classList.toggle('is-fetching');
         try {
             window.setTimeout(async () => {
-                const response = await workspace.register(state.name, state.code);
-
+                await workspace.register(state.name, state.email);
                 container.classList.toggle('is-fetching');
-
-                if (response) {
+                window.setTimeout(() => {
                     container.classList.add('ending', 'ending-left');
-                    container.closest('html').classList.toggle('is-processing');
+                    container.closest('html')?.classList.toggle('is-processing');
                     return;
-                }
-                container.closest('html').classList.toggle('is-processing');
-                setState({...state, fetching: false, error: true});
-
+                }, 1000);
             }, 2000);
-
         }
         catch (e) {
             console.error(e);
@@ -41,14 +35,14 @@ function DeveloperForm({texts, workspace}) {
     React.useEffect(() => {
         return () => {
             const container = ref.current;
-            container.classList.add('ending', 'ending-left');
-            container.closest('html').classList.toggle('is-processing');
+            container.classList?.add('ending', 'ending-left');
+            container.closest('html').classList?.toggle('is-processing');
         }
     }, []);
 
     const disabled = {};
 
-    if (!state.name || !state.code || state.code < 6 || state.fetching) disabled.disabled = true;
+    if (!state.name || !state.email || state.fetching) disabled.disabled = true;
 
     return (
         <div ref={ref} className="container__early__form">
@@ -58,7 +52,9 @@ function DeveloperForm({texts, workspace}) {
                     <BeyondImage src="/images/logo.png" s alt="logo"/>
                 </div>
                 <header>
-                    <h1>{texts.early.title2}</h1>
+                    <h1>{texts.early.title}</h1>
+                    <h4>{texts.early.title2}</h4>
+
                     {state.error && <h5 className="warning-text">{texts.early.error}</h5>}
                 </header>
 
@@ -79,12 +75,11 @@ function DeveloperForm({texts, workspace}) {
 
                         <div className="form-sub-group">
                             <BeyondInput
-                                name="code" label={texts.early.inputs.code}
+                                name="email" label={texts.early.inputs.email}
                                 required
-                                className="upper-text"
-                                value={state.code}
+                                value={state.email}
                                 onChange={handleInputChange}
-
+                                autoComplete="off"
                             />
                         </div>
                     </div>

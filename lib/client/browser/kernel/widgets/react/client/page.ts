@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 import * as React from "react";
 
 export /*bundle*/
-class PageReactWidgetController extends ReactWidgetController {
+abstract class PageReactWidgetController extends ReactWidgetController {
     #uri: URI;
     get uri() {
         return this.#uri;
@@ -17,10 +17,13 @@ class PageReactWidgetController extends ReactWidgetController {
     }
 
     mount(Widget: any) {
+        const method = this.hydratable ? 'hydrate' : 'render';
+
         // Render the widget
-        ReactDOM.render(React.createElement(Widget, {
+        ReactDOM[method](React.createElement(Widget, {
             uri: this.uri,
-            component: this.component
+            component: this.component,
+            store: this.store
         }), this.body);
     }
 
@@ -30,7 +33,7 @@ class PageReactWidgetController extends ReactWidgetController {
 
     initialise() {
         const child = this.component.getAttribute('data-child-id');
-        this.#uri = routing.manager.pages.find(child).uri;
+        this.#uri = child ? routing.manager.pages.find(child).uri : void 0;
         super.initialise();
     }
 }

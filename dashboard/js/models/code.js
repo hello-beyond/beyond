@@ -27,10 +27,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
 
   class ApplicationModel extends _js.ReactiveModel {
-    _bundles = ['layout', 'page', 'code', 'all', 'widget'];
+    #bundles = ['layout', 'page', 'code', 'all', 'widget'];
 
     get bundles() {
-      return this._bundles;
+      return this.#bundles;
     }
     /**
      * Returns the compound id of the application
@@ -44,36 +44,25 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return `application//${this.application.id}//`;
     }
 
+    get name() {
+      return this.application.name;
+    }
+
     get containers() {
       const items = ['all', 'application'];
       this.application.libraries?.items?.forEach(item => items.push(item.library.name));
       return items;
     }
-    /**
-     * Array with the
-     * @private
-     */
 
-
-    _containersIds;
-
-    get containersIds() {}
-
-    _container = undefined;
-
-    get container() {
-      return this._container;
-    }
-
-    _filterContainer = 'application';
+    #filterContainer = 'application';
 
     get filterContainer() {
-      return this._filterContainer;
+      return this.#filterContainer;
     }
 
     set filterContainer(value) {
-      if (value === this._filterContainer) return;
-      this._filterContainer = value;
+      if (value === this.#filterContainer) return;
+      this.#filterContainer = value;
       this.triggerEvent();
     }
 
@@ -157,35 +146,40 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this.application.warnings;
     }
 
-    _modulesTree;
+    #modulesTree;
 
     get modulesTree() {
-      return this._modulesTree;
+      return this.#modulesTree;
     }
 
-    _moduleManager;
+    #moduleManager;
 
     get moduleManager() {
-      return this._moduleManager;
+      return this.#moduleManager;
     }
 
-    _favorites;
+    #favorites;
 
     get favorites() {
-      return this._favorites;
+      return this.#favorites;
     }
+    /**
+     *
+     * @private
+     */
 
-    _element;
+
+    #element;
 
     get element() {
-      return this._element;
+      return this.#element;
     }
 
     get found() {
       return this.application.found;
     }
 
-    _ready = undefined;
+    #ready = undefined;
 
     get ready() {
       if (!this.application.found && !this.application.fetching) {
@@ -193,28 +187,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
         return true;
       }
 
-      if (this.element === 'template') {
-        return this.application?.template?.landed;
-      }
-
-      if (this.element === 'module') {
-        return this.moduleManager?.active?.ready;
-      }
-
-      if (this.element === 'favorites') {
-        return this.application?.am?.tree.landed && this.favorites?.ready;
-      }
-
-      if ([undefined, 'favorites', '', 'application'].includes(this.element)) {
-        return this.application?.am?.tree.landed;
-      }
-
-      if (['statics'].includes(this.element)) {
-        return this.application.static?.tree.landed;
-      } // TODO: @julio no se esta validando este tab en el ready del modelo
-
-
-      return this.application.tree.landed;
+      return this.application.landed;
     }
     /**
      *
@@ -232,7 +205,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     constructor(id, moduleId, element) {
       super();
-      this._element = element;
+      this.#element = element;
       this.application = new _ts.Application({
         identifier: {
           id: parseInt(id)
@@ -243,35 +216,30 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       this.application.bind('change', this.validateErrors);
       this.application.bind('change', this.triggerEvent);
       this.application.fetch();
-      this._moduleManager = new ModuleManager(this, moduleId);
-      this._favorites = _code3.FavoritesFactory.get(this.application.id, this);
-
-      this._favorites.bind('change', this.triggerEvent);
+      this.#moduleManager = new ModuleManager(this, moduleId);
+      this.#favorites = _code3.FavoritesFactory.get(this.application.id, this);
+      this.#favorites.bind('change', this.triggerEvent);
     }
 
     checkLoaded = () => {
       if (!this.application.tree.landed) return;
-
-      this._processModules();
-
-      this._processStatic();
-
-      this._processTemplate();
-
+      this.#processModules();
+      this.#processStatic();
+      this.#processTemplate();
       this.triggerEvent();
       this.application.unbind('change', this.checkLoaded);
     };
 
-    _processModules() {
+    #processModules() {
       const items = this.itemsByContainer('application').map(module => module);
-      this._modulesTree = _code2.TreeFactory.get('application', [this, this.application, items]);
+      this.#modulesTree = _code2.TreeFactory.get('application', [this, this.application, items]);
     }
 
-    _processStatic() {
+    #processStatic() {
       this._static = _code2.TreeFactory.get('static', [this.application, this.application.static, this.application.static.items]);
     }
 
-    _processTemplate() {
+    #processTemplate() {
       //TODO: @julio TREE
       const {
         template: {
@@ -299,7 +267,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     _filterItems() {
       const specs = {};
       if (!this.am) return [];
-      specs.container = this.filterContainer ? this._getContainerId(this.filterContainer) : 'application';
+      specs.container = this.filterContainer ? this.#getContainerId(this.filterContainer) : 'application';
       if (this.filterText) specs.text = this.filterText;
       if (this.filterBundle) specs.bundle = this.filterBundle;
       return this.am.getItems(specs);
@@ -307,19 +275,19 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     itemsByContainer(container) {
       return this.application.am.getItems({
-        container: this._getContainerId(container)
+        container: this.#getContainerId(container)
       });
     }
 
-    _getContainerId(container) {
+    #getContainerId(container) {
       if (['application', 'all'].includes(container)) return container;
-      const library = this.application.libraries.items.find(library => library.library.name === container);
+      const library = this.application.libraries.items.find(library => library.library?.name === container);
       if (!library) return container;
       return `${library.id}/`;
     }
 
     getItems(filter) {
-      this._filterContainer = filter;
+      this.#filterContainer = filter;
       return this._filterItems();
     }
 
@@ -477,22 +445,24 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       await this.#initialising;
       this.#lastAccess = performance.now();
       const data = await DSModel.db.store('workspace').get(wd);
-
-      if (!data) {
-        await this.db.store('workspace').save({
-          wd,
-          lastAccess: performance.now(),
-          panels: {
-            items: new Map()
-          },
-          opened: new Set()
-        });
-      }
-
+      if (!data) return this.reset(wd);
       return this.db.store('workspaces').save({
         wd,
         lastAccess: this.#lastAccess
       });
+    }
+
+    async reset(wd) {
+      const specs = {
+        wd,
+        lastAccess: performance.now(),
+        panels: {
+          items: new Map()
+        },
+        opened: new Set()
+      };
+      await this.db.store('workspace').save(specs);
+      return specs;
     }
 
     store = name => this.db.store(name);
@@ -606,7 +576,12 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return `${this.#module.id}////bundles-manager`;
     }
 
-    #processed = new Set();
+    #itemsProcessed = new Set();
+    #processed = false;
+
+    get processed() {
+      return this.#processed;
+    }
 
     constructor(module, bundlesTree, bundles, txt) {
       super();
@@ -619,7 +594,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     }
 
     check() {
-      this.items.forEach(bundle => {});
+      this.items.forEach(bundle => bundle.dependencies.check());
     }
 
     #process() {
@@ -628,13 +603,13 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
         const bundleManager = new BundleManager(this.#applicationManager, this.#bundlesTree, bundle, this.#txt);
 
         const onProcess = () => {
-          this.#processed.add(bundleManager.id);
+          this.#itemsProcessed.add(bundleManager.id);
 
           if (!bundleManager.processed) {
             return;
           }
 
-          if (this.items.size === this.#processed.size) {
+          if (this.items.size === this.#itemsProcessed.size) {
             this.triggerEvent('bundles.processed');
             this.triggerEvent('change');
             bundleManager.unbind('change', onProcess);
@@ -642,7 +617,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
         };
 
         bundleManager.bind('change', onProcess);
-        bundleManager.bind('change', () => this.triggerEvent());
+        bundleManager.bind('change', this.triggerEvent);
         this.items.set(bundle.name, bundleManager);
         if (bundleManager.processed) onProcess();
       });
@@ -960,12 +935,9 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this.#compiler?.diagnostics ?? {};
     }
 
-    #consumersReady;
-    #dependenciesReady;
-
     get processed() {
       if (!this.bundle.processors.has('ts')) return true;
-      return !!this.#compiler && this.#consumersReady && this.#dependenciesReady;
+      return !!this.#compiler && this.#consumers.ready && this.#dependencies.ready;
     }
 
     get totalFiles() {
@@ -1230,6 +1202,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   ***************************/
 
   /**
+   /**
    * Represents the model-ui of the module
    */
 
@@ -1288,6 +1261,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     get bundles() {
       return this.#bundlesManager;
     }
+    /**
+     * @property {BundlesManager} bundlesManager
+     */
+
 
     #bundlesManager;
 
@@ -1475,10 +1452,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       this.#bundlesManager.bind('change', this.triggerEvent);
 
       const onProcessed = () => {
-        this.#moduleManager.setProcessed(this.id);
-        this.#bundlesManager.unbind('bundles.processed', onProcessed);
+        this.#moduleManager.setProcessed(this.id); // this.#bundlesManager.unbind('bundles.processed', onProcessed);
       };
 
+      if (this.#bundlesManager.processed) onProcessed();
       this.#bundlesManager.bind('bundles.processed', onProcessed);
     }
 
@@ -1641,6 +1618,13 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       return this.#email;
     }
 
+    set email(value) {
+      if (!value || value === this.#email) return;
+      if (typeof value !== 'string') throw new Error('the email must be a string');
+      this.#email = value;
+      localStorage.setItem('ds.user.name', value);
+    }
+
     #dashboard;
     #validated;
 
@@ -1658,19 +1642,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       this.#name = localStorage.getItem('ds.user.name');
       this.#code = localStorage.getItem('ds.user.code');
       this.#email = localStorage.getItem('ds.user.email');
-      this.#validated = !!this.#name && this.#code;
+      this.#validated = true;
+      this.#hasAccess = !!this.#name && !!this.#email;
     }
 
-    async register(name, code) {
-      const response = await this.validate(code);
-
-      if (response) {
-        this.#name = name;
-        localStorage.setItem('ds.user.name', name);
-        localStorage.setItem('ds.user.code', code);
-      }
-
-      return response;
+    async register(name, email) {
+      this.#name = name;
+      localStorage.setItem('ds.user.name', name);
+      localStorage.setItem('ds.user.email', email);
+      this.#hasAccess = true;
+      return true;
     }
 
     async validate(code) {

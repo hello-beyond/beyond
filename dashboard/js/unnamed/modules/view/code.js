@@ -262,7 +262,11 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
         panel.setTabName(specs.moduleId, model.name);
       })();
     }, [specs.moduleId]);
-    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) return null;
+
+    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) {
+      return /*#__PURE__*/React.createElement(_code3.DsSpinner, null);
+    }
+
     const texts = module.texts.value;
     return /*#__PURE__*/React.createElement(ModuleContext.Provider, {
       value: {

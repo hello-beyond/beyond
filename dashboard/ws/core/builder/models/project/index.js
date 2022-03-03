@@ -27,7 +27,6 @@ module.exports = class Project extends require('../file-manager') {
         'version',
         'scope', 'name', 'title', 'description',
         'layout', 'template', 'languages', 'params',
-
         {name: 'modules', type: 'object'},
         {name: 'backend', type: 'object'},
         {name: 'node', type: 'object'},
@@ -111,8 +110,9 @@ module.exports = class Project extends require('../file-manager') {
             this.#modules.setDefault();
         }
         this._checkProperties(specs);
-
     }
+
+    load = this._load;
 
     _setId(name) {
         return this._id = name.replace(/ /g, '-').toLowerCase();
@@ -149,7 +149,7 @@ module.exports = class Project extends require('../file-manager') {
 
         this.save(specs);
         await this.readFiles(specs);
-        // return this.install();
+        return this.install();
     }
 
     install() {
@@ -170,9 +170,7 @@ module.exports = class Project extends require('../file-manager') {
     }
 
     save(values = {}) {
-        const json = {
-            deployment: this.#deployment.getProperties()
-        };
+        const json = {deployment: this.#deployment.getProperties()};
 
         super.save({...values, ...json});
     }

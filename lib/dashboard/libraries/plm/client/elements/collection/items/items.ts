@@ -14,7 +14,9 @@ export class CollectionItems {
         this.#collection = collection;
     }
 
-    #triggerChange = () => this.#collection.node.trigger('change');
+    #triggerChange = () => {
+        this.#collection.node.trigger('change');
+    }
 
     update = () => {
         if (!this.#collection.list.landed) return;
@@ -51,8 +53,9 @@ export class CollectionItems {
         // Destroy unused items
         this.#map &&
         this.#map.forEach((item, key) => {
+            if (updated.has(key)) return;
             item.off('change', this.#triggerChange);
-            !updated.has(key) && item.destroy();
+            item.destroy();
         });
 
         this.#map = updated;

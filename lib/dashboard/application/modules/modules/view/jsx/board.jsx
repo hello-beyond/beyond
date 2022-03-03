@@ -21,7 +21,9 @@ export function ModuleBoard(props) {
         })();
     }, [specs.moduleId]);
 
-    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) return null;
+    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) {
+        return <DsSpinner/>;
+    }
     const texts = module.texts.value;
 
     return (

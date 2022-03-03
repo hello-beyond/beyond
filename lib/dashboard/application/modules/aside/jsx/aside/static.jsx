@@ -6,7 +6,7 @@ function StaticsRootTree() {
     return (
         <>
             <header className="ds-aside__header">
-                <h3>{texts.template.title}</h3>
+                <h3>{texts.static.title}</h3>
             </header>
             <DSTree title={texts.static.title} object={application.application} tree={application.static}/>
         </>

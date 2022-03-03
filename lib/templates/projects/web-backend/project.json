@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "name": "node-app",
+  "name": "web-app",
+  "version": "1.0.0",
   "title": "Basic Web-Backend Application",
   "description": "Basic Web Backend application",
   "template": "template/template.json",

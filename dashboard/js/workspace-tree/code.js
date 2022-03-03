@@ -981,8 +981,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
       uploader.create(btn.current, box.current, getModel());
     }, []);
-    (0, _code11.useBinder)([uploader], update); // <BeyondModal show onClose={removeAction} className="lg ds-modal ds-tree__static-form">
-
+    (0, _code11.useBinder)([uploader], update);
     return /*#__PURE__*/React.createElement("div", {
       className: "ds-static-form"
     }, /*#__PURE__*/React.createElement("header", {

@@ -458,7 +458,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   ***************************************/
 
   modules.set('./elements/collection/items/items', {
-    hash: 4004643330,
+    hash: 3680212401,
     creator: function (require, exports) {
       "use strict";
 
@@ -480,7 +480,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           this.#collection = collection;
         }
 
-        #triggerChange = () => this.#collection.node.trigger('change');
+        #triggerChange = () => {
+          this.#collection.node.trigger('change');
+        };
         update = () => {
           if (!this.#collection.list.landed) return;
           this.#items = [];
@@ -514,8 +516,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
 
           this.#map && this.#map.forEach((item, key) => {
+            if (updated.has(key)) return;
             item.off('change', this.#triggerChange);
-            !updated.has(key) && item.destroy();
+            item.destroy();
           });
           this.#map = updated;
         };
@@ -6710,7 +6713,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   *****************/
 
   modules.set('./tree/node', {
-    hash: 3376246137,
+    hash: 2502482559,
     creator: function (require, exports) {
       "use strict";
 

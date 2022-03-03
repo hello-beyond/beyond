@@ -6,7 +6,9 @@ export interface IWidgetControllerLoader {
 }
 
 export class Widget extends HTMLElement {
+    #id: number;
     #loader: WidgetControllerLoader;
+    #connected = false;
 
     #appendStyle(bundle: string) {
         const style: HTMLLinkElement = document.createElement('link');
@@ -19,14 +21,16 @@ export class Widget extends HTMLElement {
         this.shadowRoot.appendChild(style);
     }
 
-    constructor() {
+    constructor(id: number) {
         super();
+        this.#id = id;
+
         this.attachShadow({mode: 'open'});
 
         const {widgets} = require('./widgets');
         widgets.registerInstance(this);
 
-        const {html, css} = config.widgets.get(this.localName);
+        const {html, css} = config.widgets.get(id);
 
         // Append global and bundle styles
         css && this.#appendStyle(css);
@@ -41,5 +45,13 @@ export class Widget extends HTMLElement {
 
     hydrate(WidgetControllerLoader: IWidgetControllerLoader) {
         this.#loader = new WidgetControllerLoader(this);
+        this.#connected && this.#loader.connectedCallback();
+    }
+
+    connectedCallback() {
+        const id = this.#id;
+        this.setAttribute('ssr-widget-id', id.toString());
+        this.#connected = true;
+        this.#loader?.connectedCallback();
     }
 }

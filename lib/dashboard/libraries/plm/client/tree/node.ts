@@ -77,8 +77,8 @@ export class Node extends Events {
             return super.trigger(event, ...arguments); // async events return a promise
         } else {
             if (event !== 'change') return super.trigger(event, ...rest);
-
             if (this.#timer) return;
+
             this.#timer = window.setTimeout(() => {
                 this.#timer = undefined;
                 super.trigger(event, ...rest);

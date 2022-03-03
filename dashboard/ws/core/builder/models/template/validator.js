@@ -18,7 +18,6 @@ module.exports = class {
             }
         });
 
-        console.log('getContent', json)
         return json;
     }
 

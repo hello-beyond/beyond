@@ -34,7 +34,6 @@ class ApplicationModules extends Collection {
      * @returns {[]|void}
      */
 
-    //TODO @ftovar revisar funcion
     getItems({container = 'application', bundle = undefined, text = ''}: IFilters) {
         //(container: string = 'application', bundle: undefined | string = undefined, text: string = '') {
         // this function is used if a bundle container is active
@@ -47,10 +46,9 @@ class ApplicationModules extends Collection {
             const isLibrary = ['library', 'all'].includes(container);
             const textSearch = item.id.includes(text) || item?.module?.name?.includes(text);
             if (![undefined, 'all'].includes(bundle) && (isApp || isLibrary)) {
-                // @ts-ignore
-                if (['page', 'layout'].includes(bundle) && item?.type.includes('widget')) {
+                if (item?.type.includes('widget')) {
                     const widget = item.getBundle('widget');
-                    return widget?.additional?.is === bundle && textSearch;
+                    return widget.type === bundle && textSearch;
                 }
                 return item.type?.includes(bundle) && textSearch;
             }

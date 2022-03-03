@@ -1,6 +1,6 @@
 {
-  "version": 1,
   "name": "empty-app",
+  "version": "1.0.0",
   "template": "template/template.json",
   "modules": {
     "path": "./modules"

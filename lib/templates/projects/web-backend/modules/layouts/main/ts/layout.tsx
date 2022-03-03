@@ -2,6 +2,15 @@ import * as React from "react";
 
 const Header = ({title}) => (<header><h1>{title}</h1></header>);
 
+declare global {
+    namespace JSX {
+        interface IntrinsicElements {
+            "menu-layout": any;
+            "beyond-layout-children": any;
+        }
+    }
+}
+
 export /*bundle*/
 class Widget extends React.Component {
     render() {

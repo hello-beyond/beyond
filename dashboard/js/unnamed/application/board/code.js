@@ -41,6 +41,11 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
   ******************/
 
   const controller = new class Controller extends _js.ReactiveModel {
+    #workspace;
+    /**
+     *
+     */
+
     #application;
 
     get application() {
@@ -86,7 +91,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
       const model = workspace.getApplication(appId, moduleId, element);
       this.#currentId = appId;
       model.bind('change', this.triggerEvent);
-      this._workspace = workspace;
+      this.#workspace = workspace;
       this.#application = model;
       this.#favorites = model.favorites;
       this.#moduleManager = model.moduleManager;
@@ -440,6 +445,13 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
       itemsProcessed,
       total
     } = declarations;
+
+    const openNavigator = event => {
+      event.preventDefault();
+      event.stopPropagation();
+      workspace.openNavigator(model.id, model.url);
+    };
+
     (0, _code8.useBinder)([model, declarations], () => setState({}));
     (0, _code8.useBinder)([application.moduleManager], () => setProcessed(application.moduleManager.processed));
 
@@ -463,7 +475,12 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
       className: "board__header"
     }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h2", null, model.name, " ", /*#__PURE__*/React.createElement("small", null, `(id: ${model.id})`)), /*#__PURE__*/React.createElement("span", {
       className: "pathname"
-    }, model.path)), /*#__PURE__*/React.createElement("div", {
+    }, model.path), model.url && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("a", {
+      onClick: openNavigator,
+      href: model.url,
+      className: "link",
+      target: "_blank"
+    }, model.url))), /*#__PURE__*/React.createElement("div", {
       className: "board__header__actions flex-center flex-container"
     }, /*#__PURE__*/React.createElement("div", {
       className: "scanned__section  flex-center flex-container"
@@ -492,12 +509,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
       className: "btn primary"
     }, !declarations.processing ? /*#__PURE__*/React.createElement(React.Fragment, null, actions.declarations) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
       className: "on-primary"
-    }), `${actions.generatingDeclarations} ${itemsProcessed}/${total}`)))), application.port && /*#__PURE__*/React.createElement("a", {
-      onClick: openNavigator,
-      href: application.url,
-      className: "link",
-      target: "_blank"
-    }, `localhost:${application.port}`), /*#__PURE__*/React.createElement("section", {
+    }), `${actions.generatingDeclarations} ${itemsProcessed}/${total}`)))), /*#__PURE__*/React.createElement("section", {
       className: "pd-base"
     }, /*#__PURE__*/React.createElement("span", {
       className: "link",
@@ -792,197 +804,13 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
       className: "circle secondary active"
     }));
   }
-  /**************************
-  list\item\actions\clone.jsx
-  **************************/
-
-
-  function ItemCloneAction({
-    module,
-    onClose
-  }) {
-    const [state, setState] = React.useState({
-      modal: false,
-      confirm: false
-    });
-
-    const updateState = newState => setState({ ...state,
-      ...newState
-    });
-
-    const handleName = event => {
-      event.stopPropagation();
-      updateState({
-        name: event.currentTarget.value
-      });
-    };
-
-    const onClone = async () => {
-      try {
-        updateState({
-          fetching: true
-        });
-        await module.clone(state.name);
-        onClose();
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    return /*#__PURE__*/React.createElement(_code7.BeyondModal, {
-      show: true,
-      onClose: onClose,
-      className: "xs ds-modal ds-tree__forms"
-    }, /*#__PURE__*/React.createElement("header", {
-      className: "ds-modal_header"
-    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h4", null, "Duplicar"))), /*#__PURE__*/React.createElement("div", {
-      className: "ds-modal__content"
-    }, /*#__PURE__*/React.createElement("form", {
-      onSubmit: onClone
-    }, /*#__PURE__*/React.createElement("input", {
-      autoComplete: "off",
-      required: true,
-      name: "name",
-      label: "Nombre del modulo",
-      placeholder: "mi-modulo | directorio/mi-modulo",
-      onChange: handleName
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "actions"
-    }, /*#__PURE__*/React.createElement(_code.BeyondButton, {
-      onClick: onClone,
-      className: "primary"
-    }, state.fetching ? /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
-      fetching: true,
-      className: "on-primary"
-    }) : 'Duplicar')))));
-  }
-  /***************************
-  list\item\actions\delete.jsx
-  ***************************/
-
-
-  function ItemDeleteAction({
-    module,
-    onClose
-  }) {
-    const [state, setState] = React.useState({
-      modal: false
-    });
-
-    const updateState = newState => setState({ ...state,
-      ...newState
-    });
-
-    const onDelete = async () => {
-      try {
-        updateState({
-          fetching: true
-        });
-        await module.delete();
-        onClose();
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    return /*#__PURE__*/React.createElement(_code7.BeyondConfirmModal, {
-      show: true,
-      className: "xs ds-modal",
-      text: '¿Desea eliminar el modulo?',
-      onConfirm: onDelete,
-      onCancel: onClose
-    });
-  }
-  /**********************
-  list\item\grid-item.jsx
-  **********************/
-
-  /**
-   *
-   * @param {ApplicationModule} module
-   * @param {Application} application
-   * @returns {JSX.Element}
-   * @constructor
-   */
-
-
-  function GridItem({
-    module,
-    application
-  }) {
-    const {
-      errors,
-      warnings
-    } = module.module;
-    return /*#__PURE__*/React.createElement("article", {
-      className: "module-list__item"
-    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("div", {
-      className: "col mb-15"
-    }, /*#__PURE__*/React.createElement(Processors, {
-      module: module
-    })), /*#__PURE__*/React.createElement("div", {
-      className: "item-information col col-end"
-    }, !!warnings.length && /*#__PURE__*/React.createElement(_code13.DSIcon, {
-      icon: "warning",
-      className: "icon icon--warning"
-    }), !!errors.length && /*#__PURE__*/React.createElement(_code13.DSIcon, {
-      icon: "error",
-      className: "icon icon--error"
-    }))), /*#__PURE__*/React.createElement(ModuleInformation, {
-      module: module.module
-    }), /*#__PURE__*/React.createElement("div", {
-      className: "col"
-    }, /*#__PURE__*/React.createElement("h6", {
-      className: "primary-color"
-    }, module.module.name), module.module.description && /*#__PURE__*/React.createElement("span", {
-      className: "p1 light"
-    }, module.module.description)), /*#__PURE__*/React.createElement(ItemActions, {
-      module: module
-    }));
-  }
-  /************************
-  list\item\information.jsx
-  ************************/
-
-
-  function ModuleInformation({
-    module
-  }) {
-    if (!module) return null;
-    const {
-      application,
-      navigateModule
-    } = (0, _code15.useAppContext)();
-    const link = module.route ? `${application.application.url}${module.route.toLowerCase()}` : '';
-
-    const navigate = event => {
-      event.preventDefault();
-      navigateModule({
-        url: link,
-        route: module.route
-      });
-    };
-
-    return /*#__PURE__*/React.createElement("div", {
-      className: "col flex-center-y"
-    }, /*#__PURE__*/React.createElement("h5", {
-      className: "lower"
-    }, module.pathname), module.developer && module.name && /*#__PURE__*/React.createElement("h6", {
-      className: "module__name primary-color"
-    }, module.developer, "/", module.name), module.route && /*#__PURE__*/React.createElement("a", {
-      target: "_blank",
-      className: "link",
-      onClick: navigate,
-      href: `${application.url}${module.route.toLowerCase()}`
-    }, application.url, module.route.toLowerCase()));
-  }
-  /*************************
-  list\item\item-actions.jsx
-  *************************/
+  /********************
+  list\item\actions.jsx
+  ********************/
 
 
   function ItemActions({
-    module
+    am
   }) {
     const [state, setState] = React.useState({
       modal: false,
@@ -1044,12 +872,208 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
     }, /*#__PURE__*/React.createElement(_code13.DSIcon, {
       icon: "delete"
     }), "Eliminar"))), state.modal && /*#__PURE__*/React.createElement(ItemCloneAction, {
-      module: module,
+      am: am,
       onClose: closeModal
     }), state.confirm && /*#__PURE__*/React.createElement(ItemDeleteAction, {
-      module: module,
+      am: am,
       onClose: closeConfirm
     }));
+  }
+  /**************************
+  list\item\actions\clone.jsx
+  **************************/
+
+
+  function ItemCloneAction({
+    am,
+    onClose
+  }) {
+    const [state, setState] = React.useState({
+      modal: false,
+      confirm: false
+    });
+
+    const updateState = newState => setState({ ...state,
+      ...newState
+    });
+
+    const handleName = event => {
+      event.stopPropagation();
+      updateState({
+        name: event.currentTarget.value
+      });
+    };
+
+    const onClone = async () => {
+      try {
+        updateState({
+          fetching: true
+        });
+        await am.clone(state.name);
+        onClose();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    return /*#__PURE__*/React.createElement(_code7.BeyondModal, {
+      show: true,
+      onClose: onClose,
+      className: "xs ds-modal ds-tree__forms"
+    }, /*#__PURE__*/React.createElement("header", {
+      className: "ds-modal_header"
+    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h4", null, "Duplicar"))), /*#__PURE__*/React.createElement("div", {
+      className: "ds-modal__content"
+    }, /*#__PURE__*/React.createElement("form", {
+      onSubmit: onClone
+    }, /*#__PURE__*/React.createElement("input", {
+      autoComplete: "off",
+      required: true,
+      name: "name",
+      label: "Nombre del modulo",
+      placeholder: "mi-modulo | directorio/mi-modulo",
+      onChange: handleName
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "actions"
+    }, /*#__PURE__*/React.createElement(_code.BeyondButton, {
+      onClick: onClone,
+      className: "primary"
+    }, state.fetching ? /*#__PURE__*/React.createElement(_code5.BeyondSpinner, {
+      fetching: true,
+      className: "on-primary"
+    }) : 'Duplicar')))));
+  }
+  /***************************
+  list\item\actions\delete.jsx
+  ***************************/
+
+
+  function ItemDeleteAction({
+    am,
+    onClose
+  }) {
+    const [state, setState] = React.useState({
+      modal: false
+    });
+
+    const updateState = newState => setState({ ...state,
+      ...newState
+    });
+
+    const onDelete = async () => {
+      try {
+        updateState({
+          fetching: true
+        });
+        await am.delete();
+        onClose();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    return /*#__PURE__*/React.createElement(_code7.BeyondConfirmModal, {
+      show: true,
+      className: "xs ds-modal",
+      text: '¿Desea eliminar el modulo?',
+      onConfirm: onDelete,
+      onCancel: onClose
+    });
+  }
+  /**********************
+  list\item\grid-item.jsx
+  **********************/
+
+  /**
+   *
+   * @param {ApplicationModule} module
+   * @returns {JSX.Element}
+   * @constructor
+   */
+
+
+  function GridItem({
+    am
+  }) {
+    const {
+      application,
+      navigateModule
+    } = (0, _code15.useAppContext)();
+    const {
+      errors,
+      warnings
+    } = am.module;
+    let {
+      path,
+      name
+    } = am.module;
+    path = path.toLowerCase().replace(application.application.path.toLowerCase(), '');
+    return /*#__PURE__*/React.createElement(ModuleLink, {
+      am: am
+    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("div", {
+      className: "col mb-15"
+    }, /*#__PURE__*/React.createElement(Processors, {
+      am: am
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "item-information col col-end"
+    }, !!warnings.length && /*#__PURE__*/React.createElement(_code13.DSIcon, {
+      icon: "warning",
+      className: "icon icon--warning"
+    }), !!errors.length && /*#__PURE__*/React.createElement(_code13.DSIcon, {
+      icon: "error",
+      className: "icon icon--error"
+    }))), /*#__PURE__*/React.createElement(ModuleInformation, {
+      am: am
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "col"
+    }, /*#__PURE__*/React.createElement("h6", {
+      className: "primary-color"
+    }, path), am.module.description && /*#__PURE__*/React.createElement("span", {
+      className: "p1 light"
+    }, am.module.description)), /*#__PURE__*/React.createElement(ItemActions, {
+      am: am
+    }));
+  }
+  /************************
+  list\item\information.jsx
+  ************************/
+
+
+  function ModuleInformation({
+    am
+  }) {
+    if (!am) return null;
+    const {
+      application,
+      navigateModule
+    } = (0, _code15.useAppContext)();
+    const link = am.route ? `${application.application.url}${am.route.toLowerCase()}` : '';
+    let {
+      path,
+      name
+    } = am.module;
+    path = path.toLowerCase().replace(application.application.path.toLowerCase(), '');
+
+    const navigate = event => {
+      event.preventDefault();
+      navigateModule({
+        url: link,
+        route: am.route
+      });
+    };
+
+    const route = `${am.route?.toLowerCase()}`;
+    return /*#__PURE__*/React.createElement("div", {
+      className: "col flex-center-y"
+    }, /*#__PURE__*/React.createElement("h5", {
+      className: "lower"
+    }, path), name && /*#__PURE__*/React.createElement("h6", {
+      className: "module__name primary-color"
+    }, name), am.route && /*#__PURE__*/React.createElement("span", {
+      target: "_blank",
+      className: "link acent",
+      onClick: navigate
+    }, route));
   }
   /*****************
   list\item\item.jsx
@@ -1065,10 +1089,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
 
 
   function Item({
-    module,
+    am,
     application
   }) {
-    if (!module?.module) {
+    if (!am?.module) {
       console.warn(`the module ${module.id} does not load correctly`);
       return null;
     }
@@ -1076,32 +1100,18 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
     const {
       errors,
       warnings
-    } = module.module;
-    const {
-      workspace
-    } = (0, _code15.useDSWorkspaceContext)();
-
-    const showModule = event => {
-      event.stopPropagation();
-      event.preventDefault();
-      workspace.openBoard('module', {
-        label: module.module.pathname,
-        moduleId: module.module.id
-      });
-    };
-
-    return /*#__PURE__*/React.createElement("article", {
-      className: "module-list__item",
-      onClick: showModule
+    } = am.module;
+    return /*#__PURE__*/React.createElement(ModuleLink, {
+      am: am
     }, /*#__PURE__*/React.createElement("div", {
       className: "col"
     }, /*#__PURE__*/React.createElement(ModuleInformation, {
-      module: module.module
-    }), module.module.name && /*#__PURE__*/React.createElement("p", {
+      am: am
+    }), am.module.name && /*#__PURE__*/React.createElement("p", {
       className: "p1 bold"
-    }, module.module.name), module.module.description && /*#__PURE__*/React.createElement("span", {
+    }, am.module.name), am.module.description && /*#__PURE__*/React.createElement("span", {
       className: "p1 light"
-    }, module.description)), /*#__PURE__*/React.createElement("div", {
+    }, am.description)), /*#__PURE__*/React.createElement("div", {
       className: "ds-module-list__item__info"
     }, !!warnings.length && /*#__PURE__*/React.createElement(_code13.DashboardIcon, {
       icon: "warning",
@@ -1114,10 +1124,37 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
     }, /*#__PURE__*/React.createElement("div", {
       className: "processors__list"
     }, /*#__PURE__*/React.createElement(Processors, {
-      module: module
+      am: am
     })), /*#__PURE__*/React.createElement(ItemActions, {
-      module: module
+      am: am
     })));
+  }
+  /*****************
+  list\item\link.jsx
+  *****************/
+
+
+  function ModuleLink({
+    am,
+    children
+  }) {
+    const {
+      workspace
+    } = (0, _code15.useDSWorkspaceContext)();
+
+    const showModule = event => {
+      event.stopPropagation();
+      event.preventDefault();
+      workspace.openBoard('module', {
+        label: am.module.pathname,
+        moduleId: am.module.id
+      });
+    };
+
+    return /*#__PURE__*/React.createElement("article", {
+      className: "module-list__item",
+      onClick: showModule
+    }, children);
   }
   /***********************
   list\item\processors.jsx
@@ -1125,9 +1162,9 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
 
 
   function Processors({
-    module
+    am
   }) {
-    const bundles = module.bundles;
+    const bundles = am.bundles;
     const processors = new Set(); //todo: @julio
     //todo: set logic directly in the Module Item object
 
@@ -1161,7 +1198,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/form/cod
     });
     const Control = displayView === 'table' ? Item : GridItem;
     const output = items.map(item => /*#__PURE__*/React.createElement(Control, {
-      module: item,
+      am: item,
       key: item.id
     }));
     const cls = `ds-list list--${displayView}`;

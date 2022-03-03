@@ -1,5 +1,5 @@
-function Processors({module}) {
-    const bundles = module.bundles;
+function Processors({am}) {
+    const bundles = am.bundles;
     const processors = new Set();
     //todo: @julio
     //todo: set logic directly in the Module Item object
