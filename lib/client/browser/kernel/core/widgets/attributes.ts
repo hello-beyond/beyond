@@ -1,6 +1,6 @@
 import {Events} from "../utils/events/events";
 
-class BeyondWidgetAttributes extends Events {
+export class BeyondWidgetAttributes extends Events {
     #values: Map<string, string> = new Map();
     get values() {
         return this.#values;

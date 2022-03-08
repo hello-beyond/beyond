@@ -1,12 +1,12 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports2, _js, _ts, _code, _code2, _code3, _code4, _code5) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.BundleManager = void 0;
-  _exports.DSDatabase = DSDatabase;
-  _exports.applicationsFactory = _exports.ModuleModel = _exports.ModuleManager = _exports.DSUser = _exports.DSModel = void 0;
+  _exports2.BundleManager = void 0;
+  _exports2.DSDatabase = DSDatabase;
+  _exports2.hmr = _exports2.applicationsFactory = _exports2.ModuleModel = _exports2.ModuleManager = _exports2.DSUser = _exports2.DSModel = void 0;
   const {
     beyond
   } = globalThis;
@@ -473,7 +473,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   FILE: factory.js
   ***************/
 
-  _exports.DSModel = DSModel;
+  _exports2.DSModel = DSModel;
 
   class ApplicationsFactory {
     _applications = new Map();
@@ -498,7 +498,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   FILE: module\bundles\bundles-manager.js
   **************************************/
 
-  _exports.applicationsFactory = applicationsFactory;
+  _exports2.applicationsFactory = applicationsFactory;
 
   class BundlesManager extends _js.ReactiveModel {
     #applicationManager;
@@ -1014,7 +1014,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
    */
 
 
-  _exports.BundleManager = BundleManager;
+  _exports2.BundleManager = BundleManager;
 
   class ModuleManager extends _js.ReactiveModel {
     #application;
@@ -1207,7 +1207,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
    */
 
 
-  _exports.ModuleManager = ModuleManager;
+  _exports2.ModuleManager = ModuleManager;
 
   class ModuleModel extends _js.ReactiveModel {
     #tree = {
@@ -1517,7 +1517,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   ********************************/
 
 
-  _exports.ModuleModel = ModuleModel;
+  _exports2.ModuleModel = ModuleModel;
 
   class ProcessorManager extends _js.ReactiveModel {
     constructor() {
@@ -1664,7 +1664,17 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
   }
 
-  _exports.DSUser = DSUser;
+  _exports2.DSUser = DSUser;
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

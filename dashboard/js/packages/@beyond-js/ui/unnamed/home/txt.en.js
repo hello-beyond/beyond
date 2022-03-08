@@ -1,6 +1,10 @@
-define([], function () {
+define(["exports"], function (_exports2) {
   "use strict";
 
+  Object.defineProperty(_exports2, "__esModule", {
+    value: true
+  });
+  _exports2.txt = _exports2.hmr = void 0;
   const {
     beyond
   } = globalThis;
@@ -16,10 +20,33 @@ define([], function () {
 
   const __pkg = bundle.package('en');
 
-  __pkg.exports.process = (require, _exports) => _exports.txt = {
-    "title": "Beyond Components",
-    "description": "Beyond ofrece una gran variedad de Componentes, los cuales permiten construir rápidamente la interfaz de usuario para su aplicación.  Estos componentes vienen incluidos para poder ser usados en cualquier momento."
+  const modules = new Map();
+  /*********************
+  INTERNAL MODULE: ./txt
+  *********************/
+
+  modules.set('./txt', {
+    hash: 2141664826,
+    creator: function (require, exports) {
+      exports.txt = {
+        "title": "Beyond Components",
+        "description": "Beyond ofrece una gran variedad de Componentes, los cuales permiten construir rápidamente la interfaz de usuario para su aplicación.  Estos componentes vienen incluidos para poder ser usados en cualquier momento."
+      };
+    }
+  });
+  let txt;
+  _exports2.txt = txt;
+
+  __pkg.exports.process = function (require, _exports) {
+    _exports2.txt = txt = _exports.txt = require('./txt').txt;
   };
 
-  __pkg.initialise();
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

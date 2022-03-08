@@ -1,10 +1,11 @@
-define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/import/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/import/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.Page = Page;
+  _exports2.Page = Page;
+  _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -100,6 +101,16 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/import/code", "reac
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}#beyond-element-icons-page .icon-container{text-align:left}#beyond-element-icons-page .icon-container .icon-list{margin-top:20px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;background:#121f36}#beyond-element-icons-page .icon-container .icon-list path{fill:white}#beyond-element-icons-page .icon-container .icon-list .icon-element{text-align:center;padding:20px;font-size:16px;display:grid;grid-gap:10px;transition:.8s background-color;cursor:pointer;fill:white}#beyond-element-icons-page .icon-container .icon-list .icon-element:hover{background:#e36152;color:#fff;fill:#FFFFFF}#beyond-element-icons-page .icon-container .icon-list .icon-element .beyond-icon{margin:auto}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

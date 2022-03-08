@@ -4,7 +4,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports2.services = _exports2.local = void 0;
+  _exports2.services = _exports2.local = _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
   const {
@@ -19,12 +19,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   const __pkg = bundle.package();
 
   const modules = new Map();
-  /**************************
-  FILE: application-styles.ts
-  **************************/
+  /************************************
+  INTERNAL MODULE: ./application-styles
+  ************************************/
 
   modules.set('./application-styles', {
-    hash: 3695846442,
+    hash: 3175953887,
     creator: function (require, exports) {
       "use strict";
 
@@ -56,12 +56,12 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       }();
     }
   });
-  /*************
-  FILE: local.ts
-  *************/
+  /***********************
+  INTERNAL MODULE: ./local
+  ***********************/
 
   modules.set('./local', {
-    hash: 2079923543,
+    hash: 1410203166,
     creator: function (require, exports) {
       "use strict";
 
@@ -110,9 +110,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.local = local;
     }
   });
-  /************************
-  FILE: services\service.ts
-  ************************/
+  /**********************************
+  INTERNAL MODULE: ./services/service
+  **********************************/
 
   modules.set('./services/service', {
     hash: 624765756,
@@ -172,9 +172,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ManagedService = ManagedService;
     }
   });
-  /*************************
-  FILE: services\services.ts
-  *************************/
+  /***********************************
+  INTERNAL MODULE: ./services/services
+  ***********************************/
 
   modules.set('./services/services', {
     hash: 793868436,
@@ -215,6 +215,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
     _exports2.local = local = _exports.local = require('./local').local;
     _exports2.services = services = _exports.services = require('./services/services').services;
   };
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
 
   __pkg.initialise(modules);
 });

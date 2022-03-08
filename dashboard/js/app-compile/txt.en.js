@@ -1,6 +1,10 @@
-define([], function () {
+define(["exports"], function (_exports2) {
   "use strict";
 
+  Object.defineProperty(_exports2, "__esModule", {
+    value: true
+  });
+  _exports2.txt = _exports2.hmr = void 0;
   const {
     beyond
   } = globalThis;
@@ -16,39 +20,62 @@ define([], function () {
 
   const __pkg = bundle.package('en');
 
-  __pkg.exports.process = (require, _exports) => _exports.txt = {
-    "name": "Distribution name",
-    "platform": {
-      "label": "Platform",
-      "options": {
-        "web": "Web",
-        "backend": "Backend",
-        "android": "Android",
-        "ios": "iOS",
+  const modules = new Map();
+  /*********************
+  INTERNAL MODULE: ./txt
+  *********************/
+
+  modules.set('./txt', {
+    hash: 3246487302,
+    creator: function (require, exports) {
+      exports.txt = {
+        "name": "Distribution name",
+        "platform": {
+          "label": "Platform",
+          "options": {
+            "web": "Web",
+            "backend": "Backend",
+            "android": "Android",
+            "ios": "iOS",
+            "ssr": "SSR",
+            "node": "Node"
+          },
+          "environment": "Environment",
+          "port": {
+            "label": "Port",
+            "error": "Port isn't available",
+            "success": "Port checked and available",
+            "tooltip": "Check port"
+          }
+        },
+        "ts": "TS",
+        "default": "default",
+        "checkType": "Check types",
         "ssr": "SSR",
-        "node": "Node"
-      },
-      "environment": "Environment",
-      "port": {
-        "label": "Port",
-        "error": "Port isn't available",
-        "success": "Port checked and available",
-        "tooltip": "Check port"
-      }
-    },
-    "ts": "TS",
-    "default": "default",
-    "checkType": "Check types",
-    "ssr": "SSR",
-    "titleModal": "Let's add a new distribution",
-    "compress": "Compress",
-    "add": "Add",
-    "title": "Distributions",
-    "environments": {
-      "dev": "Development",
-      "prod": "Production"
+        "titleModal": "Let's add a new distribution",
+        "compress": "Compress",
+        "add": "Add",
+        "title": "Distributions",
+        "environments": {
+          "dev": "Development",
+          "prod": "Production"
+        }
+      };
     }
+  });
+  let txt;
+  _exports2.txt = txt;
+
+  __pkg.exports.process = function (require, _exports) {
+    _exports2.txt = txt = _exports.txt = require('./txt').txt;
   };
 
-  __pkg.initialise();
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

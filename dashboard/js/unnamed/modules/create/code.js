@@ -1,10 +1,10 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports, _js, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports2, _js, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.CreateModuleForm = void 0;
+  _exports2.hmr = _exports2.CreateModuleForm = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -133,7 +133,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/c
   *************************/
 
 
-  _exports.CreateModuleForm = CreateModuleForm;
+  _exports2.CreateModuleForm = CreateModuleForm;
 
   function AdditionalFields({
     children
@@ -912,6 +912,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/c
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-create-module .ds-create-module__breadcrumb-form{display:flex;gap:15px;padding:15px;align-items:center;background:#ffa789}.ds-create-module .ds-create-module__breadcrumb-form .beyond-icon{width:44px;height:44px}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb{display:flex;align-items:center;transition:.2s all ease-in}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb a{display:inline-grid;padding:5px;cursor:pointer;transition:all .2s linear}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb a:hover{text-decoration:underline}.ds-create-module .ds-create-module__template-form{padding:20px 40px}.ds-create-module .ds-create-module__template-form .additional-config{display:none}.ds-create-module .ds-create-module__template-form .additional-config.show{display:block}.ds-create-module .two-columns{display:grid;grid-gap:5px;grid-template-columns:1fr 1fr}.ds-create-module .three-columns{display:grid;grid-gap:5px;grid-template-columns:1fr 1fr 1fr}.ds-create-module .text-right{justify-content:end;text-align:right}.ds-create-module .steps{display:grid;grid-template-columns:1fr 1fr;justify-content:center;cursor:pointer}.ds-create-module .steps div{padding:15px;background:#f0f0f0}.ds-create-module .steps div.active{background:#a2000a;color:#fff}.ds-create-module form{display:grid;grid-template-columns:auto}.ds-create-module form .item{margin-top:15px}.ds-create-module form .item.two-columns{display:grid;grid-template-columns:1fr 1fr}.ds-create-module form .switch-option{display:flex;align-items:center;grid-gap:8px}.ds-create-module form .radio-group{display:grid}.ds-create-module form .item-vdir{display:flex;align-items:center;gap:8px;justify-content:center}.ds-create-module form .item-vdir input[type=number]{background:#f0f0f0;border:0;outline:0;padding:8px;width:90px}.ds-create-module form .title-separator{border-bottom:1px solid #f0f0f0}.ds-create-module footer{display:block;text-align:right}.ds-create-module .layout-selection{display:flex;width:100%;justify-content:center;flex-direction:column}.ds-create-module .layout-selection select{outline:0;padding:8px;width:100%;border:1px #82837f}.ds-create-module .ds-create-module_template-list{display:grid;grid-template-columns:1fr 1fr 1fr;grid-gap:8px;justify-content:center;align-self:start;transition:all .2s ease-in-out}.ds-create-module .ds-create-module_template-list .template-list__item{padding:40px;cursor:pointer}.ds-create-module .ds-create-module_template-list .template-list__item.active,.ds-create-module .ds-create-module_template-list .template-list__item:hover{background:#e4e5dc;transition:all .2s ease-in}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

@@ -1,11 +1,11 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/workspace-tree/code", "react", "react-dom"], function (_exports, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/workspace-tree/code", "react", "react-dom"], function (_exports2, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.AsideFavorites = AsideFavorites;
-  _exports.FavoritesModel = _exports.FavoritesFactory = _exports.FavoriteChildren = void 0;
+  _exports2.AsideFavorites = AsideFavorites;
+  _exports2.hmr = _exports2.FavoritesModel = _exports2.FavoritesFactory = _exports2.FavoriteChildren = void 0;
   //models
   //beyond-ui
   //CONTEXT
@@ -278,7 +278,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
   ****************/
 
 
-  _exports.FavoritesModel = FavoritesModel;
+  _exports2.FavoritesModel = FavoritesModel;
 
   class FavoriteChildren extends _js.ReactiveModel {
     _bundle;
@@ -374,7 +374,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
    */
 
 
-  _exports.FavoriteChildren = FavoriteChildren;
+  _exports2.FavoriteChildren = FavoriteChildren;
 
   class Factory extends _js.ReactiveModel {
     _items = new Map();
@@ -398,7 +398,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
   FILE: list-base.js
   *****************/
 
-  _exports.FavoritesFactory = FavoritesFactory;
+  _exports2.FavoritesFactory = FavoritesFactory;
 
   class FavoritesListBase extends _js.ReactiveModel {
     _name;
@@ -804,5 +804,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
 
   }
 
-  __pkg.initialise();
+  const modules = new Map();
+
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

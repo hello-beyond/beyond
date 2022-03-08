@@ -1,15 +1,11 @@
 .app-application-compile-page {
-
   header {
-
     padding: 15px;
     margin-bottom: 30px;
-
     h4, h5 {
       padding: 0;
       margin: 0;
     }
-
     h5 {
       margin-top: 8px;
       color: $beyond-primary-color;
@@ -18,12 +14,10 @@
 
   .panels {
     display: grid;
-
     .form-container {
       display: grid;
       grid-auto-flow: column;
     }
-
     .form-section {
       display: grid;
       grid-template-rows: 50px auto;
@@ -48,11 +42,9 @@
   }
 
   .block-options {
-
     @include selecteable-blocks(rgba(0, 0, 0, .5));
 
     display: flex;
-
     figure {
       flex: 1;
 
@@ -64,7 +56,6 @@
         color: $beyond-text-on-primary;
       }
     }
-
   }
 
   .checkbox-section, .flex-column {
@@ -74,7 +65,6 @@
 
   .flex-column {
     padding: 8px 15px;
-
     & + & {
       padding-left: 30px;
     }

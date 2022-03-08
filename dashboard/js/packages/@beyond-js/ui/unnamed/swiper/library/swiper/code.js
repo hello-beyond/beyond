@@ -1,6 +1,10 @@
-define([], function () {
+define(["exports"], function (_exports2) {
   "use strict";
 
+  Object.defineProperty(_exports2, "__esModule", {
+    value: true
+  });
+  _exports2.hmr = void 0;
   const {
     beyond
   } = globalThis;
@@ -4232,5 +4236,16 @@ define([], function () {
     return void 0 === W.use && (W.use = W.Class.use, W.installModule = W.Class.installModule), W.use(we), W;
   }); //# sourceMappingURL=swiper.min.js.map
 
-  __pkg.initialise();
+  const modules = new Map();
+
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

@@ -1,6 +1,10 @@
-define([], function () {
+define(["exports"], function (_exports2) {
   "use strict";
 
+  Object.defineProperty(_exports2, "__esModule", {
+    value: true
+  });
+  _exports2.txt = _exports2.hmr = void 0;
   const {
     beyond
   } = globalThis;
@@ -16,45 +20,68 @@ define([], function () {
 
   const __pkg = bundle.package('en');
 
-  __pkg.exports.process = (require, _exports) => _exports.txt = {
-    "panels": {
-      "tab": {
-        "actions": {
-          "splitRight": "Split Right",
-          "splitDown": "Split Down",
-          "close": "Close"
+  const modules = new Map();
+  /*********************
+  INTERNAL MODULE: ./txt
+  *********************/
+
+  modules.set('./txt', {
+    hash: 1037588558,
+    creator: function (require, exports) {
+      exports.txt = {
+        "panels": {
+          "tab": {
+            "actions": {
+              "splitRight": "Split Right",
+              "splitDown": "Split Down",
+              "close": "Close"
+            },
+            "labels": {
+              "apps": "Projects",
+              "navigator": "navigator",
+              "compile": "Compile app",
+              "static": "Static",
+              "app": "Application",
+              "appConfig": "Application config",
+              "module": "Module",
+              "settings": "Settings"
+            }
+          }
         },
-        "labels": {
-          "apps": "Projects",
-          "navigator": "navigator",
-          "compile": "Compile app",
-          "static": "Static",
-          "app": "Application",
-          "appConfig": "Application config",
-          "module": "Module",
-          "settings": "Settings"
+        "footer": {
+          "path": "pathname",
+          "project": "Project",
+          "projectEmpty": "No projects selected"
+        },
+        "early": {
+          "title2": "Introduce your name and access code to start with us",
+          "title": "The only framework for universal JavaScript",
+          "label": "Entry your early code access",
+          "action": "Start",
+          "error": "The code is invalid, try again",
+          "message": "BeyondJS is being launched in stages. We are actually offering early access for those who are interested to try  BeyondJS with us and to help with your appreciated feedback.`",
+          "inputs": {
+            "name": "Your name",
+            "code": "Code",
+            "email": "Email"
+          }
         }
-      }
-    },
-    "footer": {
-      "path": "pathname",
-      "project": "Project",
-      "projectEmpty": "No projects selected"
-    },
-    "early": {
-      "title2": "Introduce your name and access code to start with us",
-      "title": "The only framework for universal JavaScript",
-      "label": "Entry your early code access",
-      "action": "Start",
-      "error": "The code is invalid, try again",
-      "message": "BeyondJS is being launched in stages. We are actually offering early access for those who are interested to try  BeyondJS with us and to help with your appreciated feedback.`",
-      "inputs": {
-        "name": "Your name",
-        "code": "Code",
-        "email": "Email"
-      }
+      };
     }
+  });
+  let txt;
+  _exports2.txt = txt;
+
+  __pkg.exports.process = function (require, _exports) {
+    _exports2.txt = txt = _exports.txt = require('./txt').txt;
   };
 
-  __pkg.initialise();
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

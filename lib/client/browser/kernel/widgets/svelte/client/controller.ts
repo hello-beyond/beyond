@@ -1,7 +1,7 @@
 import {beyond, BeyondWidgetController} from "@beyond-js/kernel/core/ts";
 
 export /*bundle*/
-class SvelteWidgetController extends BeyondWidgetController {
+abstract class SvelteWidgetController extends BeyondWidgetController {
     #styles;
     #hmrStylesChanged = styles => {
         const {shadowRoot} = this.component;

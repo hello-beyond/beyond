@@ -21,9 +21,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts", 
   const __pkg = bundle.package();
 
   const modules = new Map();
-  /********************
-  FILE: renderWidget.ts
-  ********************/
+  /******************************
+  INTERNAL MODULE: ./renderWidget
+  ******************************/
 
   modules.set('./renderWidget', {
     hash: 1066115574,
@@ -85,9 +85,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts", 
       }
     }
   });
-  /****************
-  FILE: renderer.ts
-  ****************/
+  /**************************
+  INTERNAL MODULE: ./renderer
+  **************************/
 
   modules.set('./renderer', {
     hash: 763356026,
@@ -186,18 +186,19 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts", 
       exports.renderer = renderer;
     }
   });
-  const hmr = new function () {
-    this.on = (event, listener) => void 0;
-
-    this.off = (event, listener) => void 0;
-  }();
-  _exports2.hmr = hmr;
   let renderer;
   _exports2.renderer = renderer;
 
   __pkg.exports.process = function (require, _exports) {
     _exports2.renderer = renderer = _exports.renderer = require('./renderer').renderer;
   };
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
 
   __pkg.initialise(modules);
 });

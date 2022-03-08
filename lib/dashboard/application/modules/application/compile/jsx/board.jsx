@@ -2,8 +2,6 @@ const CompilerContext = React.createContext();
 const useCompilerContext = () => React.useContext(CompilerContext)
 
 export function CompileBoard(props) {
-
-    const [state, setState] = React.useState({});
     const [ready, setReady] = React.useState(controller.ready);
     const [finished, setFinished] = React.useState();
     const [selected, setSelected] = React.useState();

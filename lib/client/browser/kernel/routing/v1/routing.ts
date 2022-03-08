@@ -167,7 +167,13 @@ export class Routing {
         this.#manager.set(uri);
     };
 
-    back = () => window.history.length ? window.history.back() : this.pushState('/');
+    back() {
+        this.#history.back();
+    }
+
+    forward() {
+        this.#history.forward();
+    }
 }
 
 export /*bundle*/ const routing = new Routing;
@@ -179,6 +185,7 @@ declare const beyond: any;
 !ssr && ((<any>beyond).navigate = (uri: string, state?: object) => routing.pushState(uri, state));
 !ssr && ((<any>beyond).pushState = (uri: string, state?: object) => routing.pushState(uri, state));
 !ssr && ((<any>beyond).back = () => routing.back());
+!ssr && ((<any>beyond).forward = () => routing.forward());
 
 // Only on client side
 !ssr && window.addEventListener('popstate', () =>

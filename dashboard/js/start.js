@@ -264,9 +264,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
-      /*************
-      FILE: start.ts
-      *************/
+      /***********************
+      INTERNAL MODULE: ./start
+      ***********************/
 
       modules.set('./start', {
         hash: 1365629960,
@@ -278,6 +278,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           });
         }
       });
+
+      __pkg.exports.process = function (require, _exports) {};
+
       return modules;
     }
   });
@@ -290,9 +293,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
-      /*************
-      FILE: start.ts
-      *************/
+      /***********************
+      INTERNAL MODULE: ./start
+      ***********************/
 
       modules.set('./start', {
         hash: 658201554,
@@ -311,6 +314,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config, `packages/@beyond-js/ui/popper/vendor`);
         }
       });
+
+      __pkg.exports.process = function (require, _exports) {};
+
       return modules;
     }
   });
@@ -323,9 +329,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
-      /*************
-      FILE: start.ts
-      *************/
+      /***********************
+      INTERNAL MODULE: ./start
+      ***********************/
 
       modules.set('./start', {
         hash: 4059939561,
@@ -344,6 +350,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config, `packages/@beyond-js/ui/tippy/vendor`);
         }
       });
+
+      __pkg.exports.process = function (require, _exports) {};
+
       return modules;
     }
   });
@@ -356,9 +365,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
-      /*************
-      FILE: start.ts
-      *************/
+      /***********************
+      INTERNAL MODULE: ./start
+      ***********************/
 
       modules.set('./start', {
         hash: 3486166342,
@@ -377,6 +386,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config, `packages/@beyond-js/ui/waves/vendor`);
         }
       });
+
+      __pkg.exports.process = function (require, _exports) {};
+
       return modules;
     }
   });
@@ -389,9 +401,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
-      /*****************
-      FILE: bees-logs.ts
-      *****************/
+      /***************************
+      INTERNAL MODULE: ./bees-logs
+      ***************************/
 
       modules.set('./bees-logs', {
         hash: 3637047693,
@@ -408,6 +420,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })().catch(exc => console.error(exc.stack));
         }
       });
+
+      __pkg.exports.process = function (require, _exports) {};
+
       return modules;
     }
   });
@@ -420,9 +435,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
-      /*************
-      FILE: start.ts
-      *************/
+      /***********************
+      INTERNAL MODULE: ./start
+      ***********************/
 
       modules.set('./start', {
         hash: 1508892331,
@@ -471,9 +486,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
-      /*************
-      FILE: start.ts
-      *************/
+      /***********************
+      INTERNAL MODULE: ./start
+      ***********************/
 
       modules.set('./start', {
         hash: 3153178789,
@@ -492,6 +507,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           })(requirejs.config);
         }
       });
+
+      __pkg.exports.process = function (require, _exports) {};
+
       return modules;
     }
   });

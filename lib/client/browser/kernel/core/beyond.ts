@@ -139,7 +139,7 @@ export class Beyond {
                 const path = pathname.split('/');
                 path.pop(); // Remove 'index.html'
                 path.join('/');
-                return `${protocol}//${path}`;
+                return `${protocol}//${path.join('/')}`;
             } else {
                 const baseUrl = this.#baseDir === '/' ? '' : this.#baseDir;
                 return `${protocol}//${host}${baseUrl}`;

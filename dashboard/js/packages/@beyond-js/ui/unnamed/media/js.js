@@ -1,13 +1,14 @@
-define(["exports"], function (_exports) {
+define(["exports"], function (_exports2) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.ResourceSelectorError = void 0;
-  _exports.getResource = getResource;
-  _exports.imageProcessor = imageProcessor;
-  _exports.resizePicture = void 0;
+  _exports2.ResourceSelectorError = void 0;
+  _exports2.getResource = getResource;
+  _exports2.hmr = void 0;
+  _exports2.imageProcessor = imageProcessor;
+  _exports2.resizePicture = void 0;
   const {
     beyond
   } = globalThis;
@@ -102,7 +103,7 @@ define(["exports"], function (_exports) {
   ***********************/
 
 
-  _exports.resizePicture = resizePicture;
+  _exports2.resizePicture = resizePicture;
 
   function imageProcessor(pictureURL) {
     let img = new Image();
@@ -377,7 +378,17 @@ define(["exports"], function (_exports) {
 
   }
 
-  _exports.ResourceSelectorError = ResourceSelectorError;
+  _exports2.ResourceSelectorError = ResourceSelectorError;
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

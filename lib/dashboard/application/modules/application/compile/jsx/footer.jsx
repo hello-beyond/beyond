@@ -1,5 +1,4 @@
 export function Footer() {
-
     const {finished, application, setFinished, selected, setFetching} = useCompilerContext();
     const [messages, setMessages] = React.useState([]);
     const list = React.useRef(null);
@@ -10,13 +9,18 @@ export function Footer() {
         setFetching(true);
         window.b = application.builder;
 
-        application.builder.bind('change', () => {
-            const {messages} = application.builder;
-            const size = messages.length;
+        const setMessage = (entries, error) => {
+            const size = entries.length;
             if (!size) return;
             const item = document.createElement('li');
-            item.innerHTML = messages[size - 1].text;
+            error && (item.className = 'error');
+            item.innerHTML = entries[size - 1].text;
             list.current.appendChild(item);
+        };
+        application.builder.bind('change', () => {
+            const {messages, error} = application.builder;
+            messages && setMessage(messages);
+            error && setMessage(error, true);
         });
         await application.builder.build({name, platform, environment});
         setFetching(false);
@@ -25,15 +29,12 @@ export function Footer() {
 
     return (
         <>
-            {
-                !finished && (
-                    <div className="compile__action">
-                        <BeyondButton className="btn primary" onClick={compile}>Compilar</BeyondButton>
-                    </div>
-                )
+            {!finished &&
+                <div className="compile__action">
+                    <BeyondButton className="btn primary" onClick={compile}>Compilar</BeyondButton>
+                </div>
             }
             <ul className="compile__trace__list" ref={list}/>
         </>
-
     )
 }

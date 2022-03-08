@@ -1,10 +1,10 @@
-define(["exports"], function (_exports) {
+define(["exports"], function (_exports2) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.ReactiveModel = _exports.ModuleBundleBuilder = _exports.ApplicationBuilder = void 0;
+  _exports2.hmr = _exports2.ReactiveModel = _exports2.ModuleBundleBuilder = _exports2.ApplicationBuilder = void 0;
   const {
     beyond
   } = globalThis;
@@ -135,7 +135,7 @@ define(["exports"], function (_exports) {
   ***************************************/
 
 
-  _exports.ReactiveModel = ReactiveModel;
+  _exports2.ReactiveModel = ReactiveModel;
 
   class ApplicationBuilder extends ReactiveModel {
     #id;
@@ -449,7 +449,7 @@ define(["exports"], function (_exports) {
   **********************************/
 
 
-  _exports.ApplicationBuilder = ApplicationBuilder;
+  _exports2.ApplicationBuilder = ApplicationBuilder;
 
   async function create(parent) {
     if (!parent.name) throw new Error('Name is required');
@@ -595,7 +595,7 @@ define(["exports"], function (_exports) {
    */
 
 
-  _exports.ModuleBundleBuilder = ModuleBundleBuilder;
+  _exports2.ModuleBundleBuilder = ModuleBundleBuilder;
 
   class ModuleBundle extends ReactiveModel {
     _id;
@@ -815,6 +815,16 @@ define(["exports"], function (_exports) {
       required: ['name']
     }
   };
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

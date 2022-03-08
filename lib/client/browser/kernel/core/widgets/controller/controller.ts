@@ -1,4 +1,3 @@
-import type {BeyondWidget} from '../widget/widget';
 import type {BundleStyles} from '../../bundles/styles/styles';
 import {instances} from '../../bundles/instances/instances';
 import {BeyondWidgetControllerBase, IWidgetStore} from './base';
@@ -14,6 +13,12 @@ declare const __beyond_hydrator: {
  */
 export /*bundle*/
 abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
+    // The widget component to be mounted (can be a React, Svelte, Vue, ... component)
+    get Widget(): any {
+        if (super.Widget) return super.Widget;
+        return this.bundle.package().exports.values.Widget;
+    }
+
     readonly #component: HTMLElement;
     get component() {
         return this.#component;
@@ -76,14 +81,14 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
         const global: HTMLLinkElement = document.createElement('link');
 
         const {beyond} = require('../../beyond');
-        const {baseUrl} = beyond;
+        const {baseDir} = beyond;
         global.type = 'text/css';
-        global.href = `${baseUrl}global.css`;
+        global.href = `${baseDir}global.css`;
         global.rel = 'stylesheet';
         this.component.shadowRoot.appendChild(global);
     }
 
-    abstract mount(Widget: typeof BeyondWidget): void;
+    abstract mount(): void;
 
     abstract unmount(): void;
 
@@ -94,14 +99,7 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
             this.#attributes.body = this.#body;
         }
 
-        const {Widget} = this.bundle.package().exports.values;
-        if (!Widget) {
-            const message = `Widget "${this.element}" does not export a Widget class`;
-            console.error(message);
-            return;
-        }
-
-        this.mount(Widget);
+        this.mount();
 
         // Once the widget is hydrated, next HMR refreshes are standard render calls
         this.#hydratable = false;
@@ -117,6 +115,8 @@ abstract class BeyondWidgetController extends BeyondWidgetControllerBase {
     #refresh = () => this.refresh();
 
     initialise() {
+        if (!this.Widget) throw new Error(`Widget controller of bundle "${this.bundle.id}" does not expose a Widget property`);
+
         const {component} = this;
         this.#store = this.createStore?.();
 

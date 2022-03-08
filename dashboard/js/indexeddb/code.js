@@ -1,10 +1,10 @@
-define(["exports"], function (_exports) {
+define(["exports"], function (_exports2) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.BeyondDB = void 0;
+  _exports2.hmr = _exports2.BeyondDB = void 0;
   const {
     beyond
   } = globalThis;
@@ -229,7 +229,7 @@ define(["exports"], function (_exports) {
   FILE: store\by-index.js
   **********************/
 
-  _exports.BeyondDB = BeyondDB;
+  _exports2.BeyondDB = BeyondDB;
 
   function byIndex(parent) {
     /**
@@ -538,5 +538,16 @@ define(["exports"], function (_exports) {
     if (name) load();
   }
 
-  __pkg.initialise();
+  const modules = new Map();
+
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

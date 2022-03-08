@@ -1,10 +1,11 @@
-define(["exports", "react", "react-dom"], function (_exports, dependency_0, dependency_1) {
+define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.BeyondAlert = BeyondAlert;
+  _exports2.BeyondAlert = BeyondAlert;
+  _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -92,6 +93,16 @@ define(["exports", "react", "react-dom"], function (_exports, dependency_0, depe
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyondalert{padding:15px;color:#fff;margin:10px 0;margin-bottom:20px;display:grid;align-items:center;align-content:center;border-radius:2px;box-shadow:0 10px 13px -7px #000,0 2px 11px 3px transparent}.beyondalert.alert-icon,.beyondalert.alert-icon-left{grid-template-columns:auto 1fr}.beyondalert.alert-icon-right{grid-template-columns:1fr auto}._beyond-alert{border-radius:5px;margin:10px 0;padding:10px}._beyond-alert .alert-icon{padding:0 10px;display:flex}._beyond-alert h3{margin:0;text-transform:uppercase}._beyond-alert p{margin:0;text-transform:uppercase}._beyond-alert.info{background-color:gray}._beyond-alert.success{background:green}._beyond-alert.danger,._beyond-alert.error{background:red}._beyond-alert.warning{background:#ff0}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

@@ -1,11 +1,12 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.COMPONENTS = void 0;
-  _exports.Page = Page;
+  _exports2.COMPONENTS = void 0;
+  _exports2.Page = Page;
+  _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -256,7 +257,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   FILE: page.js
   ************/
 
-  _exports.COMPONENTS = COMPONENTS;
+  _exports2.COMPONENTS = COMPONENTS;
 
   function Page() {
     const wrapper = document.createElement('div');
@@ -274,6 +275,16 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.home-beyond-ui header{padding-bottom:15px;border-bottom:solid 1px gray}.home-beyond-ui header h1{padding-bottom:20px;padding-top:0}.home-beyond-ui header p{color:#b7b7b6;width:80%}.home-beyond-ui .container-components{padding-top:40px;display:grid;grid-template-columns:1fr 1fr 1fr;grid-gap:40px}.home-beyond-ui .container-components .component{position:relative;padding:15px;border-radius:4px;box-shadow:2px .175em .5em rgba(2,8,20,.1),0 .085em .375em;cursor:pointer;transition:.5s background}.home-beyond-ui .container-components .component:hover{background:#e36152}.home-beyond-ui .container-components .component svg{background:#fff;border-radius:50%;padding:8px}.home-beyond-ui .container-components .component p{font-size:12px;text-align:justify}.home-beyond-ui .container-components .component .beyond-icon{height:40px;width:40px;position:relative;fill:#1e2d42}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

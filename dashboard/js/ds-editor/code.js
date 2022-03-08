@@ -1,14 +1,14 @@
-define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "react", "react-dom"], function (_exports, _code, _js, _code2, _code3, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "react", "react-dom"], function (_exports2, _code, _js, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.Editor = void 0;
-  _exports.EditorView = EditorView;
-  _exports.MonacoDependency = void 0;
-  _exports.getEditorManager = getEditorManager;
-  _exports.monacoDependency = void 0;
+  _exports2.Editor = void 0;
+  _exports2.EditorView = EditorView;
+  _exports2.MonacoDependency = void 0;
+  _exports2.getEditorManager = getEditorManager;
+  _exports2.monacoDependency = _exports2.hmr = void 0;
   //dashboard
   //models
   //CONTEXTS
@@ -141,7 +141,7 @@ export const module = <Module>null;
 
   }
 
-  _exports.MonacoDependency = MonacoDependency;
+  _exports2.MonacoDependency = MonacoDependency;
   const monacoDependency = new MonacoDependency();
   /**************
   FILE: editor.js
@@ -152,7 +152,7 @@ export const module = <Module>null;
    *
    */
 
-  _exports.monacoDependency = monacoDependency;
+  _exports2.monacoDependency = monacoDependency;
 
   class Editor extends _js.ReactiveModel {
     #type;
@@ -556,7 +556,7 @@ export const module = <Module>null;
    */
 
 
-  _exports.Editor = Editor;
+  _exports2.Editor = Editor;
   const managers = new Map();
   /**
    * Manages the editor instances created by the panels
@@ -930,6 +930,16 @@ export const module = <Module>null;
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-editor__container{display:flex;flex-wrap:wrap;flex-basis:100%;position:relative;width:100%;height:100%}.ds-editor__container .vs-editor{width:100%;height:100%}.ds-editor__container:not(:last-child){border-right:1px solid #e36152}.ds-editor__container .ds-editor__icons{position:absolute;right:20px;top:20px;z-index:200;fill:#E36152}.beyond-element-modal.ds-modal .ds-modal-editor{padding:30px}.beyond-element-modal.ds-modal .ds-modal-editor form{width:100%;display:grid;grid-gap:15px}.beyond-element-modal.ds-modal .ds-modal-editor .beyond-alert{margin-bottom:30px}.beyond-element-modal.ds-modal .ds-modal-editor input{border:1px solid #e4e5dc;outline:0;padding:8px;width:100%}.beyond-element-modal.ds-modal .ds-modal-editor input:focus,.beyond-element-modal.ds-modal .ds-modal-editor input:hover{border:1px solid #82837f}.beyond-element-modal.ds-modal .ds-modal-editor .actions{display:grid;justify-items:center}.beyond-element-modal.ds-modal .ds-modal-editor .actions .beyond-button{margin-top:30px;min-width:200px}.ds-page.ds-editor-page .preload-content{display:flex;height:100%;width:100%;align-items:center;justify-content:center}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

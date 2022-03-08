@@ -37,7 +37,15 @@ abstract class BeyondWidgetControllerBase {
         return this.#specs.layout;
     }
 
-    abstract createStore(): IWidgetStore;
+    // The widget component to be mounted should be specified by the module
+    // (can be a React, Svelte, Vue, ... component)
+    get Widget(): any {
+        return;
+    }
+
+    createStore(): IWidgetStore {
+        return void 0;
+    }
 
     protected constructor({specs, component}: Partial<{ specs: WidgetSpecs, component: HTMLElement }>) {
         if (!specs) {

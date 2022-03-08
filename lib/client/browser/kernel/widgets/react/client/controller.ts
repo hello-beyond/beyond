@@ -5,12 +5,18 @@ import {BeyondWidgetController} from '@beyond-js/kernel/core/ts';
 
 export /*bundle*/
 abstract class ReactWidgetController extends BeyondWidgetController {
-    mount(Widget: any) {
+    _mount(props: any) {
+        const method = this.hydratable ? 'hydrate' : 'render';
+
         // Render the widget
-        ReactDOM.render(React.createElement(Widget, {
+        ReactDOM[method](React.createElement(this.Widget, props), this.body);
+    }
+
+    mount() {
+        this._mount({
             component: this.component,
             store: this.store
-        }), this.body);
+        });
     }
 
     unmount() {

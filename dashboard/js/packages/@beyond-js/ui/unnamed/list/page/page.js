@@ -1,10 +1,11 @@
-define(["exports", "@beyond-js/ui/import/code", "@beyond-js/ui/list/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/import/code", "@beyond-js/ui/list/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.Page = Page;
+  _exports2.Page = Page;
+  _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -57,5 +58,16 @@ define(["exports", "@beyond-js/ui/import/code", "@beyond-js/ui/list/code", "reac
     this.container.appendChild(wrapper);
   }
 
-  __pkg.initialise();
+  const modules = new Map();
+
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

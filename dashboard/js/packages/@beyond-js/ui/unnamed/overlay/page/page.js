@@ -1,10 +1,11 @@
-define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/toolbar/code", "@beyond-js/ui/import/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/toolbar/code", "@beyond-js/ui/import/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.Page = Page;
+  _exports2.Page = Page;
+  _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -126,6 +127,16 @@ define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/toolbar/code", "
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}#elements-overlay-page .overlay-content{position:absolute;bottom:0;right:0;left:0;height:227px;display:grid;background:gray}#elements-overlay-page .overlay-content .overlay-header{padding:15px 15px 0}#elements-overlay-page .overlay-content .overlay-header .title{font-size:16px;font-weight:500;letter-spacing:.15px;color:var(--beyond-element-secondary-text-color)}#elements-overlay-page .overlay-content .overlay-actions-link,#elements-overlay-page .overlay-content .overlay-main{display:grid;padding:30px 15px;grid-auto-flow:column}#elements-overlay-page .overlay-content .overlay-actions-link .item,#elements-overlay-page .overlay-content .overlay-main .item{display:grid;justify-items:center;background:0 0;box-shadow:none}#elements-overlay-page .overlay-content .overlay-add-link{display:grid;padding:0 15px;grid-row-gap:15px}#elements-overlay-page .overlay-content .overlay-add-link input{padding:7px 0}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

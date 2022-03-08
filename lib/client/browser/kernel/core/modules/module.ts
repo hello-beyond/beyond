@@ -4,7 +4,7 @@ import {Bundles} from "../bundles/bundles";
 import {Application} from "../application/application";
 import {PackageData} from "../package/data";
 import type {Library} from "../libraries/library";
-import type {Socket} from "socket.io";
+import type {Socket} from "socket.io-client";
 import type {Beyond} from "../beyond";
 
 export type Container = Application | Library;

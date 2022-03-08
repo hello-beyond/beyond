@@ -1,11 +1,12 @@
-define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.BeyondPicture = void 0;
-  _exports.BeyondPictureModel = BeyondPictureModel;
+  _exports2.BeyondPicture = void 0;
+  _exports2.BeyondPictureModel = BeyondPictureModel;
+  _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -101,7 +102,7 @@ define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@b
   ***************/
 
 
-  _exports.BeyondPicture = BeyondPicture;
+  _exports2.BeyondPicture = BeyondPicture;
 
   function BeyondPictureModel() {
     let url;
@@ -246,6 +247,16 @@ define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@b
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.content-picture{display:flex;position:relative}.content-picture .upload-picture{position:absolute;right:50px;bottom:20px;border:var(--beyond-text-on-primary) 2px solid}.content-picture .upload-picture svg{position:absolute;top:6px;left:6px;height:23px;width:23px;fill:var(--beyond-text-on-primary)}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

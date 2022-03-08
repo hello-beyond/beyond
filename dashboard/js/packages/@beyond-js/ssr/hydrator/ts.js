@@ -1,9 +1,9 @@
 let __pkg = {exports: {}};
 const modules = new Map();
 
-/********************
-FILE: base\package.ts
-********************/
+/******************************
+INTERNAL MODULE: ./base/package
+******************************/
 
 modules.set('./base/package', {hash: 1737385652, creator: function (require, exports) {
 "use strict";
@@ -84,9 +84,9 @@ class BeyondPackage {
 exports.BeyondPackage = BeyondPackage;
 }});
 
-/**************
-FILE: config.ts
-**************/
+/************************
+INTERNAL MODULE: ./config
+************************/
 
 modules.set('./config', {hash: 605659058, creator: function (require, exports) {
 "use strict";
@@ -117,9 +117,9 @@ const config = new class {
 exports.config = config;
 }});
 
-/****************
-FILE: hydrator.ts
-****************/
+/**************************
+INTERNAL MODULE: ./hydrator
+**************************/
 
 modules.set('./hydrator', {hash: 979596099, creator: function (require, exports) {
 "use strict";
@@ -154,9 +154,9 @@ window.onload = () => {
 };
 }});
 
-/*******************************
-FILE: widgets\layout-children.ts
-*******************************/
+/*****************************************
+INTERNAL MODULE: ./widgets/layout-children
+*****************************************/
 
 modules.set('./widgets/layout-children', {hash: 2598113192, creator: function (require, exports) {
 "use strict";
@@ -222,9 +222,9 @@ class BeyondLayoutChildren extends HTMLElement {
 customElements.define('beyond-layout-children', BeyondLayoutChildren);
 }});
 
-/**********************
-FILE: widgets\widget.ts
-**********************/
+/********************************
+INTERNAL MODULE: ./widgets/widget
+********************************/
 
 modules.set('./widgets/widget', {hash: 1779661803, creator: function (require, exports) {
 "use strict";
@@ -296,9 +296,9 @@ class Widget extends HTMLElement {
 exports.Widget = Widget;
 }});
 
-/***********************
-FILE: widgets\widgets.ts
-***********************/
+/*********************************
+INTERNAL MODULE: ./widgets/widgets
+*********************************/
 
 modules.set('./widgets/widgets', {hash: 2550769118, creator: function (require, exports) {
 "use strict";
@@ -361,6 +361,12 @@ const widgets = new class {
 exports.widgets = widgets;
 }});
 
+__pkg.exports.process = function(require, _exports) {
+};
+export const hmr = new (function () {
+    this.on = (event, listener) => void 0;
+    this.off = (event, listener) => void 0;
+});
 
 
 const __bp = {};

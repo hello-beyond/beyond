@@ -1,10 +1,10 @@
-define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.TabsContent = _exports.Tabs = _exports.BeyondTabs = _exports.BeyondTab = void 0;
+  _exports2.hmr = _exports2.TabsContent = _exports2.Tabs = _exports2.BeyondTabs = _exports2.BeyondTab = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -55,7 +55,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
   **********/
 
 
-  _exports.BeyondTabs = BeyondTabs;
+  _exports2.BeyondTabs = BeyondTabs;
   const TabsContext = React.createContext();
 
   function TabsContextProvider({
@@ -121,7 +121,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
   ***************/
 
 
-  _exports.BeyondTab = BeyondTab;
+  _exports2.BeyondTab = BeyondTab;
 
   class TabsContent extends React.Component {
     render() {
@@ -136,7 +136,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
 
   }
 
-  _exports.TabsContent = TabsContent;
+  _exports2.TabsContent = TabsContent;
   TabsContent.contextType = TabsContext;
   /*******
   tabs.jsx
@@ -197,7 +197,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
 
   }
 
-  _exports.Tabs = Tabs;
+  _exports2.Tabs = Tabs;
   Tabs.contextType = TabsContext;
   /**********
   SCSS STYLES
@@ -206,6 +206,16 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-tabs .beyond-tabs-content{position:relative}.beyond-tabs-container{display:flex;height:100%;width:100%;position:relative;flex-direction:column}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items{width:50px;height:100%;position:relative}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items .tabs-container{position:sticky;top:8px}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items{display:flex;background:#d3d3d3;height:100%}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items .tabs-container{width:100%;display:flex}.beyond-tabs-container .beyond-tabs-items{z-index:999}.beyond-tabs-container .beyond-tabs-items .beyond-tab{display:flex;align-items:center;justify-content:center;position:relative;padding:15px;flex-grow:1}.beyond-tabs-container .beyond-tabs-items .beyond-tab.tab-active svg{fill:white}.beyond-tabs-container .beyond-tabs-items .beyond-tab svg{margin:auto;cursor:pointer}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

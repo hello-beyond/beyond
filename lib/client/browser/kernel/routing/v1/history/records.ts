@@ -1,56 +1,84 @@
 import {HistoryPosition} from "./position";
 
+interface IHistoryEntry {
+    uri: string,
+    position: number,
+}
+
 export class HistoryRecords {
     readonly #position: HistoryPosition;
-    #records: string[] = [];
 
-    get data(): string[] {
-        return this.#records.slice();
+    #entries: IHistoryEntry[] = [];
+    get entries(): IHistoryEntry[] {
+        return this.#entries.slice();
     }
 
     get length(): number {
-        return this.#records.length;
+        return this.#entries.length;
     }
 
-    get current(): string {
-        return this.#records[this.#position.value - 1]
+    get current(): IHistoryEntry {
+        return this.#entries[this.#position.value - 1]
     }
 
-    get previous(): string {
-        return this.#records[this.#position.value - 2];
+    get previous(): IHistoryEntry {
+        const previous = this.#position.value - 2;
+        if (previous < 0) return;
+        return this.#entries[previous];
     }
 
-    get following(): string {
-        return this.#records[this.#position.value];
+    get following(): IHistoryEntry {
+        const following = this.#position.value;
+        if (following >= this.#entries.length) return;
+        return this.#entries[following];
     }
 
     constructor(position: HistoryPosition) {
         this.#position = position;
 
+        let parsed: IHistoryEntry[];
         try {
-            let stored: any = sessionStorage.getItem('__beyond_navigation_records');
-            stored = JSON.parse(stored);
-            this.#records = (stored instanceof Array) ? stored : [];
+            const stored = sessionStorage.getItem('__beyond_navigation_records');
+            parsed = stored ? JSON.parse(stored) : [];
         } catch (exc) {
             console.error('Error loading beyond navigation state', exc instanceof Error ? exc.stack : exc);
-            this.#records = [];
+            this.#entries = [];
         }
+
+        if (!(parsed instanceof Array)) {
+            const warning = 'The beyond navigation data, stored in session store is invalid.';
+            console.warn(warning, parsed);
+        }
+
+        this.#entries = parsed;
     }
 
+    /**
+     * Set the URI always starting with '/' no matter the routing mode (hash or pathname)
+     *
+     * @param {string} uri
+     * @return {string}
+     */
+    #sanitizeURI(uri: string): string {
+        void (this);
+        if (uri === void 0) return;
+        return uri.startsWith('/') ? uri : `/${uri}`;
+    }
 
-    get = (index: number) => this.#records[index];
+    get(index: number): IHistoryEntry {
+        return this.#entries[index];
+    }
+
 
     /**
      * Push a uri to the records stored in the sessionStorage
      * @param {string} uri
      */
     push(uri: string): void {
-        this.#records.push(uri);
-        sessionStorage.setItem('__beyond_navigation_records', JSON.stringify(this.#records));
-
-        const position = this.#records.length.toString();
-        sessionStorage.setItem('__beyond_navigation_position', position);
-    };
+        uri = this.#sanitizeURI(uri);
+        this.#entries.push({uri, position: history.length});
+        this.save();
+    }
 
     /**
      * Reset the list of records from the current position
@@ -59,18 +87,25 @@ export class HistoryRecords {
      *      2. The user goes back in the history (ex: to position 1: page1)
      *      3. The user navigates another page (ex: page3)
      *
-     * In step 3 is required this method, to clean the records from position 1, and after this
+     * This method is required in step 3, to clean the records from position 1, and after this
      * execution, the navigation flow can push page3
      */
-    resetFromPosition(): void {
-        const position = this.#position.getFromSessionStorage();
-        position && position < this.#records.length ?
-            this.#records = this.#records.slice(0, position) : null;
-    };
+    reset(): void {
+        const position = this.#position.value;
+        if (position) return;
+
+        this.#entries = this.#entries.filter(entry => entry.position < history.length);
+    }
 
     updateCurrentURI(uri: string): void {
-        const position = this.#position.getFromSessionStorage();
-        this.#records[position - 1] = uri;
-        sessionStorage.setItem('__beyond_navigation_records', JSON.stringify(this.#records));
+        const position = this.#position.value;
+
+        uri = this.#sanitizeURI(uri);
+        this.#entries[position - 1] = {uri, position: history.length};
+        this.save();
+    }
+
+    save() {
+        sessionStorage.setItem('__beyond_navigation_records', JSON.stringify(this.#entries));
     }
 }

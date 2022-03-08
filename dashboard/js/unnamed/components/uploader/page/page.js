@@ -1,12 +1,12 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/alert/code", "/components/uploader/code", "/libraries/beyond-dashboard/js", "/libraries/beyond-dashboard/ts", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _js, _ts, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/alert/code", "/components/uploader/code", "/libraries/beyond-dashboard/js", "/libraries/beyond-dashboard/ts", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, _js, _ts, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.MediaItem = _exports.JGalleryContext = _exports.Item = void 0;
-  _exports.Page = Page;
-  _exports.useJGalleryContext = void 0;
+  _exports2.MediaItem = _exports2.JGalleryContext = _exports2.Item = void 0;
+  _exports2.Page = Page;
+  _exports2.useJGalleryContext = _exports2.hmr = void 0;
   //Beyond
   //Jida library
   //Beyond-Dashboard
@@ -31,7 +31,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   **********/
 
   const JGalleryContext = React.createContext();
-  _exports.JGalleryContext = JGalleryContext;
+  _exports2.JGalleryContext = JGalleryContext;
 
   const useJGalleryContext = () => React.useContext(JGalleryContext);
   /***************
@@ -39,7 +39,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   ***************/
 
 
-  _exports.useJGalleryContext = useJGalleryContext;
+  _exports2.useJGalleryContext = useJGalleryContext;
 
   function GalleryItem({
     item
@@ -234,7 +234,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   ******************/
 
 
-  _exports.Item = Item;
+  _exports2.Item = Item;
 
   class MediaItem extends Item {
     _id;
@@ -312,7 +312,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   ************/
 
 
-  _exports.MediaItem = MediaItem;
+  _exports2.MediaItem = MediaItem;
 
   function Page() {
     const controller = new UIController();
@@ -460,5 +460,16 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
 
   }
 
-  __pkg.initialise();
+  const modules = new Map();
+
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

@@ -1,6 +1,6 @@
 import {module} from 'beyond_context';
 import {Events} from '@beyond-js/kernel/core/ts';
-import type {Socket} from "socket.io";
+import type {Socket} from "socket.io-client";
 
 new class ApplicationStyles extends Events {
     /**

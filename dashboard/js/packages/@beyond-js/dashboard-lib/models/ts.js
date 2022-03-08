@@ -20,9 +20,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   const __pkg = bundle.package();
 
   const modules = new Map();
-  /************************************
-  FILE: applications\builder\builder.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./applications/builder/builder
+  **********************************************/
 
   modules.set('./applications/builder/builder', {
     hash: 1453316079,
@@ -137,9 +137,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationBuilder = ApplicationBuilder;
     }
   });
-  /***********************************
-  FILE: applications\builder\builds.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./applications/builder/builds
+  *********************************************/
 
   modules.set('./applications/builder/builds', {
     hash: 158024195,
@@ -169,9 +169,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationBuilds = ApplicationBuilds;
     }
   });
-  /*******************************
-  FILE: applications\collection.ts
-  *******************************/
+  /*****************************************
+  INTERNAL MODULE: ./applications/collection
+  *****************************************/
 
   modules.set('./applications/collection', {
     hash: 2012231745,
@@ -199,9 +199,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Applications = Applications;
     }
   });
-  /*********************************
-  FILE: applications\declarations.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./applications/declarations
+  *******************************************/
 
   modules.set('./applications/declarations', {
     hash: 889764594,
@@ -339,9 +339,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationDeclarations = ApplicationDeclarations;
     }
   });
-  /*******************************************
-  FILE: applications\deployments\collection.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./applications/deployments/collection
+  *****************************************************/
 
   modules.set('./applications/deployments/collection', {
     hash: 3131748020,
@@ -369,9 +369,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationDeployments = ApplicationDeployments;
     }
   });
-  /*********************************************************
-  FILE: applications\deployments\distributions\collection.ts
-  *********************************************************/
+  /*******************************************************************
+  INTERNAL MODULE: ./applications/deployments/distributions/collection
+  *******************************************************************/
 
   modules.set('./applications/deployments/distributions/collection', {
     hash: 1364804100,
@@ -399,9 +399,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationDistributions = ApplicationDistributions;
     }
   });
-  /***************************************************
-  FILE: applications\deployments\distributions\item.ts
-  ***************************************************/
+  /*************************************************************
+  INTERNAL MODULE: ./applications/deployments/distributions/item
+  *************************************************************/
 
   modules.set('./applications/deployments/distributions/item', {
     hash: 1900963609,
@@ -471,9 +471,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationDistribution = ApplicationDistribution;
     }
   });
-  /*******************************************************
-  FILE: applications\deployments\distributions\register.ts
-  *******************************************************/
+  /*****************************************************************
+  INTERNAL MODULE: ./applications/deployments/distributions/register
+  *****************************************************************/
 
   modules.set('./applications/deployments/distributions/register', {
     hash: 906694623,
@@ -504,9 +504,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('applications-distributions', specs);
     }
   });
-  /*************************************
-  FILE: applications\deployments\item.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./applications/deployments/item
+  ***********************************************/
 
   modules.set('./applications/deployments/item', {
     hash: 2098909840,
@@ -564,9 +564,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationDeployment = ApplicationDeployment;
     }
   });
-  /*****************************************
-  FILE: applications\deployments\register.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./applications/deployments/register
+  ***************************************************/
 
   modules.set('./applications/deployments/register', {
     hash: 2542186834,
@@ -609,9 +609,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('applications-deployments', specs);
     }
   });
-  /*************************
-  FILE: applications\item.ts
-  *************************/
+  /***********************************
+  INTERNAL MODULE: ./applications/item
+  ***********************************/
 
   modules.set('./applications/item', {
     hash: 1878293943,
@@ -797,9 +797,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Application = Application;
     }
   });
-  /*****************************************
-  FILE: applications\libraries\collection.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./applications/libraries/collection
+  ***************************************************/
 
   modules.set('./applications/libraries/collection', {
     hash: 161087978,
@@ -828,9 +828,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationLibraries = ApplicationLibraries;
     }
   });
-  /***********************************
-  FILE: applications\libraries\item.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./applications/libraries/item
+  *********************************************/
 
   modules.set('./applications/libraries/item', {
     hash: 296527257,
@@ -887,9 +887,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationLibrary = ApplicationLibrary;
     }
   });
-  /***************************************
-  FILE: applications\libraries\register.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./applications/libraries/register
+  *************************************************/
 
   modules.set('./applications/libraries/register', {
     hash: 867729569,
@@ -949,9 +949,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('applications-libraries', specs);
     }
   });
-  /***********************************
-  FILE: applications\modules\bundle.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./applications/modules/bundle
+  *********************************************/
 
   modules.set('./applications/modules/bundle', {
     hash: 1126817507,
@@ -1008,9 +1008,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationModuleBundle = ApplicationModuleBundle;
     }
   });
-  /***************************************
-  FILE: applications\modules\collection.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./applications/modules/collection
+  *************************************************/
 
   modules.set('./applications/modules/collection', {
     hash: 1516841024,
@@ -1084,9 +1084,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationModules = ApplicationModules;
     }
   });
-  /*********************************
-  FILE: applications\modules\item.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./applications/modules/item
+  *******************************************/
 
   modules.set('./applications/modules/item', {
     hash: 1124796050,
@@ -1274,9 +1274,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationModule = ApplicationModule;
     }
   });
-  /*************************************
-  FILE: applications\modules\register.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./applications/modules/register
+  ***********************************************/
 
   modules.set('./applications/modules/register', {
     hash: 2966258795,
@@ -1346,9 +1346,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('applications-modules', specs);
     }
   });
-  /*****************************
-  FILE: applications\register.ts
-  *****************************/
+  /***************************************
+  INTERNAL MODULE: ./applications/register
+  ***************************************/
 
   modules.set('./applications/register', {
     hash: 1467085930,
@@ -1449,9 +1449,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('applications', specs);
     }
   });
-  /**************************************
-  FILE: applications\static\collection.ts
-  **************************************/
+  /************************************************
+  INTERNAL MODULE: ./applications/static/collection
+  ************************************************/
 
   modules.set('./applications/static/collection', {
     hash: 1775327297,
@@ -1479,9 +1479,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationStatics = ApplicationStatics;
     }
   });
-  /********************************
-  FILE: applications\static\item.ts
-  ********************************/
+  /******************************************
+  INTERNAL MODULE: ./applications/static/item
+  ******************************************/
 
   modules.set('./applications/static/item', {
     hash: 851612974,
@@ -1539,9 +1539,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ApplicationStatic = ApplicationStatic;
     }
   });
-  /************************************
-  FILE: applications\static\register.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./applications/static/register
+  **********************************************/
 
   modules.set('./applications/static/register', {
     hash: 1982790997,
@@ -1575,9 +1575,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('applications-static', specs);
     }
   });
-  /****************************
-  FILE: bees\builder\builder.ts
-  ****************************/
+  /**************************************
+  INTERNAL MODULE: ./bees/builder/builder
+  **************************************/
 
   modules.set('./bees/builder/builder', {
     hash: 1869070163,
@@ -1664,9 +1664,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ServiceBuilder = ServiceBuilder;
     }
   });
-  /***************************
-  FILE: bees\builder\builds.ts
-  ***************************/
+  /*************************************
+  INTERNAL MODULE: ./bees/builder/builds
+  *************************************/
 
   modules.set('./bees/builder/builds', {
     hash: 491302476,
@@ -1696,9 +1696,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ServiceBuilds = ServiceBuilds;
     }
   });
-  /*****************
-  FILE: bees\item.ts
-  *****************/
+  /***************************
+  INTERNAL MODULE: ./bees/item
+  ***************************/
 
   modules.set('./bees/item', {
     hash: 2261579261,
@@ -1807,9 +1807,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Bee = Bee;
     }
   });
-  /*********************
-  FILE: bees\register.ts
-  *********************/
+  /*******************************
+  INTERNAL MODULE: ./bees/register
+  *******************************/
 
   modules.set('./bees/register', {
     hash: 1826232712,
@@ -1841,9 +1841,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('bees', specs);
     }
   });
-  /************************************
-  FILE: bundles\consumers\collection.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./bundles/consumers/collection
+  **********************************************/
 
   modules.set('./bundles/consumers/collection', {
     hash: 2259325720,
@@ -1871,9 +1871,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Consumers = Consumers;
     }
   });
-  /******************************
-  FILE: bundles\consumers\item.ts
-  ******************************/
+  /****************************************
+  INTERNAL MODULE: ./bundles/consumers/item
+  ****************************************/
 
   modules.set('./bundles/consumers/item', {
     hash: 2941718289,
@@ -1916,9 +1916,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Consumer = Consumer;
     }
   });
-  /**********************************
-  FILE: bundles\consumers\register.ts
-  **********************************/
+  /********************************************
+  INTERNAL MODULE: ./bundles/consumers/register
+  ********************************************/
 
   modules.set('./bundles/consumers/register', {
     hash: 3532777880,
@@ -1967,9 +1967,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('bundles-consumers', specs);
     }
   });
-  /**********************************
-  FILE: bundles\globals\collection.ts
-  **********************************/
+  /********************************************
+  INTERNAL MODULE: ./bundles/globals/collection
+  ********************************************/
 
   modules.set('./bundles/globals/collection', {
     hash: 409546233,
@@ -1997,9 +1997,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.GlobalBundles = GlobalBundles;
     }
   });
-  /****************************
-  FILE: bundles\globals\item.ts
-  ****************************/
+  /**************************************
+  INTERNAL MODULE: ./bundles/globals/item
+  **************************************/
 
   modules.set('./bundles/globals/item', {
     hash: 1304775341,
@@ -2041,9 +2041,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.GlobalBundle = GlobalBundle;
     }
   });
-  /********************************
-  FILE: bundles\globals\register.ts
-  ********************************/
+  /******************************************
+  INTERNAL MODULE: ./bundles/globals/register
+  ******************************************/
 
   modules.set('./bundles/globals/register', {
     hash: 3706387622,
@@ -2074,9 +2074,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('global-bundles', specs);
     }
   });
-  /********************
-  FILE: bundles\item.ts
-  ********************/
+  /******************************
+  INTERNAL MODULE: ./bundles/item
+  ******************************/
 
   modules.set('./bundles/item', {
     hash: 3634067425,
@@ -2196,9 +2196,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Bundle = Bundle;
     }
   });
-  /************************
-  FILE: bundles\register.ts
-  ************************/
+  /**********************************
+  INTERNAL MODULE: ./bundles/register
+  **********************************/
 
   modules.set('./bundles/register', {
     hash: 4079369894,
@@ -2275,9 +2275,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('bundles', specs);
     }
   });
-  /***********************
-  FILE: dashboard\model.ts
-  ***********************/
+  /*********************************
+  INTERNAL MODULE: ./dashboard/model
+  *********************************/
 
   modules.set('./dashboard/model', {
     hash: 494242649,
@@ -2375,9 +2375,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Dashboard = Dashboard;
     }
   });
-  /*******************************
-  FILE: declarations\collection.ts
-  *******************************/
+  /*****************************************
+  INTERNAL MODULE: ./declarations/collection
+  *****************************************/
 
   modules.set('./declarations/collection', {
     hash: 581029645,
@@ -2405,9 +2405,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Declarations = Declarations;
     }
   });
-  /*************************
-  FILE: declarations\item.ts
-  *************************/
+  /***********************************
+  INTERNAL MODULE: ./declarations/item
+  ***********************************/
 
   modules.set('./declarations/item', {
     hash: 281899466,
@@ -2453,9 +2453,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Declaration = Declaration;
     }
   });
-  /*****************************
-  FILE: declarations\register.ts
-  *****************************/
+  /***************************************
+  INTERNAL MODULE: ./declarations/register
+  ***************************************/
 
   modules.set('./declarations/register', {
     hash: 3629953601,
@@ -2486,9 +2486,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('declarations', specs);
     }
   });
-  /*****************
-  FILE: file\file.ts
-  *****************/
+  /***************************
+  INTERNAL MODULE: ./file/file
+  ***************************/
 
   modules.set('./file/file', {
     hash: 2203955401,
@@ -2525,9 +2525,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.File = File;
     }
   });
-  /*************************
-  FILE: libraries\builder.ts
-  *************************/
+  /***********************************
+  INTERNAL MODULE: ./libraries/builder
+  ***********************************/
 
   modules.set('./libraries/builder', {
     hash: 4091023898,
@@ -2596,9 +2596,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.LibraryBuilder = LibraryBuilder;
     }
   });
-  /****************************
-  FILE: libraries\collection.ts
-  ****************************/
+  /**************************************
+  INTERNAL MODULE: ./libraries/collection
+  **************************************/
 
   modules.set('./libraries/collection', {
     hash: 4079938874,
@@ -2626,9 +2626,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Libraries = Libraries;
     }
   });
-  /**********************
-  FILE: libraries\item.ts
-  **********************/
+  /********************************
+  INTERNAL MODULE: ./libraries/item
+  ********************************/
 
   modules.set('./libraries/item', {
     hash: 2648880293,
@@ -2735,9 +2735,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Library = Library;
     }
   });
-  /************************************
-  FILE: libraries\modules\collection.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./libraries/modules/collection
+  **********************************************/
 
   modules.set('./libraries/modules/collection', {
     hash: 1012036264,
@@ -2766,9 +2766,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.LibraryModules = LibraryModules;
     }
   });
-  /******************************
-  FILE: libraries\modules\item.ts
-  ******************************/
+  /****************************************
+  INTERNAL MODULE: ./libraries/modules/item
+  ****************************************/
 
   modules.set('./libraries/modules/item', {
     hash: 2039537654,
@@ -2808,9 +2808,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.LibraryModule = LibraryModule;
     }
   });
-  /**********************************
-  FILE: libraries\modules\register.ts
-  **********************************/
+  /********************************************
+  INTERNAL MODULE: ./libraries/modules/register
+  ********************************************/
 
   modules.set('./libraries/modules/register', {
     hash: 4126334953,
@@ -2870,9 +2870,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('libraries-modules', specs);
     }
   });
-  /**************************
-  FILE: libraries\register.ts
-  **************************/
+  /************************************
+  INTERNAL MODULE: ./libraries/register
+  ************************************/
 
   modules.set('./libraries/register', {
     hash: 897350189,
@@ -2940,9 +2940,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('libraries', specs);
     }
   });
-  /***********************************
-  FILE: libraries\static\collection.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./libraries/static/collection
+  *********************************************/
 
   modules.set('./libraries/static/collection', {
     hash: 1432429389,
@@ -2970,9 +2970,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.LibrariesStatics = LibrariesStatics;
     }
   });
-  /*****************************
-  FILE: libraries\static\item.ts
-  *****************************/
+  /***************************************
+  INTERNAL MODULE: ./libraries/static/item
+  ***************************************/
 
   modules.set('./libraries/static/item', {
     hash: 1875209156,
@@ -3030,9 +3030,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.LibrariesStatic = LibrariesStatic;
     }
   });
-  /*********************************
-  FILE: libraries\static\register.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./libraries/static/register
+  *******************************************/
 
   modules.set('./libraries/static/register', {
     hash: 3468431867,
@@ -3063,9 +3063,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('libraries-static', specs);
     }
   });
-  /**************************
-  FILE: modules\collection.ts
-  **************************/
+  /************************************
+  INTERNAL MODULE: ./modules/collection
+  ************************************/
 
   modules.set('./modules/collection', {
     hash: 2089886534,
@@ -3093,9 +3093,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Modules = Modules;
     }
   });
-  /****************************
-  FILE: modules\declarations.ts
-  ****************************/
+  /**************************************
+  INTERNAL MODULE: ./modules/declarations
+  **************************************/
 
   modules.set('./modules/declarations', {
     hash: 1279662994,
@@ -3174,9 +3174,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ModuleDeclarations = ModuleDeclarations;
     }
   });
-  /********************
-  FILE: modules\item.ts
-  ********************/
+  /******************************
+  INTERNAL MODULE: ./modules/item
+  ******************************/
 
   modules.set('./modules/item', {
     hash: 277539939,
@@ -3311,9 +3311,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Module = Module;
     }
   });
-  /************************
-  FILE: modules\register.ts
-  ************************/
+  /**********************************
+  INTERNAL MODULE: ./modules/register
+  **********************************/
 
   modules.set('./modules/register', {
     hash: 2836517847,
@@ -3400,9 +3400,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('modules', specs);
     }
   });
-  /*********************************
-  FILE: modules\static\collection.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./modules/static/collection
+  *******************************************/
 
   modules.set('./modules/static/collection', {
     hash: 614819323,
@@ -3430,9 +3430,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ModuleStatics = ModuleStatics;
     }
   });
-  /***************************
-  FILE: modules\static\item.ts
-  ***************************/
+  /*************************************
+  INTERNAL MODULE: ./modules/static/item
+  *************************************/
 
   modules.set('./modules/static/item', {
     hash: 531806800,
@@ -3534,9 +3534,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ModuleStatic = ModuleStatic;
     }
   });
-  /*******************************
-  FILE: modules\static\register.ts
-  *******************************/
+  /*****************************************
+  INTERNAL MODULE: ./modules/static/register
+  *****************************************/
 
   modules.set('./modules/static/register', {
     hash: 381746544,
@@ -3570,9 +3570,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('modules-static', specs);
     }
   });
-  /*********************
-  FILE: modules\texts.ts
-  *********************/
+  /*******************************
+  INTERNAL MODULE: ./modules/texts
+  *******************************/
 
   modules.set('./modules/texts', {
     hash: 2654663686,
@@ -3617,9 +3617,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ModuleTexts = ModuleTexts;
     }
   });
-  /***************************************
-  FILE: processors\compilers\collection.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./processors/compilers/collection
+  *************************************************/
 
   modules.set('./processors/compilers/collection', {
     hash: 356220319,
@@ -3647,9 +3647,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorCompilers = ProcessorCompilers;
     }
   });
-  /*********************************
-  FILE: processors\compilers\item.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./processors/compilers/item
+  *******************************************/
 
   modules.set('./processors/compilers/item', {
     hash: 2150884602,
@@ -3689,9 +3689,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorCompiler = ProcessorCompiler;
     }
   });
-  /*************************************
-  FILE: processors\compilers\register.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./processors/compilers/register
+  ***********************************************/
 
   modules.set('./processors/compilers/register', {
     hash: 2956075404,
@@ -3722,9 +3722,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('processors-compilers', specs);
     }
   });
-  /******************************************
-  FILE: processors\dependencies\collection.ts
-  ******************************************/
+  /****************************************************
+  INTERNAL MODULE: ./processors/dependencies/collection
+  ****************************************************/
 
   modules.set('./processors/dependencies/collection', {
     hash: 1572278508,
@@ -3752,9 +3752,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorDependencies = ProcessorDependencies;
     }
   });
-  /************************************
-  FILE: processors\dependencies\item.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./processors/dependencies/item
+  **********************************************/
 
   modules.set('./processors/dependencies/item', {
     hash: 3480908019,
@@ -3826,9 +3826,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorDependency = ProcessorDependency;
     }
   });
-  /****************************************
-  FILE: processors\dependencies\register.ts
-  ****************************************/
+  /**************************************************
+  INTERNAL MODULE: ./processors/dependencies/register
+  **************************************************/
 
   modules.set('./processors/dependencies/register', {
     hash: 978116073,
@@ -3886,9 +3886,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('processors-dependencies', specs);
     }
   });
-  /***********************
-  FILE: processors\item.ts
-  ***********************/
+  /*********************************
+  INTERNAL MODULE: ./processors/item
+  *********************************/
 
   modules.set('./processors/item', {
     hash: 2271235667,
@@ -3980,9 +3980,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Processor = Processor;
     }
   });
-  /****************************************
-  FILE: processors\overwrites\collection.ts
-  ****************************************/
+  /**************************************************
+  INTERNAL MODULE: ./processors/overwrites/collection
+  **************************************************/
 
   modules.set('./processors/overwrites/collection', {
     hash: 3793641523,
@@ -4010,9 +4010,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorOverwrites = ProcessorOverwrites;
     }
   });
-  /**********************************
-  FILE: processors\overwrites\item.ts
-  **********************************/
+  /********************************************
+  INTERNAL MODULE: ./processors/overwrites/item
+  ********************************************/
 
   modules.set('./processors/overwrites/item', {
     hash: 2279906987,
@@ -4074,9 +4074,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorOverwrite = ProcessorOverwrite;
     }
   });
-  /**************************************
-  FILE: processors\overwrites\register.ts
-  **************************************/
+  /************************************************
+  INTERNAL MODULE: ./processors/overwrites/register
+  ************************************************/
 
   modules.set('./processors/overwrites/register', {
     hash: 146353019,
@@ -4110,9 +4110,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('processors-overwrites', specs);
     }
   });
-  /***************************
-  FILE: processors\register.ts
-  ***************************/
+  /*************************************
+  INTERNAL MODULE: ./processors/register
+  *************************************/
 
   modules.set('./processors/register', {
     hash: 3702589436,
@@ -4185,9 +4185,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('processors', specs);
     }
   });
-  /*************************************
-  FILE: processors\sources\collection.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./processors/sources/collection
+  ***********************************************/
 
   modules.set('./processors/sources/collection', {
     hash: 2393305574,
@@ -4215,9 +4215,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorSources = ProcessorSources;
     }
   });
-  /*******************************
-  FILE: processors\sources\item.ts
-  *******************************/
+  /*****************************************
+  INTERNAL MODULE: ./processors/sources/item
+  *****************************************/
 
   modules.set('./processors/sources/item', {
     hash: 1809354523,
@@ -4283,9 +4283,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ProcessorSource = ProcessorSource;
     }
   });
-  /***********************************
-  FILE: processors\sources\register.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./processors/sources/register
+  *********************************************/
 
   modules.set('./processors/sources/register', {
     hash: 930421227,
@@ -4319,9 +4319,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('processors-sources', specs);
     }
   });
-  /**********************
-  FILE: reactive-model.ts
-  **********************/
+  /********************************
+  INTERNAL MODULE: ./reactive-model
+  ********************************/
 
   modules.set('./reactive-model', {
     hash: 1181350949,
@@ -4392,9 +4392,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ReactiveModel = ReactiveModel;
     }
   });
-  /*************************
-  FILE: realtime\realtime.ts
-  *************************/
+  /***********************************
+  INTERNAL MODULE: ./realtime/realtime
+  ***********************************/
 
   modules.set('./realtime/realtime', {
     hash: 197407449,
@@ -4425,9 +4425,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       })().catch(exc => console.error(exc.stack));
     }
   });
-  /*********************
-  FILE: run-time\item.ts
-  *********************/
+  /*******************************
+  INTERNAL MODULE: ./run-time/item
+  *******************************/
 
   modules.set('./run-time/item', {
     hash: 251167295,
@@ -4514,9 +4514,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.RunTimeError = RunTimeError;
     }
   });
-  /************************
-  FILE: run-time\manager.ts
-  ************************/
+  /**********************************
+  INTERNAL MODULE: ./run-time/manager
+  **********************************/
 
   modules.set('./run-time/manager', {
     hash: 2366243968,
@@ -4574,9 +4574,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.RunTimeManager = RunTimeManager;
     }
   });
-  /*********************
-  FILE: server\config.ts
-  *********************/
+  /*******************************
+  INTERNAL MODULE: ./server/config
+  *******************************/
 
   modules.set('./server/config', {
     hash: 742659936,
@@ -4618,9 +4618,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ServerConfig = ServerConfig;
     }
   });
-  /*********************
-  FILE: server\server.ts
-  *********************/
+  /*******************************
+  INTERNAL MODULE: ./server/server
+  *******************************/
 
   modules.set('./server/server', {
     hash: 2530801849,
@@ -4647,9 +4647,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.BeyondServer = BeyondServer;
     }
   });
-  /**********************
-  FILE: sources\source.ts
-  **********************/
+  /********************************
+  INTERNAL MODULE: ./sources/source
+  ********************************/
 
   modules.set('./sources/source', {
     hash: 243603947,
@@ -4701,9 +4701,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Source = Source;
     }
   });
-  /***********************************
-  FILE: templates\applications\item.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./templates/applications/item
+  *********************************************/
 
   modules.set('./templates/applications/item', {
     hash: 3663225759,
@@ -4769,9 +4769,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateApplication = TemplateApplication;
     }
   });
-  /***************************************
-  FILE: templates\applications\register.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./templates/applications/register
+  *************************************************/
 
   modules.set('./templates/applications/register', {
     hash: 4181221135,
@@ -4814,9 +4814,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('template-application', specs);
     }
   });
-  /*************************************************
-  FILE: templates\applications\sources\collection.ts
-  *************************************************/
+  /***********************************************************
+  INTERNAL MODULE: ./templates/applications/sources/collection
+  ***********************************************************/
 
   modules.set('./templates/applications/sources/collection', {
     hash: 4205541512,
@@ -4844,9 +4844,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateApplicationsSources = TemplateApplicationsSources;
     }
   });
-  /*******************************************
-  FILE: templates\applications\sources\item.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./templates/applications/sources/item
+  *****************************************************/
 
   modules.set('./templates/applications/sources/item', {
     hash: 1493905177,
@@ -4916,9 +4916,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateApplicationsSource = TemplateApplicationsSource;
     }
   });
-  /***********************************************
-  FILE: templates\applications\sources\register.ts
-  ***********************************************/
+  /*********************************************************
+  INTERNAL MODULE: ./templates/applications/sources/register
+  *********************************************************/
 
   modules.set('./templates/applications/sources/register', {
     hash: 3823324052,
@@ -4952,9 +4952,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('template-application-sources', specs);
     }
   });
-  /***********************************
-  FILE: templates\global\collection.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./templates/global/collection
+  *********************************************/
 
   modules.set('./templates/global/collection', {
     hash: 1642872420,
@@ -4982,9 +4982,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateGlobals = TemplateGlobals;
     }
   });
-  /*****************************
-  FILE: templates\global\item.ts
-  *****************************/
+  /***************************************
+  INTERNAL MODULE: ./templates/global/item
+  ***************************************/
 
   modules.set('./templates/global/item', {
     hash: 3769045535,
@@ -5039,9 +5039,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateGlobal = TemplateGlobal;
     }
   });
-  /*********************************
-  FILE: templates\global\register.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./templates/global/register
+  *******************************************/
 
   modules.set('./templates/global/register', {
     hash: 1899777398,
@@ -5084,9 +5084,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('template-global', specs);
     }
   });
-  /*******************************************
-  FILE: templates\global\sources\collection.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./templates/global/sources/collection
+  *****************************************************/
 
   modules.set('./templates/global/sources/collection', {
     hash: 2345468065,
@@ -5114,9 +5114,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateGlobalSources = TemplateGlobalSources;
     }
   });
-  /*************************************
-  FILE: templates\global\sources\item.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./templates/global/sources/item
+  ***********************************************/
 
   modules.set('./templates/global/sources/item', {
     hash: 1681286304,
@@ -5186,9 +5186,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateGlobalSource = TemplateGlobalSource;
     }
   });
-  /*****************************************
-  FILE: templates\global\sources\register.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./templates/global/sources/register
+  ***************************************************/
 
   modules.set('./templates/global/sources/register', {
     hash: 1192373719,
@@ -5222,9 +5222,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('template-global-sources', specs);
     }
   });
-  /**********************
-  FILE: templates\item.ts
-  **********************/
+  /********************************
+  INTERNAL MODULE: ./templates/item
+  ********************************/
 
   modules.set('./templates/item', {
     hash: 789131316,
@@ -5285,9 +5285,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.Template = Template;
     }
   });
-  /***************************************
-  FILE: templates\overwrites\collection.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./templates/overwrites/collection
+  *************************************************/
 
   modules.set('./templates/overwrites/collection', {
     hash: 2688068975,
@@ -5315,9 +5315,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateOverwrites = TemplateOverwrites;
     }
   });
-  /*********************************
-  FILE: templates\overwrites\item.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./templates/overwrites/item
+  *******************************************/
 
   modules.set('./templates/overwrites/item', {
     hash: 2552662024,
@@ -5371,9 +5371,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateOverwrite = TemplateOverwrite;
     }
   });
-  /*************************************
-  FILE: templates\overwrites\register.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./templates/overwrites/register
+  ***********************************************/
 
   modules.set('./templates/overwrites/register', {
     hash: 2319517019,
@@ -5407,9 +5407,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('template-overwrites', specs);
     }
   });
-  /*********************************
-  FILE: templates\processors\item.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./templates/processors/item
+  *******************************************/
 
   modules.set('./templates/processors/item', {
     hash: 3511013553,
@@ -5471,9 +5471,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateProcessor = TemplateProcessor;
     }
   });
-  /*************************************
-  FILE: templates\processors\register.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./templates/processors/register
+  ***********************************************/
 
   modules.set('./templates/processors/register', {
     hash: 1816533686,
@@ -5516,9 +5516,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('template-processors', specs);
     }
   });
-  /***********************************************
-  FILE: templates\processors\sources\collection.ts
-  ***********************************************/
+  /*********************************************************
+  INTERNAL MODULE: ./templates/processors/sources/collection
+  *********************************************************/
 
   modules.set('./templates/processors/sources/collection', {
     hash: 1917979699,
@@ -5546,9 +5546,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateProcessorsSources = TemplateProcessorsSources;
     }
   });
-  /*****************************************
-  FILE: templates\processors\sources\item.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./templates/processors/sources/item
+  ***************************************************/
 
   modules.set('./templates/processors/sources/item', {
     hash: 2732755072,
@@ -5626,9 +5626,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.TemplateProcessorsSource = TemplateProcessorsSource;
     }
   });
-  /*********************************************
-  FILE: templates\processors\sources\register.ts
-  *********************************************/
+  /*******************************************************
+  INTERNAL MODULE: ./templates/processors/sources/register
+  *******************************************************/
 
   modules.set('./templates/processors/sources/register', {
     hash: 4206445310,
@@ -5662,9 +5662,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('template-processors-sources', specs);
     }
   });
-  /**************************
-  FILE: templates\register.ts
-  **************************/
+  /************************************
+  INTERNAL MODULE: ./templates/register
+  ************************************/
 
   modules.set('./templates/register', {
     hash: 1138966643,
@@ -5737,12 +5737,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       _ts.tables.register('templates', specs);
     }
   });
-  const hmr = new function () {
-    this.on = (event, listener) => void 0;
-
-    this.off = (event, listener) => void 0;
-  }();
-  _exports2.hmr = hmr;
   let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, ReactiveModel, RunTimeError, RunTimeManager, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource;
   _exports2.TemplateProcessorsSource = TemplateProcessorsSource;
   _exports2.TemplateProcessorsSources = TemplateProcessorsSources;
@@ -5865,6 +5859,13 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
     _exports2.TemplateProcessorsSources = TemplateProcessorsSources = _exports.TemplateProcessorsSources = require('./templates/processors/sources/collection').TemplateProcessorsSources;
     _exports2.TemplateProcessorsSource = TemplateProcessorsSource = _exports.TemplateProcessorsSource = require('./templates/processors/sources/item').TemplateProcessorsSource;
   };
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
 
   __pkg.initialise(modules);
 });

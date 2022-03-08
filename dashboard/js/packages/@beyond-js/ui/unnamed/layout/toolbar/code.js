@@ -1,11 +1,11 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/components/core/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/modal/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/components/core/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/modal/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.Page = Page;
-  _exports.svgs = _exports.Toolbar = void 0;
+  _exports2.Page = Page;
+  _exports2.svgs = _exports2.hmr = _exports2.Toolbar = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -73,7 +73,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   *************/
 
 
-  _exports.Toolbar = Toolbar;
+  _exports2.Toolbar = Toolbar;
   const bell = `<path class="a"
           d="M12.514,28.6a3.575,3.575,0,0,0,3.574-3.576H8.94A3.575,3.575,0,0,0,12.514,28.6Zm12.034-8.364c-1.079-1.16-3.1-2.9-3.1-8.62A8.823,8.823,0,0,0,14.3,2.952V1.788a1.787,1.787,0,1,0-3.573,0V2.952a8.823,8.823,0,0,0-7.148,8.669c0,5.715-2.02,7.46-3.1,8.62A1.746,1.746,0,0,0,0,21.454a1.789,1.789,0,0,0,1.793,1.788H23.235a1.789,1.789,0,0,0,1.793-1.788A1.745,1.745,0,0,0,24.547,20.241Z"
           transform="translate(0.001)"/>`;
@@ -99,7 +99,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   FILE: page.js
   ************/
 
-  _exports.svgs = svgs;
+  _exports2.svgs = svgs;
 
   function Page() {
     ReactDOM.render(React.createElement(AppHome, {
@@ -116,6 +116,16 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-toolbar{display:flex;position:sticky;align-items:center;justify-content:center;height:60px;top:0;transition:all .3s ease-in;background:#0c1423;z-index:2;box-shadow:0 5px 5px -5px #333}.ds-toolbar .beyond-element-image.app-logo{height:70%;padding:0;margin:0}.ds-toolbar .beyond-element-image.app-logo img{height:100%}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

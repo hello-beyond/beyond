@@ -1,11 +1,12 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/image/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports, _js, _code, _code2, _code3, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/image/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports2, _js, _code, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.DsDocs = void 0;
-  _exports.Layout = Layout;
+  _exports2.DsDocs = void 0;
+  _exports2.Layout = Layout;
+  _exports2.hmr = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -182,7 +183,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/image/co
   FILE: layout.js
   **************/
 
-  _exports.DsDocs = DsDocs;
+  _exports2.DsDocs = DsDocs;
 
   function Layout() {
     this.control = ReactDOM.render(React.createElement(Control, {
@@ -199,6 +200,16 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/image/co
   bundle.styles.processor = 'scss';
   bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds-modal.ds-modal-doc .modal-content .img-list{display:flex;gap:15px;justify-content:center}.ds-modal.ds-modal-doc .modal-content .img-list .beyond-element-image img{object-fit:cover;height:50px;width:50px}.ds-layout-editor{min-height:99vh;width:100%;display:grid;grid-template-rows:1fr;transition:all .3s ease-in}.ds-layout-editor.sticky{transition:all .3s ease-in}.ds-layout-editor.sticky .ds-toolbar{background-image:linear-gradient(to right,#030508 0,#121f36 100%);transition:all .3s ease-in}';
   bundle.styles.appendToDOM();
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

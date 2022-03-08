@@ -20,9 +20,9 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
   const __pkg = bundle.package();
 
   const modules = new Map();
-  /***************
-  FILE: context.ts
-  ***************/
+  /*************************
+  INTERNAL MODULE: ./context
+  *************************/
 
   modules.set('./context', {
     hash: 3743684182,
@@ -127,9 +127,9 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
       exports.useAppModulesContext = useAppModulesContext;
     }
   });
-  /****************
-  FILE: preaside.ts
-  ****************/
+  /**************************
+  INTERNAL MODULE: ./preaside
+  **************************/
 
   modules.set('./preaside', {
     hash: 2495865331,
@@ -186,9 +186,9 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
       exports.DSPreAside = DSPreAside;
     }
   });
-  /***********************
-  FILE: use-controller.tsx
-  ***********************/
+  /********************************
+  INTERNAL MODULE: ./use-controller
+  ********************************/
 
   modules.set('./use-controller', {
     hash: 1319212642,
@@ -206,12 +206,6 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
       "use strict";
     }
   });
-  const hmr = new function () {
-    this.on = (event, listener) => void 0;
-
-    this.off = (event, listener) => void 0;
-  }();
-  _exports2.hmr = hmr;
   let DSBoards, DSWorkspaceContext, useDSWorkspaceContext, DSAsideContext, useDSAsideContext, WorkspacePanelsContext, useWorkspacePanelsContext, AppContext, useAppContext, ConfigContext, useConfigContext, DSPreAside;
   _exports2.DSPreAside = DSPreAside;
   _exports2.useConfigContext = useConfigContext;
@@ -240,6 +234,13 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
     _exports2.useConfigContext = useConfigContext = _exports.useConfigContext = require('./context').useConfigContext;
     _exports2.DSPreAside = DSPreAside = _exports.DSPreAside = require('./preaside').DSPreAside;
   };
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
 
   __pkg.initialise(modules);
 });

@@ -50,7 +50,7 @@ class BundleStyles extends Events {
             if (host === 'module' || host === 'library') {
                 return `${this.#bundle.container.pathname}/${resource}`;
             } else if (host === 'application') {
-                return `${this.beyond.baseUrl}${resource}`;
+                return `${this.beyond.baseDir}${resource}`;
             }
             console.warn(`Invalid css host specification on bundle "${this.#bundle.id}"`, match);
         });
@@ -67,7 +67,7 @@ class BundleStyles extends Events {
             css = document.createElement('link');
             css.rel = 'stylesheet';
             css.type = 'text/css';
-            css.href = `${this.beyond.baseUrl}${this.#bundle.pathname}.css`;
+            css.href = `${this.beyond.baseDir}${this.#bundle.pathname}.css`;
         } else {
             css = document.createElement('style');
             css.appendChild(document.createTextNode(this.#value));

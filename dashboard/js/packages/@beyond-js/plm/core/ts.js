@@ -19,9 +19,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   const __pkg = bundle.package();
 
   const modules = new Map();
-  /*****************
-  FILE: auth\auth.ts
-  *****************/
+  /***************************
+  INTERNAL MODULE: ./auth/auth
+  ***************************/
 
   modules.set('./auth/auth', {
     hash: 2495452891,
@@ -57,9 +57,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.auth = auth;
     }
   });
-  /*****************************
-  FILE: auth\get-access-token.ts
-  *****************************/
+  /***************************************
+  INTERNAL MODULE: ./auth/get-access-token
+  ***************************************/
 
   modules.set('./auth/get-access-token', {
     hash: 3814648084,
@@ -95,9 +95,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       }
     }
   });
-  /********************
-  FILE: auth\session.ts
-  ********************/
+  /******************************
+  INTERNAL MODULE: ./auth/session
+  ******************************/
 
   modules.set('./auth/session', {
     hash: 1207406251,
@@ -139,9 +139,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.PLMSession = PLMSession;
     }
   });
-  /*********************
-  FILE: auth\sessions.ts
-  *********************/
+  /*******************************
+  INTERNAL MODULE: ./auth/sessions
+  *******************************/
 
   modules.set('./auth/sessions', {
     hash: 642400809,
@@ -175,9 +175,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Sessions = Sessions;
     }
   });
-  /*****************
-  FILE: constants.ts
-  *****************/
+  /***************************
+  INTERNAL MODULE: ./constants
+  ***************************/
 
   modules.set('./constants', {
     hash: 1333982119,
@@ -204,9 +204,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       })(DataSource || (exports.DataSource = DataSource = {}));
     }
   });
-  /**************************************
-  FILE: elements\collection\collection.ts
-  **************************************/
+  /************************************************
+  INTERNAL MODULE: ./elements/collection/collection
+  ************************************************/
 
   modules.set('./elements/collection/collection', {
     hash: 199874439,
@@ -345,9 +345,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Collection = Collection;
     }
   });
-  /********************************************
-  FILE: elements\collection\counters\counter.ts
-  ********************************************/
+  /******************************************************
+  INTERNAL MODULE: ./elements/collection/counters/counter
+  ******************************************************/
 
   modules.set('./elements/collection/counters/counter', {
     hash: 1792567981,
@@ -398,9 +398,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CollectionCounter = CollectionCounter;
     }
   });
-  /*********************************************
-  FILE: elements\collection\counters\counters.ts
-  *********************************************/
+  /*******************************************************
+  INTERNAL MODULE: ./elements/collection/counters/counters
+  *******************************************************/
 
   modules.set('./elements/collection/counters/counters', {
     hash: 2686580010,
@@ -453,9 +453,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CollectionCounters = CollectionCounters;
     }
   });
-  /***************************************
-  FILE: elements\collection\items\items.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./elements/collection/items/items
+  *************************************************/
 
   modules.set('./elements/collection/items/items', {
     hash: 3680212401,
@@ -555,9 +555,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CollectionItems = CollectionItems;
     }
   });
-  /********************************
-  FILE: elements\collection\tree.ts
-  ********************************/
+  /******************************************
+  INTERNAL MODULE: ./elements/collection/tree
+  ******************************************/
 
   modules.set('./elements/collection/tree', {
     hash: 3980109007,
@@ -592,9 +592,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Tree = Tree;
     }
   });
-  /************************
-  FILE: elements\element.ts
-  ************************/
+  /**********************************
+  INTERNAL MODULE: ./elements/element
+  **********************************/
 
   modules.set('./elements/element', {
     hash: 2829845709,
@@ -696,9 +696,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Element = Element;
     }
   });
-  /**********************************
-  FILE: elements\item\fields\field.ts
-  **********************************/
+  /********************************************
+  INTERNAL MODULE: ./elements/item/fields/field
+  ********************************************/
 
   modules.set('./elements/item/fields/field', {
     hash: 3159573088,
@@ -740,9 +740,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemField = ItemField;
     }
   });
-  /***********************************
-  FILE: elements\item\fields\fields.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./elements/item/fields/fields
+  *********************************************/
 
   modules.set('./elements/item/fields/fields', {
     hash: 2163016256,
@@ -773,9 +773,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemFields = ItemFields;
     }
   });
-  /**************************
-  FILE: elements\item\item.ts
-  **************************/
+  /************************************
+  INTERNAL MODULE: ./elements/item/item
+  ************************************/
 
   modules.set('./elements/item/item', {
     hash: 1738494106,
@@ -918,9 +918,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Item = Item;
     }
   });
-  /**************************************************
-  FILE: elements\item\properties\collection\filter.ts
-  **************************************************/
+  /************************************************************
+  INTERNAL MODULE: ./elements/item/properties/collection/filter
+  ************************************************************/
 
   modules.set('./elements/item/properties/collection/filter', {
     hash: 3183572785,
@@ -1009,9 +1009,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CollectionPropertyFilter = CollectionPropertyFilter;
     }
   });
-  /****************************************************
-  FILE: elements\item\properties\collection\property.ts
-  ****************************************************/
+  /**************************************************************
+  INTERNAL MODULE: ./elements/item/properties/collection/property
+  **************************************************************/
 
   modules.set('./elements/item/properties/collection/property', {
     hash: 3041225316,
@@ -1098,9 +1098,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CollectionProperty = CollectionProperty;
     }
   });
-  /************************************************
-  FILE: elements\item\properties\collection\tree.ts
-  ************************************************/
+  /**********************************************************
+  INTERNAL MODULE: ./elements/item/properties/collection/tree
+  **********************************************************/
 
   modules.set('./elements/item/properties/collection/tree', {
     hash: 476448367,
@@ -1129,9 +1129,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Tree = Tree;
     }
   });
-  /*******************************************************
-  FILE: elements\item\properties\item-selector\property.ts
-  *******************************************************/
+  /*****************************************************************
+  INTERNAL MODULE: ./elements/item/properties/item-selector/property
+  *****************************************************************/
 
   modules.set('./elements/item/properties/item-selector/property', {
     hash: 171229117,
@@ -1212,9 +1212,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemSelectorProperty = ItemSelectorProperty;
     }
   });
-  /***************************************************
-  FILE: elements\item\properties\item-selector\tree.ts
-  ***************************************************/
+  /*************************************************************
+  INTERNAL MODULE: ./elements/item/properties/item-selector/tree
+  *************************************************************/
 
   modules.set('./elements/item/properties/item-selector/tree', {
     hash: 3729187936,
@@ -1243,9 +1243,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Tree = Tree;
     }
   });
-  /************************************************
-  FILE: elements\item\properties\item\identifier.ts
-  ************************************************/
+  /**********************************************************
+  INTERNAL MODULE: ./elements/item/properties/item/identifier
+  **********************************************************/
 
   modules.set('./elements/item/properties/item/identifier', {
     hash: 1191197271,
@@ -1320,9 +1320,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemPropertyIdentifier = ItemPropertyIdentifier;
     }
   });
-  /**********************************************
-  FILE: elements\item\properties\item\property.ts
-  **********************************************/
+  /********************************************************
+  INTERNAL MODULE: ./elements/item/properties/item/property
+  ********************************************************/
 
   modules.set('./elements/item/properties/item/property', {
     hash: 1833209030,
@@ -1410,9 +1410,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemProperty = ItemProperty;
     }
   });
-  /******************************************
-  FILE: elements\item\properties\item\tree.ts
-  ******************************************/
+  /****************************************************
+  INTERNAL MODULE: ./elements/item/properties/item/tree
+  ****************************************************/
 
   modules.set('./elements/item/properties/item/tree', {
     hash: 2961426029,
@@ -1441,9 +1441,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Tree = Tree;
     }
   });
-  /***********************************************
-  FILE: elements\item\properties\items\property.ts
-  ***********************************************/
+  /*********************************************************
+  INTERNAL MODULE: ./elements/item/properties/items/property
+  *********************************************************/
 
   modules.set('./elements/item/properties/items/property', {
     hash: 2467694982,
@@ -1571,9 +1571,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemsProperty = ItemsProperty;
     }
   });
-  /*******************************************
-  FILE: elements\item\properties\items\tree.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./elements/item/properties/items/tree
+  *****************************************************/
 
   modules.set('./elements/item/properties/items/tree', {
     hash: 1066763736,
@@ -1605,9 +1605,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Tree = Tree;
     }
   });
-  /*******************************************
-  FILE: elements\item\properties\properties.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./elements/item/properties/properties
+  *****************************************************/
 
   modules.set('./elements/item/properties/properties', {
     hash: 3553928775,
@@ -1691,9 +1691,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Properties = Properties;
     }
   });
-  /*****************************************
-  FILE: elements\item\properties\property.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./elements/item/properties/property
+  ***************************************************/
 
   modules.set('./elements/item/properties/property', {
     hash: 2546207792,
@@ -1705,9 +1705,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
     }
   });
-  /**************************
-  FILE: elements\item\tree.ts
-  **************************/
+  /************************************
+  INTERNAL MODULE: ./elements/item/tree
+  ************************************/
 
   modules.set('./elements/item/tree', {
     hash: 30503873,
@@ -1742,9 +1742,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Tree = Tree;
     }
   });
-  /*************************
-  FILE: elements\realtime.ts
-  *************************/
+  /***********************************
+  INTERNAL MODULE: ./elements/realtime
+  ***********************************/
 
   modules.set('./elements/realtime', {
     hash: 2022675178,
@@ -1779,9 +1779,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Realtime = Realtime;
     }
   });
-  /***********************************
-  FILE: tables\data\counter\counter.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./tables/data/counter/counter
+  *********************************************/
 
   modules.set('./tables/data/counter/counter', {
     hash: 1520738300,
@@ -1879,9 +1879,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CounterData = CounterData;
     }
   });
-  /*********************************
-  FILE: tables\data\counter\fetch.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./tables/data/counter/fetch
+  *******************************************/
 
   modules.set('./tables/data/counter/fetch', {
     hash: 2851854299,
@@ -1933,9 +1933,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CounterFetch = CounterFetch;
     }
   });
-  /***************************************
-  FILE: tables\data\counter\local-store.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./tables/data/counter/local-store
+  *************************************************/
 
   modules.set('./tables/data/counter/local-store', {
     hash: 1873218828,
@@ -1978,9 +1978,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CounterLocalStore = CounterLocalStore;
     }
   });
-  /***********************************
-  FILE: tables\data\counter\manager.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./tables/data/counter/manager
+  *********************************************/
 
   modules.set('./tables/data/counter/manager', {
     hash: 2047409176,
@@ -2010,9 +2010,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CountersManager = CountersManager;
     }
   });
-  /*******************************************
-  FILE: tables\data\factory\compare-objects.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./tables/data/factory/compare-objects
+  *****************************************************/
 
   modules.set('./tables/data/factory/compare-objects', {
     hash: 2669127418,
@@ -2048,9 +2048,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CompareObjects = CompareObjects;
     }
   });
-  /***********************************
-  FILE: tables\data\factory\factory.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./tables/data/factory/factory
+  *********************************************/
 
   modules.set('./tables/data/factory/factory', {
     hash: 156948480,
@@ -2141,9 +2141,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Factory = Factory;
     }
   });
-  /***********************************
-  FILE: tables\data\factory\product.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./tables/data/factory/product
+  *********************************************/
 
   modules.set('./tables/data/factory/product', {
     hash: 3204950323,
@@ -2222,9 +2222,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Product = Product;
     }
   });
-  /*********************************
-  FILE: tables\data\filter\filter.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./tables/data/filter/filter
+  *******************************************/
 
   modules.set('./tables/data/filter/filter', {
     hash: 1271509135,
@@ -2323,9 +2323,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Filter = Filter;
     }
   });
-  /*******************************
-  FILE: tables\data\lists\fetch.ts
-  *******************************/
+  /*****************************************
+  INTERNAL MODULE: ./tables/data/lists/fetch
+  *****************************************/
 
   modules.set('./tables/data/lists/fetch', {
     hash: 2768079759,
@@ -2385,9 +2385,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ListFetch = ListFetch;
     }
   });
-  /******************************
-  FILE: tables\data\lists\list.ts
-  ******************************/
+  /****************************************
+  INTERNAL MODULE: ./tables/data/lists/list
+  ****************************************/
 
   modules.set('./tables/data/lists/list', {
     hash: 1922560968,
@@ -2517,9 +2517,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ListData = ListData;
     }
   });
-  /*************************************
-  FILE: tables\data\lists\local-store.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./tables/data/lists/local-store
+  ***********************************************/
 
   modules.set('./tables/data/lists/local-store', {
     hash: 250894529,
@@ -2562,9 +2562,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ListLocalStore = ListLocalStore;
     }
   });
-  /*****************************************
-  FILE: tables\data\lists\manager\manager.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./tables/data/lists/manager/manager
+  ***************************************************/
 
   modules.set('./tables/data/lists/manager/manager', {
     hash: 585864089,
@@ -2619,9 +2619,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ListsManager = ListsManager;
     }
   });
-  /***************************************************
-  FILE: tables\data\lists\manager\realtime\realtime.ts
-  ***************************************************/
+  /*************************************************************
+  INTERNAL MODULE: ./tables/data/lists/manager/realtime/realtime
+  *************************************************************/
 
   modules.set('./tables/data/lists/manager/realtime/realtime', {
     hash: 2873257050,
@@ -2651,9 +2651,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Realtime = Realtime;
     }
   });
-  /**************************************************
-  FILE: tables\data\lists\manager\realtime\reports.ts
-  **************************************************/
+  /************************************************************
+  INTERNAL MODULE: ./tables/data/lists/manager/realtime/reports
+  ************************************************************/
 
   modules.set('./tables/data/lists/manager/realtime/reports', {
     hash: 4249643312,
@@ -2724,9 +2724,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Reports = Reports;
     }
   });
-  /***************************************************
-  FILE: tables\data\lists\manager\registries\filter.ts
-  ***************************************************/
+  /*************************************************************
+  INTERNAL MODULE: ./tables/data/lists/manager/registries/filter
+  *************************************************************/
 
   modules.set('./tables/data/lists/manager/registries/filter', {
     hash: 2522735486,
@@ -2775,9 +2775,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RegistryByFilter = RegistryByFilter;
     }
   });
-  /*******************************************************
-  FILE: tables\data\lists\manager\registries\registries.ts
-  *******************************************************/
+  /*****************************************************************
+  INTERNAL MODULE: ./tables/data/lists/manager/registries/registries
+  *****************************************************************/
 
   modules.set('./tables/data/lists/manager/registries/registries', {
     hash: 1636734906,
@@ -2818,9 +2818,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Registries = Registries;
     }
   });
-  /*******************************
-  FILE: tables\data\lists\order.ts
-  *******************************/
+  /*****************************************
+  INTERNAL MODULE: ./tables/data/lists/order
+  *****************************************/
 
   modules.set('./tables/data/lists/order', {
     hash: 4054939735,
@@ -2875,9 +2875,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Order = Order;
     }
   });
-  /*********************************
-  FILE: tables\data\lists\records.ts
-  *********************************/
+  /*******************************************
+  INTERNAL MODULE: ./tables/data/lists/records
+  *******************************************/
 
   modules.set('./tables/data/lists/records', {
     hash: 1169534636,
@@ -2963,9 +2963,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ListRecords = ListRecords;
     }
   });
-  /*************************************
-  FILE: tables\data\realtime\realtime.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./tables/data/realtime/realtime
+  ***********************************************/
 
   modules.set('./tables/data/realtime/realtime', {
     hash: 3629346848,
@@ -2992,9 +2992,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.realtime = realtime;
     }
   });
-  /*****************************************
-  FILE: tables\data\realtime\reports\list.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./tables/data/realtime/reports/list
+  ***************************************************/
 
   modules.set('./tables/data/realtime/reports/list', {
     hash: 3728706255,
@@ -3025,9 +3025,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ListReport = ListReport;
     }
   });
-  /*******************************************
-  FILE: tables\data\realtime\reports\record.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./tables/data/realtime/reports/record
+  *****************************************************/
 
   modules.set('./tables/data/realtime/reports/record', {
     hash: 2510156693,
@@ -3072,9 +3072,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RecordReport = RecordReport;
     }
   });
-  /********************************************
-  FILE: tables\data\realtime\reports\reports.ts
-  ********************************************/
+  /******************************************************
+  INTERNAL MODULE: ./tables/data/realtime/reports/reports
+  ******************************************************/
 
   modules.set('./tables/data/realtime/reports/reports', {
     hash: 107636444,
@@ -3108,9 +3108,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Reports = Reports;
     }
   });
-  /****************************************
-  FILE: tables\data\records\data\factory.ts
-  ****************************************/
+  /**************************************************
+  INTERNAL MODULE: ./tables/data/records/data/factory
+  **************************************************/
 
   modules.set('./tables/data/records/data/factory', {
     hash: 3526622083,
@@ -3204,9 +3204,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RecordsDataFactory = RecordsDataFactory;
     }
   });
-  /****************************************
-  FILE: tables\data\records\data\fetcher.ts
-  ****************************************/
+  /**************************************************
+  INTERNAL MODULE: ./tables/data/records/data/fetcher
+  **************************************************/
 
   modules.set('./tables/data/records/data/fetcher', {
     hash: 461408940,
@@ -3298,9 +3298,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RecordFetcher = RecordFetcher;
     }
   });
-  /*********************************************
-  FILE: tables\data\records\data\fields\field.ts
-  *********************************************/
+  /*******************************************************
+  INTERNAL MODULE: ./tables/data/records/data/fields/field
+  *******************************************************/
 
   modules.set('./tables/data/records/data/fields/field', {
     hash: 2081975081,
@@ -3407,9 +3407,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Field = Field;
     }
   });
-  /**********************************************
-  FILE: tables\data\records\data\fields\fields.ts
-  **********************************************/
+  /********************************************************
+  INTERNAL MODULE: ./tables/data/records/data/fields/fields
+  ********************************************************/
 
   modules.set('./tables/data/records/data/fields/fields', {
     hash: 1590311372,
@@ -3484,9 +3484,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Fields = Fields;
     }
   });
-  /**********************************************
-  FILE: tables\data\records\data\fields\setter.ts
-  **********************************************/
+  /********************************************************
+  INTERNAL MODULE: ./tables/data/records/data/fields/setter
+  ********************************************************/
 
   modules.set('./tables/data/records/data/fields/setter', {
     hash: 1387037198,
@@ -3549,9 +3549,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.FieldsSetter = FieldsSetter;
     }
   });
-  /******************************************************
-  FILE: tables\data\records\data\fields\sources\memory.ts
-  ******************************************************/
+  /****************************************************************
+  INTERNAL MODULE: ./tables/data/records/data/fields/sources/memory
+  ****************************************************************/
 
   modules.set('./tables/data/records/data/fields/sources/memory', {
     hash: 1124919465,
@@ -3575,9 +3575,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.MemoryFieldSource = MemoryFieldSource;
     }
   });
-  /*********************************************************
-  FILE: tables\data\records\data\fields\sources\published.ts
-  *********************************************************/
+  /*******************************************************************
+  INTERNAL MODULE: ./tables/data/records/data/fields/sources/published
+  *******************************************************************/
 
   modules.set('./tables/data/records/data/fields/sources/published', {
     hash: 1639330156,
@@ -3603,9 +3603,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.PublishedFieldSource = PublishedFieldSource;
     }
   });
-  /******************************************************
-  FILE: tables\data\records\data\fields\sources\source.ts
-  ******************************************************/
+  /****************************************************************
+  INTERNAL MODULE: ./tables/data/records/data/fields/sources/source
+  ****************************************************************/
 
   modules.set('./tables/data/records/data/fields/sources/source', {
     hash: 3270809056,
@@ -3696,9 +3696,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.FieldSource = FieldSource;
     }
   });
-  /********************************************
-  FILE: tables\data\records\data\identifiers.ts
-  ********************************************/
+  /******************************************************
+  INTERNAL MODULE: ./tables/data/records/data/identifiers
+  ******************************************************/
 
   modules.set('./tables/data/records/data/identifiers', {
     hash: 1512918363,
@@ -3874,9 +3874,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RecordIdentifiers = RecordIdentifiers;
     }
   });
-  /***************************************
-  FILE: tables\data\records\data\loader.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./tables/data/records/data/loader
+  *************************************************/
 
   modules.set('./tables/data/records/data/loader', {
     hash: 1254370587,
@@ -3935,9 +3935,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RecordLoader = RecordLoader;
     }
   });
-  /***************************************
-  FILE: tables\data\records\data\record.ts
-  ***************************************/
+  /*************************************************
+  INTERNAL MODULE: ./tables/data/records/data/record
+  *************************************************/
 
   modules.set('./tables/data/records/data/record', {
     hash: 1434966283,
@@ -4104,9 +4104,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RecordData = RecordData;
     }
   });
-  /********************************************
-  FILE: tables\data\records\data\unpublished.ts
-  ********************************************/
+  /******************************************************
+  INTERNAL MODULE: ./tables/data/records/data/unpublished
+  ******************************************************/
 
   modules.set('./tables/data/records/data/unpublished', {
     hash: 1550269948,
@@ -4147,9 +4147,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.UnpublishedRecords = UnpublishedRecords;
     }
   });
-  /***********************************
-  FILE: tables\data\records\manager.ts
-  ***********************************/
+  /*********************************************
+  INTERNAL MODULE: ./tables/data/records/manager
+  *********************************************/
 
   modules.set('./tables/data/records/manager', {
     hash: 3803602193,
@@ -4218,9 +4218,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.RecordsManager = RecordsManager;
     }
   });
-  /*********************************************
-  FILE: tables\data\records\realtime\realtime.ts
-  *********************************************/
+  /*******************************************************
+  INTERNAL MODULE: ./tables/data/records/realtime/realtime
+  *******************************************************/
 
   modules.set('./tables/data/records/realtime/realtime', {
     hash: 3868646380,
@@ -4250,9 +4250,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Realtime = Realtime;
     }
   });
-  /********************************************
-  FILE: tables\data\records\realtime\reports.ts
-  ********************************************/
+  /******************************************************
+  INTERNAL MODULE: ./tables/data/records/realtime/reports
+  ******************************************************/
 
   modules.set('./tables/data/records/realtime/reports', {
     hash: 2951830057,
@@ -4305,9 +4305,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Reports = Reports;
     }
   });
-  /*******************************************
-  FILE: tables\data\records\wrapped\factory.ts
-  *******************************************/
+  /*****************************************************
+  INTERNAL MODULE: ./tables/data/records/wrapped/factory
+  *****************************************************/
 
   modules.set('./tables/data/records/wrapped/factory', {
     hash: 3965804558,
@@ -4348,9 +4348,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.WrappedFactory = WrappedFactory;
     }
   });
-  /************************************************
-  FILE: tables\data\records\wrapped\fields\field.ts
-  ************************************************/
+  /**********************************************************
+  INTERNAL MODULE: ./tables/data/records/wrapped/fields/field
+  **********************************************************/
 
   modules.set('./tables/data/records/wrapped/fields/field', {
     hash: 3140957279,
@@ -4392,9 +4392,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.WrappedRecordField = WrappedRecordField;
     }
   });
-  /*************************************************
-  FILE: tables\data\records\wrapped\fields\fields.ts
-  *************************************************/
+  /***********************************************************
+  INTERNAL MODULE: ./tables/data/records/wrapped/fields/fields
+  ***********************************************************/
 
   modules.set('./tables/data/records/wrapped/fields/fields', {
     hash: 2527122907,
@@ -4425,9 +4425,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.WrappedRecordFields = WrappedRecordFields;
     }
   });
-  /******************************************
-  FILE: tables\data\records\wrapped\record.ts
-  ******************************************/
+  /****************************************************
+  INTERNAL MODULE: ./tables/data/records/wrapped/record
+  ****************************************************/
 
   modules.set('./tables/data/records/wrapped/record', {
     hash: 538147968,
@@ -4549,9 +4549,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.WrappedRecord = WrappedRecord;
     }
   });
-  /************************
-  FILE: tables\data\uuid.ts
-  ************************/
+  /**********************************
+  INTERNAL MODULE: ./tables/data/uuid
+  **********************************/
 
   modules.set('./tables/data/uuid', {
     hash: 3597707760,
@@ -4573,9 +4573,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       }
     }
   });
-  /****************************
-  FILE: tables\indices\index.ts
-  ****************************/
+  /**************************************
+  INTERNAL MODULE: ./tables/indices/index
+  **************************************/
 
   modules.set('./tables/indices/index', {
     hash: 118857724,
@@ -4677,9 +4677,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Index = Index;
     }
   });
-  /******************************
-  FILE: tables\indices\indices.ts
-  ******************************/
+  /****************************************
+  INTERNAL MODULE: ./tables/indices/indices
+  ****************************************/
 
   modules.set('./tables/indices/indices', {
     hash: 4208019504,
@@ -4751,9 +4751,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Indices = Indices;
     }
   });
-  /***********************************************
-  FILE: tables\local-database\counters\counters.ts
-  ***********************************************/
+  /*********************************************************
+  INTERNAL MODULE: ./tables/local-database/counters/counters
+  *********************************************************/
 
   modules.set('./tables/local-database/counters/counters', {
     hash: 3506280268,
@@ -4861,9 +4861,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.LocalDBCounters = LocalDBCounters;
     }
   });
-  /*********************************************
-  FILE: tables\local-database\counters\memory.ts
-  *********************************************/
+  /*******************************************************
+  INTERNAL MODULE: ./tables/local-database/counters/memory
+  *******************************************************/
 
   modules.set('./tables/local-database/counters/memory', {
     hash: 447541486,
@@ -4880,9 +4880,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.MemoryLocalDBCounters = MemoryLocalDBCounters;
     }
   });
-  /*****************************************
-  FILE: tables\local-database\lists\lists.ts
-  *****************************************/
+  /***************************************************
+  INTERNAL MODULE: ./tables/local-database/lists/lists
+  ***************************************************/
 
   modules.set('./tables/local-database/lists/lists', {
     hash: 128161166,
@@ -4994,9 +4994,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.LocalDBLists = LocalDBLists;
     }
   });
-  /******************************************
-  FILE: tables\local-database\lists\memory.ts
-  ******************************************/
+  /****************************************************
+  INTERNAL MODULE: ./tables/local-database/lists/memory
+  ****************************************************/
 
   modules.set('./tables/local-database/lists/memory', {
     hash: 1311343063,
@@ -5013,9 +5013,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.MemoryLocalDBLists = MemoryLocalDBLists;
     }
   });
-  /********************************************
-  FILE: tables\local-database\local-database.ts
-  ********************************************/
+  /******************************************************
+  INTERNAL MODULE: ./tables/local-database/local-database
+  ******************************************************/
 
   modules.set('./tables/local-database/local-database', {
     hash: 1877598121,
@@ -5140,9 +5140,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.LocalDB = LocalDB;
     }
   });
-  /********************************************
-  FILE: tables\local-database\records\memory.ts
-  ********************************************/
+  /******************************************************
+  INTERNAL MODULE: ./tables/local-database/records/memory
+  ******************************************************/
 
   modules.set('./tables/local-database/records/memory', {
     hash: 628666919,
@@ -5189,9 +5189,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.MemoryLocalDBRecords = MemoryLocalDBRecords;
     }
   });
-  /*********************************************
-  FILE: tables\local-database\records\records.ts
-  *********************************************/
+  /*******************************************************
+  INTERNAL MODULE: ./tables/local-database/records/records
+  *******************************************************/
 
   modules.set('./tables/local-database/records/records', {
     hash: 1001634314,
@@ -5355,9 +5355,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.LocalDBRecords = LocalDBRecords;
     }
   });
-  /*************************************************
-  FILE: tables\local-database\records\unpublished.ts
-  *************************************************/
+  /***********************************************************
+  INTERNAL MODULE: ./tables/local-database/records/unpublished
+  ***********************************************************/
 
   modules.set('./tables/local-database/records/unpublished', {
     hash: 3016430800,
@@ -5426,9 +5426,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.LocalDBUnpublished = LocalDBUnpublished;
     }
   });
-  /************************************
-  FILE: tables\properties\properties.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./tables/properties/properties
+  **********************************************/
 
   modules.set('./tables/properties/properties', {
     hash: 3016071899,
@@ -5503,9 +5503,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Properties = Properties;
     }
   });
-  /**********************************
-  FILE: tables\properties\property.ts
-  **********************************/
+  /********************************************
+  INTERNAL MODULE: ./tables/properties/property
+  ********************************************/
 
   modules.set('./tables/properties/property', {
     hash: 792239610,
@@ -5573,9 +5573,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Property = Property;
     }
   });
-  /******************************************
-  FILE: tables\properties\types\collection.ts
-  ******************************************/
+  /****************************************************
+  INTERNAL MODULE: ./tables/properties/types/collection
+  ****************************************************/
 
   modules.set('./tables/properties/types/collection', {
     hash: 1481966213,
@@ -5629,9 +5629,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CollectionProperty = CollectionProperty;
     }
   });
-  /*********************************************
-  FILE: tables\properties\types\item-selector.ts
-  *********************************************/
+  /*******************************************************
+  INTERNAL MODULE: ./tables/properties/types/item-selector
+  *******************************************************/
 
   modules.set('./tables/properties/types/item-selector', {
     hash: 1649674982,
@@ -5678,9 +5678,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemSelectorProperty = ItemSelectorProperty;
     }
   });
-  /************************************
-  FILE: tables\properties\types\item.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./tables/properties/types/item
+  **********************************************/
 
   modules.set('./tables/properties/types/item', {
     hash: 2288763140,
@@ -5734,9 +5734,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemProperty = ItemProperty;
     }
   });
-  /*************************************
-  FILE: tables\properties\types\items.ts
-  *************************************/
+  /***********************************************
+  INTERNAL MODULE: ./tables/properties/types/items
+  ***********************************************/
 
   modules.set('./tables/properties/types/items', {
     hash: 937206479,
@@ -5806,9 +5806,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemsProperty = ItemsProperty;
     }
   });
-  /**********************************
-  FILE: tables\queries\batch\batch.ts
-  **********************************/
+  /********************************************
+  INTERNAL MODULE: ./tables/queries/batch/batch
+  ********************************************/
 
   modules.set('./tables/queries/batch/batch', {
     hash: 674774478,
@@ -5902,9 +5902,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Batch = Batch;
     }
   });
-  /************************************
-  FILE: tables\queries\batch\request.ts
-  ************************************/
+  /**********************************************
+  INTERNAL MODULE: ./tables/queries/batch/request
+  **********************************************/
 
   modules.set('./tables/queries/batch/request', {
     hash: 3368031555,
@@ -5948,9 +5948,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.BatchRequest = BatchRequest;
     }
   });
-  /******************************
-  FILE: tables\queries\counter.ts
-  ******************************/
+  /****************************************
+  INTERNAL MODULE: ./tables/queries/counter
+  ****************************************/
 
   modules.set('./tables/queries/counter', {
     hash: 2188437533,
@@ -6017,9 +6017,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CounterQuery = CounterQuery;
     }
   });
-  /***************************
-  FILE: tables\queries\data.ts
-  ***************************/
+  /*************************************
+  INTERNAL MODULE: ./tables/queries/data
+  *************************************/
 
   modules.set('./tables/queries/data', {
     hash: 109746743,
@@ -6103,9 +6103,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.DataQuery = DataQuery;
     }
   });
-  /***************************
-  FILE: tables\queries\list.ts
-  ***************************/
+  /*************************************
+  INTERNAL MODULE: ./tables/queries/list
+  *************************************/
 
   modules.set('./tables/queries/list', {
     hash: 1194419818,
@@ -6260,9 +6260,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ListQuery = ListQuery;
     }
   });
-  /******************************
-  FILE: tables\queries\queries.ts
-  ******************************/
+  /****************************************
+  INTERNAL MODULE: ./tables/queries/queries
+  ****************************************/
 
   modules.set('./tables/queries/queries', {
     hash: 1132816002,
@@ -6308,9 +6308,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Queries = Queries;
     }
   });
-  /********************
-  FILE: tables\table.ts
-  ********************/
+  /******************************
+  INTERNAL MODULE: ./tables/table
+  ******************************/
 
   modules.set('./tables/table', {
     hash: 1647223119,
@@ -6453,9 +6453,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Table = Table;
     }
   });
-  /*********************
-  FILE: tables\tables.ts
-  *********************/
+  /*******************************
+  INTERNAL MODULE: ./tables/tables
+  *******************************/
 
   modules.set('./tables/tables', {
     hash: 3857649849,
@@ -6491,9 +6491,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.tables = tables;
     }
   });
-  /***********************
-  FILE: tree\collection.ts
-  ***********************/
+  /*********************************
+  INTERNAL MODULE: ./tree/collection
+  *********************************/
 
   modules.set('./tree/collection', {
     hash: 2038126333,
@@ -6563,9 +6563,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.CollectionNode = CollectionNode;
     }
   });
-  /**************************
-  FILE: tree\item-selector.ts
-  **************************/
+  /************************************
+  INTERNAL MODULE: ./tree/item-selector
+  ************************************/
 
   modules.set('./tree/item-selector', {
     hash: 321000369,
@@ -6617,9 +6617,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemSelectorNode = ItemSelectorNode;
     }
   });
-  /*****************
-  FILE: tree\item.ts
-  *****************/
+  /***************************
+  INTERNAL MODULE: ./tree/item
+  ***************************/
 
   modules.set('./tree/item', {
     hash: 2904687249,
@@ -6666,9 +6666,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemNode = ItemNode;
     }
   });
-  /******************
-  FILE: tree\items.ts
-  ******************/
+  /****************************
+  INTERNAL MODULE: ./tree/items
+  ****************************/
 
   modules.set('./tree/items', {
     hash: 3754893300,
@@ -6708,9 +6708,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.ItemsNode = ItemsNode;
     }
   });
-  /*****************
-  FILE: tree\node.ts
-  *****************/
+  /***************************
+  INTERNAL MODULE: ./tree/node
+  ***************************/
 
   modules.set('./tree/node', {
     hash: 2502482559,
@@ -6816,9 +6816,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Node = Node;
     }
   });
-  /***********************
-  FILE: tree\properties.ts
-  ***********************/
+  /*********************************
+  INTERNAL MODULE: ./tree/properties
+  *********************************/
 
   modules.set('./tree/properties', {
     hash: 2822505680,
@@ -6894,9 +6894,9 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       exports.Properties = Properties;
     }
   });
-  /******************
-  FILE: tree\specs.ts
-  ******************/
+  /****************************
+  INTERNAL MODULE: ./tree/specs
+  ****************************/
 
   modules.set('./tree/specs', {
     hash: 3754493840,
@@ -6908,12 +6908,6 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
       });
     }
   });
-  const hmr = new function () {
-    this.on = (event, listener) => void 0;
-
-    this.off = (event, listener) => void 0;
-  }();
-  _exports2.hmr = hmr;
   let auth, NotSet, DataSource, CollectionSpecs, Collection, ItemSpecs, Item, CollectionProperty, ItemSelectorProperty, ItemProperty, ItemsProperty, ConditionOperand, realtime, ListUpdateFilterReport, TableSpecs, tables;
   _exports2.tables = tables;
   _exports2.TableSpecs = TableSpecs;
@@ -6950,6 +6944,13 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
     _exports2.TableSpecs = TableSpecs = _exports.TableSpecs = require('./tables/table').TableSpecs;
     _exports2.tables = tables = _exports.tables = require('./tables/tables').tables;
   };
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
 
   __pkg.initialise(modules);
 });

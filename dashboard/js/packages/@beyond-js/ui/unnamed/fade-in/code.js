@@ -1,10 +1,10 @@
-define(["exports", "react", "react-dom"], function (_exports, dependency_0, dependency_1) {
+define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.default = void 0;
+  _exports2.hmr = _exports2.default = void 0;
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
   dependencies.set('react-dom', dependency_1);
@@ -77,7 +77,17 @@ define(["exports", "react", "react-dom"], function (_exports, dependency_0, depe
 
   }
 
-  _exports.default = FadeIn;
+  _exports2.default = FadeIn;
+  const modules = new Map();
 
-  __pkg.initialise();
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

@@ -1,7 +1,7 @@
 {
   "environment": "development",
   "applications": [
-    "application/application.json",
+    "application/project.json",
     "../client/browser/kernel/project.json"
   ],
   "libraries": "libraries/libraries.json"

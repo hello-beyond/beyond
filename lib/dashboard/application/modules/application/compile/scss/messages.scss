@@ -1,5 +1,10 @@
-.ds-modal.ds-modal-compilation {
+.compile__trace__list {
+  .error {
+    color: red;
+  }
+}
 
+.ds-modal.ds-modal-compilation {
   .beyond-element-spinner {
     position: absolute;
     right: 20px;

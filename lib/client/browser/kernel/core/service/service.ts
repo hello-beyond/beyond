@@ -1,6 +1,6 @@
 import type {Beyond} from "../beyond";
 import type {PackageData} from "../package/data";
-import type {Socket} from "socket.io";
+import type {Socket} from "socket.io-client";
 import {SingleCall} from "../utils/execution-control/single-call/single-call";
 import {ServiceIOConfiguration} from "./io";
 import {Initiator} from "./initiator";
@@ -55,8 +55,7 @@ export abstract class Service {
         // Check that the service is running, and initiate it if it is not
         this.package.id !== '@beyond-js/local' && await this.#initiator.check();
 
-        const sio = beyond.mode === 'cjs' ? 'socket.io-client' : 'socket.io';
-        const io = await beyond.require(sio);
+        const {io} = await beyond.require('socket.io-client');
         let query = this.#io.querystring && await this.#io.querystring();
 
         const host = this.#host;

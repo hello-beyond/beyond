@@ -1,10 +1,11 @@
-define(["exports", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports, "__esModule", {
+  Object.defineProperty(_exports2, "__esModule", {
     value: true
   });
-  _exports.Uploader = Uploader;
+  _exports2.Uploader = Uploader;
+  _exports2.hmr = void 0;
   //WORKSPACE CONTEXT
   const dependencies = new Map();
   dependencies.set('react', dependency_0);
@@ -74,5 +75,16 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/uploader/code", "@be
     }, children);
   }
 
-  __pkg.initialise();
+  const modules = new Map();
+
+  __pkg.exports.process = function (require, _exports) {};
+
+  const hmr = new function () {
+    this.on = (event, listener) => void 0;
+
+    this.off = (event, listener) => void 0;
+  }();
+  _exports2.hmr = hmr;
+
+  __pkg.initialise(modules);
 });

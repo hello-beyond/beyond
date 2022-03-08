@@ -1,4 +1,4 @@
-import type {Socket} from "socket.io";
+import type {Socket} from "socket.io-client";
 import {Module} from "../modules/module";
 import {PendingPromise} from "../utils/pending-promise/pending-promise";
 import {ExecutionError} from "./execution-error";
