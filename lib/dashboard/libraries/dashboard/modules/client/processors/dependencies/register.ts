@@ -9,7 +9,7 @@ specs.module = module;
 specs.cache = false;
 
 specs.fields = [
-    'id', 'is', 'version', 'external', 'resource', 'errors', 'warnings',
+    'id', 'is', 'version', 'kind', 'valid', 'resource', 'errors', 'warnings',
     'declaration', 'sources', 'module_id', 'bundle_id'
 ];
 specs.properties = {

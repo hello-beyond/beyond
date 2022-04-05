@@ -1,8 +1,8 @@
 function Aside() {
-    const {tree, panel} = useDSAsideContext();
+    const {panel} = useDSAsideContext();
     if (!panel) return null;
     const objectPanels = {
-        application: ApplicationTree,
+        application: ProjectTree,
         module: ModuleTree,
         template: TemplateRootTree,
         statics: StaticsRootTree,
@@ -19,7 +19,7 @@ function Aside() {
                 {/*The spinner is used to show processing active when a module is loading*/}
                 <>
                     <BeyondSpinner active={true}/>
-                    <Control tree={tree}/>
+                    <Control/>
                 </>
             </BeyondScrollContainer>
         </aside>

@@ -1,0 +1,15 @@
+.section-group {
+  position: relative;
+
+  svg {
+    fill: var(--beyond-gray-dark-color);
+    cursor: pointer;
+  }
+
+  .beyond-icon.form__info {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
+}
+

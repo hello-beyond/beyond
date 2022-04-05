@@ -105,4 +105,8 @@ class Module extends Item {
         const specs = {moduleId: this.id, static: {"path": "./static"}};
         return module.execute('/builder/module/edit', specs);
     }
+
+    installDependencies(dependencies: string[]) {
+        return module.execute('/builder/module/install', dependencies);
+    }
 }

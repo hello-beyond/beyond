@@ -2,7 +2,7 @@ function Preload() {
 
     return (
         <div className="content-centering">
-            <DsSpinner fetching/>
+            <DSSpinner fetching/>
         </div>
     );
 }

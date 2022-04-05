@@ -1,4 +1,4 @@
-function FormLayoutSection({handleChange}) {
+function FormLayoutSection({handleChange, disabled}) {
     const {application, origin, texts} = useCreateModuleContext();
     if (origin === 'templates') return null;
 
@@ -16,6 +16,7 @@ function FormLayoutSection({handleChange}) {
             <select
                 name="layout"
                 required
+                {...disabled}
                 className="form-select"
                 title={`Selecciona un layout`} onChange={handleChange}>
                 <option>{texts.page.input.layout.placeholder}</option>

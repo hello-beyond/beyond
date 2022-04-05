@@ -17,5 +17,4 @@ module.exports = class extends require('../../../../file-manager') {
     set(values) {
         this._checkProperties(values);
     }
-
 }

@@ -4,7 +4,7 @@ export const useDSTreeContext = () => React.useContext(DSTreeContext);
  * Tree tabs is used to add the left padding in each subtree branch.
  * @type {string}
  */
-const TREE_TABS = 5;
+const TREE_TABS = 6;
 
 /**
  * Main tree file
@@ -26,6 +26,7 @@ export function DSTree({title, className, controls = {}, tree}) {
     }
     const [items, setItems] = React.useState(tree.items);
     useBinder([tree], () => setItems(tree.items));
+
     return (
         <DSTreeContext.Provider value={{actions: {}, controls, tree, texts: texts.tree}}>
             <section tabIndex="0" className={`${cls} ds-tree__container${className ? ` ${className}` : ''}`}>

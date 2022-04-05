@@ -22,7 +22,7 @@ export function ModuleBoard(props) {
     }, [specs.moduleId]);
 
     if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) {
-        return <DsSpinner/>;
+        return <DSSpinner/>;
     }
     const texts = module.texts.value;
 

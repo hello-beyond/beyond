@@ -47,14 +47,14 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
       return module.texts.value ?? {};
     }
 
-    _workspace;
+    #workspace;
 
     get workspace() {
-      return this._workspace;
+      return this.#workspace;
     }
 
     get application() {
-      return this._workspace?.active;
+      return this.#workspace?.active;
     }
 
     get moduleManager() {
@@ -67,7 +67,7 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
 
     constructor(workspace) {
       super();
-      this._workspace = workspace;
+      this.#workspace = workspace;
       workspace.bind('change', this.triggerEvent);
       module.texts.bind('change', this.triggerEvent);
     }
@@ -102,12 +102,11 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
 
   function Aside() {
     const {
-      tree,
       panel
     } = (0, _code5.useDSAsideContext)();
     if (!panel) return null;
     const objectPanels = {
-      application: ApplicationTree,
+      application: ProjectTree,
       module: ModuleTree,
       template: TemplateRootTree,
       statics: StaticsRootTree,
@@ -120,68 +119,7 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
       className: clsDetail
     }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code2.BeyondSpinner, {
       active: true
-    }), /*#__PURE__*/React.createElement(Control, {
-      tree: tree
-    }))));
-  }
-  /********************
-  aside\application.jsx
-  ********************/
-
-  /**
-   * Renders the application tree
-  
-   * @param tree
-   * @returns {JSX.Element}
-   * @constructor
-   */
-
-
-  function ApplicationTree({
-    tree
-  }) {
-    let {
-      panels,
-      application,
-      texts
-    } = (0, _code5.useDSAsideContext)();
-    const {
-      workspace
-    } = (0, _code5.useDSWorkspaceContext)();
-    const toPrint = [];
-    texts = texts.tree;
-    if (!application) return null;
-    toPrint.push( /*#__PURE__*/React.createElement(_code7.DSTree, {
-      title: texts.modules,
-      tree: application.modulesTree,
-      key: "application"
-    }));
-    application.libraries.forEach(library => {
-      const modules = application.itemsByContainer(library.id);
-      if (!modules.length) return;
-      toPrint.push( /*#__PURE__*/React.createElement(_code7.DSTree, {
-        key: "modules",
-        title: library.library.name,
-        tree: modules
-      }));
-    });
-
-    const openInfo = event => {
-      event.stopPropagation();
-      event.preventDefault();
-      workspace.openApp(application?.application?.id);
-    };
-
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("header", {
-      className: "ds-aside__header flex-row flex-space"
-    }, /*#__PURE__*/React.createElement("h3", {
-      className: "row"
-    }, application.application.name ?? application.id)), /*#__PURE__*/React.createElement("div", {
-      className: "aside__link",
-      onClick: openInfo
-    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
-      icon: "info"
-    }), /*#__PURE__*/React.createElement("span", null, " Information ")), toPrint);
+    }), /*#__PURE__*/React.createElement(Control, null))));
   }
   /**************
   aside\empty.jsx
@@ -249,6 +187,64 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
       title: texts.static.title,
       tree: staticFiles
     }));
+  }
+  /****************
+  aside\project.jsx
+  ****************/
+
+  /**
+   * Renders the application tree
+  
+   * @param tree
+   * @returns {JSX.Element}
+   * @constructor
+   */
+
+
+  function ProjectTree({
+    tree
+  }) {
+    let {
+      application,
+      texts
+    } = (0, _code5.useDSAsideContext)();
+    const {
+      workspace
+    } = (0, _code5.useDSWorkspaceContext)();
+    const toPrint = [];
+    texts = texts.tree;
+    if (!application) return null;
+    toPrint.push( /*#__PURE__*/React.createElement(_code7.DSTree, {
+      title: texts.modules,
+      tree: application.modulesTree,
+      key: "application"
+    }));
+    application.libraries.forEach(library => {
+      const modules = application.itemsByContainer(library.id);
+      if (!modules.length) return;
+      toPrint.push( /*#__PURE__*/React.createElement(_code7.DSTree, {
+        key: "modules",
+        title: library.library.name,
+        tree: modules
+      }));
+    });
+
+    const openInfo = event => {
+      event.stopPropagation();
+      event.preventDefault();
+      workspace.openApp(application?.application?.id);
+    };
+
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("header", {
+      className: "ds-aside__header flex-row flex-space"
+    }, /*#__PURE__*/React.createElement("h3", {
+      className: "row"
+    }, application.application.name ?? application.id)), /*#__PURE__*/React.createElement("div", {
+      className: "aside__link",
+      onClick: openInfo
+    }, /*#__PURE__*/React.createElement(_code8.DSIcon, {
+      icon: "info"
+    }), /*#__PURE__*/React.createElement("span", null, " Information ")), toPrint);
   }
   /***************
   aside\static.jsx
@@ -506,11 +502,14 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
 
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds__aside{display:flex;flex-direction:row;position:relative;align-items:start;background:#121f36;transition:all .2s linear;height:calc(100vh - 81px)}.ds__aside.hide-detail .ds__aside__detail{width:0;display:none;transition:all .3s linear}.ds__aside .aside__link{padding:8px 15px;border-bottom:1px solid #050910;cursor:pointer;transition:.2s all ease-in}.ds__aside .aside__link:hover{background:#050910}.ds__aside .aside__link .beyond-icon{margin:0;fill:red;height:16px;width:16px;font-size:13px}.ds__aside .ds__aside__detail{padding:0;z-index:2;min-width:220px;max-width:220px;position:sticky;align-items:start;top:50px;height:calc(100vh - 81px);overflow:hidden;width:100%;transition:all .3s linear}.ds__aside .ds__aside__detail>.beyond-element-spinner{display:none}.ds__aside .ds__aside__detail.is-fetching{opacity:.3}.ds__aside .ds__aside__detail.is-fetching .ds-aside__header .beyond-icon{display:none}.ds__aside .ds__aside__detail.is-fetching>.beyond-element-spinner{display:flex;position:absolute;top:15px;right:15px}.ds__aside .ds__aside__detail .ds-tree{position:relative}.ds-aside__header{align-items:center;padding:0 0 0 15px;height:34px;border-bottom:2px solid #313c50;display:flex;justify-content:space-between}.ds-aside__header.flex-row{display:flex}.ds-aside__header.flex-space{justify-content:space-between}.ds-aside__header .beyond-icon{fill:#F0F0F0}.ds-aside__header h3{margin:0;font-size:14px;padding:0}.ds-aside__header .inline__actions .beyond-icon-button{margin:0;height:30px;width:30px}.ds__pre-aside ul li{border-left:4px solid transparent}.ds__pre-aside ul li .beyond-icon-button{opacity:.7;cursor:not-allowed}.ds__pre-aside ul li.disabled{opacity:.7;cursor:none}.ds__pre-aside ul li .beyond-icon-button{height:50px;width:50px;fill:#FFFFFF;transition:all 150ms linear}.ds__pre-aside ul li .beyond-icon-button svg{height:20px;width:20px}.ds__pre-aside ul li.active,.ds__pre-aside ul li:active,.ds__pre-aside ul li:hover{border-left-color:#e36152;background:rgba(255,255,255,.1)}.ds__pre-aside ul li.active .beyond-icon-button,.ds__pre-aside ul li:active .beyond-icon-button,.ds__pre-aside ul li:hover .beyond-icon-button{opacity:1}.ds__pre-aside{display:flex;flex-direction:column;align-items:start;position:sticky;top:50px;justify-content:space-between;height:calc(100vh - 80px);border-right:.5px solid rgba(5,9,16,.4)}.ds__pre-aside .end-list{border-top:1px solid #fff;background:#050910}.ds__pre-aside ul{list-style:none;padding:0;margin:0}';
+  bundle.styles.value = '.ds__aside{display:flex;flex-direction:row;position:relative;align-items:start;background:#121f36;transition:all .2s linear;height:calc(100vh - 81px)}.ds__aside.hide-detail .ds__aside__detail{width:0;display:none;transition:all .3s linear}.ds__aside .aside__link{padding:8px 15px;border-bottom:1px solid #050910;cursor:pointer;transition:.2s all ease-in}.ds__aside .aside__link:hover{background:#050910}.ds__aside .aside__link .beyond-icon{margin:0;fill:red;height:16px;width:16px;font-size:13px}.ds__aside .ds__aside__detail{padding:0;z-index:2;min-width:220px;max-width:220px;position:sticky;align-items:start;top:50px;height:calc(100vh - 81px);overflow:hidden;width:100%;transition:all .3s linear}.ds__aside .ds__aside__detail>.beyond-element-spinner{display:none}.ds__aside .ds__aside__detail.is-fetching{opacity:.3}.ds__aside .ds__aside__detail.is-fetching .ds-aside__header .beyond-icon{display:none}.ds__aside .ds__aside__detail.is-fetching>.beyond-element-spinner{display:flex;position:absolute;top:15px;right:15px}.ds__aside .ds__aside__detail .ds-tree{position:relative}.ds-aside__header{align-items:center;padding:0 0 0 15px;height:34px;border-bottom:2px solid #313c50;display:flex;justify-content:space-between}.ds-aside__header.flex-row{display:flex}.ds-aside__header.flex-space{justify-content:space-between}.ds-aside__header .beyond-icon{fill:#F0F0F0}.ds-aside__header h3{margin:0;font-size:14px;padding:0}.ds-aside__header .inline__actions .beyond-icon-button{margin:0;height:30px;width:30px}.ds__pre-aside ul li{border-left:4px solid transparent}.ds__pre-aside ul li .beyond-icon-button{opacity:.7;cursor:not-allowed}.ds__pre-aside ul li.disabled{opacity:.7;cursor:none}.ds__pre-aside ul li .beyond-icon-button{height:50px;width:50px;fill:#FFFFFF;transition:all 150ms linear}.ds__pre-aside ul li .beyond-icon-button svg{height:20px;width:20px}.ds__pre-aside ul li.active,.ds__pre-aside ul li:active,.ds__pre-aside ul li:hover{border-left-color:#e36152;background:rgba(255,255,255,.1)}.ds__pre-aside ul li.active .beyond-icon-button,.ds__pre-aside ul li:active .beyond-icon-button,.ds__pre-aside ul li:hover .beyond-icon-button{opacity:1}.ds__pre-aside{display:flex;flex-direction:column;align-items:start;position:sticky;top:50px;justify-content:space-between;height:calc(100vh - 80px);border-right:.5px solid rgba(5,9,16,.4)}.ds__pre-aside .end-list{border-top:1px solid #fff;background:#050910}.ds__pre-aside ul{list-style:none;padding:0;margin:0}';
   bundle.styles.appendToDOM();
-  const modules = new Map();
+  const modules = new Map(); // Exports managed by beyond bundle objects
 
-  __pkg.exports.process = function (require, _exports) {};
+  __pkg.exports.managed = function (require, _exports) {}; // Module exports
+
+
+  __pkg.exports.process = function (require) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;

@@ -6,6 +6,7 @@ export function DSWorkspace({workspace}) {
     const [showModal, setShowModal] = React.useState(false);
     const [ready, setReady] = React.useState(false);
     const navigateModule = route => setState({navigator: route, openNavigator: true});
+    const showProjectForm = () => setShowModal(true);
 
     useBinder([workspace], () => setState({ready: workspace.ready, ...workspace.state}));
     React.useEffect(() => {
@@ -14,29 +15,37 @@ export function DSWorkspace({workspace}) {
             tippy: {placement: 'right'},
             action: () => workspace.openBoard('applications')
         });
-        DSPreAside.addToBottom('settings', {
-            action: (name, params) => workspace.openBoard(name, params),
-            icon: 'setting', title: 'Configuración', tippy: {
-                placement: 'right'
+        DSPreAside.addItems('bottom', {
+            newProject: {
+                action: showProjectForm,
+                icon: 'newProject', title: 'New Project', tippy: {
+                    placement: 'right'
+                }
+            },
+            settings: {
+                action: navigateModule,
+                icon: 'setting', title: 'Configuración', tippy: {
+                    placement: 'right'
+                }
             }
-        })
+        });
     }, []);
 
     if (!workspace.ready || !ready) {
         return <PreloadWelcome setReady={setReady} workspace={workspace}/>
     }
 
-    if (!workspace.user.hasAccess) {
-        return <DeveloperForm texts={workspace.texts} workspace={workspace}/>;
-    }
+    // if (!workspace.user.hasAccess) {
+    //     return <DeveloperForm texts={workspace.texts} workspace={workspace}/>;
+    // }
     const {texts, applications, active, panels} = workspace;
 
-    let value = {
-        ready: state.ready,
+    const value = {
         workspace, texts, applications, navigateModule, active, panels,
-        showAppForm: () => setShowModal(true),
-        showModuleForm: () => setState({addModule: true}),
-        panel: panels.active
+        ready: state.ready,
+        panel: panels.active,
+        showProjectForm,
+        showModuleForm: () => setState({addModule: true})
     };
 
     return (
@@ -52,15 +61,10 @@ export function DSWorkspace({workspace}) {
                     <FooterBar/>
                 </div>
             </DSWorkspaceContext.Provider>
-            {showModal && <ApplicationCreate closeModal={() => {
-                setShowModal(false)
-            }}/>}
+            {showModal && <ApplicationCreate closeModal={() => setShowModal(false)}/>}
             {state.addModule &&
-             <CreateModuleForm
-                 workspace={workspace}
-                 onClose={() => {
-                     workspace.setState({addModule: false})
-                 }}/>}
+                <CreateModuleForm workspace={workspace} onClose={() => workspace.setState({addModule: false})}/>
+            }
         </>
     );
 }

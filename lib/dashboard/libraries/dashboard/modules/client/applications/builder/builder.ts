@@ -40,10 +40,17 @@ export class ApplicationBuilder extends Events {
         return this.#messages;
     }
 
+
     #processing: boolean;
     get processing() {
         return this.#processing;
     }
+
+    #fetching: boolean;
+    get fetching() {
+        return this.#fetching;
+    }
+
 
     #completed: boolean;
     get completed() {
@@ -83,10 +90,15 @@ export class ApplicationBuilder extends Events {
     }
 
     async build(distribution: DistributionSpecs) {
-        if (typeof distribution !== 'object')
-            throw new Error('Invalid distribution parameter');
-        if (!['development', 'production'].includes(distribution.environment))
-            throw new Error('Parameter "environment" is invalid');
+        if (typeof distribution !== 'object') throw new Error('Invalid distribution parameter');
+
+        let environment = distribution.environment ?? 'development';
+        if (!['development', 'production'].includes(distribution.environment)) {
+            this.onMessage({
+                type: `build/application/message`,
+                text: `The distribution has no environment, compiling with default distribution: ${environment}`
+            });
+        }
 
         await this.prepare();
 
@@ -94,7 +106,7 @@ export class ApplicationBuilder extends Events {
             name: distribution.name ?? 'unnamed',
             platform: distribution.platform,
             ssr: distribution.ssr,
-            environment: distribution.environment,
+            environment: environment,
             compress: !!distribution.compress,
             icons: distribution.icons
         };

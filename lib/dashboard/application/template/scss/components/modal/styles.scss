@@ -1,11 +1,13 @@
 .beyond-element-modal.ds-modal {
-  * {
+
+
+  .beyond-input, label {
     color: $beyond-modal-text-color;
   }
-
   .modal-content, .ds-modal__content {
     background: $ds-modal-background;
     color: $ds-modal-color;
+
     padding: 0;
     border: none;
     display: grid;

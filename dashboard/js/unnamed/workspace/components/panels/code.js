@@ -45,11 +45,16 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     get activeItem() {
       return this.#activeItem;
     }
+    /**
+     *
+     * @private
+     */
 
-    _boards;
+
+    #boards;
 
     get boards() {
-      return this._boards;
+      return this.#boards;
     }
 
     #editor;
@@ -110,7 +115,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
       super();
       this.#id = id;
       this._parent = parent;
-      this._boards = parent.boards;
+      this.#boards = parent.boards;
       window.panel = this;
       this.#load();
 
@@ -267,8 +272,13 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
      * Adds tabs that doesn't needs the editor instance
      *
      * The tab must exists in the boards object.
-     * @param name
-     * @param specs
+     * @param specs {object} bridge to pass parameters required by the board
+     * @param name {string} Name of the board.
+     * @param specs.label {string} Label to show on board tab.
+     * @param specs?.name {string} name to identify the board.
+     * @params specs?.moduleId {string} if the board to show is the board of a module, the moduleId is required
+     *
+     *
      */
 
 
@@ -282,22 +292,24 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
       let label = specs.label ? specs.label : control.label;
       const labelName = specs.label ? `${name}.${label.toLowerCase().replace(/ /g, '-')}` : undefined;
       const tabName = specs.name ? specs.name : specs.moduleId ? specs.moduleId : specs.label ? labelName : name;
+      const id = specs.id || specs.name || tabName;
 
       if (name === 'application') {
         const application = await _code3.applicationsFactory.get(specs.id);
         label = application.name;
       }
 
-      this.tabs.set(tabName, {
-        label: label,
+      this.tabs.set(id, {
+        id,
+        label,
+        name,
         type: 'content',
-        id: tabName,
         path: name,
-        name: name,
         control: control.control,
         specs
-      });
-      this.#activeItem = tabName;
+      }); //the activeItem is used by the Panel View component to understand which board must be shown.
+
+      this.#activeItem = id;
       this.triggerEvent('panel.updated');
       this.triggerEvent();
     }
@@ -372,10 +384,10 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
 
 
   class PanelsManager extends _js.ReactiveModel {
-    _boards;
+    #boards;
 
     get boards() {
-      return this._boards;
+      return this.#boards;
     }
 
     _total = 1;
@@ -396,16 +408,16 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
       return this._active;
     }
 
-    _workspace;
-
-    get workspace() {
-      return this._workspace;
-    }
-
     set active(panel) {
       if (this._active?.id === panel?.id) return;
       this._active = panel;
       this.triggerEvent();
+    }
+
+    _workspace;
+
+    get workspace() {
+      return this._workspace;
     }
 
     #ready;
@@ -425,7 +437,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     constructor(boards, workspace, data) {
       super();
       this.bind('editor', this.triggerEvent);
-      this._boards = boards;
+      this.#boards = boards;
       this._workspace = workspace;
       this.#load(data);
     }
@@ -468,8 +480,16 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     };
     /**
      * Adds a new panel
-     * @param name
-     * @param specs
+     *
+     * This method receives the same parameters that panel.add. It creates
+     * a new panel and once the panel has been created, call the
+     * panel add method if the name and specs paremeters has been passed, if not
+     * the manager will put the same panel opened on the current panel.
+     *
+     * @param name {string} Name of the board to open.
+     * @param specs {object} Specs required to open the board. It could be change
+     * per board.
+     *
      */
 
     async add(name, specs = {}) {
@@ -829,11 +849,14 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
 
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.ds__content-panel{padding:20px;width:100%}.ds__content-panel header{border-bottom:1px solid #a2000a;margin-bottom:30px}.ds__content-panel .form-column{display:flex;gap:10px;align-items:center}.ds__content-panel .form-column select{background:0 0;color:#fff;padding:8px}.ds__content-panel .form-column select option{color:#000}.panels__container .ds__panel{display:grid;grid-template-rows:auto 1fr;width:100%;flex-grow:0;overflow:auto;height:100%}.panels__container .ds__panel+.ds__panel{border-left:solid 2px #050910}@media (max-width:600px){.panels__container .ds__panel{flex-direction:row}}.panels__container .ds__panel>div{min-height:100%}.panels__container .ds-panels__actions{position:absolute;top:0;right:15px;z-index:1;height:34px}.panels__container .ds-panels__actions .beyond-icon-button{height:100%;width:30px;background:0 0;fill:#FFFFFF}.ds-application-view-layout .panels__container{display:grid;width:100%;height:calc(100vh - 81px);overflow:hidden;position:relative;z-index:2}.ds-application-view-layout .panels__container.panels--vertical{grid-auto-flow:row}.ds-application-view-layout .ds__tabs-container{display:flex;background:#313c50}.ds-application-view-layout .ds__tabs-container .ds__tab{height:34px;padding:8px 15px;background:#1a1a1a;display:flex;gap:8px;border-bottom:2px solid transparent;align-items:center;font-size:.9rem;cursor:pointer}.ds-application-view-layout .ds__tabs-container .ds__tab:hover{background:rgba(255,128,86,.4)}.ds-application-view-layout .ds__tabs-container .ds__tab:hover .beyond-icon{stroke-width:15px;stroke:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab.item-active{border-left:.5px solid rgba(255,128,86,.8);border-right:.5px solid rgba(255,128,86,.8);border-bottom-color:#ff8056;background:rgba(255,128,86,.8)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon{margin:0 -10px 0 0;height:15px;width:15px;padding:0}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon.tab--unpublished:not(:hover){background:#ff8056;border-radius:50%;fill:#FF8056}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon{height:.8rem;width:.8rem;transition:all .2s linear;fill:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon:hover{stroke-width:15px;stroke:#fff}';
+  bundle.styles.value = '.ds__content-panel{padding:20px;width:100%}.ds__content-panel header{border-bottom:1px solid #a2000a;margin-bottom:30px}.ds__content-panel .form-column{display:flex;gap:10px;align-items:center}.ds__content-panel .form-column select{background:0 0;color:#fff;padding:8px}.ds__content-panel .form-column select option{color:#000}.panels__container .ds__panel{display:grid;grid-template-rows:auto 1fr;width:100%;flex-grow:0;overflow:auto;height:100%}.panels__container .ds__panel+.ds__panel{border-left:solid 2px #050910}@media (max-width:600px){.panels__container .ds__panel{flex-direction:row}}.panels__container .ds__panel>div{min-height:100%}.panels__container .ds-panels__actions{position:absolute;top:0;right:15px;z-index:1;height:34px}.panels__container .ds-panels__actions .beyond-icon-button{height:100%;width:30px;background:0 0;fill:#FFFFFF}.ds-application-view-layout .panels__container{display:grid;width:100%;height:calc(100vh - 81px);overflow:hidden;position:relative;z-index:2}.ds-application-view-layout .panels__container.panels--vertical{grid-auto-flow:row}.ds-application-view-layout .ds__tabs-container{display:flex;background:#313c50}.ds-application-view-layout .ds__tabs-container .ds__tab{height:34px;padding:8px 15px;background:#1a1a1a;display:flex;gap:8px;border-bottom:2px solid transparent;align-items:center;font-size:.9rem;cursor:pointer}.ds-application-view-layout .ds__tabs-container .ds__tab:hover{background:rgba(255,128,86,.4)}.ds-application-view-layout .ds__tabs-container .ds__tab:hover .beyond-icon{stroke-width:15px;stroke:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab.item-active{border-left:.5px solid rgba(255,128,86,.8);border-right:.5px solid rgba(255,128,86,.8);border-bottom-color:#ff8056;background:rgba(255,128,86,.8)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon{margin:0 -10px 0 0;height:15px;width:15px;padding:0}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon.tab--unpublished:not(:hover){background:#ff8056;border-radius:50%;fill:#FF8056}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon{height:.8rem;width:.8rem;transition:all .2s linear;fill:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon:hover{stroke-width:15px;stroke:#fff}';
   bundle.styles.appendToDOM();
-  const modules = new Map();
+  const modules = new Map(); // Exports managed by beyond bundle objects
 
-  __pkg.exports.process = function (require, _exports) {};
+  __pkg.exports.managed = function (require, _exports) {}; // Module exports
+
+
+  __pkg.exports.process = function (require) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;

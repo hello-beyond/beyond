@@ -144,7 +144,7 @@ export class Routing {
         const cancellationTokenId = this.#cancellationToken.reset();
 
         const {hash, pathname, search} = location;
-        const _uri = this.#mode === RoutingMode.Hash ? `/${hash.slice(1)}` : pathname + search;
+        const _uri = this.#mode === RoutingMode.Hash ? `/${hash.slice(1)}` : pathname + search + hash;
         if (this.#uri?.uri === _uri) return;
 
         const uri = new URI(_uri);

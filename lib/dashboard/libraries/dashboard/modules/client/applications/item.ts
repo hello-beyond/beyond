@@ -158,11 +158,9 @@ class Application extends File {
     routes() {
         const routes: string[] = [];
 
-        this.am && this.am.items.forEach((am: ApplicationModule) => {
-            am.bundles.forEach((bundle: Bundle) =>
-                bundle.additional?.is === 'page' && (routes.push(bundle.additional.route))
-            )
-        });
+        this.am && this.am.items.forEach((am: ApplicationModule) =>
+            am.bundles.forEach((bundle: Bundle) => bundle.type === 'page' && routes.push(bundle.route))
+        );
 
         return routes;
     }

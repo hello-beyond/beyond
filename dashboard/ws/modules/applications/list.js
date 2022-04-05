@@ -5,9 +5,11 @@ module.exports = actions => async (params, session) => {
     const monitor = `${session.monitor}-client`;
 
     let applications = {};
+    const items = await global.utils.ipc.exec(monitor, action, params);
+    //All requests receive the same items
     for (const [requestId] of requests) {
-        applications = {...applications, ...await global.utils.ipc.exec(monitor, action, params)};
-        calls.push([requestId, Object.keys(applications)]);
+        applications = {...applications, ...items};
+        calls.push([requestId, Object.keys(items)]);
     }
 
     applications = await actions.backends(applications, 'application');

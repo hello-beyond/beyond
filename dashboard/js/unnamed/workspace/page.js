@@ -1,4 +1,4 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/settings/code", "@beyond-js/dashboard/applications-board/code", "@beyond-js/dashboard/unnamed/application/create/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/unnamed/application/board/code", "@beyond-js/dashboard/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/unnamed/modules/view/code", "@beyond-js/dashboard/unnamed/modules/create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/unnamed/components/uploader/code", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/settings/code", "@beyond-js/dashboard/applications-board/code", "@beyond-js/dashboard/project-create/code", "@beyond-js/dashboard/app-compile/code", "@beyond-js/dashboard/project-board/code", "@beyond-js/dashboard/aside/code", "@beyond-js/dashboard/unnamed/workspace/components/navigator/code", "@beyond-js/dashboard/unnamed/workspace/components/panels/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/module-view/code", "@beyond-js/dashboard/module-create/code", "@beyond-js/dashboard/unnamed/layout/header-bar/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _ts, _code4, _code5, _code6, _code7, _code8, _code9, _code10, _code11, _code12, _code13, _code14, _code15, _code16, _code17, _code18, _code19, _code20, _code21, dependency_0, dependency_1) {
   "use strict";
 
   Object.defineProperty(_exports2, "__esModule", {
@@ -52,6 +52,12 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       return this.#panel;
     }
 
+    #projectItems;
+
+    get projectItems() {
+      return this.#projectItems;
+    }
+
     #workspace;
 
     get workspace() {
@@ -62,17 +68,24 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       super();
       this.#workspace = parent;
       this.#workspace.bind('change', this.#binder);
+      this.#binder();
     }
 
     #binder = () => {
-      this.workspace.active ? this.addApplicationItems() : this.removeApplicationItems();
+      if (!this.workspace.ready) return;
+      if (!!this.workspace.active === this.#projectItems) return;
+      this.workspace.active ? this.addProjectItems() : this.removeProjectItems();
     };
 
-    removeApplicationItems() {
+    removeProjectItems() {
+      this.#projectItems = false;
+
       _code18.DSPreAside.remove(['application', 'module', 'favorites', 'add', 'template', 'statics']);
     }
 
-    addApplicationItems() {
+    addProjectItems() {
+      this.#projectItems = true;
+
       _code18.DSPreAside.addItems('top', {
         application: {
           action: name => {
@@ -86,7 +99,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
         },
         module: {
           action: this.setActive,
-          icon: 'folder',
+          icon: 'pinup',
           title: 'Modulo',
           tippy: {
             placement: 'right'
@@ -94,7 +107,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
         },
         favorites: {
           action: this.setActive,
-          icon: 'favorite',
+          icon: 'bookmark',
           title: 'Favoritos',
           tippy: {
             placement: 'right'
@@ -610,11 +623,25 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       this.#save();
     }
 
-    openNavigator(id, url) {
-      this.openBoard('navigator', {
+    openNavigator(id, url, newTab = true) {
+      const {
+        panels,
+        active
+      } = this;
+      const specs = {
         applicationId: id,
-        url
-      });
+        url,
+        id: `navigator.${performance.now()}`
+      };
+
+      if (panels.items.size === 1) {
+        this.panels.add('navigator', specs);
+        return;
+      }
+
+      const toActivateId = panels.active.id > 1 ? panels.active.id - 1 : 2;
+      panels.active = panels.items.get(toActivateId);
+      this.openBoard('navigator', specs);
     }
 
     getApplication(id, moduleId, element) {
@@ -1076,6 +1103,8 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       openNavigator: true
     });
 
+    const showProjectForm = () => setShowModal(true);
+
     (0, _code4.useBinder)([workspace], () => setState({
       ready: workspace.ready,
       ...workspace.state
@@ -1090,12 +1119,22 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
         action: () => workspace.openBoard('applications')
       });
 
-      _code18.DSPreAside.addToBottom('settings', {
-        action: (name, params) => workspace.openBoard(name, params),
-        icon: 'setting',
-        title: 'Configuración',
-        tippy: {
-          placement: 'right'
+      _code18.DSPreAside.addItems('bottom', {
+        newProject: {
+          action: showProjectForm,
+          icon: 'newProject',
+          title: 'New Project',
+          tippy: {
+            placement: 'right'
+          }
+        },
+        settings: {
+          action: navigateModule,
+          icon: 'setting',
+          title: 'Configuración',
+          tippy: {
+            placement: 'right'
+          }
         }
       });
     }, []);
@@ -1105,14 +1144,10 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
         setReady: setReady,
         workspace: workspace
       });
-    }
+    } // if (!workspace.user.hasAccess) {
+    //     return <DeveloperForm texts={workspace.texts} workspace={workspace}/>;
+    // }
 
-    if (!workspace.user.hasAccess) {
-      return /*#__PURE__*/React.createElement(DeveloperForm, {
-        texts: workspace.texts,
-        workspace: workspace
-      });
-    }
 
     const {
       texts,
@@ -1120,19 +1155,19 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       active,
       panels
     } = workspace;
-    let value = {
-      ready: state.ready,
+    const value = {
       workspace,
       texts,
       applications,
       navigateModule,
       active,
       panels,
-      showAppForm: () => setShowModal(true),
+      ready: state.ready,
+      panel: panels.active,
+      showProjectForm,
       showModuleForm: () => setState({
         addModule: true
-      }),
-      panel: panels.active
+      })
     };
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_code18.DSWorkspaceContext.Provider, {
       value: value
@@ -1141,16 +1176,12 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
     }, /*#__PURE__*/React.createElement(Toolbar, null), /*#__PURE__*/React.createElement(AppErrors, null), /*#__PURE__*/React.createElement(_code14.WorspaceAside, null), /*#__PURE__*/React.createElement("div", {
       className: "ds__main-container"
     }, /*#__PURE__*/React.createElement(_code16.Panels, null)), /*#__PURE__*/React.createElement(FooterBar, null))), showModal && /*#__PURE__*/React.createElement(_code11.ApplicationCreate, {
-      closeModal: () => {
-        setShowModal(false);
-      }
+      closeModal: () => setShowModal(false)
     }), state.addModule && /*#__PURE__*/React.createElement(_code20.CreateModuleForm, {
       workspace: workspace,
-      onClose: () => {
-        workspace.setState({
-          addModule: false
-        });
-      }
+      onClose: () => workspace.setState({
+        addModule: false
+      })
     }));
   }
   /**********
@@ -1159,11 +1190,14 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
 
 
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-alert{border-radius:0}.beyond-alert .beyond-alert_content{display:grid;align-items:center}.beyond-alert ul{display:grid;list-style:none;padding:0;margin:0;align-items:center}.beyond-alert ul li:first-letter{text-transform:uppercase}.beyond-alert.alert-warning{color:#533c06}.container__early__form{display:flex;align-items:center;justify-content:center;height:100vh;justify-items:center;flex-direction:column;max-width:500px;margin:auto;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form 0%{opacity:0}.container__early__form 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .warning-text{color:#f7d994;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form .warning-text 0%{opacity:0}.container__early__form .warning-text 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .logo img{max-width:200px}.container__early__form header{text-align:center;margin-bottom:30px}.container__early__form header h1{font-size:20px;margin-left:1rem}.container__early__form.ending .elements__section{opacity:.1}.container__early__form.ending.ending-left .elements__section{-webkit-animation-name:fadeOutLeft;-moz-animation-name:fadeOutLeft;-ms-animation-name:fadeOutLeft;-o-animation-name:fadeOutLeft;animation-name:fadeOutLeft;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-moz-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-ms-keyframes fadeOutLeft{.container__early__form.ending.ending-left .elements__section 0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}.container__early__form.ending.ending-left .elements__section 100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-o-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}.container__early__form .elements__section{display:flex;justify-content:center;flex-direction:column;align-items:center}.container__early__form form{width:100%}.container__early__form form .form-group{display:flex;border-radius:4px}.container__early__form form .form-group .form-sub-group{position:relative}.container__early__form form .form-group .form-sub-group:last-child{flex-grow:1}.container__early__form form .form-group .form-sub-group .beyond-element-input{color:#fff}.container__early__form form .form-group .form-sub-group label{position:absolute;top:0;left:0;cursor:text;transform-origin:0 0;transition:all .3s}.container__early__form form .upper-text{text-transform:uppercase}.container__early__form form .form__actions{margin:40px 0;display:flex;justify-items:center;align-content:center;justify-content:center}.container__early__form form .form__actions .beyond-button{height:40px;width:60%}.container__early__form form .form__actions .beyond-button[disabled]{opacity:.2}.container__early__form form .early__message{font-size:1.1rem;padding:0 20px;text-align:center;color:#ff8056}.early-access__container{display:flex;align-items:center;justify-content:center;flex-direction:column;width:100%}.early-access__container header h1{color:#ff8056}.early-access__container form{display:grid;gap:15px}.early-access__container form label{display:inline-grid;text-align:center;font-size:1.4rem}.early-access__container form input{margin-top:30px;border:1px solid #ff8056;background:0 0;padding:15px;border-radius:15px;font-size:1.5rem;color:#ff8056;text-transform:uppercase;text-align:center;outline:0}.app__empty__container{height:100%;width:100%;display:flex;justify-content:center;align-items:top;padding-top:15%}.ds-footer-bar{grid-area:footer;z-index:8;position:fixed;bottom:0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;left:0;right:0;padding:8px 15px;background:#050910;display:flex;justify-content:space-between;align-items:center}.ds-footer-bar *{font-size:10px;padding:0}.ds-footer-bar h1,.ds-footer-bar h2,.ds-footer-bar h3,.ds-footer-bar p{padding:0;margin:0}.ds-footer-bar span{display:inline-flex;padding:0 5px}.ds-footer-bar .primary-text{color:#ff8056}.ds-footer-bar .beyond-button{background:#000;border:0;color:#fff}.ds__main-container{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#000;z-index:1}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-application-view-layout{display:grid;height:100%;grid-template-areas:"toolbar toolbar" "errors errors" "aside panel" "aside panel" "footer footer";grid-template-columns:auto 1fr;grid-template-rows:auto auto 1fr auto;overflow:no-display}.ds-application-view-layout .ds-toolbar{grid-area:toolbar;z-index:2}.ds-application-view-layout .ds__aside{grid-area:aside}.ds-application-view-layout .ds__workspace__errors{grid-area:errors}.ds-application-view-layout .ds__main-content{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#1a1a1a}.dashboard-layout .ds-toolbar .toolbar__aside__logo{background:url("/images/logo.png") no-repeat center center #313c50;background-size:50%;width:274px;display:flex;align-items:center;justify-content:center;height:50px}.dashboard-layout.aside-hidden .ds-toolbar .toolbar__aside__logo{width:54px;background-image:url("/images/beyond-iso.png");background-size:35%;overflow:hidden}.dashboard-layout .ds-toolbar{display:flex;position:sticky;justify-content:flex-start;align-items:center;gap:20px;height:50px;top:0;transition:all .3s linear;background:#121f36}.dashboard-layout .ds-toolbar .group-items-toolbar{display:flex;justify-content:space-between;width:100%;height:100%;align-items:center}.dashboard-layout .ds-toolbar .group-items-toolbar .right__panel{display:flex;gap:15px;place-items:center;height:100%}.dashboard-layout .ds-toolbar .ds-editor__module-name{display:flex;gap:15px;align-items:center}.dashboard-layout .ds-toolbar .ds-editor__module-name .beyond-icon{fill:#fff}';
+  bundle.styles.value = '.beyond-alert{border-radius:0}.beyond-alert .beyond-alert_content{display:grid;align-items:center}.beyond-alert ul{display:grid;list-style:none;padding:0;margin:0;align-items:center}.beyond-alert ul li:first-letter{text-transform:uppercase}.beyond-alert.alert-warning{color:#533c06}.container__early__form{display:flex;align-items:center;justify-content:center;height:100vh;justify-items:center;flex-direction:column;max-width:500px;margin:auto;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form 0%{opacity:0}.container__early__form 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .warning-text{color:#f7d994;-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{.container__early__form .warning-text 0%{opacity:0}.container__early__form .warning-text 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}.container__early__form .logo img{max-width:200px}.container__early__form header{text-align:center;margin-bottom:30px}.container__early__form header h1{font-size:20px;margin-left:1rem}.container__early__form.ending .elements__section{opacity:.1}.container__early__form.ending.ending-left .elements__section{-webkit-animation-name:fadeOutLeft;-moz-animation-name:fadeOutLeft;-ms-animation-name:fadeOutLeft;-o-animation-name:fadeOutLeft;animation-name:fadeOutLeft;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-moz-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-ms-keyframes fadeOutLeft{.container__early__form.ending.ending-left .elements__section 0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}.container__early__form.ending.ending-left .elements__section 100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@-o-keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}@keyframes fadeOutLeft{0%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}100%{opacity:0;-webkit-transform:translateX(-20px);-moz-transform:translateX(-20px);-ms-transform:translateX(-20px);-o-transform:translateX(-20px);transform:translateX(-20px)}}.container__early__form .elements__section{display:flex;justify-content:center;flex-direction:column;align-items:center}.container__early__form form{width:100%}.container__early__form form .form-group{display:flex;border-radius:4px}.container__early__form form .form-group .form-sub-group{position:relative}.container__early__form form .form-group .form-sub-group:last-child{flex-grow:1}.container__early__form form .form-group .form-sub-group .beyond-element-input{color:#fff}.container__early__form form .form-group .form-sub-group label{position:absolute;top:0;left:0;cursor:text;transform-origin:0 0;transition:all .3s}.container__early__form form .upper-text{text-transform:uppercase}.container__early__form form .form__actions{margin:40px 0;display:flex;justify-items:center;align-content:center;justify-content:center}.container__early__form form .form__actions .beyond-button{height:40px;width:60%}.container__early__form form .form__actions .beyond-button[disabled]{opacity:.2}.container__early__form form .early__message{font-size:1.1rem;padding:0 20px;text-align:center;color:#ff8056}.early-access__container{display:flex;align-items:center;justify-content:center;flex-direction:column;width:100%}.early-access__container header h1{color:#ff8056}.early-access__container form{display:grid;gap:15px}.early-access__container form label{display:inline-grid;text-align:center;font-size:1.4rem}.early-access__container form input{margin-top:30px;border:1px solid #ff8056;background:0 0;padding:15px;border-radius:15px;font-size:1.5rem;color:#ff8056;text-transform:uppercase;text-align:center;outline:0}.app__empty__container{height:100%;width:100%;display:flex;justify-content:center;align-items:top;padding-top:15%}.ds-footer-bar{grid-area:footer;z-index:8;position:fixed;bottom:0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;left:0;right:0;padding:8px 15px;background:#050910;display:flex;justify-content:space-between;align-items:center}.ds-footer-bar *{font-size:10px;padding:0}.ds-footer-bar h1,.ds-footer-bar h2,.ds-footer-bar h3,.ds-footer-bar p{padding:0;margin:0}.ds-footer-bar span{display:inline-flex;padding:0 5px}.ds-footer-bar .primary-text{color:#ff8056}.ds-footer-bar .beyond-button{background:#000;border:0;color:#fff}.ds__main-container{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#000;z-index:1}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-application-view-layout{display:grid;height:100%;grid-template-areas:"toolbar toolbar" "errors errors" "aside panel" "aside panel" "footer footer";grid-template-columns:auto 1fr;grid-template-rows:auto auto 1fr auto;overflow:hidden}.ds-application-view-layout .ds-toolbar{grid-area:toolbar;z-index:2}.ds-application-view-layout .ds__aside{grid-area:aside}.ds-application-view-layout .ds__workspace__errors{grid-area:errors}.ds-application-view-layout .ds__main-content{display:flex;width:100%;position:relative;flex-grow:0;flex-wrap:nowrap;overflow:hidden;flex-shrink:0;grid-area:panel;min-height:100%;overflow-x:auto;background:#1a1a1a}.dashboard-layout .ds-toolbar .toolbar__aside__logo{background:url("/images/logo.png") no-repeat center center #313c50;background-size:50%;width:274px;display:flex;align-items:center;justify-content:center;height:50px}.dashboard-layout.aside-hidden .ds-toolbar .toolbar__aside__logo{width:54px;background-image:url("/images/beyond-iso.png");background-size:35%;overflow:hidden}.dashboard-layout .ds-toolbar{display:flex;position:sticky;justify-content:flex-start;align-items:center;gap:20px;height:50px;top:0;transition:all .3s linear;background:#121f36}.dashboard-layout .ds-toolbar .group-items-toolbar{display:flex;justify-content:space-between;width:100%;height:100%;align-items:center}.dashboard-layout .ds-toolbar .group-items-toolbar .right__panel{display:flex;gap:15px;place-items:center;height:100%}.dashboard-layout .ds-toolbar .ds-editor__module-name{display:flex;gap:15px;align-items:center}.dashboard-layout .ds-toolbar .ds-editor__module-name .beyond-icon{fill:#fff}';
   bundle.styles.appendToDOM();
-  const modules = new Map();
+  const modules = new Map(); // Exports managed by beyond bundle objects
 
-  __pkg.exports.process = function (require, _exports) {};
+  __pkg.exports.managed = function (require, _exports) {}; // Module exports
+
+
+  __pkg.exports.process = function (require) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;

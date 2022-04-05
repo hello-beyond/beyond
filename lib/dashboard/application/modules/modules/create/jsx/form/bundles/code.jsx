@@ -1,7 +1,10 @@
 function FormCode({state, handleChange}) {
-    const {bundle, texts} = useCreateModuleContext();
+    const {bundle, model, texts} = useCreateModuleContext();
 
     if (bundle !== 'code') return null;
+
+    const inputsAttrs = {};
+    if (model.fetching) inputsAttrs.disabled = true;
 
     const fields = (
         <>
@@ -9,6 +12,7 @@ function FormCode({state, handleChange}) {
                 <div>
                     <BeyondInput
                         name="title"
+                        {...inputsAttrs}
                         label={texts.form.title}
                         placeholder={texts.placeholder.title}
                         value={state.title}
@@ -18,6 +22,7 @@ function FormCode({state, handleChange}) {
                 <div>
                     <BeyondInput
                         name="description"
+                        {...inputsAttrs}
                         label={texts.form.description}
                         placeholder={texts.placeholder.description}
                         value={state.description}
@@ -35,6 +40,7 @@ function FormCode({state, handleChange}) {
                 <BeyondInput
                     required
                     name="name"
+                    {...inputsAttrs}
                     label={texts.form.name}
                     placeholder={texts.placeholder.name}
                     value={state.name}

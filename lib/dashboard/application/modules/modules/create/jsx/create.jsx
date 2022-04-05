@@ -32,7 +32,7 @@ export const CreateModuleForm = ({workspace, onClose}) => {
         template,
         selectOrigin,
         bundle: bundleType,
-        model, application,
+        model, workspace, application,
         selectTemplate: template => setTemplate(template)
     };
 

@@ -16,8 +16,12 @@ class ProcessorDependency extends Item {
         return this.fields.get('version').value;
     }
 
-    get external(): boolean {
-        return this.fields.get('external').value;
+    get kind(): string {
+        return this.fields.get('kind').value;
+    }
+
+    get valid(): boolean {
+        return this.fields.get('valid').value;
     }
 
     get resource(): string {

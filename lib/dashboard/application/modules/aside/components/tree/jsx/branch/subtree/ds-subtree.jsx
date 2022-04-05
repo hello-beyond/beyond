@@ -28,12 +28,12 @@ function DSSubTree({branch, label, actions, className, level = 1}) {
     return (
         <li className={cls}>
             <DSItemHeader item={branch} level={level} onClick={onClick}>
-                <div style={styles} className="item__label">
+                <div className="item__label">
                     <DSIcon icon={titleIcon}/>
                     <span>{branch.label}</span>
                 </div>
             </DSItemHeader>
-            <BranchList opened={opened} level={level + 1} tree={branch}/>
+            <BranchList className="subtree__list" opened={opened} level={level + 1} tree={branch}/>
         </li>
     );
 }

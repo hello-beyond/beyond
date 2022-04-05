@@ -1,15 +1,11 @@
 function FormWidget({state, handleChange}) {
-    const {bundle, texts} = useCreateModuleContext();
+    const {bundle, model, texts} = useCreateModuleContext();
     if (bundle !== 'widget') return null;
 
-    const fields = (
-        <>
-            <div className="item two-columns">
+    const inputsAttrs = {};
+    if (model.fetching) inputsAttrs.disabled = true;
 
-            </div>
-            <BlankFields state={state}/>
-        </>
-    );
+    const fields = <BlankFields state={state}/>;
 
     return (
         <>
@@ -18,6 +14,7 @@ function FormWidget({state, handleChange}) {
                     <BeyondInput
                         required
                         name="name"
+                        {...inputsAttrs}
                         label={texts.form.name}
                         placeholder={texts.placeholder.name}
                         value={state.name}
@@ -27,12 +24,14 @@ function FormWidget({state, handleChange}) {
                 <div>
                     <BeyondInput
                         name="element"
+                        {...inputsAttrs}
                         label={texts.form.webcomponent}
                         placeholder={texts.placeholder.webcomponent}
                         value={state.element}
                         onChange={handleChange}/>
                     <span className="help-block">{texts.help.webcomponent}</span>
                 </div>
+                <AdditionalProcessors state={state}/>
             </div>
             <AdditionalFields children={fields}/>
             <FormFooter/>

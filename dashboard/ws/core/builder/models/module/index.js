@@ -9,6 +9,7 @@ module.exports = class Module extends require('../file-manager') {
      */
     _fileName = 'module.json';
     _reserved = ['reserved', 'bundles'];
+    _platforms = []
     skeleton = [
         'name',
         'description',
@@ -55,10 +56,8 @@ module.exports = class Module extends require('../file-manager') {
 
     constructor(path, name) {
         super(path, 'module.json');
-        //the name cannot has spaces or special characters.
-        if (name) {
-            path = join(path, name.replace(/ /g, '-').toLowerCase());
-        }
+        //the name cannot have spaces or special characters.
+        if (name) path = join(path, name.replace(/ /g, '-').toLowerCase());
 
         if (name && name.includes('layouts/')) {
             path = sep === '/' ? path : path.replace(/\\/g, '/');
@@ -146,6 +145,12 @@ module.exports = class Module extends require('../file-manager') {
         try {
             await this._fs.mkdir(this.file.dirname, {recursive: true});
             const json = Object.assign(this.properties, this.#bundlesManager.properties);
+
+            // add platforms if module have bundle bridge
+            if (specs.bundles.includes('bridge')) {
+                json.platforms = ['web', 'backend'];
+            }
+
             await this.#bundlesManager.build(specs);
             await this.file.writeJSON(json);
             /**

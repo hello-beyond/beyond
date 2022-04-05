@@ -22,7 +22,7 @@
         "bundle.js",
         "processor.js",
         "template.js",
-        "application.js",
+        "project.js",
         "consumers.js",
         "dependencies.js",
         "tree-factory.js",

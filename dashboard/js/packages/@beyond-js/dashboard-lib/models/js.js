@@ -141,10 +141,11 @@ define(["exports"], function (_exports2) {
     #id;
     #required = ['name', 'type'];
     #ports = {
-      inspectPort: ['node', 'backend', 'express', 'web-backend'],
-      navigate: ['web-backend', 'web']
+      inspectPort: ['node', 'backend', 'express', 'web-backend', 'library'],
+      navigate: ['web-backend', 'web', 'library', 'react', 'vue', 'svelte']
     };
     #created;
+    #backend;
     #backendPort;
 
     get created() {
@@ -169,6 +170,17 @@ define(["exports"], function (_exports2) {
       this.triggerEvent();
     }
 
+    #error;
+
+    get error() {
+      return this.#error;
+    }
+
+    set error(value) {
+      this.#error = value;
+      this.triggerEvent();
+    }
+
     get id() {
       return this.#id;
     }
@@ -187,6 +199,17 @@ define(["exports"], function (_exports2) {
     set is(value) {
       if (value === this.#is || !['template', 'type'].includes(value)) return;
       this.#is = value;
+      this.triggerEvent();
+    }
+
+    #fetching;
+
+    get fetching() {
+      return this.#fetching;
+    }
+
+    set fetching(value) {
+      this.#fetching = value;
       this.triggerEvent();
     }
 
@@ -214,6 +237,18 @@ define(["exports"], function (_exports2) {
       this.triggerEvent();
     }
 
+    #npm = true;
+
+    get npm() {
+      return this.#npm;
+    }
+
+    set npm(value) {
+      if (value === this.#npm) return;
+      this.#npm = value;
+      this.triggerEvent();
+    }
+
     get getters() {
       return {
         id: this.id,
@@ -228,7 +263,10 @@ define(["exports"], function (_exports2) {
         platforms: this.platforms,
         processed: this.processed,
         processing: this.processing,
-        description: this.description
+        fetching: this.fetching,
+        description: this.description,
+        backend: this.useInspectPort,
+        npm: this.npm
       };
     }
 
@@ -307,9 +345,13 @@ define(["exports"], function (_exports2) {
         name: "react",
         platforms: ['web']
       }, {
-        name: "board",
+        name: "vue",
         platforms: ['web']
       }, {
+        name: "svelte",
+        platforms: ['web']
+      }, // {name: "board", platforms: ['web']},
+      {
         name: "express",
         platforms: ['backend']
       }, {
@@ -331,6 +373,9 @@ define(["exports"], function (_exports2) {
     }
 
     #TYPES = [{
+      name: "web",
+      platforms: ['web']
+    }, {
       name: "node",
       platforms: ['backend']
     }, {
@@ -338,9 +383,6 @@ define(["exports"], function (_exports2) {
       platforms: ['backend']
     }, {
       name: "library",
-      platforms: ['web']
-    }, {
-      name: "web",
       platforms: ['web']
     }];
 
@@ -358,19 +400,23 @@ define(["exports"], function (_exports2) {
       if (value === this.#type || typeof value !== 'string') return;
       this.#type = value;
 
-      if (this.#ports.inspectPort.includes(value)) {
-        this.checkPort('inspect');
+      if (this.#ports.navigate.includes(value)) {
+        this.checkPort('inspect').catch(exc => console.error(exc.stack));
       }
 
-      if (this.#ports.navigate.includes(value)) {
-        this.checkPort('inspect');
+      if (this.#ports.inspectPort.includes(value)) {
+        this.checkPort('inspect').catch(exc => console.error(exc.stack));
       }
 
       this.triggerEvent();
     }
 
     get useInspectPort() {
-      return this.#ports.inspectPort.includes(this.type);
+      return this.#backend !== undefined ? this.#backend : this.#ports.inspectPort.includes(this.type);
+    }
+
+    set useInspectPort(value) {
+      return this.#backend = value;
     }
 
     get useNavigatePort() {
@@ -390,8 +436,7 @@ define(["exports"], function (_exports2) {
       let invalid = !!this.#required.find(field => !this[field]);
       if (invalid) return false;
       if (this.useInspectPort && !this.inspectPort) return false;
-      if (this.useNavigatePort && !this.navigatePort) return false;
-      return true;
+      return !(this.useNavigatePort && !this.navigatePort);
     }
 
     constructor() {
@@ -401,11 +446,11 @@ define(["exports"], function (_exports2) {
 
       this.checkPort = port => checkPort(this, port);
 
-      this.getInitialPorts();
+      this.getInitialPorts().catch(exc => console.error(exc.stack));
     }
 
     clean() {
-      this.getInitialPort();
+      this.getInitialPort().catch(exc => console.error(exc.stack));
       this.created = false;
       this.title = undefined;
       this.description = undefined;
@@ -419,7 +464,9 @@ define(["exports"], function (_exports2) {
         this.#backendPort = await this.getInitialPort();
         this.navigatePort = await this.getInitialPort();
         this.#ready = true;
-      } catch (e) {}
+      } catch (exc) {
+        console.error(exc.stack);
+      }
     }
 
     #startPort = 8080;
@@ -453,7 +500,8 @@ define(["exports"], function (_exports2) {
 
   async function create(parent) {
     if (!parent.name) throw new Error('Name is required');
-    parent.processing = true;
+    parent.error = undefined;
+    parent.fetching = true;
 
     try {
       const response = await module.execute('builder/project/create', parent.getters);
@@ -470,7 +518,7 @@ define(["exports"], function (_exports2) {
       parent.created = false;
     } finally {
       parent.processed = true;
-      parent.processing = false;
+      parent.fetching = false;
     }
   }
   /********************************
@@ -605,7 +653,7 @@ define(["exports"], function (_exports2) {
     }
 
     get moduleId() {
-      return `project//${this._applicationId}//${this.name.replace(/ /g, '-')}`;
+      return `application//${this._applicationId}//${this.name.replace(/ /g, '-')}`;
     }
 
     _type;
@@ -618,6 +666,12 @@ define(["exports"], function (_exports2) {
 
     get name() {
       return this._name ?? '';
+    }
+
+    _element;
+
+    get element() {
+      return this._element ?? '';
     }
 
     _error;
@@ -652,7 +706,6 @@ define(["exports"], function (_exports2) {
     _styles;
     _fields;
     _layoutId;
-    _element;
     _applicationId;
     _server = false;
     _multilanguage = false;
@@ -705,6 +758,20 @@ define(["exports"], function (_exports2) {
       this.triggerEvent();
     }
 
+    get additionalProcessors() {
+      return [{
+        id: 'vue',
+        name: 'Vue'
+      }, {
+        id: 'svelte',
+        name: 'Svelte'
+      }];
+    }
+
+    get processors() {
+      return Array.from(this._processors.keys());
+    }
+
     addProcessor(value) {
       if (this._processors.has(value)) return;
 
@@ -717,6 +784,12 @@ define(["exports"], function (_exports2) {
       if (!this._processors.has(value)) return;
 
       this._processors.delete(value);
+
+      this.triggerEvent();
+    }
+
+    clearProcessors() {
+      this._processors.clear();
 
       this.triggerEvent();
     }
@@ -744,6 +817,7 @@ define(["exports"], function (_exports2) {
         params.bundles = [this._type];
         params.processors = Array.from(this._processors.keys());
         const action = params.template ? '/builder/module/clone' : '/builder/module/create';
+        this._styles && params.processors.push('scss');
         const response = await module.execute(action, params);
 
         if (response.error) {
@@ -815,9 +889,12 @@ define(["exports"], function (_exports2) {
       required: ['name']
     }
   };
-  const modules = new Map();
+  const modules = new Map(); // Exports managed by beyond bundle objects
 
-  __pkg.exports.process = function (require, _exports) {};
+  __pkg.exports.managed = function (require, _exports) {}; // Module exports
+
+
+  __pkg.exports.process = function (require) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;

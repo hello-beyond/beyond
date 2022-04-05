@@ -1,19 +1,11 @@
-export class DsSpinner extends React.Component {
+export const DSSpinner = React.forwardRef(({className, fetching, type}, ref) => {
+    const finalType = type ?? 'primary';
+    let cls = fetching ? 'ds-element-spinner show' : 'beyond-element-spinner';
+    const clsContainer = `ds-spinner__container${className ? ` ${className}` : ''}`;
 
-    render() {
-
-        const {fetching, type} = this.props;
-        const finalType = type ?? 'primary';
-        let cls = fetching ? 'ds-element-spinner show' : 'beyond-element-spinner';
-        if (this.props.className) cls += ` ${this.props.className}`;
-
-        return (
-            <div className="ds-spinner__container">
-                <BeyondSpinner className={cls} active type={finalType}/>
-            </div>
-        );
-    }
-
-}
-
-export const DSSpinner = DsSpinner;
+    return (
+        <div ref={ref} className={clsContainer}>
+            <BeyondSpinner className={cls} active type={finalType}/>
+        </div>
+    );
+});

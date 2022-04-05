@@ -17,6 +17,7 @@ $ds-aside-icons-color: #fff;
     }
   }
 
+  //ds-tree__branches-list tree__list-level-8 subtree__list
   .ds-tree {
     width: 100%;
     transition: all 300ms ease-in;
@@ -25,12 +26,20 @@ $ds-aside-icons-color: #fff;
       display: none;
     }
 
-    ul {
+    ul:not(.subtree__list) {
       padding: 0;
       margin: 0;
+
       list-style: none;
       cursor: pointer;
 
+    }
+
+    ul.subtree__list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      cursor: pointer;
     }
 
     .tree__toggle-icon {

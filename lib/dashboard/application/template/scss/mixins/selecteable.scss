@@ -16,7 +16,7 @@
     gap: 8px;
     margin: 0;
     justify-content: center;
-    text-align: center;
+
     transition: all 150ms ease-in;
 
     h4 {
@@ -35,7 +35,7 @@
     &:hover, &.active {
       transition: all 150ms ease-in;
       background: $beyond-primary-color;
-      color: $beyond-text-on-primary;
+      color: var(--beyond-text-modal-color);
 
       svg {
         fill: $beyond-text-on-primary;

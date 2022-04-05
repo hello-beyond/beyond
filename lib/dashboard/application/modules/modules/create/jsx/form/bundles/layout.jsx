@@ -1,6 +1,9 @@
 function FormLayout({state, handleChange}) {
-    const {bundle, texts} = useCreateModuleContext();
+    const {bundle, model, texts} = useCreateModuleContext();
     if (bundle !== 'layout') return null;
+
+    const inputsAttrs = {};
+    if (model.fetching) inputsAttrs.disabled = true;
 
     const fields = (
         <>
@@ -8,6 +11,7 @@ function FormLayout({state, handleChange}) {
                 <div>
                     <BeyondInput
                         name="title"
+                        {...inputsAttrs}
                         label={texts.form.title}
                         placeholder={texts.placeholder.title}
                         value={state.title}
@@ -17,6 +21,7 @@ function FormLayout({state, handleChange}) {
                 <div>
                     <BeyondInput
                         name="description"
+                        {...inputsAttrs}
                         label={texts.form.description}
                         placeholder={texts.placeholder.description}
                         value={state.description}
@@ -35,6 +40,7 @@ function FormLayout({state, handleChange}) {
                     <BeyondInput
                         required
                         name="name"
+                        {...inputsAttrs}
                         label={texts.form.name}
                         placeholder={texts.placeholder.name}
                         value={state.name}
@@ -44,13 +50,14 @@ function FormLayout({state, handleChange}) {
                 <div>
                     <BeyondInput
                         name="element"
+                        {...inputsAttrs}
                         label={texts.form.webcomponent}
                         placeholder={texts.placeholder.webcomponent}
                         value={state.element}
                         onChange={handleChange}/>
                     <span className="help-block">{texts.help.webcomponent}</span>
                 </div>
-
+                <AdditionalProcessors state={state}/>
             </div>
             <AdditionalFields children={fields}/>
             <FormFooter/>

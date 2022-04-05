@@ -14,7 +14,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   _exports2.DashboardIconButton = void 0;
   _exports2.Dropdown = Dropdown;
   _exports2.DsFetchingBlock = DsFetchingBlock;
-  _exports2.FadeIn = _exports2.DsSpinner = void 0;
+  _exports2.FadeIn = void 0;
   _exports2.Link = Link;
   _exports2.SmallCard = SmallCard;
   _exports2.useForm = _exports2.hmr = _exports2.TREE_ICONS = void 0;
@@ -187,7 +187,15 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
     default: defaultIcon,
     ts: defaultIcon,
     layout: defaultIcon,
-    widget: defaultIcon,
+    bridge: {
+      viewBox: '0 0 24 24',
+      icon: `<g stroke="#E36152"><path fill="none"  stroke-width="2" d="M10,21 C7.50000053,23.5 5.00000002,23 3,21 C0.999999977,19 0.500000114,16.5 3.00000004,14 C5.49999997,11.5 5.99999998,11 5.99999998,11 L13.0000005,18 C13.0000005,18 12.4999995,18.5 10,21 Z M14.0003207,3 C16.5,0.499999776 19,0.999999776 21.001068,3 C23.002136,5.00000022 23.5,7.49999978 21.001068,10 C18.5021359,12.5000002 18.0007478,13 18.0007478,13 L11,6 C11,6 11.5006414,5.50000022 14.0003207,3 Z M11,9.9999 L8.5,12.4999999 L11,9.9999 Z M14,13 L11.5,15.5 L14,13 Z"/></g>`
+    },
+    widget: {
+      //<svg width="2500" height="1670" viewBox="0 0 256 171" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+      viewBox: '0 0 256 171',
+      icon: `<path d="M87.329 169.901L38.607 36.6 172.407.809l24.339 139.814-50.73 29.831-58.687-.553" fill="#E44D26"/><path d="M142.99 158.831l40.987-24.116-20.804-119.48-54.683 14.629 34.5 128.967" fill="#F16529"/><path d="M236.043 69.772l6.234 21.45-47.728 13.485s0 28.707-23.162 40.119c-23.159 11.412-41.151 1.735-41.151 1.735l-2.881-8.301 34.356-9.341 7.604-29.403-22.134-21.771-31.817 9.623-2.763-7.552c0 .001 14.866-32.856 58.792-14.169 0 0 13.842 8.637 16.946 16.254l47.704-12.129zm6.234-1.611l7.605-2.191L256 87.875l-7.96 2.414-5.763-22.128z" fill="#EFEFEF"/><path d="M244.956 67.194l4.926-1.224L256 87.875l-7.96 2.414-2.084-7.335 3.176-1.243-4.176-14.517zm-14.176 3.92l5.263-1.342 6.234 21.45-47.728 13.485s-.514 25.048-17.124 36.39c-16.582 11.332-35.27 10.991-47.195 5.465l-1.329-3.828s32.454 7.631 48.524-16.754c9.691-16.077 9.52-27.667 9.52-27.667l47.893-12.965-4.058-14.234zm-118.185 8.689l28.014-8.13 6.56 6.058-31.811 9.623-2.763-7.551z" fill="#BCBCBC"/><path d="M13.834 95.006l5.624 21.614 47.894-12.828s14.696 24.654 40.441 22.601c25.753-2.052 36.244-19.569 36.244-19.569l-1.775-8.603-34.291 9.557-21.583-21.357 7.873-30.049 32.266-8.012-1.494-7.906s-29.58-20.622-57.766 17.905c0 0-7.46 14.498-6.243 22.629l-47.19 14.018zm-6.177 1.809L0 98.821l5.954 21.943 8.077-1.993-6.374-21.956z" fill="#EFEFEF"/><path d="M4.862 97.346L0 98.821l5.954 21.943 8.077-1.993-1.954-7.375-3.38.561-3.835-14.611zm14.195-3.881l-5.223 1.541 5.624 21.614 47.894-12.828s13.267 21.247 33.337 22.497c20.05 1.237 35.922-8.604 43.348-19.465l-.809-3.966s-23.989 23.168-50.281 10.439c-16.55-8.853-22.326-18.912-22.326-18.912l-47.788 13.38-3.776-14.3zm105.976-53.004l-28.219 7.341-2.546 8.571 32.265-8.012-1.5-7.9z" fill="#BCBCBC"/>`
+    },
     backend: {
       viewBox: `0 0 60.004 60.00`,
       icon: `<g ${styles}>
@@ -337,6 +345,14 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
     less: {
       viewBox: '0 0 128 128',
       icon: `<path fill-rule="evenodd" clip-rule="evenodd" fill="#2A4D80" d="M122.301 58.635c-.6-1.299-.89-2.836-.952-4.283-.154-3.561-.023-7.135-.184-10.696-.144-3.189-1.282-6.063-4.344-7.707-2.696-1.447-5.821-1.591-8.821-1.625v5.691c1 .034.754.065.998.078 4.029.198 5.379 1.476 5.43 5.473.038 2.972.012 5.946.06 8.917.059 3.605.597 7.046 3.894 9.322.056.039.051.182.083.348-1.678 1.192-3.006 2.727-3.392 4.822a34.53 34.53 0 00-.54 5.153c-.096 3.118.003 6.243-.086 9.361-.07 2.442-1.227 3.588-3.604 4.132-.895.206-1.843.279-2.843.406v5.677c2-.12 3.017-.199 4.387-.347 5.156-.558 8.059-3.241 8.654-8.243.186-1.568.165-3.166.2-4.75.066-2.969.032-5.952.298-8.903.271-3.011 2.461-4.675 5.461-4.509v-5.951c-2 .358-3.843-.507-4.699-2.366zM28.314 70.768C28.313 59.219 28 47.67 28 36.122v-1.817c-3 0-6.226-.029-9.391.014-1.285.017-2.418.127-3.692.301-4.877.664-7.228 2.953-8.092 7.812-.25 1.402-.2 2.859-.221 4.293-.039 2.726.039 5.453-.005 8.178-.055 3.432-1.672 6.092-5.172 6.294-.124.007.573.15-.427.236v5.305c4 .628 5.273 2.243 5.539 5.959.042.592.053 1.189.059 1.784.034 3.32-.004 6.645.146 9.959.141 3.093.828 5.857 3.751 7.48C13.225 93.436 17 93.559 19 93.638v-5.664c0-.048-.21-.092-.405-.104-4.339-.265-5.317-1.443-5.343-5.785-.017-2.875.106-5.75.06-8.625-.058-3.612-.586-7.038-3.856-9.324-.05-.035-.001-.183-.017-.383 2.199-1.39 3.368-3.516 3.686-6.094.176-1.422.235-2.864.26-4.299.05-2.973-.003-5.949.078-8.92.057-2.088 1.39-3.61 3.091-3.952 1.612-.325 2.446-.315 5.446-.466v2.056c0 10.31-.367 20.619-.313 30.929.019 3.531.41 7.012 4.195 8.537 2.058.829 4.263 1.084 6.627 1.642.395-2.312.524-4.23.847-6.128-4.357-1.25-5.042-1.898-5.042-6.29zm26.674-19.893c-7.34-3.51-16.248-.441-19.666 6.921-2.574 5.544-2.482 11.25-.216 16.872 1.229 3.048 3.45 5.33 6.473 6.672 5.904 2.621 11.879 1.984 17.832.144.321-.1.731-.718.692-1.046-.203-1.661-.54-3.306-.841-5.021-1.417.357-2.601.722-3.811.949-3.197.601-6.401.6-9.512-.637-3.072-1.22-5.135-4.73-4.622-7.73h20.872c.255-3 .154-7.125-1.123-10.536-1.14-3.049-3.108-5.167-6.078-6.588zM54.944 63H41.228c.007-4 3.264-7.59 7.537-7.508 3.753.072 6.349 3.508 6.179 7.508zm56.108 12.279c.492-5.054-1.034-7.898-5.534-10.094-1.596-.779-3.29-1.356-4.916-2.078-1.217-.54-2.442-1.087-3.58-1.771-1.108-.665-1.572-1.769-1.408-3.062.161-1.277.982-2.119 2.168-2.359 1.437-.292 2.943-.542 4.388-.424 2.042.167 4.056.69 6.163 1.075l1.332-5.818c-2.851-.434-5.509-.995-8.195-1.207-2.987-.235-5.896.261-8.63 1.67-5.777 2.977-5.883 12.116-.574 15.116 1.586.896 3.283 1.596 4.933 2.38 1.737.827 3.537 1.546 5.199 2.504 1.262.727 1.713 1.996 1.375 3.475-.313 1.375-1.354 1.988-2.577 2.105-1.86.177-3.768.347-5.609.128-2.217-.264-4.387-.937-6.658-1.451l-1.158 5.79c5.333 2.002 10.61 2.33 15.938 1.149 4.459-.988 6.999-3.596 7.343-7.128zm-28.415-9.452c-1.959-1.039-4.066-1.797-6.088-2.723-1.255-.575-2.584-1.074-3.69-1.871-2.127-1.533-1.731-4.472.746-5.258 1.421-.452 3.028-.592 4.521-.48 2.034.153 4.041.679 6.162 1.063l1.258-5.546c-1.077-.293-2.052-.612-3.051-.822-3.971-.836-7.963-1.16-11.874.215-3.36 1.182-5.691 3.392-6.152 7.11-.516 4.152.861 7.43 4.696 9.402 1.535.79 3.18 1.363 4.747 2.095 1.564.73 3.161 1.427 4.614 2.343 1.111.7 1.549 1.885 1.236 3.255-.311 1.358-1.301 2.042-2.533 2.169-1.86.191-3.769.368-5.611.153-2.226-.26-4.403-.935-6.714-1.455-.341 1.613-.741 3.238-.99 4.885-.054.358.345 1.046.681 1.163 5.384 1.866 10.864 2.134 16.34.521 3.27-.962 5.557-3.051 6.018-6.623.523-4.055-.444-7.544-4.316-9.596z"></path>`
+    },
+    vue: {
+      viewBox: '0 0 128 128',
+      icon: `<path d="M0 8.934l49.854.158 14.167 24.47 14.432-24.47L128 8.935l-63.834 110.14zm126.98.637l-24.36.02-38.476 66.053L25.691 9.592.942 9.572l63.211 107.89zm-25.149-.008l-22.745.168-15.053 24.647L49.216 9.73l-22.794-.168 37.731 64.476zm-75.834-.17l23.002.009m-23.002-.01l23.002.01" fill="none"></path><path d="M25.997 9.393l23.002.009L64.035 34.36 79.018 9.404 102 9.398 64.15 75.053z" fill="#35495e"></path><path d="M.91 9.569l25.067-.172 38.15 65.659L101.98 9.401l25.11.026-62.966 108.06z" fill="#41b883"></path>`
+    },
+    svelte: {
+      viewBox: "0 0 128 128",
+      icon: `<path d="M119.838 16.936C105.553-.076 77.336-5.118 56.942 5.696l-35.829 19c-4.847 2.529-9.006 5.871-12.212 9.814-3.206 3.943-5.387 8.399-6.404 13.083a30.64 30.64 0 00-.688 6.396c.022 5.831 1.74 11.571 5.007 16.73-3.063 3.872-5.154 8.22-6.146 12.782a30.483 30.483 0 00.415 14.412c1.29 4.733 3.702 9.204 7.096 13.152 14.284 17.011 42.564 22.053 62.895 11.24l35.792-19.001c4.844-2.532 8.998-5.878 12.196-9.825 3.197-3.947 5.367-8.407 6.37-13.093.46-2.107.691-4.244.688-6.386-.009-5.82-1.705-11.551-4.945-16.709 3.062-3.869 5.153-8.213 6.147-12.771.444-2.109.67-4.245.676-6.386.002-7.595-2.852-15-8.162-21.178v-.02z" fill="#FF3E00"></path><path d="M53.44 112.667a34.23 34.23 0 01-7.16.76c-4.595.001-9.122-.925-13.193-2.7-4.07-1.774-7.563-4.343-10.179-7.487-3.194-3.716-4.91-8.171-4.907-12.74a18.83 18.83 0 01.4-3.833 18.55 18.55 0 01.865-2.782l.676-1.708 1.827 1.156c4.243 2.591 8.984 4.564 14.02 5.834l1.328.333-.125 1.104v.573c-.003 1.381.514 2.73 1.477 3.854.778.958 1.826 1.744 3.052 2.288a9.936 9.936 0 003.983.837 9.923 9.923 0 002.153-.229 8.745 8.745 0 002.204-.802l35.79-19.094c1.073-.566 1.957-1.349 2.568-2.276.61-.927.928-1.968.924-3.026-.01-1.381-.54-2.725-1.515-3.844-.79-.946-1.844-1.718-3.071-2.252a9.997 9.997 0 00-3.977-.81 9.917 9.917 0 00-2.153.23 8.344 8.344 0 00-2.19.801l-13.645 7.25a29.314 29.314 0 01-7.273 2.656c-2.34.502-4.745.758-7.161.76-4.594 0-9.119-.926-13.189-2.698-4.07-1.772-7.564-4.338-10.183-7.478-3.19-3.718-4.906-8.172-4.907-12.74.002-1.285.136-2.567.4-3.833.613-2.816 1.921-5.495 3.844-7.867 1.922-2.373 4.416-4.387 7.323-5.914L67.274 18c2.248-1.19 4.7-2.09 7.273-2.667 2.34-.499 4.745-.75 7.16-.75 4.605-.01 9.144.91 13.228 2.681 4.084 1.77 7.59 4.34 10.219 7.486 3.171 3.727 4.865 8.184 4.845 12.75a18.939 18.939 0 01-.401 3.844 18.529 18.529 0 01-.864 2.781l-.676 1.708-1.827-1.114c-4.24-2.595-8.982-4.568-14.02-5.834l-1.328-.343.125-1.105v-.572c0-1.385-.516-2.735-1.477-3.865-.789-.945-1.84-1.716-3.066-2.25a9.992 9.992 0 00-3.97-.813 9.887 9.887 0 00-2.127.271 8.2 8.2 0 00-2.203.802L42.337 50a7.071 7.071 0 00-2.209 1.79 5.713 5.713 0 00-1.158 2.377 6.057 6.057 0 00-.163 1.104c-.001 1.378.515 2.722 1.477 3.844.788.945 1.84 1.717 3.065 2.25a9.98 9.98 0 003.97.812 9.918 9.918 0 002.153-.23 8.35 8.35 0 002.204-.801l13.67-7.292a29.125 29.125 0 017.273-2.656 34.305 34.305 0 017.16-.76c4.596 0 9.123.925 13.195 2.697 4.072 1.772 7.569 4.339 10.19 7.48 3.19 3.717 4.906 8.171 4.907 12.74.003 1.299-.135 2.596-.413 3.874-.609 2.817-1.917 5.497-3.839 7.87-1.923 2.372-4.418 4.385-7.328 5.911L60.726 110a29.233 29.233 0 01-7.285 2.667z" fill="#fff"></path>`
     }
   };
   /*************
@@ -501,6 +517,10 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
           d="M16.268,10.856a3.83,3.83,0,0,0-6.329,1.859.274.274,0,0,1-.266.209H8.367A.273.273,0,0,1,8.1,12.6a5.653,5.653,0,0,1,9.46-3.035l.814-.814a.547.547,0,0,1,.934.387v3.056a.547.547,0,0,1-.547.547H15.7a.547.547,0,0,1-.387-.934Zm-7.72,3.709H11.6a.547.547,0,0,1,.387.934l-.952.952a3.83,3.83,0,0,0,6.329-1.859.274.274,0,0,1,.266-.209h1.306a.273.273,0,0,1,.269.323,5.653,5.653,0,0,1-9.46,3.035l-.814.814A.547.547,0,0,1,8,18.167V15.111A.547.547,0,0,1,8.547,14.564Z"
           transform="translate(-8 -8)"/>`
     },
+    newProject: {
+      viewBox: '0 0 24 24',
+      icon: `<path d="M20 6h-8l-2-2H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-1 8h-3v3h-2v-3h-3v-2h3V9h2v3h3v2z"></path>`
+    },
     server: {
       viewBox: '',
       icon: `<path class="a"
@@ -619,6 +639,10 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
 \tc0.002,3.692-0.002,7.387,0.008,11.08c0,0.241-0.086,0.346-0.295,0.442c-8.355,3.882-16.709,7.771-25.063,11.655
 \tC36.369,66.366,36.273,66.393,36.161,66.432z"/>
 <polygon fill="#4C4C4C" points="11.958,27.924 35.688,15.813 59.667,27.924 35.813,39.167 "/>`
+    },
+    pinup: {
+      viewBox: '0 0 24 24',
+      icon: `<path fill="none" stroke="#fff" stroke-width="3" d="M16,3 L10,9 C10,9 6,8 3,11 C3,11 13,21 13,21 C16,18 15,14 15,14 L21,8 L16,3 Z M1,23 L8,16 M14,1 L23,10"/>`
     }
   };
   /************
@@ -626,9 +650,17 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   ************/
 
   const treeIcons = {
-    'tree.application': {
+    'tree.application2': {
       viewBox: '0 0 24 24',
       icon: `<g id="settings-applications"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm7-7H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-1.75 9c0 .23-.02.46-.05.68l1.48 1.16c.13.11.17.3.08.45l-1.4 2.42c-.09.15-.27.21-.43.15l-1.74-.7c-.36.28-.76.51-1.18.69l-.26 1.85c-.03.17-.18.3-.35.3h-2.8c-.17 0-.32-.13-.35-.29l-.26-1.85c-.43-.18-.82-.41-1.18-.69l-1.74.7c-.16.06-.34 0-.43-.15l-1.4-2.42c-.09-.15-.05-.34.08-.45l1.48-1.16c-.03-.23-.05-.46-.05-.69 0-.23.02-.46.05-.68l-1.48-1.16c-.13-.11-.17-.3-.08-.45l1.4-2.42c.09-.15.27-.21.43-.15l1.74.7c.36-.28.76-.51 1.18-.69l.26-1.85c.03-.17.18-.3.35-.3h2.8c.17 0 .32.13.35.29l.26 1.85c.43.18.82.41 1.18.69l1.74-.7c.16-.06.34 0 .43.15l1.4 2.42c.09.15.05.34-.08.45l-1.48 1.16c.03.23.05.46.05.69z"></path></g>`
+    },
+    'tree.application': {
+      viewBox: "0 0 100 100",
+      icon: `<g>
+  <path style="fill:#fff;stroke:none;" d="m 50,46 -22,-22 22,-22 22,22 -22,22"/>
+  <path style="fill:#fff;stroke:none;" d="m 48,48 -22,-22 -22,22 22,22 22,-22"/>
+  <path style="fill:#fff;stroke:none;" d="m 52,48 22,-22 22,22 -22,22 -22,-22"/>
+  <path style="fill:#E36152;stroke:#E36152;stroke-width:2;" d="m 50,55 22,22 -22,22 -22,-22 22,-22"/><g/>`
     },
     'tree.static': {
       viewBox: '0 0 24 24',
@@ -964,7 +996,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   }) {
     return /*#__PURE__*/React.createElement("div", {
       className: "module_fetching-block content-centering show"
-    }, /*#__PURE__*/React.createElement(DsSpinner, {
+    }, /*#__PURE__*/React.createElement(DSSpinner, {
       fetching: true
     }));
   }
@@ -1017,28 +1049,23 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   **********/
 
 
-  class DsSpinner extends React.Component {
-    render() {
-      const {
-        fetching,
-        type
-      } = this.props;
-      const finalType = type ?? 'primary';
-      let cls = fetching ? 'ds-element-spinner show' : 'beyond-element-spinner';
-      if (this.props.className) cls += ` ${this.props.className}`;
-      return /*#__PURE__*/React.createElement("div", {
-        className: "ds-spinner__container"
-      }, /*#__PURE__*/React.createElement(_code.BeyondSpinner, {
-        className: cls,
-        active: true,
-        type: finalType
-      }));
-    }
-
-  }
-
-  _exports2.DsSpinner = DsSpinner;
-  const DSSpinner = DsSpinner;
+  const DSSpinner = React.forwardRef(({
+    className,
+    fetching,
+    type
+  }, ref) => {
+    const finalType = type ?? 'primary';
+    let cls = fetching ? 'ds-element-spinner show' : 'beyond-element-spinner';
+    const clsContainer = `ds-spinner__container${className ? ` ${className}` : ''}`;
+    return /*#__PURE__*/React.createElement("div", {
+      ref: ref,
+      className: clsContainer
+    }, /*#__PURE__*/React.createElement(_code.BeyondSpinner, {
+      className: cls,
+      active: true,
+      type: finalType
+    }));
+  });
   /***********
   use-form.jsx
   ***********/
@@ -1093,11 +1120,14 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
 
   _exports2.useForm = useForm;
   bundle.styles.processor = 'scss';
-  bundle.styles.value = '@-webkit-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-moz-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-ms-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@-o-keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}@keyframes fadeInRightBig{0%{opacity:0;-webkit-transform:translateX(2000px);-moz-transform:translateX(2000px);-ms-transform:translateX(2000px);-o-transform:translateX(2000px);transform:translateX(2000px)}100%{opacity:1;-webkit-transform:translateX(0);-moz-transform:translateX(0);-ms-transform:translateX(0);-o-transform:translateX(0);transform:translateX(0)}}.beyond-alert{padding:15px;color:#fff;position:relative;display:grid;align-items:center;align-content:center;border-radius:2px;box-shadow:0 10px 13px -7px #000,0 2px 11px 3px transparent}.beyond-alert.alert-icon,.beyond-alert.alert-icon-left{grid-template-columns:auto 1fr}.beyond-alert.alert-icon-right{grid-template-columns:1fr auto}.beyond-alert .alert-icon{padding:0 10px;display:flex}.beyond-alert h3{margin:0;text-transform:uppercase}.beyond-alert p{margin:0;text-transform:uppercase}.beyond-alert.alert-info{background-color:var(--beyond-info-color)}.beyond-alert.alert-success{background:var(--beyond-success-color)}.beyond-alert.alert-danger,.beyond-alert.alert-error{background:#d2281e}.beyond-alert.alert-warning{background:#f7d994}.beyond-alert .beyond-alert__close-icon{height:.8rem;width:.8rem;position:absolute;top:15px;right:15px}.beyond-alert .beyond-alert__close-icon svg{height:.6rem;width:.6rem}.beyond-alert.hiding-component{opacity:0;transition:all .3s ease-in-out}.beyond-alert.hiding-component *{display:none;transition:all 150ms ease-in-out}.ds__board .board__header__actions{display:flex;align-content:center;justify-content:center;gap:10px}.ds__board .board__header__actions .bee--action{align-self:center}.ds__board .board__header__actions .beyond-icon-button{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:#050910;fill:#fff;transition:all .3s ease-in}.ds__board .pd-base{padding:2rem}.ds__board .board__header{padding:2rem;display:flex;justify-content:space-between;align-items:center}.ds__board .board__header .pathname{color:#a2000a}.ds__board .board__header .scanned__section{gap:10px}.ds-cards__container{margin:15px 0;display:flex;flex-wrap:wrap;gap:15px;--multiplier:calc(40rem - 100%)}.ds-cards__container .ds-cards__card{padding:30px;display:flex;min-width:33%;max-width:100%;flex-grow:1;flex-basis:calc(var(--multiplier) * 999);flex-direction:column;background:#050910;border-radius:5px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.ds-cards__container .ds-cards__card:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.ds-cards__container .ds-cards__card header{font-size:1.2rem;text-align:center;color:#ffa789;margin-bottom:15px}.ds-cards__container .ds-cards__card .card__actions{display:flex;justify-content:center;margin-top:30px}.ds-cards__container .ds-cards__card .card__actions .beyond-button{width:60%}.module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;align-items:center;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.ds-small-card{margin:1rem 0;padding:1rem;display:flex;gap:1rem;background:#050910;min-width:200px}.ds-small-card .ds-small-card__icon{display:flex;place-content:center;align-self:center}.ds-small-card .ds-small-card__icon svg{width:50px;border-radius:50%;height:50px;padding:1rem;background:var(--beyond-primary-color)}.ds-small-card .ds-small-card__header{padding:5px 0;font-size:1rem;font-weight:lighter}.ds-small-card .ds-small-card__detail{font-size:2rem;font-weight:bolder;color:var(--beyond-primary-accent-color)}.ds-spinner__container{padding:60px}.ds-spinner__container .beyond-element-spinner{width:110px;height:110px}.cssload-container{position:relative}.cssload-whirlpool,.cssload-whirlpool::after,.cssload-whirlpool::before{position:absolute;top:50%;left:50%;border:1px solid #ccc;border-left-color:#000;border-radius:974px;-o-border-radius:974px;-ms-border-radius:974px;-webkit-border-radius:974px;-moz-border-radius:974px}.cssload-whirlpool{margin:-24px 0 0 -24px;height:49px;width:49px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::before{content:"";margin:-22px 0 0 -22px;height:43px;width:43px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::after{content:"";margin:-28px 0 0 -28px;height:55px;width:55px;animation:cssload-rotate 2.3s linear infinite;-o-animation:cssload-rotate 2.3s linear infinite;-ms-animation:cssload-rotate 2300ms linear infinite;-webkit-animation:cssload-rotate 2.3s linear infinite;-moz-animation:cssload-rotate 2.3s linear infinite}@keyframes cssload-rotate{100%{transform:rotate(360deg)}}@-o-keyframes cssload-rotate{100%{-o-transform:rotate(360deg)}}@-ms-keyframes cssload-rotate{100%{-ms-transform:rotate(360deg)}}@-webkit-keyframes cssload-rotate{100%{-webkit-transform:rotate(360deg)}}@-moz-keyframes cssload-rotate{100%{-moz-transform:rotate(360deg)}}';
+  bundle.styles.value = '.beyond-alert{padding:15px;font-size:1.3rem;position:relative;display:grid;align-items:center;align-content:center;color:var(--beyond-text-on-primary);border-radius:2px}.beyond-alert.alert-icon,.beyond-alert.alert-icon-left{grid-template-columns:auto 1fr}.beyond-alert.alert-icon-right{grid-template-columns:1fr auto}.beyond-alert .alert-icon{padding:0 10px;display:flex}.beyond-alert h3{margin:0;text-transform:uppercase}.beyond-alert p{margin:0;text-transform:uppercase}.beyond-alert.alert-info{background-color:#4d66a9;color:#0d111d}.beyond-alert.alert-info h3{color:#1d2740}.beyond-alert.alert-success{background:#6aac7d;color:#111f15}.beyond-alert.alert-danger,.beyond-alert.alert-error{background:#d2281e;color:#f7c8c5}.beyond-alert.alert-danger h3,.beyond-alert.alert-error h3{color:#f09e99}.beyond-alert.alert-warning{background:#f7d994}.beyond-alert .beyond-alert__close-icon{height:.8rem;width:.8rem;position:absolute;top:15px;right:15px}.beyond-alert .beyond-alert__close-icon svg{height:.6rem;width:.6rem}.beyond-alert.hiding-component{opacity:0;transition:all .3s ease-in-out}.beyond-alert.hiding-component *{display:none;transition:all 150ms ease-in-out}.ds__board .board__header__actions{display:flex;align-content:center;justify-content:center;gap:10px}.ds__board .board__header__actions .bee--action{align-self:center}.ds__board .board__header__actions .beyond-icon-button{border:1px solid #121f36;border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:#050910;fill:#fff;transition:all .3s ease-in}.ds__board .pd-base{padding:2rem}.ds__board .board__header{padding:2rem;display:flex;justify-content:space-between;align-items:center}.ds__board .board__header .pathname{color:#a2000a}.ds__board .board__header .scanned__section{gap:10px}.ds-cards__container{margin:15px 0;display:flex;flex-wrap:wrap;gap:15px;--multiplier:calc(40rem - 100%)}.ds-cards__container .ds-cards__card{padding:30px;display:flex;min-width:33%;max-width:100%;flex-grow:1;flex-basis:calc(var(--multiplier) * 999);flex-direction:column;background:#050910;border-radius:5px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.ds-cards__container .ds-cards__card:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.ds-cards__container .ds-cards__card header{font-size:1.2rem;text-align:center;color:#ffa789;margin-bottom:15px}.ds-cards__container .ds-cards__card .card__actions{display:flex;justify-content:center;margin-top:30px}.ds-cards__container .ds-cards__card .card__actions .beyond-button{width:60%}.module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;align-items:center;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.ds-small-card{margin:1rem 0;padding:1rem;display:flex;gap:1rem;background:#050910;min-width:200px}.ds-small-card .ds-small-card__icon{display:flex;place-content:center;align-self:center}.ds-small-card .ds-small-card__icon svg{width:50px;border-radius:50%;height:50px;padding:1rem;background:var(--beyond-primary-color)}.ds-small-card .ds-small-card__header{padding:5px 0;font-size:1rem;font-weight:lighter}.ds-small-card .ds-small-card__detail{font-size:2rem;font-weight:bolder;color:var(--beyond-primary-accent-color)}.ds-spinner__container{padding:60px;display:flex;align-self:center;justify-content:center;justify-items:center}.ds-spinner__container .beyond-element-spinner{width:110px;height:110px}.cssload-container{position:relative}.cssload-whirlpool,.cssload-whirlpool::after,.cssload-whirlpool::before{position:absolute;top:50%;left:50%;border:1px solid #ccc;border-left-color:#000;border-radius:974px;-o-border-radius:974px;-ms-border-radius:974px;-webkit-border-radius:974px;-moz-border-radius:974px}.cssload-whirlpool{margin:-24px 0 0 -24px;height:49px;width:49px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::before{content:"";margin:-22px 0 0 -22px;height:43px;width:43px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::after{content:"";margin:-28px 0 0 -28px;height:55px;width:55px;animation:cssload-rotate 2.3s linear infinite;-o-animation:cssload-rotate 2.3s linear infinite;-ms-animation:cssload-rotate 2300ms linear infinite;-webkit-animation:cssload-rotate 2.3s linear infinite;-moz-animation:cssload-rotate 2.3s linear infinite}@keyframes cssload-rotate{100%{transform:rotate(360deg)}}@-o-keyframes cssload-rotate{100%{-o-transform:rotate(360deg)}}@-ms-keyframes cssload-rotate{100%{-ms-transform:rotate(360deg)}}@-webkit-keyframes cssload-rotate{100%{-webkit-transform:rotate(360deg)}}@-moz-keyframes cssload-rotate{100%{-moz-transform:rotate(360deg)}}';
   bundle.styles.appendToDOM();
-  const modules = new Map();
+  const modules = new Map(); // Exports managed by beyond bundle objects
 
-  __pkg.exports.process = function (require, _exports) {};
+  __pkg.exports.managed = function (require, _exports) {}; // Module exports
+
+
+  __pkg.exports.process = function (require) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;

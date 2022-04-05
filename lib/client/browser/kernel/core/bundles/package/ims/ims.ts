@@ -31,6 +31,7 @@ export class InternalModules {
     }
 
     require(id: string, trace: Trace, source: InternalModule): Exports {
+        id = this.#ims.has(id) ? id : `${id}/index`;
         if (!this.#ims.has(id)) throw new Error(`Module "${id}" not found`);
 
         const im = this.#ims.get(id);

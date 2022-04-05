@@ -1,4 +1,4 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/plm/plm-indexed-db/code"], function (_exports2, _js, _ts, _code, _code2, _code3, _code4, _code5) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/plm/plm-indexed-db/code", "@beyond-js/dashboard/hooks/code"], function (_exports2, _js, _ts, _code, _code2, _code3, _code4, _code5, _code6) {
   "use strict";
 
   Object.defineProperty(_exports2, "__esModule", {
@@ -223,20 +223,35 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     checkLoaded = () => {
       if (!this.application.tree.landed) return;
+      this.application.unbind('change', this.checkLoaded);
       this.#processModules();
       this.#processStatic();
       this.#processTemplate();
       this.triggerEvent();
-      this.application.unbind('change', this.checkLoaded);
     };
 
     #processModules() {
       const items = this.itemsByContainer('application').map(module => module);
-      this.#modulesTree = _code2.TreeFactory.get('application', [this, this.application, items]);
+      this.#modulesTree = _code2.TreeFactory.get('project', {
+        id: this.application.id,
+        project: this,
+        object: this.application.am,
+        listener: () => {
+          if (!this.application.items) return;
+          if (this.application.items.length === this.#modulesTree.elements.length) return;
+          const items = this.itemsByContainer('application').map(module => module);
+          this.#modulesTree.setElements(items);
+        },
+        items: items
+      });
     }
 
     #processStatic() {
-      this._static = _code2.TreeFactory.get('static', [this.application, this.application.static, this.application.static.items]);
+      this._static = _code2.TreeFactory.get('static', {
+        project: this.application,
+        object: this.application.static,
+        items: this.application.static.items
+      });
     }
 
     #processTemplate() {
@@ -248,13 +263,28 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
           global
         }
       } = this.application;
-      this.#template.application = _code2.TreeFactory.get('template', [this.application, application, application.sources.items]);
-      this.#template.global = _code2.TreeFactory.get('template', [this.application, global, global.sources.items]);
+      this.#template.application = _code2.TreeFactory.get('template', {
+        project: this.application,
+        object: application,
+        items: application.sources.items
+      });
+      this.#template.global = _code2.TreeFactory.get('template', {
+        project: this.application,
+        object: global,
+        items: global.sources.items
+      });
       this.#template.processors = new Map();
       processors.forEach(processor => {
         if (!processor.path) return;
 
-        const tree = _code2.TreeFactory.get('template', [this.application, processor, processor.sources.items, this.#template, this.#template]);
+        const tree = _code2.TreeFactory.get('template', {
+          project: this.application,
+          object: processor,
+          id: this.application.id,
+          items: processor.sources.items,
+          module: this.#template,
+          bundle: this.#template
+        });
 
         this.#template.processors.set(processor.processor, tree);
       });
@@ -1113,11 +1143,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
     async load(moduleId) {
       try {
-        if (!moduleId) {
-          // console.trace(moduleId)
-          return;
-        }
-
         return this.getInstance(moduleId);
       } catch (e) {
         console.error(104.6, "error", e);
@@ -1417,7 +1442,11 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
       this.triggerEvent();
 
       if (this.am.module?.static) {
-        const specs = [this.application, this.am, this.am.module.static.items];
+        const specs = {
+          project: this.application,
+          object: this.am,
+          items: this.am.module.static.items
+        };
         this.#_static = _code2.TreeFactory.get('static', specs);
       }
 
@@ -1447,7 +1476,11 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
           bundles
         }
       } = this;
-      this.#bundlesTree = _code2.TreeFactory.get('module', [application, am, [...bundles.values()]]);
+      this.#bundlesTree = _code2.TreeFactory.get('module', {
+        project: application,
+        object: am,
+        items: [...bundles.values()]
+      });
       this.#bundlesManager = new BundlesManager(this, this.#bundlesTree, bundles, txt);
       this.#bundlesManager.bind('change', this.triggerEvent);
 
@@ -1665,9 +1698,12 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   }
 
   _exports2.DSUser = DSUser;
-  const modules = new Map();
+  const modules = new Map(); // Exports managed by beyond bundle objects
 
-  __pkg.exports.process = function (require, _exports) {};
+  __pkg.exports.managed = function (require, _exports) {}; // Module exports
+
+
+  __pkg.exports.process = function (require) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;

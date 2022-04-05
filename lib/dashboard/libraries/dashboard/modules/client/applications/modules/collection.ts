@@ -42,9 +42,14 @@ class ApplicationModules extends Collection {
 
         // first we check if is required all containers
         return this.elements.filter((item: ApplicationModule) => {
-            const isApp = ['application', 'all'].includes(container) && !item.id.includes('library');
+            //TODO validar cuando no se carga el modulo recien creado
+            if (!item.landed) return;
+
+            if (!item.id) console.warn('item sin id: ', item);
+
+            const isApp = ['application', 'all'].includes(container) && !item.id?.includes('library');
             const isLibrary = ['library', 'all'].includes(container);
-            const textSearch = item.id.includes(text) || item?.module?.name?.includes(text);
+            const textSearch = item.id?.includes(text) || item?.module?.name?.includes(text);
             if (![undefined, 'all'].includes(bundle) && (isApp || isLibrary)) {
                 if (item?.type.includes('widget')) {
                     const widget = item.getBundle('widget');

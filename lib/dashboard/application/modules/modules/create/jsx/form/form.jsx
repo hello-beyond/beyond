@@ -1,35 +1,50 @@
 function Form() {
-    const {application, close, model, template, texts} = useCreateModuleContext();
+    const {application: {application}, close, model, workspace, template, texts} = useCreateModuleContext();
     if (!template) return null;
-
+    const spinner = React.useRef();
     const [error, setError] = React.useState();
     const [initial, setInitial] = React.useState(true);
 
-    const noStyles = template !== 'bridge' || template !== 'ts';
-    const [state, setState] = React.useState({styles: !noStyles});
-
+    const styles = template === 'page' || template === 'widget' || template === 'layout';
+    const [state, setState] = React.useState({styles: styles});
+    const [fetching, setFetching] = React.useState(false);
+    const disabled = {};
+    React.useEffect(() => {
+        if (fetching) {
+            window.setTimeout(() => spinner.current?.classList.toggle('container-hidden'), 100);
+        }
+    }, [fetching]);
     const onSubmit = async event => {
         event.preventDefault();
         try {
-            if (application.application.routes().includes(model.bundle.route)) {
+            if (model.type === 'page' && application.routes().includes(model.bundle.route)) {
                 setError(`${texts.form.errors.route} ${model.bundle.route}`);
                 return;
             }
 
-            const response = await model.bundle.publish();
-            if (response.error) {
-                setError(response.error);
+            const exp = /[a-z]+-[a-z]+/g;
+            const widgets = ['widget', 'page', 'layout'];
+            if (widgets.includes(model.type) && !model.bundle.element.match(exp)) {
+                setError(`${texts.form.errors.element}`);
                 return;
             }
 
-            close();
-            const url = `/application/${application.application.id}`;
-            const qs = new URLSearchParams({
-                aside: 'module',
-                module: model.bundle.moduleId
-            }).toString();
+            setFetching(true);
+            const response = await model.bundle.publish();
+            window.setTimeout(() => {
+                if (response.error) {
+                    setFetching(false);
+                    setError(response.error);
+                    return;
+                }
+                const openModule = () => {
+                    workspace.openBoard('module', {label: model.bundle.name, moduleId: model.bundle.moduleId});
+                    setFetching(false);
+                    close();
+                };
+                setTimeout(openModule, 500);
+            }, 1000);
 
-            routing.replaceState(`${url}?${qs}`);
         }
         catch (exc) {
             setError(exc.error);
@@ -41,7 +56,7 @@ function Form() {
         const value = {};
         let fieldValue = target.value;
 
-        if (target.name === 'name') {
+        if (target.name === 'name' || target.name === 'element') {
             fieldValue = fieldValue.replace(/ /g, '-');
         }
 
@@ -57,7 +72,8 @@ function Form() {
         setState(newState);
     };
 
-    const props = {state, setState, handleChange};
+    if (fetching) disabled.disabled = true;
+    const props = {state, setState, handleChange, disabled};
     return (
         <>
             {error && <BeyondAlert type="error" message={error}/>}
@@ -71,6 +87,9 @@ function Form() {
                     <FormBridge {...props}/>
                     <FormTypescript {...props}/>
                 </BeyondForm>
+                {fetching &&
+                 <DSSpinner ref={spinner} active className="absolute-container container-hidden"/>
+                }
             </div>
         </>
     );

@@ -1,7 +1,7 @@
 # treeFactory
 
 ```js
-    const tree = TreeFactory.get(type, [application, items]
+    const tree = TreeFactory.get(type, {project, object items}
 );
 ```
 

@@ -38,21 +38,21 @@ class URI {
         return this.#qs;
     }
 
-    readonly #hashtag;
-    get hashtag() {
-        return this.#hashtag;
+    readonly #hash;
+    get hash() {
+        return this.#hash;
     }
 
     constructor(uri: string) {
         this.#uri = uri;
 
-        const [u, hashtag] = uri.split('#');
+        const [u, hash] = uri.split('#');
         const [pathname, search] = u.split('?');
 
         this.#pathname = pathname.startsWith('/') ? pathname : `/${pathname}`;
         this.#search = search ? search : '';
         this.#qs = new QueryString(this.#search);
-        this.#hashtag = hashtag;
+        this.#hash = hash;
         this.#route = new Route(this);
     }
 

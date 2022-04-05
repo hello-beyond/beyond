@@ -1,4 +1,4 @@
-function FormFooter() {
+function FormFooter({disabled}) {
     const {model, texts} = useCreateModuleContext();
     const [isValid, setIsValid] = React.useState(model.bundle?.valid);
     React.useEffect(() => {

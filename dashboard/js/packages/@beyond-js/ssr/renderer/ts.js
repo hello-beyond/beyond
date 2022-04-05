@@ -26,7 +26,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts", 
   ******************************/
 
   modules.set('./renderWidget', {
-    hash: 1066115574,
+    hash: 2207420990,
     creator: function (require, exports) {
       "use strict";
 
@@ -77,7 +77,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts", 
             store
           };
         } catch (exc) {
-          console.log(exc.stack);
+          console.error(exc.stack);
           return {
             errors: exc.message
           };
@@ -185,12 +185,18 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts", 
       }();
       exports.renderer = renderer;
     }
-  });
-  let renderer;
+  }); // Exports managed by beyond bundle objects
+
+  __pkg.exports.managed = function (require, _exports) {
+    _exports.renderer = require('./renderer').renderer;
+  };
+
+  let renderer; // Module exports
+
   _exports2.renderer = renderer;
 
-  __pkg.exports.process = function (require, _exports) {
-    _exports2.renderer = renderer = _exports.renderer = require('./renderer').renderer;
+  __pkg.exports.process = function (require) {
+    _exports2.renderer = renderer = require('./renderer').renderer;
   };
 
   const hmr = new function () {

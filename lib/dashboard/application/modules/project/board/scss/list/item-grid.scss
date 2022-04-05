@@ -1,0 +1,73 @@
+//the style is defined by the page class.
+
+.ds-module-list__component .ds-list.list--grid {
+
+  display: grid;
+  padding: 15px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px;
+
+  .beyond-popover__target, .actions-icon {
+    fill: $beyond-text-on-primary;
+    position: absolute;
+    top: 5px;
+    padding: 5px;
+    right: 5px;
+    height: 25px;
+    width: 25px;
+    z-index: 999;
+  }
+
+  .col-end {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .module-list__item {
+    padding: $ds-padding-components;
+    border: 1px solid $beyond-secondary-light-color;
+    @include gradient-x($beyond-secondary-color, $beyond-secondary-dark-color);
+    transition: all ease-in 300ms;
+    cursor: pointer;
+
+    .badge-item + .badge-item {
+      margin-left: 8px;
+    }
+
+    &:hover {
+      //transform: scale(1.01);
+      @include gradient-x($beyond-secondary-dark-color, $beyond-secondary-color);
+      box-shadow: 0 5px 5px -5px darken($beyond-secondary-dark-color, 10%);
+    }
+
+    h6, h5, h4 {
+      padding: 0;
+      margin: 0;
+    }
+
+    .col {
+      margin-top: 15px;
+    }
+
+    .icon {
+      padding: 5px 8px;
+      height: 30px;
+      width: 30px;
+
+      & + .icon {
+        margin-left: 5px;
+      }
+
+      border-radius: 50%;
+      background: darken($beyond-secondary-dark-color, 8%);
+
+      &.icon--error {
+        fill: $beyond-error-color;
+      }
+
+      &.icon--warning {
+        fill: $beyond-warning-color;
+      }
+    }
+  }
+}

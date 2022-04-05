@@ -1,0 +1,46 @@
+{
+  "en": {
+    "modules": {
+      "actions": {
+        "add": "Create module",
+        "navigate": "Navigate"
+      },
+      "empty": {
+        "new": {
+          "title": "Good! your project has already been created",
+          "description": "All in BeyondJS is about modules. Let's create the first one."
+        },
+        "application": {
+          "title": "There are no modules in your application yet ",
+          "description": "Let's start with the first step"
+        },
+        "filter": {
+          "title": "The project does not have modules for this type of bundle",
+          "description": "Create a module"
+        }
+      }
+    }
+  },
+  "es": {
+    "modules": {
+      "actions": {
+        "add": "Crear modulo",
+        "navigate": "Navegar"
+      },
+      "empty": {
+        "new": {
+          "title": "¡Excelente! Ya creamos tu aplicación",
+          "description": "En <b class=\"primary-color\">BeyondJS</b> todo se maneja con modulos. Avancemos creando el primero."
+        },
+        "application": {
+          "title": "Aun no existen módulos en tu aplicación",
+          "description": "Demos el primer paso"
+        },
+        "filter": {
+          "title": "No posees módulos para este tipo bundle",
+          "description": "Crea el primero"
+        }
+      }
+    }
+  }
+}

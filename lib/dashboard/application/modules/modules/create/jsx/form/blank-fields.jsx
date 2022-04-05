@@ -1,4 +1,4 @@
-function BlankFields({state}) {
+function BlankFields({state, disabled}) {
     const {model, origin, texts} = useCreateModuleContext();
     /**
      * Use by multilanguage and server fields
@@ -18,17 +18,22 @@ function BlankFields({state}) {
 
         <div className="item item_switch flex-container">
             <div className="switch-option">
-                <BeyondSwitch name="styles" value={state.styles} onChange={toggleRadio}/>
+                <BeyondSwitch name="styles" {...disabled} value={state.styles} onChange={toggleRadio}/>
                 <label>{texts.form.styles}</label>
-                <DSIconButton icon="info" className="gray circle" title={texts.help.titles.styles}/>
+                <DSIconButton icon="info"  {...disabled} className="gray circle" title={texts.help.titles.styles}/>
             </div>
             <div className="switch-option">
-                <BeyondSwitch name="multilanguage" value={state.multilanguage} onChange={toggleRadio}/>
+                <BeyondSwitch name="multilanguage"
+                              {...disabled}
+                              value={state.multilanguage} onChange={toggleRadio}/>
                 <label>{texts.form.multilanguage}</label>
-                <DSIconButton icon="info" className="gray circle" title={texts.help.titles.text}/>
+                <DSIconButton icon="info" {...disabled}
+                              className="gray circle" title={texts.help.titles.text}/>
             </div>
             <div className="switch-option">
-                <BeyondSwitch name="server" value={state.server} onChange={toggleRadio}/>
+                <BeyondSwitch
+                    name="server" {...disabled}
+                    value={state.server} onChange={toggleRadio}/>
                 <label>{texts.form.server}</label>
                 <DSIconButton icon="info" className="gray circle" title={texts.help.titles.server}/>
             </div>

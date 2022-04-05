@@ -1,4 +1,4 @@
-import {tables, TableSpecs} from "@beyond-js/plm/core/ts";
+import {Item, tables, TableSpecs} from "@beyond-js/plm/core/ts";
 import {module} from "beyond_context";
 import {Processor} from "../processors/item";
 import {Consumers} from "./consumers/collection";
@@ -29,7 +29,7 @@ specs.properties = {
     },
     container: {
         tables: ['applications-modules'],
-        selector: item => {
+        selector: (item: Item) => {
             const id = item.fields.get('id');
             if (typeof id !== 'object') {
                 console.warn('Invalid id value', id);

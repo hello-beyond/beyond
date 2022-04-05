@@ -15,7 +15,8 @@
       "url": "URL",
       "button": "Create",
       "errors": {
-        "route": "There is already a module with this defined path:"
+        "route": "There is already a module with this defined path:",
+        "element": "The web component name must have two words separated by '-'"
       }
     },
     "placeholder": {
@@ -49,14 +50,15 @@
       "description": "Descripción",
       "title": "Titulo",
       "developer": "Desarrollador",
-      "webcomponent": "Web Component name",
+      "webcomponent": "Nombre del Web Component",
       "multilanguage": "¿Archivo de texto?",
       "server": "¿Código servidor?",
       "styles": "¿Hojas de estilo?",
       "url": "URL",
       "button": "CREAR",
       "errors": {
-        "route": "Ya existe un modulo con esta ruta definida:"
+        "route": "Ya existe un modulo con esta ruta definida:",
+        "element": "El nombre del web component debe tener dos palabras separadas por '-'"
       }
     },
     "placeholder": {

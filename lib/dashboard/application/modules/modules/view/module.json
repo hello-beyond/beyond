@@ -1,4 +1,5 @@
 {
+  "name": "module-view",
   "code": {
     "imports": "imports.js",
     "jsx": {

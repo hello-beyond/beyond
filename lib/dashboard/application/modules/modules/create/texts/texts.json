@@ -2,7 +2,7 @@
   "en": {
     "title": "Creación de un nuevo módulo",
     "subtitle": "Indica que tipo de modulo desea crear",
-    "aditionalFeatures": "Additional Configuration",
+    "additionalFeatures": "Additional Configuration",
     "types": {
       "bundles": {
         "title": "Modulo en blanco",
@@ -81,12 +81,13 @@
           "placeholder": "Select."
         }
       }
-    }
+    },
+    "processors": "Processors"
   },
   "es": {
     "title": "Creación de un nuevo módulo",
     "subtitle": "Indica que tipo de modulo desea crear",
-    "aditionalFeatures": "Configuración adicional",
+    "additionalFeatures": "Configuración adicional",
     "types": {
       "bundles": {
         "title": "Modulo en blanco",
@@ -165,6 +166,7 @@
           "placeholder": "Seleccione."
         }
       }
-    }
+    },
+    "processors": "Procesadores"
   }
 }

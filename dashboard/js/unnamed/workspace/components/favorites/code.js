@@ -584,7 +584,15 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
     }
 
     _createTree() {
-      this._tree = _code7.TreeFactory.get('favorites', [this.application, this, this.items]);
+      const {
+        application,
+        items
+      } = this;
+      this._tree = _code7.TreeFactory.get('favorites', {
+        project: application,
+        object: this,
+        items
+      });
       this._ready = true;
       this.triggerEvent('favorites.loaded');
       this.triggerEvent();
@@ -804,9 +812,12 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
 
   }
 
-  const modules = new Map();
+  const modules = new Map(); // Exports managed by beyond bundle objects
 
-  __pkg.exports.process = function (require, _exports) {};
+  __pkg.exports.managed = function (require, _exports) {}; // Module exports
+
+
+  __pkg.exports.process = function (require) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;

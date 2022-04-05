@@ -1,5 +1,9 @@
 .ds-spinner__container {
   padding: 60px;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  justify-items: center;
 
   .beyond-element-spinner {
     width: 110px;

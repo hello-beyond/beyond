@@ -1,4 +1,4 @@
-import {tables, TableSpecs} from "@beyond-js/plm/core/ts";
+import {Item, tables, TableSpecs} from "@beyond-js/plm/core/ts";
 import {module} from "beyond_context";
 import {Bundle} from "../bundles/item";
 import {Library} from "../libraries/item";
@@ -28,7 +28,7 @@ specs.properties = {
     },
     container: {
         tables: ['applications', 'libraries'],
-        selector: item => {
+        selector: (item: Item) => {
             const container = item.fields.get('container');
 
             if (!container.assigned) return;

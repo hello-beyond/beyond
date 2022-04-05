@@ -1,14 +1,15 @@
 .beyond-alert {
 
   padding: 15px;
-  color: $beyond-text-on-primary;
+  font-size: 1.3rem;
   position: relative;
   display: grid;
   align-items: center;
   align-content: center;
+  color: var(--beyond-text-on-primary);
 
   border-radius: 2px;
-  box-shadow: 0 10px 13px -7px #000, 0 2px 11px 3px transparent;
+  //box-shadow: 0 10px 13px -7px #000, 0 2px 11px 3px transparent;
 
   &.alert-icon, &.alert-icon-left {
     grid-template-columns: auto 1fr;
@@ -26,6 +27,7 @@
   h3 {
     margin: 0;
     text-transform: uppercase;
+
   }
 
   p {
@@ -35,14 +37,25 @@
 
   &.alert-info {
     background-color: $beyond-info-color;
+    color: darken($beyond-info-color, 40%);
+
+    h3 {
+      color: darken($beyond-info-color, 30%);
+    }
   }
 
   &.alert-success {
     background: $beyond-success-color;
+    color: darken($beyond-success-color, 45%);
   }
 
   &.alert-danger, &.alert-error {
     background: $beyond-error-color;
+    color: lighten($beyond-error-color, 40%);
+
+    h3 {
+      color: lighten($beyond-error-color, 30%);
+    }
   }
 
   &.alert-warning {

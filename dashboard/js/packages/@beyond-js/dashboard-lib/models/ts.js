@@ -25,7 +25,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   **********************************************/
 
   modules.set('./applications/builder/builder', {
-    hash: 1453316079,
+    hash: 1003959201,
     creator: function (require, exports) {
       "use strict";
 
@@ -58,6 +58,12 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
         get processing() {
           return this.#processing;
+        }
+
+        #fetching;
+
+        get fetching() {
+          return this.#fetching;
         }
 
         #completed;
@@ -99,13 +105,21 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
         async build(distribution) {
           if (typeof distribution !== 'object') throw new Error('Invalid distribution parameter');
-          if (!['development', 'production'].includes(distribution.environment)) throw new Error('Parameter "environment" is invalid');
+          let environment = distribution.environment ?? 'development';
+
+          if (!['development', 'production'].includes(distribution.environment)) {
+            this.onMessage({
+              type: `build/application/message`,
+              text: `The distribution has no environment, compiling with default distribution: ${environment}`
+            });
+          }
+
           await this.prepare();
           const specs = {
             name: distribution.name ?? 'unnamed',
             platform: distribution.platform,
             ssr: distribution.ssr,
-            environment: distribution.environment,
+            environment: environment,
             compress: !!distribution.compress,
             icons: distribution.icons
           };
@@ -614,7 +628,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   ***********************************/
 
   modules.set('./applications/item', {
-    hash: 1878293943,
+    hash: 161798820,
     creator: function (require, exports) {
       "use strict";
 
@@ -786,9 +800,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
         routes() {
           const routes = [];
-          this.am && this.am.items.forEach(am => {
-            am.bundles.forEach(bundle => bundle.additional?.is === 'page' && routes.push(bundle.additional.route));
-          });
+          this.am && this.am.items.forEach(am => am.bundles.forEach(bundle => bundle.type === 'page' && routes.push(bundle.route)));
           return routes;
         }
 
@@ -1013,7 +1025,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   *************************************************/
 
   modules.set('./applications/modules/collection', {
-    hash: 1516841024,
+    hash: 528015512,
     creator: function (require, exports) {
       "use strict";
 
@@ -1062,9 +1074,12 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           if (container === 'all' && !text) return this.elements; // first we check if is required all containers
 
           return this.elements.filter(item => {
-            const isApp = ['application', 'all'].includes(container) && !item.id.includes('library');
+            //TODO validar cuando no se carga el modulo recien creado
+            if (!item.landed) return;
+            if (!item.id) console.warn('item sin id: ', item);
+            const isApp = ['application', 'all'].includes(container) && !item.id?.includes('library');
             const isLibrary = ['library', 'all'].includes(container);
-            const textSearch = item.id.includes(text) || item?.module?.name?.includes(text);
+            const textSearch = item.id?.includes(text) || item?.module?.name?.includes(text);
 
             if (![undefined, 'all'].includes(bundle) && (isApp || isLibrary)) {
               if (item?.type.includes('widget')) {
@@ -1089,7 +1104,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   *******************************************/
 
   modules.set('./applications/modules/item', {
-    hash: 1124796050,
+    hash: 2585905232,
     creator: function (require, exports) {
       "use strict";
 
@@ -1224,7 +1239,6 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
               }
             };
           } else field === 'title' ? specs.title = value : specs.description = value;
-          console.log('/builder/module/edit', specs);
           return _beyond_context.module.execute('/builder/module/edit', specs);
         }
 
@@ -2201,7 +2215,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   **********************************/
 
   modules.set('./bundles/register', {
-    hash: 4079369894,
+    hash: 830194215,
     creator: function (require, exports) {
       "use strict";
 
@@ -3179,7 +3193,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   ******************************/
 
   modules.set('./modules/item', {
-    hash: 277539939,
+    hash: 3461676182,
     creator: function (require, exports) {
       "use strict";
 
@@ -3306,6 +3320,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return _beyond_context.module.execute('/builder/module/edit', specs);
         }
 
+        installDependencies(dependencies) {
+          return _beyond_context.module.execute('/builder/module/install', dependencies);
+        }
+
       }
 
       exports.Module = Module;
@@ -3316,7 +3334,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   **********************************/
 
   modules.set('./modules/register', {
-    hash: 2836517847,
+    hash: 1846741188,
     creator: function (require, exports) {
       "use strict";
 
@@ -3727,7 +3745,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   ****************************************************/
 
   modules.set('./processors/dependencies/collection', {
-    hash: 1572278508,
+    hash: 4201768079,
     creator: function (require, exports) {
       "use strict";
 
@@ -3747,6 +3765,14 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           super('processors-dependencies', _item.ProcessorDependency, specs);
         }
 
+        externalsWithErrors() {
+          const output = [];
+          this.items.forEach(i => {
+            (i.kind === 'external' || i.kind === undefined) && !i.valid && output.push(i.resource);
+          });
+          return output;
+        }
+
       }
 
       exports.ProcessorDependencies = ProcessorDependencies;
@@ -3757,7 +3783,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   **********************************************/
 
   modules.set('./processors/dependencies/item', {
-    hash: 3480908019,
+    hash: 685844589,
     creator: function (require, exports) {
       "use strict";
 
@@ -3783,8 +3809,12 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('version').value;
         }
 
-        get external() {
-          return this.fields.get('external').value;
+        get kind() {
+          return this.fields.get('kind').value;
+        }
+
+        get valid() {
+          return this.fields.get('valid').value;
         }
 
         get resource() {
@@ -3831,7 +3861,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   **************************************************/
 
   modules.set('./processors/dependencies/register', {
-    hash: 978116073,
+    hash: 662943395,
     creator: function (require, exports) {
       "use strict";
 
@@ -3846,7 +3876,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = _beyond_context.module;
       specs.cache = false;
-      specs.fields = ['id', 'is', 'version', 'external', 'resource', 'errors', 'warnings', 'declaration', 'sources', 'module_id', 'bundle_id'];
+      specs.fields = ['id', 'is', 'version', 'kind', 'valid', 'resource', 'errors', 'warnings', 'declaration', 'sources', 'module_id', 'bundle_id'];
       specs.properties = {
         bundle: {
           Item: _item.Bundle,
@@ -5736,8 +5766,72 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
       _ts.tables.register('templates', specs);
     }
-  });
-  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, ReactiveModel, RunTimeError, RunTimeManager, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource;
+  }); // Exports managed by beyond bundle objects
+
+  __pkg.exports.managed = function (require, _exports) {
+    _exports.Applications = require('./applications/collection').Applications;
+    _exports.ApplicationDeclarations = require('./applications/declarations').ApplicationDeclarations;
+    _exports.ApplicationDeployments = require('./applications/deployments/collection').ApplicationDeployments;
+    _exports.ApplicationDistributions = require('./applications/deployments/distributions/collection').ApplicationDistributions;
+    _exports.ApplicationDistribution = require('./applications/deployments/distributions/item').ApplicationDistribution;
+    _exports.ApplicationDeployment = require('./applications/deployments/item').ApplicationDeployment;
+    _exports.Application = require('./applications/item').Application;
+    _exports.ApplicationLibraries = require('./applications/libraries/collection').ApplicationLibraries;
+    _exports.ApplicationLibrary = require('./applications/libraries/item').ApplicationLibrary;
+    _exports.ApplicationModules = require('./applications/modules/collection').ApplicationModules;
+    _exports.ApplicationModule = require('./applications/modules/item').ApplicationModule;
+    _exports.ApplicationStatics = require('./applications/static/collection').ApplicationStatics;
+    _exports.ApplicationStatic = require('./applications/static/item').ApplicationStatic;
+    _exports.Bee = require('./bees/item').Bee;
+    _exports.Consumers = require('./bundles/consumers/collection').Consumers;
+    _exports.Consumer = require('./bundles/consumers/item').Consumer;
+    _exports.GlobalBundles = require('./bundles/globals/collection').GlobalBundles;
+    _exports.GlobalBundle = require('./bundles/globals/item').GlobalBundle;
+    _exports.Bundle = require('./bundles/item').Bundle;
+    _exports.Dashboard = require('./dashboard/model').Dashboard;
+    _exports.Declarations = require('./declarations/collection').Declarations;
+    _exports.Declaration = require('./declarations/item').Declaration;
+    _exports.Libraries = require('./libraries/collection').Libraries;
+    _exports.Library = require('./libraries/item').Library;
+    _exports.LibraryModules = require('./libraries/modules/collection').LibraryModules;
+    _exports.LibraryModule = require('./libraries/modules/item').LibraryModule;
+    _exports.LibrariesStatics = require('./libraries/static/collection').LibrariesStatics;
+    _exports.LibrariesStatic = require('./libraries/static/item').LibrariesStatic;
+    _exports.Modules = require('./modules/collection').Modules;
+    _exports.ModuleDeclarations = require('./modules/declarations').ModuleDeclarations;
+    _exports.Module = require('./modules/item').Module;
+    _exports.ModuleStatics = require('./modules/static/collection').ModuleStatics;
+    _exports.ModuleStatic = require('./modules/static/item').ModuleStatic;
+    _exports.ModuleTexts = require('./modules/texts').ModuleTexts;
+    _exports.ProcessorCompilers = require('./processors/compilers/collection').ProcessorCompilers;
+    _exports.ProcessorCompiler = require('./processors/compilers/item').ProcessorCompiler;
+    _exports.ProcessorDependencies = require('./processors/dependencies/collection').ProcessorDependencies;
+    _exports.ProcessorDependency = require('./processors/dependencies/item').ProcessorDependency;
+    _exports.Processor = require('./processors/item').Processor;
+    _exports.ProcessorOverwrites = require('./processors/overwrites/collection').ProcessorOverwrites;
+    _exports.ProcessorOverwrite = require('./processors/overwrites/item').ProcessorOverwrite;
+    _exports.ProcessorSources = require('./processors/sources/collection').ProcessorSources;
+    _exports.ProcessorSource = require('./processors/sources/item').ProcessorSource;
+    _exports.ReactiveModel = require('./reactive-model').ReactiveModel;
+    _exports.RunTimeError = require('./run-time/item').RunTimeError;
+    _exports.RunTimeManager = require('./run-time/manager').RunTimeManager;
+    _exports.TemplateApplication = require('./templates/applications/item').TemplateApplication;
+    _exports.TemplateApplicationsSources = require('./templates/applications/sources/collection').TemplateApplicationsSources;
+    _exports.TemplateApplicationsSource = require('./templates/applications/sources/item').TemplateApplicationsSource;
+    _exports.TemplateGlobals = require('./templates/global/collection').TemplateGlobals;
+    _exports.TemplateGlobal = require('./templates/global/item').TemplateGlobal;
+    _exports.TemplateGlobalSources = require('./templates/global/sources/collection').TemplateGlobalSources;
+    _exports.TemplateGlobalSource = require('./templates/global/sources/item').TemplateGlobalSource;
+    _exports.Template = require('./templates/item').Template;
+    _exports.TemplateOverwrites = require('./templates/overwrites/collection').TemplateOverwrites;
+    _exports.TemplateOverwrite = require('./templates/overwrites/item').TemplateOverwrite;
+    _exports.TemplateProcessor = require('./templates/processors/item').TemplateProcessor;
+    _exports.TemplateProcessorsSources = require('./templates/processors/sources/collection').TemplateProcessorsSources;
+    _exports.TemplateProcessorsSource = require('./templates/processors/sources/item').TemplateProcessorsSource;
+  };
+
+  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, ReactiveModel, RunTimeError, RunTimeManager, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource; // Module exports
+
   _exports2.TemplateProcessorsSource = TemplateProcessorsSource;
   _exports2.TemplateProcessorsSources = TemplateProcessorsSources;
   _exports2.TemplateProcessor = TemplateProcessor;
@@ -5798,66 +5892,66 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   _exports2.ApplicationDeclarations = ApplicationDeclarations;
   _exports2.Applications = Applications;
 
-  __pkg.exports.process = function (require, _exports) {
-    _exports2.Applications = Applications = _exports.Applications = require('./applications/collection').Applications;
-    _exports2.ApplicationDeclarations = ApplicationDeclarations = _exports.ApplicationDeclarations = require('./applications/declarations').ApplicationDeclarations;
-    _exports2.ApplicationDeployments = ApplicationDeployments = _exports.ApplicationDeployments = require('./applications/deployments/collection').ApplicationDeployments;
-    _exports2.ApplicationDistributions = ApplicationDistributions = _exports.ApplicationDistributions = require('./applications/deployments/distributions/collection').ApplicationDistributions;
-    _exports2.ApplicationDistribution = ApplicationDistribution = _exports.ApplicationDistribution = require('./applications/deployments/distributions/item').ApplicationDistribution;
-    _exports2.ApplicationDeployment = ApplicationDeployment = _exports.ApplicationDeployment = require('./applications/deployments/item').ApplicationDeployment;
-    _exports2.Application = Application = _exports.Application = require('./applications/item').Application;
-    _exports2.ApplicationLibraries = ApplicationLibraries = _exports.ApplicationLibraries = require('./applications/libraries/collection').ApplicationLibraries;
-    _exports2.ApplicationLibrary = ApplicationLibrary = _exports.ApplicationLibrary = require('./applications/libraries/item').ApplicationLibrary;
-    _exports2.ApplicationModules = ApplicationModules = _exports.ApplicationModules = require('./applications/modules/collection').ApplicationModules;
-    _exports2.ApplicationModule = ApplicationModule = _exports.ApplicationModule = require('./applications/modules/item').ApplicationModule;
-    _exports2.ApplicationStatics = ApplicationStatics = _exports.ApplicationStatics = require('./applications/static/collection').ApplicationStatics;
-    _exports2.ApplicationStatic = ApplicationStatic = _exports.ApplicationStatic = require('./applications/static/item').ApplicationStatic;
-    _exports2.Bee = Bee = _exports.Bee = require('./bees/item').Bee;
-    _exports2.Consumers = Consumers = _exports.Consumers = require('./bundles/consumers/collection').Consumers;
-    _exports2.Consumer = Consumer = _exports.Consumer = require('./bundles/consumers/item').Consumer;
-    _exports2.GlobalBundles = GlobalBundles = _exports.GlobalBundles = require('./bundles/globals/collection').GlobalBundles;
-    _exports2.GlobalBundle = GlobalBundle = _exports.GlobalBundle = require('./bundles/globals/item').GlobalBundle;
-    _exports2.Bundle = Bundle = _exports.Bundle = require('./bundles/item').Bundle;
-    _exports2.Dashboard = Dashboard = _exports.Dashboard = require('./dashboard/model').Dashboard;
-    _exports2.Declarations = Declarations = _exports.Declarations = require('./declarations/collection').Declarations;
-    _exports2.Declaration = Declaration = _exports.Declaration = require('./declarations/item').Declaration;
-    _exports2.Libraries = Libraries = _exports.Libraries = require('./libraries/collection').Libraries;
-    _exports2.Library = Library = _exports.Library = require('./libraries/item').Library;
-    _exports2.LibraryModules = LibraryModules = _exports.LibraryModules = require('./libraries/modules/collection').LibraryModules;
-    _exports2.LibraryModule = LibraryModule = _exports.LibraryModule = require('./libraries/modules/item').LibraryModule;
-    _exports2.LibrariesStatics = LibrariesStatics = _exports.LibrariesStatics = require('./libraries/static/collection').LibrariesStatics;
-    _exports2.LibrariesStatic = LibrariesStatic = _exports.LibrariesStatic = require('./libraries/static/item').LibrariesStatic;
-    _exports2.Modules = Modules = _exports.Modules = require('./modules/collection').Modules;
-    _exports2.ModuleDeclarations = ModuleDeclarations = _exports.ModuleDeclarations = require('./modules/declarations').ModuleDeclarations;
-    _exports2.Module = Module = _exports.Module = require('./modules/item').Module;
-    _exports2.ModuleStatics = ModuleStatics = _exports.ModuleStatics = require('./modules/static/collection').ModuleStatics;
-    _exports2.ModuleStatic = ModuleStatic = _exports.ModuleStatic = require('./modules/static/item').ModuleStatic;
-    _exports2.ModuleTexts = ModuleTexts = _exports.ModuleTexts = require('./modules/texts').ModuleTexts;
-    _exports2.ProcessorCompilers = ProcessorCompilers = _exports.ProcessorCompilers = require('./processors/compilers/collection').ProcessorCompilers;
-    _exports2.ProcessorCompiler = ProcessorCompiler = _exports.ProcessorCompiler = require('./processors/compilers/item').ProcessorCompiler;
-    _exports2.ProcessorDependencies = ProcessorDependencies = _exports.ProcessorDependencies = require('./processors/dependencies/collection').ProcessorDependencies;
-    _exports2.ProcessorDependency = ProcessorDependency = _exports.ProcessorDependency = require('./processors/dependencies/item').ProcessorDependency;
-    _exports2.Processor = Processor = _exports.Processor = require('./processors/item').Processor;
-    _exports2.ProcessorOverwrites = ProcessorOverwrites = _exports.ProcessorOverwrites = require('./processors/overwrites/collection').ProcessorOverwrites;
-    _exports2.ProcessorOverwrite = ProcessorOverwrite = _exports.ProcessorOverwrite = require('./processors/overwrites/item').ProcessorOverwrite;
-    _exports2.ProcessorSources = ProcessorSources = _exports.ProcessorSources = require('./processors/sources/collection').ProcessorSources;
-    _exports2.ProcessorSource = ProcessorSource = _exports.ProcessorSource = require('./processors/sources/item').ProcessorSource;
-    _exports2.ReactiveModel = ReactiveModel = _exports.ReactiveModel = require('./reactive-model').ReactiveModel;
-    _exports2.RunTimeError = RunTimeError = _exports.RunTimeError = require('./run-time/item').RunTimeError;
-    _exports2.RunTimeManager = RunTimeManager = _exports.RunTimeManager = require('./run-time/manager').RunTimeManager;
-    _exports2.TemplateApplication = TemplateApplication = _exports.TemplateApplication = require('./templates/applications/item').TemplateApplication;
-    _exports2.TemplateApplicationsSources = TemplateApplicationsSources = _exports.TemplateApplicationsSources = require('./templates/applications/sources/collection').TemplateApplicationsSources;
-    _exports2.TemplateApplicationsSource = TemplateApplicationsSource = _exports.TemplateApplicationsSource = require('./templates/applications/sources/item').TemplateApplicationsSource;
-    _exports2.TemplateGlobals = TemplateGlobals = _exports.TemplateGlobals = require('./templates/global/collection').TemplateGlobals;
-    _exports2.TemplateGlobal = TemplateGlobal = _exports.TemplateGlobal = require('./templates/global/item').TemplateGlobal;
-    _exports2.TemplateGlobalSources = TemplateGlobalSources = _exports.TemplateGlobalSources = require('./templates/global/sources/collection').TemplateGlobalSources;
-    _exports2.TemplateGlobalSource = TemplateGlobalSource = _exports.TemplateGlobalSource = require('./templates/global/sources/item').TemplateGlobalSource;
-    _exports2.Template = Template = _exports.Template = require('./templates/item').Template;
-    _exports2.TemplateOverwrites = TemplateOverwrites = _exports.TemplateOverwrites = require('./templates/overwrites/collection').TemplateOverwrites;
-    _exports2.TemplateOverwrite = TemplateOverwrite = _exports.TemplateOverwrite = require('./templates/overwrites/item').TemplateOverwrite;
-    _exports2.TemplateProcessor = TemplateProcessor = _exports.TemplateProcessor = require('./templates/processors/item').TemplateProcessor;
-    _exports2.TemplateProcessorsSources = TemplateProcessorsSources = _exports.TemplateProcessorsSources = require('./templates/processors/sources/collection').TemplateProcessorsSources;
-    _exports2.TemplateProcessorsSource = TemplateProcessorsSource = _exports.TemplateProcessorsSource = require('./templates/processors/sources/item').TemplateProcessorsSource;
+  __pkg.exports.process = function (require) {
+    _exports2.Applications = Applications = require('./applications/collection').Applications;
+    _exports2.ApplicationDeclarations = ApplicationDeclarations = require('./applications/declarations').ApplicationDeclarations;
+    _exports2.ApplicationDeployments = ApplicationDeployments = require('./applications/deployments/collection').ApplicationDeployments;
+    _exports2.ApplicationDistributions = ApplicationDistributions = require('./applications/deployments/distributions/collection').ApplicationDistributions;
+    _exports2.ApplicationDistribution = ApplicationDistribution = require('./applications/deployments/distributions/item').ApplicationDistribution;
+    _exports2.ApplicationDeployment = ApplicationDeployment = require('./applications/deployments/item').ApplicationDeployment;
+    _exports2.Application = Application = require('./applications/item').Application;
+    _exports2.ApplicationLibraries = ApplicationLibraries = require('./applications/libraries/collection').ApplicationLibraries;
+    _exports2.ApplicationLibrary = ApplicationLibrary = require('./applications/libraries/item').ApplicationLibrary;
+    _exports2.ApplicationModules = ApplicationModules = require('./applications/modules/collection').ApplicationModules;
+    _exports2.ApplicationModule = ApplicationModule = require('./applications/modules/item').ApplicationModule;
+    _exports2.ApplicationStatics = ApplicationStatics = require('./applications/static/collection').ApplicationStatics;
+    _exports2.ApplicationStatic = ApplicationStatic = require('./applications/static/item').ApplicationStatic;
+    _exports2.Bee = Bee = require('./bees/item').Bee;
+    _exports2.Consumers = Consumers = require('./bundles/consumers/collection').Consumers;
+    _exports2.Consumer = Consumer = require('./bundles/consumers/item').Consumer;
+    _exports2.GlobalBundles = GlobalBundles = require('./bundles/globals/collection').GlobalBundles;
+    _exports2.GlobalBundle = GlobalBundle = require('./bundles/globals/item').GlobalBundle;
+    _exports2.Bundle = Bundle = require('./bundles/item').Bundle;
+    _exports2.Dashboard = Dashboard = require('./dashboard/model').Dashboard;
+    _exports2.Declarations = Declarations = require('./declarations/collection').Declarations;
+    _exports2.Declaration = Declaration = require('./declarations/item').Declaration;
+    _exports2.Libraries = Libraries = require('./libraries/collection').Libraries;
+    _exports2.Library = Library = require('./libraries/item').Library;
+    _exports2.LibraryModules = LibraryModules = require('./libraries/modules/collection').LibraryModules;
+    _exports2.LibraryModule = LibraryModule = require('./libraries/modules/item').LibraryModule;
+    _exports2.LibrariesStatics = LibrariesStatics = require('./libraries/static/collection').LibrariesStatics;
+    _exports2.LibrariesStatic = LibrariesStatic = require('./libraries/static/item').LibrariesStatic;
+    _exports2.Modules = Modules = require('./modules/collection').Modules;
+    _exports2.ModuleDeclarations = ModuleDeclarations = require('./modules/declarations').ModuleDeclarations;
+    _exports2.Module = Module = require('./modules/item').Module;
+    _exports2.ModuleStatics = ModuleStatics = require('./modules/static/collection').ModuleStatics;
+    _exports2.ModuleStatic = ModuleStatic = require('./modules/static/item').ModuleStatic;
+    _exports2.ModuleTexts = ModuleTexts = require('./modules/texts').ModuleTexts;
+    _exports2.ProcessorCompilers = ProcessorCompilers = require('./processors/compilers/collection').ProcessorCompilers;
+    _exports2.ProcessorCompiler = ProcessorCompiler = require('./processors/compilers/item').ProcessorCompiler;
+    _exports2.ProcessorDependencies = ProcessorDependencies = require('./processors/dependencies/collection').ProcessorDependencies;
+    _exports2.ProcessorDependency = ProcessorDependency = require('./processors/dependencies/item').ProcessorDependency;
+    _exports2.Processor = Processor = require('./processors/item').Processor;
+    _exports2.ProcessorOverwrites = ProcessorOverwrites = require('./processors/overwrites/collection').ProcessorOverwrites;
+    _exports2.ProcessorOverwrite = ProcessorOverwrite = require('./processors/overwrites/item').ProcessorOverwrite;
+    _exports2.ProcessorSources = ProcessorSources = require('./processors/sources/collection').ProcessorSources;
+    _exports2.ProcessorSource = ProcessorSource = require('./processors/sources/item').ProcessorSource;
+    _exports2.ReactiveModel = ReactiveModel = require('./reactive-model').ReactiveModel;
+    _exports2.RunTimeError = RunTimeError = require('./run-time/item').RunTimeError;
+    _exports2.RunTimeManager = RunTimeManager = require('./run-time/manager').RunTimeManager;
+    _exports2.TemplateApplication = TemplateApplication = require('./templates/applications/item').TemplateApplication;
+    _exports2.TemplateApplicationsSources = TemplateApplicationsSources = require('./templates/applications/sources/collection').TemplateApplicationsSources;
+    _exports2.TemplateApplicationsSource = TemplateApplicationsSource = require('./templates/applications/sources/item').TemplateApplicationsSource;
+    _exports2.TemplateGlobals = TemplateGlobals = require('./templates/global/collection').TemplateGlobals;
+    _exports2.TemplateGlobal = TemplateGlobal = require('./templates/global/item').TemplateGlobal;
+    _exports2.TemplateGlobalSources = TemplateGlobalSources = require('./templates/global/sources/collection').TemplateGlobalSources;
+    _exports2.TemplateGlobalSource = TemplateGlobalSource = require('./templates/global/sources/item').TemplateGlobalSource;
+    _exports2.Template = Template = require('./templates/item').Template;
+    _exports2.TemplateOverwrites = TemplateOverwrites = require('./templates/overwrites/collection').TemplateOverwrites;
+    _exports2.TemplateOverwrite = TemplateOverwrite = require('./templates/overwrites/item').TemplateOverwrite;
+    _exports2.TemplateProcessor = TemplateProcessor = require('./templates/processors/item').TemplateProcessor;
+    _exports2.TemplateProcessorsSources = TemplateProcessorsSources = require('./templates/processors/sources/collection').TemplateProcessorsSources;
+    _exports2.TemplateProcessorsSource = TemplateProcessorsSource = require('./templates/processors/sources/item').TemplateProcessorsSource;
   };
 
   const hmr = new function () {

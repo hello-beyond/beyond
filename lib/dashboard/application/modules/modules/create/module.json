@@ -1,7 +1,6 @@
 {
+  "name": "module-create",
   "code": {
-    "route": "/modules/create",
-    "layout": "dashboard",
     "vdir": 1,
     "imports": "imports.js",
     "jsx": {

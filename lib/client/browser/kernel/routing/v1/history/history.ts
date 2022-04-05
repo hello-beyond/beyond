@@ -91,7 +91,8 @@ export class BeyondHistory {
 
         if (this.#position.value === void 0) {
             // It is not a refresh of a previously navigated page
-            let uri = routing.mode === Mode.Hash ? location.hash.slice(1) : `${location.pathname}${location.search}`;
+            let uri = routing.mode === Mode.Hash ? location.hash.slice(1) :
+                `${location.pathname}${location.search}${location.hash}`;
             this.#push(uri);
         }
     }

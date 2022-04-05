@@ -177,11 +177,6 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     "vdir": false,
     "layout": "beyond-ui"
   }, {
-    "route": "/application/create",
-    "bundle": "@beyond-js/dashboard/unnamed/application/create/page/page",
-    "vdir": false,
-    "layout": "dashboard"
-  }, {
     "route": "/beyond/dashboard/icons",
     "bundle": "@beyond-js/dashboard/unnamed/components/core/page/page",
     "vdir": false
@@ -225,6 +220,11 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
     "vdir": false,
     "layout": "default"
   }, {
+    "route": "/application/create",
+    "bundle": "@beyond-js/dashboard/unnamed/project/create/page/page",
+    "vdir": false,
+    "layout": "dashboard"
+  }, {
     "route": "/services/compile",
     "bundle": "@beyond-js/dashboard/unnamed/services/compile/page",
     "vdir": true,
@@ -260,7 +260,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   *****************/
 
   bundles.set('@beyond-js/dashboard-lib/start', {
-    hash: 3653106571,
+    hash: 1793121096,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -277,9 +277,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
             monitor: beyond.params.monitor
           });
         }
-      });
+      }); // Exports managed by beyond bundle objects
 
-      __pkg.exports.process = function (require, _exports) {};
+      __pkg.exports.managed = function (require, _exports) {};
 
       return modules;
     }
@@ -289,7 +289,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ************************************/
 
   bundles.set('@beyond-js/ui/popper/start', {
-    hash: 4240628911,
+    hash: 3156888118,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -313,9 +313,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
             });
           })(requirejs.config, `packages/@beyond-js/ui/popper/vendor`);
         }
-      });
+      }); // Exports managed by beyond bundle objects
 
-      __pkg.exports.process = function (require, _exports) {};
+      __pkg.exports.managed = function (require, _exports) {};
 
       return modules;
     }
@@ -325,7 +325,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************/
 
   bundles.set('@beyond-js/ui/tippy/start', {
-    hash: 3326046690,
+    hash: 1954240247,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -349,9 +349,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
             });
           })(requirejs.config, `packages/@beyond-js/ui/tippy/vendor`);
         }
-      });
+      }); // Exports managed by beyond bundle objects
 
-      __pkg.exports.process = function (require, _exports) {};
+      __pkg.exports.managed = function (require, _exports) {};
 
       return modules;
     }
@@ -361,7 +361,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************/
 
   bundles.set('@beyond-js/ui/waves/start', {
-    hash: 2510997085,
+    hash: 3762697239,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -385,9 +385,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
             });
           })(requirejs.config, `packages/@beyond-js/ui/waves/vendor`);
         }
-      });
+      }); // Exports managed by beyond bundle objects
 
-      __pkg.exports.process = function (require, _exports) {};
+      __pkg.exports.managed = function (require, _exports) {};
 
       return modules;
     }
@@ -397,7 +397,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   ***********************************************/
 
   bundles.set('@beyond-js/dashboard-lib/models/start', {
-    hash: 3259047581,
+    hash: 3395526394,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -419,9 +419,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
             });
           })().catch(exc => console.error(exc.stack));
         }
-      });
+      }); // Exports managed by beyond bundle objects
 
-      __pkg.exports.process = function (require, _exports) {};
+      __pkg.exports.managed = function (require, _exports) {};
 
       return modules;
     }
@@ -431,7 +431,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   *********************/
 
   bundles.set('@beyond-js/dashboard/unnamed/boards/start', {
-    hash: 378809316,
+    hash: 2739852451,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -468,9 +468,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
           }();
           exports.DSBoards = DSBoards;
         }
-      });
+      }); // Exports managed by beyond bundle objects
 
-      __pkg.exports.process = function (require, _exports) {
+      __pkg.exports.managed = function (require, _exports) {
         _exports.DSBoards = require('./start').DSBoards;
       };
 
@@ -482,7 +482,7 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
   *************/
 
   bundles.set('@beyond-js/dashboard/monaco/start', {
-    hash: 581447823,
+    hash: 4070592101,
     specs: {},
     creator: function (transversal, bundle, __pkg) {
       const modules = new Map();
@@ -506,9 +506,9 @@ define(["@beyond-js/kernel/core/ts", "@beyond-js/kernel/routing/ts"], function (
             });
           })(requirejs.config);
         }
-      });
+      }); // Exports managed by beyond bundle objects
 
-      __pkg.exports.process = function (require, _exports) {};
+      __pkg.exports.managed = function (require, _exports) {};
 
       return modules;
     }

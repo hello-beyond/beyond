@@ -13,14 +13,17 @@ module.exports = class Project extends require('../file-manager') {
     #basename = 'project.json';
 
     _templates = {
-        empty: './projects/empty',
-        react: './projects/react',
-        web: './projects/web',
         node: './projects/node',
         backend: './projects/backend',
         library: './projects/library',
+        web: './projects/web',
+        react: './projects/react',
+        vue: './projects/vue',
+        svelte: './projects/svelte',
+        board: './projects/board',
         express: './projects/express',
-        'web-backend': './projects/web-backend'
+        'web-backend': './projects/web-backend',
+        empty: './projects/empty'
     };
 
     skeleton = [
@@ -119,10 +122,7 @@ module.exports = class Project extends require('../file-manager') {
     }
 
     async create(type, specs) {
-        const fs = global.utils.fs;
-        if (!type) {
-            throw 'The type of project was not specified';
-        }
+        if (!type) throw 'The type of project was not specified';
 
         const folder = this._setId(specs.name)
         if (!folder) throw Error('The project instance requires a name');
@@ -134,6 +134,7 @@ module.exports = class Project extends require('../file-manager') {
             throw `Does not exist a ${type} template`;
         }
 
+        const {fs} = global.utils;
         if (await fs.exists(this.file.dirname)) {
             throw `The application is already exists in ${this.path}`;
         }
@@ -144,12 +145,11 @@ module.exports = class Project extends require('../file-manager') {
         await fs.copy(current, this.file.dirname);
 
         await this._load();
-
         this.#deployment.addPlatforms(specs.platforms);
 
         this.save(specs);
         await this.readFiles(specs);
-        return this.install();
+        specs.npm && await this.install();
     }
 
     install() {
@@ -158,15 +158,11 @@ module.exports = class Project extends require('../file-manager') {
             exec('npm install', {
                 cwd: this.file.dirname
             }, (error, stdout, stderr) => {
-                if (error) {
-                    console.log("error", error);
-                }
-                if (stderr) {
-                    console.log("stderr", stderr);
-                }
+                error && console.error("error", error);
+                stderr && console.error("stderr", stderr);
                 resolve();
             });
-        })
+        });
     }
 
     save(values = {}) {
