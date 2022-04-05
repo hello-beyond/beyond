@@ -1,0 +1,57 @@
+$border-radius: 1px !default;
+.form__select {
+
+  padding: 8px 12px;
+  border-radius: $border-radius;
+  border: 1px solid $gray-300;
+  position: relative;
+  cursor: pointer;
+
+  .beyond-icon {
+    position: absolute;
+    //top: 15px;
+    right: 15px;
+    fill: var(--beyond-text-on-primary)
+  }
+
+  .form__select__options {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-top: 16px;
+    display: none;
+  }
+
+  .label {
+    padding-right: 40px;
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  &.opened {
+
+    .form__select__options {
+      display: grid;
+      background: var(--beyond-background-color);
+      border: 1px solid var(--beyond-secondary-dark-color);
+      box-shadow: 0 5px 5px -5px #333;
+      z-index: 10;
+
+      .option {
+        padding: 8px;
+        color: var(--beyond-text-on-primary);
+
+        &:hover {
+          background: var(--beyond-facebook-accent-color);
+        }
+
+        &:not(:first-child) {
+          border-top: 1px solid $gray-300;
+        }
+      }
+    }
+  }
+
+}

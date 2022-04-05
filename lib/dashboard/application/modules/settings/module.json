@@ -1,0 +1,32 @@
+{
+  "name": "settings",
+  "code": {
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "dom": true,
+      "path": "scss",
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "path": "txt",
+    "multilanguage": true,
+    "files": [
+      "*"
+    ]
+  }
+}

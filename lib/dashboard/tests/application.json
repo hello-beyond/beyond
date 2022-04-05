@@ -1,0 +1,13 @@
+{
+  "name": "beyond-app-tests",
+  "title": "Beyond Application Unit Tests",
+  "version": "1",
+  "libraries": [
+    "beyond-dashboard"
+  ],
+  "static": {
+    "includes": [
+      "mocha"
+    ]
+  }
+}

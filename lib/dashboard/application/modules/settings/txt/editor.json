@@ -1,0 +1,46 @@
+{
+  "en": {
+    "title": "Editor",
+    "controls": {
+      "theme": {
+        "label": "Theme"
+      },
+      "fontSize": {
+        "label": "Font size",
+        "placeholder": "12"
+      },
+      "wordWrap": {
+        "label": "Wordwrap"
+      }
+    },
+    "tabs": {
+      "general": "General",
+      "apps": "Projects"
+    },
+    "actions": {
+      "save": "Save"
+    }
+  },
+  "es": {
+    "title": "Editor",
+    "controls": {
+      "theme": {
+        "label": "Theme"
+      },
+      "fontSize": {
+        "label": "Font size",
+        "placeholder": "12"
+      },
+      "wordWrap": {
+        "label": "Wordwrap"
+      }
+    },
+    "tabs": {
+      "general": "General",
+      "apps": "Proyectos"
+    },
+    "actions": {
+      "save": "Save"
+    }
+  }
+}

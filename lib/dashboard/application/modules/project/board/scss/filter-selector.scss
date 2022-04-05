@@ -1,0 +1,46 @@
+.modules-list_header {
+
+  .app__container-filter {
+    position: relative;
+    padding-right: 0;
+
+    .header-filter_list {
+
+      @include position-absolute(100%, 0, 0, 0);
+      cursor: pointer;
+      display: grid;
+      background: rgba($beyond-secondary-dark-color, .6);
+      transition: all 300ms ease-in-out;
+      z-index: 999;
+      height: 0;
+      overflow: hidden;
+      opacity: 0;
+
+      &.opened {
+        opacity: 1;
+        transition: all 300ms ease-in;
+        height: auto;
+        overflow: visible;
+      }
+
+      .header-filter_item {
+        padding: 8px 15px;
+        transition: all 300ms ease-in-out;
+        cursor: pointer;
+        background: rgba($beyond-secondary-dark-color, .6);
+
+        &:last-child {
+          box-shadow: 0 5px 5px -4px $ds-shadow-color;
+        }
+
+        &:hover {
+          background: $beyond-primary-color;
+          transition: all 300ms ease-in;
+        }
+
+      }
+
+    }
+  }
+
+}

@@ -1,0 +1,25 @@
+{
+  "page": {
+    "route": "/indexdb",
+    "layout": "default",
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "path": "scss",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

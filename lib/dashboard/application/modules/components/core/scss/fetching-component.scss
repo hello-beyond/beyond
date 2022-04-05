@@ -1,0 +1,10 @@
+.module_fetching-block {
+
+  @include position-absolute();
+  width: 100%;
+  align-items: center;
+  transition: all 200ms ease-in;
+  @include flex-centering;
+  display: flex;
+
+}

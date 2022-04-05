@@ -1,0 +1,45 @@
+{
+  "en": {
+    "panels": {
+      "tab": {
+        "actions": {
+          "splitRight": "Split Right",
+          "splitDown": "Split Down",
+          "close": "Close"
+        },
+        "labels": {
+          "apps": "Projects",
+          "navigator": "navigator",
+          "compile": "Compile app",
+          "static": "Static",
+          "app": "Application",
+          "appConfig": "Application config",
+          "module": "Module",
+          "settings": "Settings"
+        }
+      }
+    }
+  },
+  "es": {
+    "panels": {
+      "tab": {
+        "actions": {
+          "splitRight": "Split Right",
+          "splitDown": "Split Down",
+          "close": "Close"
+        },
+        "labels": {
+          "apps": "Proyectos",
+          "navigator": "Navegador",
+          "compile": "Compilador",
+          "static": "Estaticos",
+          "app": "Aplicación",
+          "appConfig": "Configuración",
+          "module": "Modulo",
+          "settings": "Preferencias"
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,9 @@
+{
+  "name": "web-app",
+  "version": "1.0.0",
+  "layout": "main-layout",
+  "template": "template/template.json",
+  "modules": {
+    "path": "./modules"
+  }
+}

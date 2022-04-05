@@ -1,0 +1,11 @@
+{
+  "server": "./server",
+  "bundle": "page",
+  "route": "/tables",
+  "js": [
+    "register.js",
+    "tests.js",
+    "page.js"
+  ],
+  "imports": "./imports.js"
+}

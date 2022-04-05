@@ -1,0 +1,31 @@
+{
+  "name": "project-create",
+  "code": {
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "context.jsx",
+        "form",
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "path": "scss",
+      "dom": true,
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "multilanguage": true,
+    "files": "texts.json"
+  }
+}

@@ -1,0 +1,36 @@
+.beyond-element-modal.ds-modal .ds-modal-editor {
+
+  padding: 30px;
+
+  form {
+    width: 100%;
+    display: grid;
+    grid-gap: 15px;
+  }
+
+  .beyond-alert {
+    margin-bottom: 30px;
+  }
+
+  input {
+    border: 1px solid $beyond-gray-light-color;
+    outline: none;
+
+    &:hover, &:focus, &:focus {
+      border: 1px solid $beyond-gray-color;
+    }
+
+    padding: 8px;
+    width: 100%;
+  }
+
+  .actions {
+    display: grid;
+    justify-items: center;
+
+    .beyond-button {
+      margin-top: 30px;
+      min-width: 200px;
+    }
+  }
+}

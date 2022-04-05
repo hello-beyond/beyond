@@ -1,0 +1,11 @@
+{
+  "name": "routing",
+  "bundle": "ts",
+  "files": "*",
+  "excludes": [
+    "_older"
+  ],
+  "engines": [
+    "v1"
+  ]
+}

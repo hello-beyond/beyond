@@ -1,0 +1,34 @@
+{
+  "name": "ds-editor",
+  "code": {
+    "vdir": 1,
+    "imports": "imports.js",
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "context.jsx",
+        "*"
+      ]
+    },
+    "scss": {
+      "path": "scss",
+      "dom": true,
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "multilanguage": true,
+    "path": "txt",
+    "files": [
+      "*"
+    ]
+  }
+}
