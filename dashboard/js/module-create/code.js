@@ -194,6 +194,7 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
     disabled
   }) {
     const {
+      bundle,
       model,
       origin,
       texts
@@ -211,13 +212,15 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
     };
 
     if (origin === 'templates') return null;
+    const processorStyles = bundle !== 'ts' && bundle !== 'bridge';
     return /*#__PURE__*/React.createElement("div", {
       className: "item item_switch flex-container"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, processorStyles && /*#__PURE__*/React.createElement("div", {
       className: "switch-option"
     }, /*#__PURE__*/React.createElement(_code4.BeyondSwitch, _extends({
       name: "styles"
     }, disabled, {
+      checked: state.styles,
       value: state.styles,
       onChange: toggleRadio
     })), /*#__PURE__*/React.createElement("label", null, texts.form.styles), /*#__PURE__*/React.createElement(_code3.DSIconButton, _extends({
@@ -237,27 +240,14 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
     }, disabled, {
       className: "gray circle",
       title: texts.help.titles.text
-    }))), /*#__PURE__*/React.createElement("div", {
-      className: "switch-option"
-    }, /*#__PURE__*/React.createElement(_code4.BeyondSwitch, _extends({
-      name: "server"
-    }, disabled, {
-      value: state.server,
-      onChange: toggleRadio
-    })), /*#__PURE__*/React.createElement("label", null, texts.form.server), /*#__PURE__*/React.createElement(_code3.DSIconButton, {
-      icon: "info",
-      className: "gray circle",
-      title: texts.help.titles.server
-    })));
+    }))));
   }
   /*************************************
   form\bundles\additional-processors.jsx
   *************************************/
 
 
-  function AdditionalProcessors({
-    state
-  }) {
+  function AdditionalProcessors() {
     const {
       model,
       bundle,
@@ -741,7 +731,8 @@ define(["exports", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@b
     const spinner = React.useRef();
     const [error, setError] = React.useState();
     const [initial, setInitial] = React.useState(true);
-    const styles = template === 'page' || template === 'widget' || template === 'layout';
+    const tpl = template.template;
+    const styles = tpl === 'page' || tpl === 'widget' || tpl === 'layout' || tpl === 'code';
     const [state, setState] = React.useState({
       styles: styles
     });
