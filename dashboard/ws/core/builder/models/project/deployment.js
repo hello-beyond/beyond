@@ -51,7 +51,6 @@ module.exports = class Deployment extends require('../file-manager') {
         const list = Array.from(this.#distributions.values());
 
         if (list.find(dist => dist.compute === newDistribution.compute)) {
-            list.find(dist => dist.compute === newDistribution.compute);
             return {error: 'ALREADY_EXISTS'};
         }
         if (list.find(dist => dist.port === distribution.port)) {

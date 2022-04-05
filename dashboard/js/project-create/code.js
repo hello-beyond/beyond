@@ -171,6 +171,7 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
       className: "switch-option"
     }, /*#__PURE__*/React.createElement(_code7.BeyondSwitch, {
       name: "npm",
+      checked: model.npm,
       value: model.npm,
       onChange: toggleRadio
     }), /*#__PURE__*/React.createElement("label", null, texts.npm))), /*#__PURE__*/React.createElement("footer", {

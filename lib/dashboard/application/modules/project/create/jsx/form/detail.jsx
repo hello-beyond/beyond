@@ -73,7 +73,7 @@ function DetailApp() {
                 </div>
 
                 <div className="switch-option">
-                    <BeyondSwitch name="npm" value={model.npm} onChange={toggleRadio}/>
+                    <BeyondSwitch name="npm" checked={model.npm} value={model.npm} onChange={toggleRadio}/>
                     <label>{texts.npm}</label>
                 </div>
             </div>

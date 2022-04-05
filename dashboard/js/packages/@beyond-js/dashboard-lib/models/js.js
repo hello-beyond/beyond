@@ -289,8 +289,9 @@ define(["exports"], function (_exports2) {
         platforms
       } = items.find(item => item.name === this.type);
       const data = platforms.map(item => {
-        let platform = {
-          platform: item
+        const platform = {
+          platform: item,
+          environment: 'development'
         };
 
         if (item === 'web') {
