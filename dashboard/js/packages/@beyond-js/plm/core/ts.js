@@ -2683,7 +2683,6 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
 
         #checkFilter = (realtimeFilter, managerFilter) => {
-          console.log('plm', realtimeFilter, managerFilter);
 
           for (const condition of managerFilter) {
             if (!realtimeFilter.hasOwnProperty(condition.field)) continue;
