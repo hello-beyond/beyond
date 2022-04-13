@@ -1,0 +1,23 @@
+.ds__board {
+
+  .pd-base {
+    padding: 2rem;
+  }
+
+  .board__header {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .pathname {
+      color: $beyond-primary-accent-color;
+    }
+
+    .scanned__section {
+      gap: 10px;
+    }
+
+  }
+
+}

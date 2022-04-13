@@ -1,0 +1,44 @@
+const hosts = {
+    config: 'config.js',
+    require: 'packages/@beyond-js/kernel/static/vendor/require.min.js',
+    core: 'packages/@beyond-js/kernel/core/ts.js',
+    routing: `packages/@beyond-js/kernel/routing/ts.js`,
+    start: 'start.js'
+};
+
+const local = true;
+const mode = 'amd';
+const amd = mode === 'amd';
+const baseUrl = '/';
+
+export default new class {
+    append() {
+        const appendScript = (src: string, attrs?: [string, string][], type?: string) => {
+            const script = document.createElement('script');
+            script.src = `${baseUrl}${src}`;
+            type && (script.type = type);
+            attrs?.forEach(([name, value]) => script.setAttribute(name, value));
+            document.head.appendChild(script);
+        }
+
+        appendScript(hosts.config);
+
+        if (amd) {
+            // If mode is AMD, then the data-main directive will load the start.js bundle
+            // which in turn, in AMD mode also includes BeyondJS core and routing
+            const attrs: [string, string][] = [['data-main', `${baseUrl}start`]];
+            appendScript(hosts.require, attrs);
+
+            // Config requirejs in development mode
+            if (local) {
+                const script = document.createElement('script');
+                script.innerText = 'requirejs.config({waitSeconds: 30});';
+                document.head.appendChild(script);
+            }
+        } else {
+            appendScript(hosts.core, void 0, 'module');
+            appendScript(hosts.routing, void 0, 'module');
+            appendScript(hosts.start, void 0, 'module');
+        }
+    }
+}

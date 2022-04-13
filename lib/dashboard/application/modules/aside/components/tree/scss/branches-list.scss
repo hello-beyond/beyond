@@ -1,0 +1,18 @@
+.ds-tree .ds-tree__branches-list {
+
+  position: relative;
+
+  &.tree__list--hidden {
+    display: none;
+  }
+
+  // we set dynamically darken background to new subtree levels.
+  $background: darken($beyond-secondary-color, 2%);
+  @for $i from 0 through 5 {
+    &.ds-tree__branches-list.tree__list-level-#{$i} {
+      background: $background;
+    }
+    $background: darken($background, 2%);
+  }
+
+}

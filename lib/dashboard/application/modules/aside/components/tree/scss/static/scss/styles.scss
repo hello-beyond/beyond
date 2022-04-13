@@ -1,0 +1,44 @@
+.ds-static-form {
+
+  @include fadeIn();
+
+  .beyond-element-input input {
+    height: 2.2rem;
+  }
+
+  .hidden-input {
+    display: none;
+  }
+
+  .alert {
+    @include fadeIn();
+  }
+
+  form {
+    display: block;
+  }
+
+  .jd-uploader-form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    .alert {
+      width: 100%;
+    }
+  }
+
+  .modal-content .actions {
+    margin: 15px;
+    border-top: 1px solid $beyond-gray-light-color;
+    padding-top: 15px;
+    display: flex;
+
+    .roundell {
+      border-radius: 0.6rem;
+      padding: 0.6rem;
+    }
+  }
+}

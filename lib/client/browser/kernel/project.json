@@ -1,0 +1,38 @@
+{
+  "scope": "beyond-js",
+  "name": "kernel",
+  "version": "0.0.12",
+  "modules": {
+    "path": "./"
+  },
+  "static": {
+    "includes": "vendor"
+  },
+  "deployment": {
+    "distributions": [
+      {
+        "name": "npm",
+        "npm": true,
+        "environment": "development",
+        "platforms": {
+          "node": true,
+          "web": true
+        }
+      },
+      {
+        "name": "node",
+        "platform": "node",
+        "environment": "development"
+      },
+      {
+        "name": "web-tsc",
+        "platform": "web",
+        "port": 9999,
+        "ts": {
+          "compiler": "tsc"
+        },
+        "environment": "development"
+      }
+    ]
+  }
+}

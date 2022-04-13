@@ -1,0 +1,27 @@
+$ds-list-header-text-color: #fff;
+@mixin component-padding {
+  padding: 20px;
+}
+
+@mixin separator-large {
+
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row;
+  border-top-right-radius: $ds-border-radius;
+  @include gradient-x($beyond-secondary-light-color, $beyond-secondary-dark-color);
+  color: $ds-list-header-text-color;
+  padding: 2px 15px;
+  align-items: center;
+
+  .actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 15px;
+    align-items: center;
+  }
+
+  .information-text {
+    color: $beyond-secondary-light-color;
+  }
+}
