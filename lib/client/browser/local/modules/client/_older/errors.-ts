@@ -1,6 +1,0 @@
-window.onerror = function (msg: string, url: string, line: number, col: number, error: Error) {
-    let extra = !col ? '' : '\ncolumn: ' + col;
-    extra += !error ? '' : '\nerror: ' + error;
-
-    console.log(`Error globally captured:\n${msg}\nurl: ${url}\nline:${line}${extra ? `\n${extra}` : ''}`);
-};
