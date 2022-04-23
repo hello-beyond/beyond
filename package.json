@@ -2,7 +2,7 @@
   "name": "beyond",
   "author": "BeyondJS",
   "email": "hello@beyondjs.com",
-  "version": "0.99.22",
+  "version": "0.99.23",
   "license": "Apache-2.0",
   "main": "lib",
   "repository": "https://github.com/hello-beyond/beyond",
@@ -78,6 +78,7 @@
     "uimport": "^1.0.6",
     "svelte": "^3.44.2",
     "vue": "^3.2.31",
-    "node-sass": "^6.0.1"
+    "node-sass": "^6.0.1",
+    "prettier": "2.6.2"
   }
 }

@@ -1,0 +1,31 @@
+{
+  "name": "app-distributions",
+  "code": {
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "scss": {
+      "path": "scss",
+      "dom": true,
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "path": "txt",
+    "files": [
+      "*"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "ds-contexts",
+  "code": {
+    "ts": {
+      "path": "ts",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

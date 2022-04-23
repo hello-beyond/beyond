@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "experimentalDecorators": true,
+    "module": "es2020",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "baseUrl": ".",
+    "paths": {
+      "beyond_libraries": [
+        "../../../../../beyond_libraries"
+      ]
+    }
+  }
+}

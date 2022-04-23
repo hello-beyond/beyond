@@ -1,0 +1,25 @@
+{
+  "name": "app-compile",
+  "code": {
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": "*"
+    },
+    "js": {
+      "path": "js",
+      "files": "*"
+    },
+    "scss": {
+      "path": "scss",
+      "dom": true,
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "multilanguage": true,
+    "files": "txt/texts.json"
+  }
+}

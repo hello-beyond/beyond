@@ -1,0 +1,48 @@
+.no-scroll {
+  overflow: hidden !important;
+}
+
+.preload-container {
+  display: flex;
+  position: absolute;
+  @include position-absolute();
+  background: black;
+  z-index: 3;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 300ms ease-in;
+
+  .animation-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.finishing-preload {
+    background: yellow;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    background: red;
+
+    z-index: 5;
+    transform: skewY(11deg);
+    width: 100%;
+    transition: all 2ms ease-in;
+    opacity: 0;
+    height: 0;
+
+    &.close {
+      transition: all 300ms ease-in;
+      height: 130vh;
+      opacity: 1;
+    }
+
+  }
+}
+
+

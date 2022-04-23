@@ -1,0 +1,5 @@
+[
+  "plm/library.json",
+  "dashboard/library.json",
+  "../../../common-libraries/beyond-ui/library.json"
+]

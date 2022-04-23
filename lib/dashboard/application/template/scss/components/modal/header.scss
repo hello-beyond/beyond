@@ -1,0 +1,26 @@
+.beyond-element-modal.ds-modal .modal-content .ds-modal_header {
+  @include gradient-x($beyond-secondary-color, darken($beyond-secondary-dark-color, 10%));
+  padding: $ds-padding-components;
+  width: 100%;
+  margin: 0;
+  align-items: center;
+  display: flex;
+  text-align: left;
+  gap: 15px;
+
+  .badge-list {
+    margin-bottom: 30px;
+  }
+
+  * {
+    color: $beyond-text-on-primary;
+  }
+
+  h5, h4 {
+    padding: 5px 0;
+
+    & + & {
+      padding-bottom: 0;
+    }
+  }
+}

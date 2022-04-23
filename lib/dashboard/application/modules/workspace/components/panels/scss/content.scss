@@ -1,0 +1,26 @@
+.ds__content-panel {
+
+  padding: 20px;
+  width: 100%;
+
+  header {
+    border-bottom: 1px solid $beyond-primary-accent-color;
+    margin-bottom: 30px;
+  }
+
+  .form-column {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    select {
+      background: transparent;
+      color: $beyond-text-on-secondary;
+      padding: 8px;
+
+      option {
+        color: black;
+      }
+    }
+  }
+}

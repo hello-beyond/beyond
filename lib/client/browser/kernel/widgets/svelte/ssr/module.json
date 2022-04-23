@@ -1,0 +1,7 @@
+{
+  "name": "svelte-widget",
+  "platforms": "ssr",
+  "bundle": "ts",
+  "transpile": false,
+  "files": "*"
+}
