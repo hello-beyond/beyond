@@ -75,7 +75,7 @@
     "sqlite3": "^5.0.2",
     "typescript": "^4.5.5",
     "uglify-js": "^3.14.3",
-    "uimport": "^1.0.6",
+    "uimport": "^1.0.7",
     "svelte": "^3.44.2",
     "vue": "^3.2.31",
     "node-sass": "^6.0.1",
