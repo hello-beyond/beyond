@@ -1,0 +1,70 @@
+$tree-levels-count: 10 !default;
+$strength: 5 !default;
+
+$ds-actions-hover: $beyond-primary-light-color;
+$ds-aside-icons-color: #fff;
+.ds-tree__container {
+
+  .tree__icon-open {
+    fill: #fff;
+    height: 18px;
+    width: 18px;
+    padding: 0;
+    transform: rotate(270deg);
+
+    &.tree__icon--opened {
+      transform: rotate(0deg);
+    }
+  }
+
+  //ds-tree__branches-list tree__list-level-8 subtree__list
+  .ds-tree {
+    width: 100%;
+    transition: all 300ms ease-in;
+    //when the tree is hidden
+    .ds-branches.ds-branches--hidden {
+      display: none;
+    }
+
+    ul:not(.subtree__list) {
+      padding: 0;
+      margin: 0;
+
+      list-style: none;
+      cursor: pointer;
+
+    }
+
+    ul.subtree__list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .tree__toggle-icon {
+      fill: $ds-aside-icons-color;
+    }
+
+  }
+
+  .empty__list {
+    .btn.btn__empty__list {
+      margin: auto;
+      font-size: 1rem;
+      padding: 5px 30px;
+      background: var(--beyond-secondary-dark-color);
+      display: flex;
+      place-items: center;
+      align-content: center;
+      align-items: center;
+
+      svg {
+        fill: var(--beyond-text-on-primary)
+      }
+    }
+  }
+}
+
+
+

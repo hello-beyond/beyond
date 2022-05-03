@@ -1,0 +1,28 @@
+.ds-breadcrumb {
+
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+
+  li {
+    cursor: pointer;
+    transition: all 300ms ease-in;
+
+    &:hover {
+      color: $beyond-primary-accent-color;
+      transition: all 300ms ease-in;
+    }
+
+    &:after {
+      padding: 0 5px;
+      content: ":";
+    }
+
+    &:last-child:after {
+      content: "";
+    }
+  }
+
+}

@@ -1,0 +1,5 @@
+.ds-info-component {
+  .ds-info__header {
+    @include bar-separator();
+  }
+}

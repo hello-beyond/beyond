@@ -1,0 +1,65 @@
+$beyond-font-family: var(--beyond-font-family);
+$beyond-secondary-font-family: var(--beyond-secondary-font-family);
+$beyond-title-font: var(--beyond-secondary-font-family);
+
+$beyond-background-color: #000;
+$beyond-background-variant-color: var(--beyond-element-secondary-background-color);
+$beyond-border-color: var(--beyond-border-color);
+$beyond-border-variant-color: var(--beyond-border-variant-color);
+$beyond-text-color: var(--beyond-text-color);
+
+$beyond-gray-base-color: #000000;
+$beyond-gray-darker-color: #333333;
+$beyond-gray-dark-color: #5E5F5C;
+$beyond-gray-color: #82837F;
+$beyond-gray-light-color: #E4E5DC;
+$beyond-gray-lighter-color: #F0F0F0;
+
+$beyond-primary-color: #FF8056;
+$beyond-primary-dark-color: #E36152;
+$beyond-primary-light-color: #FFA789;
+$beyond-primary-accent-color: #A2000A;
+$beyond-text-on-primary: #fff;
+
+$beyond-secondary-color: #121F36;
+$beyond-secondary-dark-color: darken(#121F36, 10%);
+$beyond-secondary-light-color: #313C50;
+$beyond-secondary-accent-color: #F7C700;
+$beyond-text-on-secondary: #FFFFFF;
+
+$beyond-facebook-color: var(--beyond-facebook-color);
+$beyond-facebook-dark: var(--beyond-facebook-dark);
+$beyond-facebook-light: var(--beyond-facebook-light);
+$beyond-facebook-contrast-color: var(--beyond-facebook-contrast-color);
+
+$beyond-element-primary-background: var(--beyond-element-primary-background-color);
+$beyond-element-secondary-background: var(--beyond-element-secondary-background-color);
+$beyond-element-dark-background: var(--beyond-element-dark-background-color);
+$beyond-element-primary-text: var(--beyond-element-primary-text);
+$beyond-element-secondary-text: var(--beyond-element-secondary-text);
+$beyond-element-tertiary-text: var(--beyond-element-tertiary-text);
+
+$beyond-success-color: #6AAC7D;
+$beyond-warning-color: #F7D994;
+$beyond-info-color: #4D66A9;
+$beyond-error-color: #D2281E;
+$beyond-chat-online-color: var(--beyond-chat-online-color);
+
+// features
+
+$beyond-color-content-on-contrast: $beyond-text-on-secondary;
+$beyond-contrast-background: #FD5C62;
+$beyond-background-toolbar: #222d42;
+
+//bootstrap
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;

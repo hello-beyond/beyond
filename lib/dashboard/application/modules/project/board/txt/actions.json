@@ -1,0 +1,36 @@
+{
+  "en": {
+    "actions": {
+      "navigate": "Navigate",
+      "compile": "Compile",
+      "editDescription": "Edit description",
+      "generatingDeclarations": "generating...",
+      "publish": "Publish",
+      "update": "Update dependencies",
+      "declarations": "Generate declarations",
+      "start": "Play",
+      "stop": "Stop",
+      "restart": "Restart",
+      "distributions": "Distributions",
+      "scanAll": "Scan all",
+      "scan": "Scan"
+    }
+  },
+  "es": {
+    "actions": {
+      "navigate": "Navegar",
+      "compile": "Compilar",
+      "editDescription": "Edit description",
+      "generatingDeclarations": "Generando...",
+      "publish": "Publish",
+      "update": "Update dependencies",
+      "declarations": "Generar declaraciones",
+      "start": "Play",
+      "stop": "Stop",
+      "restart": "Restart",
+      "scanAll": "Scan all",
+      "scan": "Scan",
+      "distributions": "Distribuciones"
+    }
+  }
+}

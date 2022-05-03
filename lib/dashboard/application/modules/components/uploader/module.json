@@ -1,0 +1,10 @@
+{
+  "bundle": "code",
+  "imports": "imports.js",
+  "js": {
+    "path": "./client",
+    "files": [
+      "*"
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "en": {
+    "empty": "Selecciona un modulo para que puedas ver su contenido",
+    "list": {
+      "empty": "No elements"
+    },
+    "backend": {
+      "title": "Backend code",
+      "sessions": "Sessions Backend",
+      "core": "Core Backend",
+      "description": "BeyondJS permite trabajar de manera simple con acciones en realtime implementadas con websocket, puedes configurarlo si deseas.",
+      "action": "Crear",
+      "read": "Leer más"
+    },
+    "declarations": {
+      "title": "Declaraciones",
+      "description": "Las declaraciones permiten que el IDE identifique los objetos utilizados y garantice el buen funcionamiento de typescript",
+      "action": "Actualizar"
+    },
+    "static": {
+      "title": "Static files",
+      "form": {
+        "title": "Selecciona una image o arrastrala.",
+        "errors": {
+          "invalidFile": "The uploaded file is invalid, please verify and try again"
+        },
+        "header": {
+          "title": "Add file",
+          "detail": "As static resource"
+        },
+        "actions": {
+          "close": "Close"
+        }
+      }
+    },
+    "dependencies": {
+      "title": "Dependencies"
+    },
+    "favorites": {
+      "title": "Favorites",
+      "empty": {
+        "title": "No Favorites",
+        "description": "Here you will see each element added as a favorite"
+      }
+    },
+    "overwrites": {
+      "title": "Overwrites",
+      "description": "Los overwrites de un módulo te permiten customizar el diseño y los textos de un módulo."
+    },
+    "publish": {
+      "title": "Publicar",
+      "description": "El proceso de compilación de tu aplicación es esencial para poder dejar los archivos minificados, integrados y oprimizados para la puesta en marcha web o móvil, por suerte, beyond hace todo esto por tí."
+    },
+    "actions": {
+      "readMore": "Leer más",
+      "publish": "Publicar"
+    }
+  },
+  "es": {
+    "empty": "Selecciona un modulo para que puedas ver su contenido",
+    "list": {
+      "empty": "No hay elementos"
+    },
+    "backend": {
+      "title": "Backend code",
+      "sessions": "Sessions Backend",
+      "core": "Core Backend",
+      "description": "BeyondJS permite trabajar de manera simple con acciones en realtime implementadas con websocket, puedes configurarlo si deseas.",
+      "action": "Crear",
+      "read": "Leer más"
+    },
+    "declarations": {
+      "title": "Declaraciones",
+      "description": "Las declaraciones permiten que el IDE identifique los objetos utilizados y garantice el buen funcionamiento de typescript",
+      "action": "Actualizar"
+    },
+    "static": {
+      "title": "Static files",
+      "form": {
+        "title": "Selecciona una image o arrastrala.",
+        "errors": {
+          "invalidFile": " El archivo subido no es válido, por favor verifiquelo y vuelva a intentarlo"
+        },
+        "header": {
+          "title": "Agrega un archivo",
+          "detail": "Selecciona un archivo como recurso estatico"
+        },
+        "actions": {
+          "close": "Cerrar"
+        }
+      }
+    },
+    "dependencies": {
+      "title": "Dependencies"
+    },
+    "favorites": {
+      "title": "Favorites",
+      "empty": {
+        "title": "No Favorites",
+        "description": "Here you will see each element added as a favorite"
+      }
+    },
+    "template": {
+      "title": "Template",
+      "description": "El template permite definir la configuración de estilos general de la aplicación y los overwrites.",
+      "styles": {
+        "title": "Estilos",
+        "description": "Estilos generales de la aplicación, que serán compartidos entre todos los módulos."
+      }
+    },
+    "overwrites": {
+      "title": "Overwrites",
+      "description": "Los overwrites de un módulo te permiten customizar el diseño y los textos de un módulo."
+    },
+    "publish": {
+      "title": "Publicar",
+      "description": "El proceso de compilación de tu aplicación es esencial para poder dejar los archivos minificados, integrados y oprimizados para la puesta en marcha web o móvil, por suerte, beyond hace todo esto por tí."
+    },
+    "actions": {
+      "readMore": "Leer más",
+      "publish": "Publicar"
+    }
+  }
+}

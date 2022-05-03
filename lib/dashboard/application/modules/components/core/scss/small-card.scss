@@ -1,0 +1,38 @@
+$bg-card: $beyond-secondary-dark-color;
+.ds-small-card {
+  margin: 1rem 0;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  background: $bg-card;
+  min-width: 200px;
+
+  .ds-small-card__icon {
+    display: flex;
+    place-content: center;
+    align-self: center;
+
+    svg {
+
+      width: 50px;
+      border-radius: 50%;
+      height: 50px;
+      padding: 1rem;
+      background: var(--beyond-primary-color);
+
+    }
+  }
+
+  .ds-small-card__header {
+    padding: 5px 0;
+    font-size: 1rem;
+    font-weight: lighter;
+
+  }
+
+  .ds-small-card__detail {
+    font-size: 2rem;
+    font-weight: bolder;
+    color: var(--beyond-primary-accent-color)
+  }
+}
