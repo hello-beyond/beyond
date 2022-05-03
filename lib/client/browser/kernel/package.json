@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "socket.io-client": "^4.4.1",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0"
-  }
-}

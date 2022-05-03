@@ -1,2 +1,0 @@
-# BeyondJS Development Server
-

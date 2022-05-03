@@ -1,8 +1,0 @@
-{
-  "type": "object",
-  "properties": {
-    "server": {
-      "type": "string"
-    }
-  }
-}

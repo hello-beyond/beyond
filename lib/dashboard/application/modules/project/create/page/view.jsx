@@ -1,7 +1,0 @@
-function View() {
-
-    return <ApplicationCreate/>;
-
-}
-
-
