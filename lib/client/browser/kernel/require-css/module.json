@@ -1,8 +1,0 @@
-{
-  "name": "require-css",
-  "static": {
-    "includes": [
-      "require-css.js"
-    ]
-  }
-}
