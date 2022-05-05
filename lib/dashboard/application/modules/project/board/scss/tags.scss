@@ -1,0 +1,27 @@
+.ds-board__application {
+
+  .tag {
+    background: var(--beyond-secondary-light-color);
+    color: var(--beyond-text-on-secondary);
+    display: inline-flex;
+    padding: 3px 8px;
+    font-size: .7rem;
+    border-radius: 2px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-align: center;
+
+    &.tag-active {
+      background: $beyond-gray-light-color;
+      color: var(--beyond-secondary-color);
+    }
+
+    &.tag-error {
+      background: var(--beyond-primary-dark-color);
+    }
+
+  }
+}
+

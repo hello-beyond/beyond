@@ -1,0 +1,78 @@
+.app-library-view-page aside {
+
+  .library-description {
+    padding: 25px 0;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr auto;
+    align-content: center;
+    align-items: center;
+
+    .beyond-element-textarea {
+      display: flex;
+      flex-direction: column;
+      min-width: auto;
+
+      textarea {
+        width: auto;
+        border-radius: 0.5rem;
+      }
+    }
+
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  .item-detail-container {
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, .4);
+    border-bottom: 1px solid rgba(255, 255, 255, .4);
+  }
+
+  .detail-info {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    padding: 10px 0;
+
+    .detail-icon {
+      width: auto !important;
+      height: 10px !important;
+      fill: #000 !important;
+      background: $beyond-text-color;
+      padding: 10px;
+      border-radius: 50%;
+    }
+
+    &.detail div:nth-child(1) {
+      display: flex;
+      align-items: center;
+    }
+
+    h3 {
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+      word-break: break-all;
+      color: $beyond-element-secondary-text;
+    }
+
+    .detail-footer {
+      position: absolute;
+      left: auto;
+      right: 0;
+
+      .detail-icon {
+        fill: rgba(255, 255, 255, .3);
+      }
+
+    }
+
+  }
+
+}

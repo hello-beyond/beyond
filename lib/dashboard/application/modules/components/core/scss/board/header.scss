@@ -1,0 +1,27 @@
+.ds__board {
+
+  .pd-base {
+    padding: 2rem;
+  }
+
+  .board__header {
+    //padding: 2rem;
+    //display: flex;
+    //border: 1px solid var(--ds-secondary-bg);
+    //box-shadow: var(--bo);
+    //margin: 1rem;
+    //background: var(--ds-secondary-bg);
+    //justify-content: space-between;
+    //align-items: center;
+
+    .pathname {
+      color: var(--beyond-primary-accent-color);
+    }
+
+    .scanned__section {
+      gap: 10px;
+    }
+
+  }
+
+}

@@ -1,0 +1,24 @@
+{
+  "name": "applications-settings",
+  "code": {
+    "imports": "imports.js",
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "*"
+      ]
+    },
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    }
+  },
+  "txt": {
+    "path": "txt",
+    "files": [
+      "*"
+    ]
+  }
+}

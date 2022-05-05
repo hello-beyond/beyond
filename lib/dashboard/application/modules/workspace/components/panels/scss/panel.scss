@@ -1,0 +1,26 @@
+$border-panel-color: $beyond-secondary-dark-color !default;
+.panels__container .ds__panel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 100%;
+  flex-grow: 0;
+
+  & + .ds__panel {
+    border-left: solid 2px $border-panel-color;
+
+  }
+
+  overflow: auto;
+  //background: rebeccapurple;
+  height: 100%;
+
+  @media(max-width: 600px) {
+    flex-direction: row;
+  }
+
+  > div {
+    min-height: 100%;
+    //background: var(--beyond-secondary-dark-color);
+  }
+
+}

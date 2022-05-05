@@ -1,0 +1,27 @@
+.app-library-view-page aside .actions-container {
+  margin-top: 10px;
+  display: flex !important;
+  align-items: center !important;
+  top: auto !important;
+  bottom: 0 !important;
+
+  section:nth-child(1) {
+    margin-right: 10px;
+  }
+
+  .app-library-views-btn {
+    padding: 5px;
+
+    svg {
+      fill: var(--beyond-primary-dark-color) !important;
+      width: 15px;
+      height: 15px;
+    }
+
+    &:hover svg {
+      fill: var(--beyond-text-color) !important;
+    }
+
+  }
+
+}

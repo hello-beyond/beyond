@@ -1,0 +1,39 @@
+.ds-module-view__detail .bundle_processor-container {
+
+  padding-bottom: 20px;
+
+  header {
+    @include bar-separator();
+  }
+
+  .separator {
+    border-bottom: 1px solid $beyond-gray-light-color;
+  }
+
+  .bundle-processor_title {
+    @extend .separator;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .beyond-icon-button {
+      background: $beyond-gray-light-color;
+    }
+
+  }
+
+  .processor_block-data {
+
+    &.hide-block {
+      display: none !important;
+      transition: 300ms ease-in-out;
+    }
+
+    &.two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 15px;
+    }
+
+  }
+}

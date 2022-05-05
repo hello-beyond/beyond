@@ -1,0 +1,23 @@
+{
+  "scope": "beyond-js",
+  "name": "ssr",
+  "version": "0.0.2",
+  "modules": {
+    "path": "./modules"
+  },
+  "deployment": {
+    "distributions": [
+      {
+        "name": "npm",
+        "npm": true,
+        "environment": "development",
+        "platform": "ssr",
+        "port": 9992,
+        "platforms": {
+          "ssr": true,
+          "web.ssr": true
+        }
+      }
+    ]
+  }
+}
