@@ -8,6 +8,7 @@
     "@beyond-js/kernel": "^0.0.15",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "svelte": "^3.44.2",
     "socket.io": "^4.3.1"
   },
   "devDependencies": {
