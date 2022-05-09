@@ -89,8 +89,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/spinner/
       if (module.texts.current.ready) setTexts(module.texts.current.value);
     });
     React.useEffect(() => {
-      const onChange = event => console.log(1, `total: `, application.deployment.distributions.size);
-
       application.deployment.bind('change', onChange);
       return () => application.deployment.unbind('change', onChange);
     });

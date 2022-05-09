@@ -587,7 +587,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
     async _loadItems(tree) {
       const promises = [];
       this._storedTree = tree;
-      console.log(39, tree);
       tree.forEach(item => promises.push(this.add(item, true)));
       if (!promises.length) this._createTree();
       await Promise.all(promises);

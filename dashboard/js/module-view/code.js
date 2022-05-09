@@ -247,9 +247,9 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
       panel
     } = (0, _code4.useDSWorkspaceContext)();
     const [project, setProject] = React.useState();
-    const [model, setModel] = React.useState(moduleManager.active);
-    const [ready, setReady] = React.useState(module.texts?.ready);
-    (0, _code5.useBinder)([module.texts], () => setReady(module.texts.ready));
+    const [model, setModel] = React.useState();
+    const [ready, setReady] = React.useState(module.texts?.current.ready);
+    (0, _code5.useBinder)([module.texts.current], () => setReady(module.texts.current.ready));
     React.useEffect(() => {
       (async () => {
         const project = await workspace.getProject(specs.projectId);
@@ -268,7 +268,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
       })();
     }, [specs.moduleId]);
 
-    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) {
+    if (!specs.moduleId || !ready || !model?.ready || specs.moduleId !== model.id) {
       return /*#__PURE__*/React.createElement(_code3.DSSpinner, null);
     }
 

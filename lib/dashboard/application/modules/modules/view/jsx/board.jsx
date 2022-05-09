@@ -6,9 +6,9 @@ export function ModuleBoard(props) {
     let {workspace, navigateModule, panel} = useDSWorkspaceContext();
     const [project, setProject] = React.useState();
 
-    const [model, setModel] = React.useState(moduleManager.active);
-    const [ready, setReady] = React.useState(module.texts?.ready);
-    useBinder([module.texts], () => setReady(module.texts.ready));
+    const [model, setModel] = React.useState();
+    const [ready, setReady] = React.useState(module.texts?.current.ready);
+    useBinder([module.texts.current], () => setReady(module.texts.current.ready));
 
     React.useEffect(() => {
 
@@ -33,7 +33,7 @@ export function ModuleBoard(props) {
         })();
     }, [specs.moduleId]);
 
-    if (!specs.moduleId && !moduleManager.active || !ready || !model?.ready || specs.moduleId !== model.id) {
+    if (!specs.moduleId || !ready || !model?.ready || specs.moduleId !== model.id) {
         return <DSSpinner/>;
     }
     const texts = module.texts.current.value;

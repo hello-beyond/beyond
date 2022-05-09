@@ -217,7 +217,6 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
 
 
     async openFile(specs) {
-      console.log(10, specs);
       let {
         source,
         path,
@@ -242,7 +241,6 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
        */
 
       module = module ?? (await project.moduleManager.load(moduleId));
-      console.log(22, project);
       if (!this.editor) await this.createEditor(application, type);
       this.editor.addFile({
         type,

@@ -596,8 +596,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
       this.#uploader = new UploaderController(this);
       this.#aside = new WorkspaceAside(this);
       this.#aside.load(data.aside);
-      this.#aside.bind('aside.updated', this.#save); // console.log(2, data.panels.items.get(1).active)
-
+      this.#aside.bind('aside.updated', this.#save);
       this.#panels = new _code16.PanelsManager(_code18.DSBoards, this);
       await this.#panels.load(data.panels);
       this.#panels.bind('panels.updated', this.#save);

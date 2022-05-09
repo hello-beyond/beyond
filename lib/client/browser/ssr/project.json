@@ -1,7 +1,7 @@
 {
   "scope": "beyond-js",
   "name": "ssr",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "modules": {
     "path": "./modules"
   },

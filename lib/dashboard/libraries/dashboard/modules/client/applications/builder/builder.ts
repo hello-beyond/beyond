@@ -111,9 +111,13 @@ export class ApplicationBuilder extends Events {
             icons: distribution.icons
         };
 
+        //TODO ajustar logica para tomar las plataformas de manera autmatica
+        // - field npmPlatforms para saber en que distribuciones se van a compilar los bundles para publicacion npm
         if (distribution.name === 'npm') {
             specs.npm = true;
             specs.platforms = {node: true, web: true};
+            // specs.platforms = {backend: true};//backend
+            // specs.platforms = {ssr: true, 'web.ssr': true};//ssr
         }
 
         await module.execute('/build', {application: this.#application.path, distribution: specs});
