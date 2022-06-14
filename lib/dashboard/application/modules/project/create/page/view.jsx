@@ -1,0 +1,7 @@
+function View() {
+
+    return <ApplicationCreate/>;
+
+}
+
+

@@ -1,0 +1,27 @@
+.module-list__item {
+  .beyond-icon-button,
+  .beyond-icon.error-icon, .beyond-icon.warning-icon {
+    border: 1px solid var(--beyond-secondary-color);
+    border-radius: 50%;
+    padding: 10px;
+    height: 3.2rem;
+    width: 3.2rem;
+    background: var(--beyond-secondary-dark-color);
+    fill: $beyond-text-on-primary;
+    transition: all 300ms ease-in;
+
+    .beyond-ripple {
+      border-radius: 50%;
+    }
+
+    &.error-icon {
+      background: $beyond-error-color;
+    }
+
+    &.warning-icon {
+      fill: $beyond-warning-color;
+    }
+
+  }
+
+}

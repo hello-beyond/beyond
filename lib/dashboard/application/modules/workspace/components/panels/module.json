@@ -1,0 +1,26 @@
+{
+  "code": {
+    "imports": "imports.js",
+    "js": {
+      "path": "js",
+      "files": [
+        "*"
+      ]
+    },
+    "jsx": {
+      "path": "jsx",
+      "files": [
+        "tab-icon.jsx",
+        "tab.jsx",
+        "*"
+      ]
+    },
+    "scss": {
+      "dom": true,
+      "path": "scss",
+      "files": [
+        "*"
+      ]
+    }
+  }
+}

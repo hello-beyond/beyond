@@ -1,0 +1,12 @@
+{
+  "name": "react-widget",
+  "platforms": [
+    "web",
+    "web.ssr",
+    "android",
+    "ios"
+  ],
+  "bundle": "ts",
+  "transpile": false,
+  "files": "*"
+}

@@ -1,0 +1,33 @@
+#app-gallery-page {
+  @include fadeIn();
+
+  .beyond-element-input input {
+    height: 2.2rem;
+  }
+
+  .hidden-input {
+    display: none;
+  }
+
+  .alert {
+    @include fadeIn();
+  }
+
+  form {
+    display: block;
+  }
+
+  .jd-uploader-form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    .alert {
+      width: 100%;
+    }
+
+  }
+
+}

@@ -1,0 +1,6 @@
+{
+  "name": "hydrator",
+  "platforms": "web",
+  "bundle": "ts",
+  "files": "*"
+}

@@ -1,0 +1,27 @@
+.ds-static-form .jd-gallery__drop-zone {
+
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  transition: 200ms all ease-in;
+  margin: 15px;
+  width: calc(100% - 30px);
+  height: 100px;
+  padding: 30px;
+  outline: 2px dashed var(--beyond-primary-dark-color);
+  outline-offset: 10px;
+
+  &:hover {
+    background: $beyond-gray-lighter-color;
+    color: var(--beyond-secondary-dark-color);
+  }
+
+  .beyond-icon {
+    height: 60px;
+    width: 60px;
+    fill: $beyond-gray-light-color;
+  }
+}

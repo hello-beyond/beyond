@@ -1,0 +1,30 @@
+.ds-board__application.application-header {
+
+  display: grid;
+  padding: 15px;
+  width: 100%;
+  grid-template-columns: 1fr auto;
+  grid-gap: 15px;
+
+  .right-col {
+    justify-content: flex-end;
+  }
+
+  .left-col, .right-col {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    label {
+      display: flex;
+      align-items: center;
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+    }
+  }
+
+}

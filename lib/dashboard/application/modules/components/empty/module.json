@@ -1,0 +1,7 @@
+{
+  "bundle": "page",
+  "route": "/empty",
+  "js": {
+    "files": "page.js"
+  }
+}

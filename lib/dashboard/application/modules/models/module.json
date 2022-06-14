@@ -1,0 +1,10 @@
+{
+  "name": "models",
+  "code": {
+    "imports": "imports.js",
+    "js": {
+      "path": "js",
+      "files": "*"
+    }
+  }
+}

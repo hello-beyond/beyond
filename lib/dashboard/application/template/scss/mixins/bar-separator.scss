@@ -1,0 +1,23 @@
+@mixin bar-separator() {
+
+  @include gradient-x($beyond-gray-lighter-color, $beyond-gray-color);
+
+  padding: 8px;
+  display: flex;
+  border-top-right-radius: 15px;
+  align-items: center;
+
+  .col-left, .col-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .expand-icon {
+    height: 25px;
+    width: 25px;
+
+    svg {
+      fill: var(--beyond-secondary-color);
+    }
+  }
+}

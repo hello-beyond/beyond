@@ -1,0 +1,53 @@
+.beyond-element-modal.ds-modal.beyond-confirm-dialog {
+
+  .confirm-dialog-content {
+    font-size: 16px;
+  }
+
+  .actions {
+    border-top: 0;
+    padding: 20px;
+
+    justify-content: end;
+
+    .btn-primary {
+      border-radius: 30px;
+      padding: 5px 30px;
+      background: var(--beyond-primary-color);
+      color: $beyond-text-on-primary;
+      border: 1px solid var(--beyond-primary-dark-color);
+      transition: all 300ms ease-in-out;
+
+      &:hover {
+        background: var(--beyond-primary-dark-color);
+        transition: all 300ms ease-in;
+      }
+    }
+
+    .btn-default {
+      background: var(--beyond-secondary-color);
+      color: var(--beyond-text-on-secondary);
+      border: 1px solid var(--beyond-secondary-dark-color);
+      transition: all 300ms ease-in-out;
+
+      &:hover {
+        background: var(--beyond-secondary-dark-color);
+        transition: all 300ms ease-in;
+      }
+    }
+
+  }
+
+  .confirm-dialog-content {
+    @include gradient-x($beyond-secondary-color, darken($beyond-secondary-dark-color, 10%));
+    padding: $ds-padding-components;
+    width: 100%;
+    margin: 0;
+    align-items: center;
+    text-align: left;
+
+    * {
+      color: $beyond-text-on-primary;
+    }
+  }
+}

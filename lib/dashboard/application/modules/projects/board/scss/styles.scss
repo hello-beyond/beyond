@@ -1,0 +1,21 @@
+.ds-projects-board {
+
+  height: 100%;
+
+
+  .beyond-icon-button.button--fetching {
+    height: 3.2rem;
+    width: 3.2rem;
+    border: 1px solid var(--beyond-secondary-color);
+    opacity: .5;
+  }
+
+  .ds-board__list-container {
+    height: 100%;
+
+    &.empty-container {
+      height: calc(100% - 100px);
+    }
+  }
+
+}

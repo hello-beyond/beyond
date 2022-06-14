@@ -1,0 +1,84 @@
+/**
+ * The position of the navigation is stored this way:
+ *      1. In the state of each page (the history.state object), it is stored the position
+ *         in which the page is located. To achieve this, the __beyond_navigation_position property
+ *         is added to the state object.
+ *      2. In the sessionStorage is stored the current position (__beyond_navigation_position)
+ */
+export class HistoryPosition {
+    #ERROR_INVALID_STATE = 'History state is not defined. ' +
+        'This happen when state is changed outside the beyond defined navigation flows.';
+
+    #valid = true;
+    get valid() {
+        return this.#valid;
+    }
+
+    /**
+     * Returns the position from the history.state
+     * @returns {number | undefined}
+     */
+    get value(): number {
+        if (!this.checkStateIsSet) return;
+        return history.state?.__beyond_navigation_position;
+    }
+
+    /**
+     * Check if the position is already stored in the history.state.
+     * If it is not, then an error message is shown.
+     *
+     * @returns {boolean}
+     */
+    get checkStateIsSet(): boolean {
+        if (!this.#valid) return false;
+
+        const position = history.state?.__beyond_navigation_position;
+        if (!position) {
+            console.error(this.#ERROR_INVALID_STATE);
+            this.#valid = false;
+        }
+        return position !== void 0;
+    }
+
+    /**
+     * Set the position in the history.state
+     *
+     * @param state {any} The state object before being stored in the history.state. In this method
+     * the state object will be updated to store the position
+     * @param {number} position
+     */
+    updateState(state: any, position?: number): void {
+        if (typeof state !== 'object') {
+            throw new Error('Parameter state must be an object');
+        }
+
+        state.__beyond_navigation_position = position === void 0 ?
+            history.state.__beyond_navigation_position : position;
+    }
+
+    /**
+     * Stores in the sessionStorage the position getting its value from the history.state
+     */
+    updateSessionStorageFromState(): void {
+        if (!this.checkStateIsSet) return;
+        const position = history.state?.__beyond_navigation_position;
+        sessionStorage.setItem('__beyond_navigation_position', position);
+    }
+
+    /**
+     * Returns the position of the navigation flow from the sessionStorage
+     * @returns {string}
+     */
+    getFromSessionStorage(): number {
+        const position = sessionStorage.getItem('__beyond_navigation_position');
+        return typeof position === 'string' ? parseInt(position) : void 0;
+    }
+
+    /**
+     * Returns the position of the navigation flow from the history.state
+     * @returns {string}
+     */
+    getFromState(): number {
+        return history.state?.__beyond_navigation_position;
+    }
+}
