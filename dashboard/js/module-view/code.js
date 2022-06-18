@@ -1,34 +1,28 @@
-define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/texts-binder/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.ModuleBoard = ModuleBoard;
-  _exports2.hmr = void 0;
+  _exports.ModuleBoard = ModuleBoard;
+  _exports.hmr = void 0;
+
   //Beyond ui
   //Ds components
   //WORKSPACE CONTEXT AND MODELS
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/module-view/code', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/module-view/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /*******************
   alerts\alert-box.jsx
   *******************/
@@ -84,8 +78,8 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
       overwrites,
       dependencies
     } = diagnostics;
-    (0, _code5.useBinder)([bundle], () => {
-      setDiagnostics({ ...bundle.compiler.diagnostics
+    (0, _code4.useBinder)([bundle], () => {
+      setDiagnostics({ ...bundle?.compiler?.diagnostics
       });
     });
 
@@ -129,7 +123,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
     } = useModuleContext();
     const {
       workspace
-    } = (0, _code4.useDSWorkspaceContext)();
+    } = (0, _code6.useDSWorkspaceContext)();
     let output = [];
     const title = texts.diagnostics[name];
     if (!data.size) return null;
@@ -204,7 +198,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
     } = useModuleContext(); // let output = [];
 
     const [total, setTotal] = React.useState(model.alerts.total);
-    (0, _code5.useBinder)([model], () => setTotal(model.alerts.total));
+    (0, _code4.useBinder)([model], () => setTotal(model.alerts.total));
     if (total < 1) return null;
     return /*#__PURE__*/React.createElement("div", {
       className: "ds-module__alerts-section"
@@ -245,11 +239,11 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
       workspace,
       navigateModule,
       panel
-    } = (0, _code4.useDSWorkspaceContext)();
-    const [project, setProject] = React.useState();
+    } = (0, _code6.useDSWorkspaceContext)();
     const [model, setModel] = React.useState();
-    const [ready, setReady] = React.useState(module.texts?.current.ready);
-    (0, _code5.useBinder)([module.texts.current], () => setReady(module.texts.current.ready));
+    const [project, setProject] = React.useState();
+    const module = __pkg.bundle.module.resource;
+    const [textsReady, texts] = (0, _code5.useTextsBinder)(module);
     React.useEffect(() => {
       (async () => {
         const project = await workspace.getProject(specs.projectId);
@@ -268,17 +262,16 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
       })();
     }, [specs.moduleId]);
 
-    if (!specs.moduleId || !ready || !model?.ready || specs.moduleId !== model.id) {
+    if (!specs.moduleId || !textsReady || !model?.ready || specs.moduleId !== model.id) {
       return /*#__PURE__*/React.createElement(_code3.DSSpinner, null);
     }
 
-    const texts = module.texts.current.value;
     return /*#__PURE__*/React.createElement(ModuleContext.Provider, {
       value: {
         model,
-        application: project,
+        navigateModule,
         texts,
-        navigateModule
+        application: project
       }
     }, /*#__PURE__*/React.createElement("div", {
       className: "ds-module-view__detail"
@@ -303,7 +296,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
       bundles: model?.am.size ?? 0
     });
     if (!model.am?.tree.landed) return null;
-    (0, _code5.useBinder)([model.bundles], () => {
+    (0, _code4.useBinder)([model.bundles], () => {
       setTotal({
         consumers: model.bundles.consumers.length,
         dependencies: model.bundles.dependencies.length,
@@ -393,7 +386,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
     } = model;
     const [items, setItems] = React.useState(bundles?.consumers ? bundles?.consumers : []);
     const [fetching, setFetching] = React.useState(bundles.fetching);
-    (0, _code5.useBinder)([bundles], () => {
+    (0, _code4.useBinder)([bundles], () => {
       setItems(items => bundles.consumers);
       setFetching(bundles.fetching);
     });
@@ -437,7 +430,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
     } = model;
     const [items, setItems] = React.useState(bundles?.dependencies ? bundles?.dependencies : []);
     const [fetching, setFetching] = React.useState(bundles.fetching);
-    (0, _code5.useBinder)([bundles], () => {
+    (0, _code4.useBinder)([bundles], () => {
       setItems(items => bundles.dependencies);
       setFetching(bundles.fetching);
     });
@@ -476,7 +469,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
   }) {
     const {
       workspace
-    } = (0, _code4.useDSWorkspaceContext)();
+    } = (0, _code6.useDSWorkspaceContext)();
     const {
       model
     } = useModuleContext();
@@ -633,7 +626,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
     } = useModuleContext();
     const {
       workspace
-    } = (0, _code4.useDSWorkspaceContext)();
+    } = (0, _code6.useDSWorkspaceContext)();
     const {
       am
     } = model;
@@ -964,10 +957,11 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
 
   function useModel(specs) {
     const [model, setModel] = React.useState(moduleManager.active);
-    const [ready, setReady] = React.useState(module.texts.current?.ready);
-    let {
+    const module = __pkg.bundle.module.resource;
+    const [textsReady] = (0, _code5.useTextsBinder)(module);
+    const {
       panel
-    } = (0, _code4.useDSWorkspaceContext)();
+    } = (0, _code6.useDSWorkspaceContext)();
     React.useEffect(() => {
       let model;
 
@@ -980,11 +974,9 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
         panel.setTabName(specs.moduleId, model.name);
       })();
 
-      return () => {
-        model?.unbind('change', onChange);
-      };
+      return () => model?.unbind('change', onChange);
     }, [specs.moduleId]);
-    return [ready, model];
+    return [textsReady, model];
   }
   /*********
   server.jsx
@@ -1039,6 +1031,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
     let {
       texts
     } = useModuleContext();
+    console.warn('texts', texts);
     const [open, setOpen] = React.useState(true);
     texts = texts.txt;
 
@@ -1055,7 +1048,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
      * @type {*}
      */
 
-    const files = module?.texts.value?.processors.get('txt')?.files;
+    const files = texts[processors.get('txt')]?.files;
     return /*#__PURE__*/React.createElement("article", {
       className: "bundle_processor-container"
     }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("div", {
@@ -1071,7 +1064,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
     }))), /*#__PURE__*/React.createElement("div", {
       className: cls
     }, !module.texts.has ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h4", null, texts.empty.title), /*#__PURE__*/React.createElement("p", null, texts.empty.description)) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ProcessorAlerts, {
-      processor: module.texts.current.value
+      processor: texts
     }), /*#__PURE__*/React.createElement("div", {
       className: cls
     }, /*#__PURE__*/React.createElement(List, {
@@ -1088,22 +1081,22 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@be
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds-module__alerts-section{margin:15px 0}.ds-module__alerts-section .beyond-alert{flex-basis:max-content;width:100%}@media (max-width:600px){.ds-module__alerts-section{flex-direction:column}}.module__alerts-section h3 .diagnostics__bundle__title{color:var(--beyond-primary-color)}.module__alerts-section .beyond-alert{padding-bottom:0}.module__alerts-section h5{text-transform:uppercase;font-weight:700;padding:0;margin-bottom:15px}.module__alerts-section ul{display:grid;margin:0;padding:0}.module__alerts-section ul li{margin:0 -15px;padding:8px 15px;transition:all .2s ease-in}.module__alerts-section ul li h6{margin:0;padding:0;font-size:1.3rem}.module__alerts-section ul li .item__data{display:flex;grid-gap:15px;color:#e4e5dc}.module__alerts-section ul li:hover{background:var(--beyond-secondary-color);cursor:pointer}.board-box{display:grid;grid-gap:1rem;margin:1rem 0}.board-box>header{padding:.5rem 1rem .5rem 0;border-bottom:1px solid var(--beyond-secondary-color)}.ds-item__list-detail{padding:0;display:grid;grid-gap:5px}.ds-item__list-detail .board__item{background:rgba(18,31,54,.1);border:0;padding:1rem;list-style:none;display:grid;grid-gap:1rem;grid-template-columns:1fr}.ds-item__list-detail .board__item>header{display:flex;justify-content:space-between;align-items:center}.ds-item__list-detail .board__item .item__actions{display:flex;gap:.5rem}.container-cards{display:grid;grid-gap:15px;grid-template-columns:repeat(4,1fr)}.cards-information{margin:15px 0;display:flex;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}@media (max-width:700px){.cards-information{grid-template-columns:1fr 1fr}}.cards-information .card-detail{padding:30px;display:flex;flex-direction:column;background:var(--beyond-secondary-dark-color);border-radius:5px;max-width:300px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.cards-information .card-detail:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.cards-information .card-detail header{font-size:1.2rem;text-align:center;color:var(--beyond-primary-light-color);margin-bottom:15px}.cards-information .card-detail .card__actions{display:flex;justify-content:center;margin-top:30px}.cards-information .card-detail .card__actions .beyond-button{width:60%}.ds-module-view__detail .module__header h4,.ds-module-view__detail .module__header h5{padding:2px 0}.ds-module-view__detail .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.ds-module-view__detail .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.ds-module-view__detail .item-information .description-item:hover{background:#262626}.ds-module-view__detail .item-information .description-item:hover .beyond-icon-button{opacity:1}.ds-module-view__detail .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.ds-module-view__detail .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:var(--beyond-text-on-secondary)}.ds-module-view__detail .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;position:relative;width:100%}.ds-module-view__detail .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:var(--beyond-text-on-secondary);border:0;padding:15px;font-size:16px}.ds-module-view__detail .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.ds-module-view__detail .item-information.item-information--edit .form-group .form__actions{display:flex;position:absolute;right:10px;top:5px;gap:8px;justify-content:flex-end}.ds-module-view__detail .bundle_processor-container{padding-bottom:20px}.ds-module-view__detail .bundle_processor-container header{background-image:linear-gradient(to right,#f0f0f0 0,#82837f 100%);padding:8px;display:flex;border-top-right-radius:15px;align-items:center}.ds-module-view__detail .bundle_processor-container header .col-left,.ds-module-view__detail .bundle_processor-container header .col-right{display:flex;align-items:center}.ds-module-view__detail .bundle_processor-container header .expand-icon{height:25px;width:25px}.ds-module-view__detail .bundle_processor-container header .expand-icon svg{fill:var(--beyond-secondary-color)}.ds-module-view__detail .bundle_processor-container .bundle-processor_title,.ds-module-view__detail .bundle_processor-container .separator{border-bottom:1px solid #e4e5dc}.ds-module-view__detail .bundle_processor-container .bundle-processor_title{display:flex;justify-content:space-between;align-items:center}.ds-module-view__detail .bundle_processor-container .bundle-processor_title .beyond-icon-button{background:#e4e5dc}.ds-module-view__detail .bundle_processor-container .processor_block-data.hide-block{display:none!important;transition:.3s ease-in-out}.ds-module-view__detail .bundle_processor-container .processor_block-data.two-columns{display:grid;grid-template-columns:1fr 1fr;grid-gap:15px}.ds-module-view__detail{background:#000;width:100%;height:100%;padding:20px}.ds-module-view__detail .content-centering{min-height:100px;display:flex;align-items:center;justify-content:center}.ds-module-view__detail .icon-error{fill:#D2281E}.ds-module-view__detail .icon-warning{fill:#F7D994}.ds-module-view__detail .list-icon{padding:0}.ds-module-view__detail .list-icon li{display:grid;grid-template-columns:auto 1fr;grid-gap:8px;margin-bottom:8px}.ds-module-view__detail .list-icon li svg{margin-top:4px;height:14px;width:14px}.ds-module-view__detail .module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,255,255,.5);transition:all .2s ease-in;height:0;display:none}.ds-module-view__detail .module_fetching-block.show{height:100%;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.beyond-element-switch.small .switch{position:relative;display:inline-block;width:40px;height:19px}.beyond-element-switch.small .switch .slider{border-radius:8px}.beyond-element-switch.small .switch .slider:before{top:2.3px;left:2px;bottom:0;right:0;overflow:hidden;content:"";height:13px;width:13px}.beyond-element-switch.small .switch input:checked+.slider:before{left:-4px}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/module-view/code', '.ds-module__alerts-section{margin:15px 0}.ds-module__alerts-section .beyond-alert{flex-basis:max-content;width:100%}@media (max-width:600px){.ds-module__alerts-section{flex-direction:column}}.module__alerts-section h3 .diagnostics__bundle__title{color:var(--beyond-primary-color)}.module__alerts-section .beyond-alert{padding-bottom:0}.module__alerts-section h5{text-transform:uppercase;font-weight:700;padding:0;margin-bottom:15px}.module__alerts-section ul{display:grid;margin:0;padding:0}.module__alerts-section ul li{margin:0 -15px;padding:8px 15px;transition:all .2s ease-in}.module__alerts-section ul li h6{margin:0;padding:0;font-size:1.3rem}.module__alerts-section ul li .item__data{display:flex;grid-gap:15px;color:#e4e5dc}.module__alerts-section ul li:hover{background:var(--beyond-secondary-color);cursor:pointer}.board-box{display:grid;grid-gap:1rem;margin:1rem 0}.board-box>header{padding:.5rem 1rem .5rem 0;border-bottom:1px solid var(--beyond-secondary-color)}.ds-item__list-detail{padding:0;display:grid;grid-gap:5px}.ds-item__list-detail .board__item{background:rgba(18,31,54,.1);border:0;padding:1rem;list-style:none;display:grid;grid-gap:1rem;grid-template-columns:1fr}.ds-item__list-detail .board__item>header{display:flex;justify-content:space-between;align-items:center}.ds-item__list-detail .board__item .item__actions{display:flex;gap:.5rem}.container-cards{display:grid;grid-gap:15px;grid-template-columns:repeat(4,1fr)}.cards-information{margin:15px 0;display:flex;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}@media (max-width:700px){.cards-information{grid-template-columns:1fr 1fr}}.cards-information .card-detail{padding:30px;display:flex;flex-direction:column;background:var(--beyond-secondary-dark-color);border-radius:5px;max-width:300px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.cards-information .card-detail:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.cards-information .card-detail header{font-size:1.2rem;text-align:center;color:var(--beyond-primary-light-color);margin-bottom:15px}.cards-information .card-detail .card__actions{display:flex;justify-content:center;margin-top:30px}.cards-information .card-detail .card__actions .beyond-button{width:60%}.ds-module-view__detail .module__header h4,.ds-module-view__detail .module__header h5{padding:2px 0}.ds-module-view__detail .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.ds-module-view__detail .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.ds-module-view__detail .item-information .description-item:hover{background:#262626}.ds-module-view__detail .item-information .description-item:hover .beyond-icon-button{opacity:1}.ds-module-view__detail .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.ds-module-view__detail .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:var(--beyond-text-on-secondary)}.ds-module-view__detail .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;position:relative;width:100%}.ds-module-view__detail .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:var(--beyond-text-on-secondary);border:0;padding:15px;font-size:16px}.ds-module-view__detail .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.ds-module-view__detail .item-information.item-information--edit .form-group .form__actions{display:flex;position:absolute;right:10px;top:5px;gap:8px;justify-content:flex-end}.ds-module-view__detail .bundle_processor-container{padding-bottom:20px}.ds-module-view__detail .bundle_processor-container header{background-image:linear-gradient(to right,#f0f0f0 0,#82837f 100%);padding:8px;display:flex;border-top-right-radius:15px;align-items:center}.ds-module-view__detail .bundle_processor-container header .col-left,.ds-module-view__detail .bundle_processor-container header .col-right{display:flex;align-items:center}.ds-module-view__detail .bundle_processor-container header .expand-icon{height:25px;width:25px}.ds-module-view__detail .bundle_processor-container header .expand-icon svg{fill:var(--beyond-secondary-color)}.ds-module-view__detail .bundle_processor-container .bundle-processor_title,.ds-module-view__detail .bundle_processor-container .separator{border-bottom:1px solid #e4e5dc}.ds-module-view__detail .bundle_processor-container .bundle-processor_title{display:flex;justify-content:space-between;align-items:center}.ds-module-view__detail .bundle_processor-container .bundle-processor_title .beyond-icon-button{background:#e4e5dc}.ds-module-view__detail .bundle_processor-container .processor_block-data.hide-block{display:none!important;transition:.3s ease-in-out}.ds-module-view__detail .bundle_processor-container .processor_block-data.two-columns{display:grid;grid-template-columns:1fr 1fr;grid-gap:15px}.ds-module-view__detail{background:#000;width:100%;height:100%;padding:20px}.ds-module-view__detail .content-centering{min-height:100px;display:flex;align-items:center;justify-content:center}.ds-module-view__detail .icon-error{fill:#D2281E}.ds-module-view__detail .icon-warning{fill:#F7D994}.ds-module-view__detail .list-icon{padding:0}.ds-module-view__detail .list-icon li{display:grid;grid-template-columns:auto 1fr;grid-gap:8px;margin-bottom:8px}.ds-module-view__detail .list-icon li svg{margin-top:4px;height:14px;width:14px}.ds-module-view__detail .module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,255,255,.5);transition:all .2s ease-in;height:0;display:none}.ds-module-view__detail .module_fetching-block.show{height:100%;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.beyond-element-switch.small .switch{position:relative;display:inline-block;width:40px;height:19px}.beyond-element-switch.small .switch .slider{border-radius:8px}.beyond-element-switch.small .switch .slider:before{top:2.3px;left:2px;bottom:0;right:0;overflow:hidden;content:"";height:13px;width:13px}.beyond-element-switch.small .switch input:checked+.slider:before{left:-4px}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

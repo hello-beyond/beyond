@@ -1,0 +1,6 @@
+{
+  "name": "controllers",
+  "platforms": "ssr",
+  "bundle": "ts",
+  "files": "*"
+}

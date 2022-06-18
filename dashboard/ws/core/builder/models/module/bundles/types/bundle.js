@@ -6,7 +6,7 @@ module.exports = class Bundle extends require('../../../file-manager') {
     #processors;
     #viewProcessors = ['vue', 'svelte'];
 
-    skeleton = ['hmr', 'ts', 'name'];
+    skeleton = ['hmr', 'ts'];
     /**
      * Name of the bundle type
      * @private
@@ -44,6 +44,8 @@ module.exports = class Bundle extends require('../../../file-manager') {
     constructor(dirname, basename, specs = {}) {
         super(dirname, basename);
         this.#processors = new Processors(this, specs);
+
+        delete specs.name;
         this.setValues(specs);
     }
 

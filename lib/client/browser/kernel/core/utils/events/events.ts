@@ -48,7 +48,7 @@ class Events {
         l.push({listener: listener, priority: priority ? priority : 0});
 
         return this;
-    };
+    }
 
     bind = (event: string, listener: ListenerFunction, priority?: number) =>
         this.on(event, listener, priority);
@@ -87,7 +87,7 @@ class Events {
         this.#listeners.set(event, filtered);
 
         return this;
-    };
+    }
 
     unbind = (event: string, listener: ListenerFunction, force?: number) =>
         this.off(event, listener, force);
@@ -96,8 +96,8 @@ class Events {
      * Triggers an event
      *
      * @param {Trigger} event
-     * @param {any} rest
-     * @returns {Promise<any>}
+     * @param {*} rest
+     * @returns {Promise<*>}
      */
     trigger(event: Trigger, ...rest: any): any {
         if (this.#destroyed) {
@@ -142,12 +142,12 @@ class Events {
                 listener.listener(...args);
             }
         }
-    };
+    }
 
     destroy() {
         this.#destroyed = true;
         this.#listeners.clear();
-    };
+    }
 }
 
 (<any>globalThis).Events = Events;

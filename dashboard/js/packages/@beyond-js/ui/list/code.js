@@ -1,26 +1,24 @@
-define(["exports", "@beyond-js/ui/empty/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/loading/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/empty/code", "@beyond-js/ui/form/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/loading/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.BeyondList = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/list/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.hmr = _exports.BeyondList = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/list/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /*******
   item.jsx
   *******/
@@ -118,23 +116,23 @@ define(["exports", "@beyond-js/ui/empty/code", "@beyond-js/ui/form/code", "@beyo
   **********/
 
 
-  _exports2.BeyondList = BeyondList;
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.beyond-list-page .beyond-list-item .trash-toggle{position:absolute;top:0;left:-15px;bottom:-2px;right:-15px;background:#000;color:var(--beyond-text-on-primary);display:none;z-index:100}.beyond-list-page .beyond-list-item .trash-toggle.open{display:block;transition:.3s ease-in-out all}.beyond-list-page .beyond-list-item .trash-toggle .icon+.icon{margin:5px}.beyond-list-page .beyond-list-item .trash-toggle button svg{color:var(--beyond-text-on-primary);fill:var(--beyond-text-on-primary)}.beyond-list-page .beyond-list-item .trash-toggle .close-icon{position:absolute;top:15px;right:15px;z-index:10}.beyond-list-page .beyond-list-item .trash-toggle .actions-group{position:relative;display:flex;height:100%;align-items:center;padding:0 15px}.beyond-list-page .beyond-list-item{display:grid;position:relative;margin:0 15px 0;padding-bottom:15px;padding-top:15px;grid-gap:15px;grid-template-columns:40px auto;border-bottom:1px solid var(--beyond-primary-light-color);padding-right:4rem;cursor:pointer}.beyond-list-page .beyond-list-item .graphs-element-image{height:40px;width:40px;background:var(--beyond-primary-accent-color);margin:0;border-radius:50%}.beyond-list-page .beyond-list-item .graphs-element-image img{border-radius:50%}.beyond-list-page .beyond-list-item section.content-item{height:100%;align-self:center}.beyond-list-page .beyond-list-item section.content-item h2{font-size:14px;margin:0;font-weight:bolder}.beyond-list-page .beyond-list-item section.content-item h2:first-letter{text-transform:uppercase}.beyond-list-page .beyond-list-item section.content-item p{margin:0}.beyond-list-page .beyond-list-item section.content-item .settings-icon{position:absolute;right:0;top:15px}.beyond-list-page .beyond-list-item section.content-item.loading{border-bottom:1px solid var(--beyond-primary-light-color)}.beyond-list-page .beyond-list-item section.content-item.loading h2{background:var(--beyond-primary-accent-color);color:var(--beyond-primary-accent-color);width:80%}.beyond-list-page .beyond-list-item section.content-item.loading h2:first-letter{text-transform:uppercase}.beyond-list-page .beyond-list-item section.content-item.loading p{background:var(--beyond-primary-accent-color);color:var(--beyond-primary-accent-color);width:80%}.beyond-list-page .beyond-list-item section.content-item.loading .settings-icon{background:var(--beyond-primary-accent-color)}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  _exports.BeyondList = BeyondList;
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/list/code', '.beyond-list-page .beyond-list-item .trash-toggle{position:absolute;top:0;left:-15px;bottom:-2px;right:-15px;background:#000;color:var(--beyond-text-on-primary);display:none;z-index:100}.beyond-list-page .beyond-list-item .trash-toggle.open{display:block;transition:.3s ease-in-out all}.beyond-list-page .beyond-list-item .trash-toggle .icon+.icon{margin:5px}.beyond-list-page .beyond-list-item .trash-toggle button svg{color:var(--beyond-text-on-primary);fill:var(--beyond-text-on-primary)}.beyond-list-page .beyond-list-item .trash-toggle .close-icon{position:absolute;top:15px;right:15px;z-index:10}.beyond-list-page .beyond-list-item .trash-toggle .actions-group{position:relative;display:flex;height:100%;align-items:center;padding:0 15px}.beyond-list-page .beyond-list-item{display:grid;position:relative;margin:0 15px 0;padding-bottom:15px;padding-top:15px;grid-gap:15px;grid-template-columns:40px auto;border-bottom:1px solid var(--beyond-primary-light-color);padding-right:4rem;cursor:pointer}.beyond-list-page .beyond-list-item .graphs-element-image{height:40px;width:40px;background:var(--beyond-primary-accent-color);margin:0;border-radius:50%}.beyond-list-page .beyond-list-item .graphs-element-image img{border-radius:50%}.beyond-list-page .beyond-list-item section.content-item{height:100%;align-self:center}.beyond-list-page .beyond-list-item section.content-item h2{font-size:14px;margin:0;font-weight:bolder}.beyond-list-page .beyond-list-item section.content-item h2:first-letter{text-transform:uppercase}.beyond-list-page .beyond-list-item section.content-item p{margin:0}.beyond-list-page .beyond-list-item section.content-item .settings-icon{position:absolute;right:0;top:15px}.beyond-list-page .beyond-list-item section.content-item.loading{border-bottom:1px solid var(--beyond-primary-light-color)}.beyond-list-page .beyond-list-item section.content-item.loading h2{background:var(--beyond-primary-accent-color);color:var(--beyond-primary-accent-color);width:80%}.beyond-list-page .beyond-list-item section.content-item.loading h2:first-letter{text-transform:uppercase}.beyond-list-page .beyond-list-item section.content-item.loading p{background:var(--beyond-primary-accent-color);color:var(--beyond-primary-accent-color);width:80%}.beyond-list-page .beyond-list-item section.content-item.loading .settings-icon{background:var(--beyond-primary-accent-color)}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

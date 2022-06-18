@@ -1,32 +1,29 @@
-define(["exports"], function (_exports2) {
+define(["exports"], function (_exports) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.txt = _exports2.hmr = void 0;
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/project-board/txt', true, {
-    "txt": {
-      "multilanguage": true
-    }
-  });
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.txt = _exports.hmr = void 0;
 
-  const __pkg = bundle.package('en');
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const modules = new Map();
+  const __pkg = new __Bundle("@beyond-js/dashboard/project-board/txt").package('en');
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
+  const ims = new Map();
   /*********************
   INTERNAL MODULE: ./txt
   *********************/
 
-  modules.set('./txt', {
-    hash: 1245259796,
+  ims.set('./txt', {
+    hash: 3022947721,
     creator: function (require, exports) {
       exports.txt = {
         "actions": {
@@ -104,7 +101,8 @@ define(["exports"], function (_exports2) {
           "path": "path",
           "host": "host",
           "errors": "Errors:",
-          "warnings": "Warnings:"
+          "warnings": "Warnings:",
+          "bees": "BEEs"
         },
         "navigate": "Navegar",
         "items": {
@@ -134,18 +132,22 @@ define(["exports"], function (_exports2) {
         }
       };
     }
-  }); // Exports managed by beyond bundle objects
-
-  __pkg.exports.managed = function (require, _exports) {
-    _exports.txt = require('./txt').txt;
-  };
-
+  });
+  __pkg.exports.descriptor = [{
+    "im": "./txt",
+    "from": "txt",
+    "name": "txt"
+  }];
   let txt; // Module exports
 
-  _exports2.txt = txt;
+  _exports.txt = txt;
 
-  __pkg.exports.process = function (require) {
-    _exports2.txt = txt = require('./txt').txt;
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {
+    (require || prop === 'txt') && (_exports.txt = txt = require ? require('./txt').txt : value);
   };
 
   const hmr = new function () {
@@ -153,7 +155,7 @@ define(["exports"], function (_exports2) {
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

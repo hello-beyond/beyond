@@ -1,39 +1,37 @@
-define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.BHtml = BHtml;
-  _exports2.BeyondAlert = BeyondAlert;
-  _exports2.DSBoard = void 0;
-  _exports2.DSCard = DSCard;
-  _exports2.DSCards = DSCards;
-  _exports2.DS_ICONS = _exports2.DSSpinner = _exports2.DSIconButton = _exports2.DSIcon = void 0;
-  _exports2.DashboardIcon = DashboardIcon;
-  _exports2.DashboardIconButton = void 0;
-  _exports2.Dropdown = Dropdown;
-  _exports2.DsFetchingBlock = DsFetchingBlock;
-  _exports2.FadeIn = void 0;
-  _exports2.Link = Link;
-  _exports2.SmallCard = SmallCard;
-  _exports2.useForm = _exports2.hmr = _exports2.TREE_ICONS = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/core-components/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.BHtml = BHtml;
+  _exports.BeyondAlert = BeyondAlert;
+  _exports.DSBoard = void 0;
+  _exports.DSCard = DSCard;
+  _exports.DSCards = DSCards;
+  _exports.DS_ICONS = _exports.DSSpinner = _exports.DSIconButton = _exports.DSIcon = void 0;
+  _exports.DashboardIcon = DashboardIcon;
+  _exports.DashboardIconButton = void 0;
+  _exports.Dropdown = Dropdown;
+  _exports.DsFetchingBlock = DsFetchingBlock;
+  _exports.FadeIn = void 0;
+  _exports.Link = Link;
+  _exports.SmallCard = SmallCard;
+  _exports.useForm = _exports.hmr = _exports.TREE_ICONS = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/dashboard/core-components/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -714,9 +712,9 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   FILE: ds.js
   **********/
 
-  _exports2.TREE_ICONS = TREE_ICONS;
+  _exports.TREE_ICONS = TREE_ICONS;
   const DS_ICONS = Object.assign(ICONS, TREE_ICONS);
-  _exports2.DS_ICONS = DS_ICONS;
+  _exports.DS_ICONS = DS_ICONS;
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -835,7 +833,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   *******/
 
 
-  _exports2.DSBoard = DSBoard;
+  _exports.DSBoard = DSBoard;
 
   function DSCard({
     header,
@@ -888,13 +886,13 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
    * @type {React.ForwardRefExoticComponent<React.PropsWithoutRef<{}> & React.RefAttributes<unknown>>}
    */
 
-  _exports2.DashboardIconButton = DashboardIconButton;
+  _exports.DashboardIconButton = DashboardIconButton;
   const DSIconButton = DashboardIconButton;
   /*****************
   dashboard-icon.jsx
   *****************/
 
-  _exports2.DSIconButton = DSIconButton;
+  _exports.DSIconButton = DSIconButton;
 
   function DashboardIcon(props) {
     let properties = {};
@@ -911,7 +909,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   const DSIcon = DashboardIcon;
   /*#__PURE__*/
 
-  _exports2.DSIcon = DSIcon;
+  _exports.DSIcon = DSIcon;
   React.createElement(DSIcon, {
     icon: "error"
   });
@@ -991,7 +989,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   ***********/
 
 
-  _exports2.FadeIn = FadeIn;
+  _exports.FadeIn = FadeIn;
 
   function DsFetchingBlock({
     layer
@@ -1072,7 +1070,7 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   use-form.jsx
   ***********/
 
-  _exports2.DSSpinner = DSSpinner;
+  _exports.DSSpinner = DSSpinner;
 
   const useForm = ({
     state,
@@ -1120,23 +1118,23 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   **********/
 
 
-  _exports2.useForm = useForm;
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.beyond-alert{padding:15px;font-size:1.3rem;position:relative;display:grid;align-items:center;align-content:center;color:var(--beyond-text-on-primary);border-radius:2px}.beyond-alert.alert-icon,.beyond-alert.alert-icon-left{grid-template-columns:auto 1fr}.beyond-alert.alert-icon-right{grid-template-columns:1fr auto}.beyond-alert .alert-icon{padding:0 10px;display:flex}.beyond-alert h3{margin:0;text-transform:uppercase}.beyond-alert p{margin:0;text-transform:uppercase}.beyond-alert.alert-info{background-color:#4d66a9;color:#0d111d}.beyond-alert.alert-info h3{color:#1d2740}.beyond-alert.alert-success{background:var(--beyond-success-color);color:#111f15}.beyond-alert.alert-danger,.beyond-alert.alert-error{background:#d2281e;color:#f7c8c5}.beyond-alert.alert-danger h3,.beyond-alert.alert-error h3{color:#f09e99}.beyond-alert.alert-warning{background:#f7d994}.beyond-alert .beyond-alert__close-icon{height:.8rem;width:.8rem;position:absolute;top:15px;right:15px}.beyond-alert .beyond-alert__close-icon svg{height:.6rem;width:.6rem}.beyond-alert.hiding-component{opacity:0;transition:all .3s ease-in-out}.beyond-alert.hiding-component *{display:none;transition:all 150ms ease-in-out}.ds__board .board__header__actions{display:flex;align-content:center;justify-content:center;gap:10px}.ds__board .board__header__actions .bee--action{align-self:center}.ds__board .board__header__actions .beyond-icon-button{border:1px solid var(--beyond-secondary-color);border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:var(--beyond-secondary-dark-color);fill:#fff;transition:all .3s ease-in}.ds__board .pd-base{padding:2rem}.ds__board .board__header .pathname{color:var(--beyond-primary-accent-color)}.ds__board .board__header .scanned__section{gap:10px}.ds-cards__container{margin:15px 0;display:flex;flex-wrap:wrap;gap:15px;--multiplier:calc(40rem - 100%)}.ds-cards__container .ds-cards__card{padding:30px;display:flex;min-width:33%;max-width:100%;flex-grow:1;flex-basis:calc(var(--multiplier) * 999);flex-direction:column;background:var(--beyond-secondary-dark-color);border-radius:5px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.ds-cards__container .ds-cards__card:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.ds-cards__container .ds-cards__card header{font-size:1.2rem;text-align:center;color:var(--beyond-primary-light-color);margin-bottom:15px}.ds-cards__container .ds-cards__card .card__actions{display:flex;justify-content:center;margin-top:30px}.ds-cards__container .ds-cards__card .card__actions .beyond-button{width:60%}.module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;align-items:center;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.ds-small-card{margin:1rem 0;padding:1rem;display:flex;gap:1rem;background:var(--beyond-secondary-dark-color);min-width:200px}.ds-small-card .ds-small-card__icon{display:flex;place-content:center;align-self:center}.ds-small-card .ds-small-card__icon svg{width:50px;border-radius:50%;height:50px;padding:1rem;background:var(--beyond-primary-color)}.ds-small-card .ds-small-card__header{padding:5px 0;font-size:1rem;font-weight:lighter}.ds-small-card .ds-small-card__detail{font-size:2rem;font-weight:bolder;color:var(--beyond-primary-accent-color)}.ds-spinner__container{padding:60px;display:flex;align-self:center;justify-content:center;justify-items:center}.ds-spinner__container .beyond-element-spinner{width:110px;height:110px}.cssload-container{position:relative}.cssload-whirlpool,.cssload-whirlpool::after,.cssload-whirlpool::before{position:absolute;top:50%;left:50%;border:1px solid #ccc;border-left-color:#000;border-radius:974px;-o-border-radius:974px;-ms-border-radius:974px;-webkit-border-radius:974px;-moz-border-radius:974px}.cssload-whirlpool{margin:-24px 0 0 -24px;height:49px;width:49px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::before{content:"";margin:-22px 0 0 -22px;height:43px;width:43px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::after{content:"";margin:-28px 0 0 -28px;height:55px;width:55px;animation:cssload-rotate 2.3s linear infinite;-o-animation:cssload-rotate 2.3s linear infinite;-ms-animation:cssload-rotate 2300ms linear infinite;-webkit-animation:cssload-rotate 2.3s linear infinite;-moz-animation:cssload-rotate 2.3s linear infinite}@keyframes cssload-rotate{100%{transform:rotate(360deg)}}@-o-keyframes cssload-rotate{100%{-o-transform:rotate(360deg)}}@-ms-keyframes cssload-rotate{100%{-ms-transform:rotate(360deg)}}@-webkit-keyframes cssload-rotate{100%{-webkit-transform:rotate(360deg)}}@-moz-keyframes cssload-rotate{100%{-moz-transform:rotate(360deg)}}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  _exports.useForm = useForm;
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/core-components/code', '.beyond-alert{padding:15px;font-size:1.3rem;position:relative;display:grid;align-items:center;align-content:center;color:var(--beyond-text-on-primary);border-radius:2px}.beyond-alert.alert-icon,.beyond-alert.alert-icon-left{grid-template-columns:auto 1fr}.beyond-alert.alert-icon-right{grid-template-columns:1fr auto}.beyond-alert .alert-icon{padding:0 10px;display:flex}.beyond-alert h3{margin:0;text-transform:uppercase}.beyond-alert p{margin:0;text-transform:uppercase}.beyond-alert.alert-info{background-color:#4d66a9;color:#0d111d}.beyond-alert.alert-info h3{color:#1d2740}.beyond-alert.alert-success{background:var(--beyond-success-color);color:#111f15}.beyond-alert.alert-danger,.beyond-alert.alert-error{background:#d2281e;color:#f7c8c5}.beyond-alert.alert-danger h3,.beyond-alert.alert-error h3{color:#f09e99}.beyond-alert.alert-warning{background:#f7d994}.beyond-alert .beyond-alert__close-icon{height:.8rem;width:.8rem;position:absolute;top:15px;right:15px}.beyond-alert .beyond-alert__close-icon svg{height:.6rem;width:.6rem}.beyond-alert.hiding-component{opacity:0;transition:all .3s ease-in-out}.beyond-alert.hiding-component *{display:none;transition:all 150ms ease-in-out}.ds__board .board__header__actions{display:flex;align-content:center;justify-content:center;gap:10px}.ds__board .board__header__actions .bee--action{align-self:center}.ds__board .board__header__actions .beyond-icon-button{border:1px solid var(--beyond-secondary-color);border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:var(--beyond-secondary-dark-color);fill:#fff;transition:all .3s ease-in}.ds__board .pd-base{padding:2rem}.ds__board .board__header .pathname{color:var(--beyond-primary-accent-color)}.ds__board .board__header .scanned__section{gap:10px}.ds-cards__container{margin:15px 0;display:flex;flex-wrap:wrap;gap:15px;--multiplier:calc(40rem - 100%)}.ds-cards__container .ds-cards__card{padding:30px;display:flex;min-width:33%;max-width:100%;flex-grow:1;flex-basis:calc(var(--multiplier) * 999);flex-direction:column;background:var(--beyond-secondary-dark-color);border-radius:5px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.ds-cards__container .ds-cards__card:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.ds-cards__container .ds-cards__card header{font-size:1.2rem;text-align:center;color:var(--beyond-primary-light-color);margin-bottom:15px}.ds-cards__container .ds-cards__card .card__actions{display:flex;justify-content:center;margin-top:30px}.ds-cards__container .ds-cards__card .card__actions .beyond-button{width:60%}.module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;width:100%;align-items:center;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.ds-small-card{margin:1rem 0;padding:1rem;display:flex;gap:1rem;background:var(--beyond-secondary-dark-color);min-width:200px}.ds-small-card .ds-small-card__icon{display:flex;place-content:center;align-self:center}.ds-small-card .ds-small-card__icon svg{width:50px;border-radius:50%;height:50px;padding:1rem;background:var(--beyond-primary-color)}.ds-small-card .ds-small-card__header{padding:5px 0;font-size:1rem;font-weight:lighter}.ds-small-card .ds-small-card__detail{font-size:2rem;font-weight:bolder;color:var(--beyond-primary-accent-color)}.ds-spinner__container{padding:60px;display:flex;align-self:center;justify-content:center;justify-items:center}.ds-spinner__container .beyond-element-spinner{width:110px;height:110px}.cssload-container{position:relative}.cssload-whirlpool,.cssload-whirlpool::after,.cssload-whirlpool::before{position:absolute;top:50%;left:50%;border:1px solid #ccc;border-left-color:#000;border-radius:974px;-o-border-radius:974px;-ms-border-radius:974px;-webkit-border-radius:974px;-moz-border-radius:974px}.cssload-whirlpool{margin:-24px 0 0 -24px;height:49px;width:49px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::before{content:"";margin:-22px 0 0 -22px;height:43px;width:43px;animation:cssload-rotate 1.15s linear infinite;-o-animation:cssload-rotate 1.15s linear infinite;-ms-animation:cssload-rotate 1150ms linear infinite;-webkit-animation:cssload-rotate 1.15s linear infinite;-moz-animation:cssload-rotate 1.15s linear infinite}.cssload-whirlpool::after{content:"";margin:-28px 0 0 -28px;height:55px;width:55px;animation:cssload-rotate 2.3s linear infinite;-o-animation:cssload-rotate 2.3s linear infinite;-ms-animation:cssload-rotate 2300ms linear infinite;-webkit-animation:cssload-rotate 2.3s linear infinite;-moz-animation:cssload-rotate 2.3s linear infinite}@keyframes cssload-rotate{100%{transform:rotate(360deg)}}@-o-keyframes cssload-rotate{100%{-o-transform:rotate(360deg)}}@-ms-keyframes cssload-rotate{100%{-ms-transform:rotate(360deg)}}@-webkit-keyframes cssload-rotate{100%{-webkit-transform:rotate(360deg)}}@-moz-keyframes cssload-rotate{100%{-moz-transform:rotate(360deg)}}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

@@ -1,11 +1,11 @@
-define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Page = Page;
-  _exports2.hmr = void 0;
+  _exports.Page = Page;
+  _exports.hmr = void 0;
 
   function A(b) {
     b.items.forEach(item => {
@@ -13,22 +13,19 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
     });
   }
 
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/components/core/page/page', false, {}, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/components/core/page/page").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /************
   dashboard.jsx
   ************/
@@ -137,22 +134,22 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.page__icons-container .page__content nav{display:flex;flex-direction:column;grid-gap:8px;position:sticky;top:30px}.page__icons-container .page__content nav div{padding:15px 20px;cursor:pointer;background:var(--beyond-secondary-dark-color);transition:.3s all ease-in}.page__icons-container .page__content nav div.active,.page__icons-container .page__content nav div:hover{background:var(--beyond-primary-accent-color)}.page__icons-container{text-align:center;padding:30px}.page__icons-container header{display:flex;align-content:flex-start}.page__icons-container .page__content{display:grid;grid-template-columns:auto 1fr;gap:15px}.page__icons-container .input__search{width:100%;background:0 0;border:1px solid #fff;margin:0 0 15px 0;padding:8px;color:#fff}.page__icons-container svg{fill:white}.page__icons-container pre{display:block;padding:9.5px 20px;margin:0 0 10px;font-size:13px;text-align:left;line-height:1.42857143;color:#333;word-break:break-all;word-wrap:break-word;background-color:#f5f5f5;border:1px solid #ccc;border-radius:4px;cursor:pointer;transition:.3s all ease-in}.page__icons-container pre:hover{background:#e4e5dc}.page__icons-container .icon-list{margin-top:20px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr}.page__icons-container .icon-list .icon-element{text-align:center;padding:20px;font-size:16px;display:grid;grid-gap:10px;transition:250ms background-color;cursor:pointer;border:1px solid var(--beyond-secondary-dark-color)}.page__icons-container .icon-list .icon-element:hover{background:#263145;color:var(--beyond-text-on-secondary);fill:var(--beyond-text-on-secondary)}.page__icons-container .icon-list .icon-element .beyond-icon{margin:auto}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/unnamed/components/core/page/page', '.page__icons-container .page__content nav{display:flex;flex-direction:column;grid-gap:8px;position:sticky;top:30px}.page__icons-container .page__content nav div{padding:15px 20px;cursor:pointer;background:var(--beyond-secondary-dark-color);transition:.3s all ease-in}.page__icons-container .page__content nav div.active,.page__icons-container .page__content nav div:hover{background:var(--beyond-primary-accent-color)}.page__icons-container{text-align:center;padding:30px}.page__icons-container header{display:flex;align-content:flex-start}.page__icons-container .page__content{display:grid;grid-template-columns:auto 1fr;gap:15px}.page__icons-container .input__search{width:100%;background:0 0;border:1px solid #fff;margin:0 0 15px 0;padding:8px;color:#fff}.page__icons-container svg{fill:white}.page__icons-container pre{display:block;padding:9.5px 20px;margin:0 0 10px;font-size:13px;text-align:left;line-height:1.42857143;color:#333;word-break:break-all;word-wrap:break-word;background-color:#f5f5f5;border:1px solid #ccc;border-radius:4px;cursor:pointer;transition:.3s all ease-in}.page__icons-container pre:hover{background:#e4e5dc}.page__icons-container .icon-list{margin-top:20px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr}.page__icons-container .icon-list .icon-element{text-align:center;padding:20px;font-size:16px;display:grid;grid-gap:10px;transition:250ms background-color;cursor:pointer;border:1px solid var(--beyond-secondary-dark-color)}.page__icons-container .icon-list .icon-element:hover{background:#263145;color:var(--beyond-text-on-secondary);fill:var(--beyond-text-on-secondary)}.page__icons-container .icon-list .icon-element .beyond-icon{margin:auto}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

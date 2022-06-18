@@ -37,6 +37,7 @@ module.exports = class {
              * if the bundle has a view renderer, the path points to the same folder with the view renderer name
              * @this.#viewProcessors
              */
+            if (!specs.processors) return;
             const filter = specs.processors.filter(i => this.#viewProcessors.includes(i));
             if (filter.length) specs.path = filter[0];
 

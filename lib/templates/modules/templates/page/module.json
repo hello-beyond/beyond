@@ -1,12 +1,21 @@
 {
-  "page": {
+  "widget": {
+    "is": "page",
     "route": "/",
+    "element": {
+      "name": "base-page"
+    },
+    "sass": {
+      "path": "sass",
+      "files": [
+        "*"
+      ]
+    },
     "ts": {
       "path": "ts",
-      "files": "*"
-    },
-    "scss": {
-      "files": "*"
+      "files": [
+        "*"
+      ]
     }
   }
 }

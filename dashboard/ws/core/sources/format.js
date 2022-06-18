@@ -11,7 +11,7 @@ module.exports = function (parent) {
             return {status: true, text: formattedText};
         }
         catch (e) {
-            console.log(e);
+            console.error(e);
             return {error: e};
         }
     };

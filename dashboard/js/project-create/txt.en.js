@@ -1,32 +1,29 @@
-define(["exports"], function (_exports2) {
+define(["exports"], function (_exports) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.txt = _exports2.hmr = void 0;
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/project-create/txt', true, {
-    "txt": {
-      "multilanguage": true
-    }
-  });
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.txt = _exports.hmr = void 0;
 
-  const __pkg = bundle.package('en');
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const modules = new Map();
+  const __pkg = new __Bundle("@beyond-js/dashboard/project-create/txt").package('en');
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
+  const ims = new Map();
   /*********************
   INTERNAL MODULE: ./txt
   *********************/
 
-  modules.set('./txt', {
-    hash: 2992127443,
+  ims.set('./txt', {
+    hash: 4109612028,
     creator: function (require, exports) {
       exports.txt = {
         "subtitle": "Select what you want to do",
@@ -93,8 +90,8 @@ define(["exports"], function (_exports2) {
               "description": " Container of client and server modules to be consumed by other projects.."
             },
             "web-backend": {
-              "title": "Template Web - Backend",
-              "description": "Web App template with backend."
+              "title": "Web con Backend",
+              "description": "Web App with backend."
             },
             "board": {
               "title": "Board template",
@@ -111,6 +108,10 @@ define(["exports"], function (_exports2) {
             "vue": {
               "title": "Vue App",
               "description": "Svelte configured and ready to use."
+            },
+            "web-backend-app": {
+              "title": "Template Web-Backend App",
+              "description": "Web App template with backend."
             }
           },
           "npm": "Install npm dependencies?",
@@ -124,18 +125,22 @@ define(["exports"], function (_exports2) {
         }
       };
     }
-  }); // Exports managed by beyond bundle objects
-
-  __pkg.exports.managed = function (require, _exports) {
-    _exports.txt = require('./txt').txt;
-  };
-
+  });
+  __pkg.exports.descriptor = [{
+    "im": "./txt",
+    "from": "txt",
+    "name": "txt"
+  }];
   let txt; // Module exports
 
-  _exports2.txt = txt;
+  _exports.txt = txt;
 
-  __pkg.exports.process = function (require) {
-    _exports2.txt = txt = require('./txt').txt;
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {
+    (require || prop === 'txt') && (_exports.txt = txt = require ? require('./txt').txt : value);
   };
 
   const hmr = new function () {
@@ -143,7 +148,7 @@ define(["exports"], function (_exports2) {
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

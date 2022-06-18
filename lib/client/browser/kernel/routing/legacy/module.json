@@ -1,7 +1,6 @@
 {
   "name": "routing",
   "bundle": "ts",
-  "transpile": false,
   "files": "*",
   "engines": [
     "legacy"

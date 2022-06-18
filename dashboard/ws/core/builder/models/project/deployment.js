@@ -7,7 +7,7 @@ module.exports = class Deployment extends require('../file-manager') {
     #distributions = new Map();
     #path;
     #default = {
-        name: 'web-development',
+        name: 'web',
         platform: 'web',
         environment: 'development',
         port: 8080,
@@ -76,7 +76,7 @@ module.exports = class Deployment extends require('../file-manager') {
     addPlatforms(platforms) {
         platforms.forEach(platform => {
             if (platform.platform === 'web') delete platform.inspectPort
-            this.setDistribution({...platform, name: `distribution-${platform.platform}`})
+            this.setDistribution({...platform, name: platform.platform})
         });
     }
 }

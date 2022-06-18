@@ -1,32 +1,27 @@
-define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/preload-text/code", "@beyond-js/dashboard/ds-select/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/app-distributions/code", "react", "react-dom"], function (_exports2, _ts, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/preload-text/code", "@beyond-js/dashboard/ds-select/code", "@beyond-js/ui/modal/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/app-distributions/code", "@beyond-js/kernel/texts/ts", "react", "react-dom"], function (_exports, _ts, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _ts2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.ApplicationsSettings = ApplicationsSettings;
-  _exports2.hmr = void 0;
+  _exports.ApplicationsSettings = ApplicationsSettings;
+  _exports.hmr = void 0;
+
   //WORKSPACE CONTEXT
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
+  //  @beyond-js Texts
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/applications-settings/code', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/applications-settings/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /*********
   select.jsx
   *********/
@@ -124,35 +119,40 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-l
       return this.#model;
     }
 
+    #texts;
+
     get texts() {
-      return module.texts.current?.value;
+      return this.#texts?.value;
     }
 
     get ready() {
-      return module.texts.current.ready && this.#model.ready;
+      return this.#texts.ready && this.#model.ready;
     }
 
     constructor(props) {
       super(props);
       this.#model = _ts.Dashboard;
-      module.texts.current.bind('change', this.triggerEvent);
       this.#model.bind('change', this.triggerEvent);
+      const module = __pkg.bundle.module.resource;
+      this.#texts = new _ts2.CurrentTexts(module, true);
+      this.#texts.bind('change', this.triggerEvent);
     }
 
   }();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

@@ -5,14 +5,14 @@
     "element": {
       "name": "main-layout"
     },
-    "ts": {
-      "path": "ts",
+    "sass": {
+      "path": "sass",
       "files": [
         "*"
       ]
     },
-    "scss": {
-      "path": "scss",
+    "ts": {
+      "path": "ts",
       "files": [
         "*"
       ]

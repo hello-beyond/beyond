@@ -51,12 +51,12 @@ module.exports = class Processor extends require('../../../file-manager') {
     async create() {
         const tplPath = await this.templatesPath();
         const finalPath = join(tplPath, 'bundles', this.bundle.type, this.#name)
-        const {fs} = global.utils;
+
         /**
          * if the folders exists the process is ignored.
          */
         const path = this.path === false ? this.file.dirname : this.file.file;
-        if (!await fs.exists(path)) {
+        if (!await this._fs.exists(path)) {
             this._fs.copy(finalPath, path);
         }
     }

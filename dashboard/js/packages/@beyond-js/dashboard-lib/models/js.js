@@ -1,20 +1,22 @@
-define(["exports"], function (_exports2) {
+define(["exports"], function (_exports) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.ReactiveModel = _exports2.ModuleBundleBuilder = _exports2.ApplicationBuilder = void 0;
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard-lib/models/js', false, {});
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.hmr = _exports.ReactiveModel = _exports.ModuleBundleBuilder = _exports.ApplicationBuilder = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard-lib/models/js").package();
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
   /***********
   JS PROCESSOR
   ***********/
@@ -22,7 +24,6 @@ define(["exports"], function (_exports2) {
   /***********************
   FILE: _reactive-model.js
   ***********************/
-
 
   class ReactiveModel {
     #ready;
@@ -135,14 +136,14 @@ define(["exports"], function (_exports2) {
   ***************************************/
 
 
-  _exports2.ReactiveModel = ReactiveModel;
+  _exports.ReactiveModel = ReactiveModel;
 
   class ApplicationBuilder extends ReactiveModel {
     #id;
     #required = ['name', 'type'];
     #ports = {
-      inspectPort: ['node', 'backend', 'express', 'web-backend', 'library'],
-      navigate: ['web-backend', 'web', 'library', 'react', 'vue', 'svelte']
+      inspectPort: ['node', 'backend', 'express', 'web-backend', 'web-backend-app', 'library'],
+      navigate: ['web', 'library', 'react', 'vue', 'svelte', 'web-backend', 'web-backend-app']
     };
     #created;
     #backend;
@@ -356,7 +357,7 @@ define(["exports"], function (_exports2) {
         name: "express",
         platforms: ['backend']
       }, {
-        name: "web-backend",
+        name: "web-backend-app",
         platforms: ['web', 'backend']
       }];
     }
@@ -374,16 +375,19 @@ define(["exports"], function (_exports2) {
     }
 
     #TYPES = [{
-      name: "web",
+      name: 'web',
       platforms: ['web']
     }, {
-      name: "node",
+      name: 'web-backend',
+      platforms: ['web', 'backend']
+    }, {
+      name: 'node',
       platforms: ['backend']
     }, {
-      name: "backend",
+      name: 'backend',
       platforms: ['backend']
     }, {
-      name: "library",
+      name: 'library',
       platforms: ['web']
     }];
 
@@ -497,7 +501,7 @@ define(["exports"], function (_exports2) {
   **********************************/
 
 
-  _exports2.ApplicationBuilder = ApplicationBuilder;
+  _exports.ApplicationBuilder = ApplicationBuilder;
 
   async function create(parent) {
     if (!parent.name) throw new Error('Name is required');
@@ -555,7 +559,7 @@ define(["exports"], function (_exports2) {
   class ModuleBundleBuilder extends ReactiveModel {
     #bundle;
     #applicationId;
-    #PROCESSORS = ['scss', 'less'];
+    #PROCESSORS = ['sass', 'less'];
     #BUNDLES = ['page', 'widget', 'layout', 'code', 'bridge', 'typescript'];
     #TEMPLATES = Object.freeze({
       page: {
@@ -644,7 +648,7 @@ define(["exports"], function (_exports2) {
    */
 
 
-  _exports2.ModuleBundleBuilder = ModuleBundleBuilder;
+  _exports.ModuleBundleBuilder = ModuleBundleBuilder;
 
   class ModuleBundle extends ReactiveModel {
     _id;
@@ -699,7 +703,6 @@ define(["exports"], function (_exports2) {
       return this._route;
     }
 
-    _txt;
     _author;
     _developer;
     _title;
@@ -818,7 +821,7 @@ define(["exports"], function (_exports2) {
         params.bundles = [this._type];
         params.processors = Array.from(this._processors.keys());
         const action = params.template ? '/builder/module/clone' : '/builder/module/create';
-        this._styles && params.processors.push('scss');
+        this._styles && params.processors.push('sass');
         const response = await module.execute(action, params);
 
         if (response.error) {
@@ -869,7 +872,7 @@ define(["exports"], function (_exports2) {
     widget: {
       fields: ["element"],
       required: ['name', 'element'],
-      processors: ['ts', 'scss']
+      processors: ['ts', 'sass']
     },
     layout: {
       fields: ["element"],
@@ -890,19 +893,20 @@ define(["exports"], function (_exports2) {
       required: ['name']
     }
   };
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

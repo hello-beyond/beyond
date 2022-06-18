@@ -1,37 +1,35 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/alert/code", "/components/uploader/code", "/libraries/beyond-dashboard/js", "/libraries/beyond-dashboard/ts", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, _js, _ts, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/alert/code", "/components/uploader/code", "/libraries/beyond-dashboard/js", "/libraries/beyond-dashboard/ts", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _js, _ts, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.MediaItem = _exports2.JGalleryContext = _exports2.Item = void 0;
-  _exports2.Page = Page;
-  _exports2.useJGalleryContext = _exports2.hmr = void 0;
+  _exports.MediaItem = _exports.JGalleryContext = _exports.Item = void 0;
+  _exports.Page = Page;
+  _exports.useJGalleryContext = _exports.hmr = void 0;
+
   //Beyond
   //Jida library
   //Beyond-Dashboard
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/components/uploader/page/page', false, {}, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/components/uploader/page/page").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /**********
   context.jsx
   **********/
 
   const JGalleryContext = React.createContext();
-  _exports2.JGalleryContext = JGalleryContext;
+  _exports.JGalleryContext = JGalleryContext;
 
   const useJGalleryContext = () => React.useContext(JGalleryContext);
   /***************
@@ -39,7 +37,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   ***************/
 
 
-  _exports2.useJGalleryContext = useJGalleryContext;
+  _exports.useJGalleryContext = useJGalleryContext;
 
   function GalleryItem({
     item
@@ -157,9 +155,8 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.jadmin-page.jd-page__gallery .jd-gallery__drop-zone{cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.2s all ease-in;margin:15px;width:calc(100% - 30px);height:150px;padding:30px;outline:2px dashed var(--beyond-primary-dark-color);outline-offset:10px}.jadmin-page.jd-page__gallery .jd-gallery__drop-zone:hover{background:#f0f0f0;color:var(--beyond-secondary-dark-color)}.jadmin-page.jd-page__gallery .jd-gallery__drop-zone .beyond-icon{height:60px;width:60px;fill:#E4E5DC}.jd-gallery__list{width:100%}.jd-gallery__list ul{display:flex;flex-wrap:wrap;width:100%;list-style:none;padding:0}.jd-gallery__list li{flex:20%;max-width:20%;padding:0 4px;cursor:pointer;transition:all .2s ease-in}.jd-gallery__list li:hover{opacity:.8;transition:all .2s ease-in}.jd-gallery__list li .beyond-element-image{width:100%;height:130px;position:relative}.jd-gallery__list li .beyond-element-image img{object-fit:cover;z-index:1;height:100%;width:100%}.jd-gallery__list li .beyond-element-image figcaption{position:absolute;transition:all .2s ease-in;display:none}.jd-gallery__list li .beyond-element-image:hover figcaption{transition:all .2s ease-in-out;background:rgba(227,97,82,.7);display:flex;position:absolute;top:0;left:0;right:0;bottom:0;align-items:center;z-index:99;justify-content:center}.jd-gallery__list li .beyond-element-image:hover figcaption .beyond-icon-button svg{fill:#fff}#app-gallery-page{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{#app-gallery-page 0%{opacity:0}#app-gallery-page 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}#app-gallery-page .beyond-element-input input{height:2.2rem}#app-gallery-page .hidden-input{display:none}#app-gallery-page .alert{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{#app-gallery-page .alert 0%{opacity:0}#app-gallery-page .alert 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}#app-gallery-page form{display:block}#app-gallery-page .jd-uploader-form{display:flex;width:100%;align-items:center;flex-direction:column;justify-content:center}#app-gallery-page .jd-uploader-form .alert{width:100%}';
-  bundle.styles.appendToDOM();
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/unnamed/components/uploader/page/page', '.jadmin-page.jd-page__gallery .jd-gallery__drop-zone{cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:.2s all ease-in;margin:15px;width:calc(100% - 30px);height:150px;padding:30px;outline:2px dashed var(--beyond-primary-dark-color);outline-offset:10px}.jadmin-page.jd-page__gallery .jd-gallery__drop-zone:hover{background:#f0f0f0;color:var(--beyond-secondary-dark-color)}.jadmin-page.jd-page__gallery .jd-gallery__drop-zone .beyond-icon{height:60px;width:60px;fill:#E4E5DC}.jd-gallery__list{width:100%}.jd-gallery__list ul{display:flex;flex-wrap:wrap;width:100%;list-style:none;padding:0}.jd-gallery__list li{flex:20%;max-width:20%;padding:0 4px;cursor:pointer;transition:all .2s ease-in}.jd-gallery__list li:hover{opacity:.8;transition:all .2s ease-in}.jd-gallery__list li .beyond-element-image{width:100%;height:130px;position:relative}.jd-gallery__list li .beyond-element-image img{object-fit:cover;z-index:1;height:100%;width:100%}.jd-gallery__list li .beyond-element-image figcaption{position:absolute;transition:all .2s ease-in;display:none}.jd-gallery__list li .beyond-element-image:hover figcaption{transition:all .2s ease-in-out;background:rgba(227,97,82,.7);display:flex;position:absolute;top:0;left:0;right:0;bottom:0;align-items:center;z-index:99;justify-content:center}.jd-gallery__list li .beyond-element-image:hover figcaption .beyond-icon-button svg{fill:#fff}#app-gallery-page{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{#app-gallery-page 0%{opacity:0}#app-gallery-page 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}#app-gallery-page .beyond-element-input input{height:2.2rem}#app-gallery-page .hidden-input{display:none}#app-gallery-page .alert{-webkit-animation-name:fadeIn;-moz-animation-name:fadeIn;-ms-animation-name:fadeIn;-o-animation-name:fadeIn;animation-name:fadeIn;-webkit-animation-iteration-count:1;-moz-animation-iteration-count:1;-ms-animation-iteration-count:1;-o-animation-iteration-count:1;animation-iteration-count:1;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;-webkit-animation-delay:0s;-moz-animation-delay:0s;-ms-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s;-webkit-animation-timing-function:ease;-moz-animation-timing-function:ease;-ms-animation-timing-function:ease;-o-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-o-backface-visibility:hidden;backface-visibility:hidden}@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-moz-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@-ms-keyframes fadeIn{#app-gallery-page .alert 0%{opacity:0}#app-gallery-page .alert 100%{opacity:1}}@-o-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}@keyframes fadeIn{0%{opacity:0}100%{opacity:1}}#app-gallery-page form{display:block}#app-gallery-page .jd-uploader-form{display:flex;width:100%;align-items:center;flex-direction:column;justify-content:center}#app-gallery-page .jd-uploader-form .alert{width:100%}');
+  legacyStyles.appendToDOM();
   /***********
   JS PROCESSOR
   ***********/
@@ -234,7 +231,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   ******************/
 
 
-  _exports2.Item = Item;
+  _exports.Item = Item;
 
   class MediaItem extends Item {
     _id;
@@ -312,7 +309,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   ************/
 
 
-  _exports2.MediaItem = MediaItem;
+  _exports.MediaItem = MediaItem;
 
   function Page() {
     const controller = new UIController();
@@ -460,19 +457,20 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
 
   }
 
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

@@ -6,8 +6,8 @@
     "element": {
       "name": "home-page"
     },
-    "scss": {
-      "path": "scss",
+    "sass": {
+      "path": "sass",
       "files": [
         "*"
       ]

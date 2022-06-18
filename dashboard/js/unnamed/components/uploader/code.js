@@ -1,21 +1,23 @@
-define(["exports"], function (_exports2) {
+define(["exports"], function (_exports) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.JidaUploader = JidaUploader;
-  _exports2.resizePicture = _exports2.hmr = _exports2.camera = _exports2.ResourceSelectorError = void 0;
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/components/uploader/code', false, {});
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.JidaUploader = JidaUploader;
+  _exports.resizePicture = _exports.hmr = _exports.camera = _exports.ResourceSelectorError = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/components/uploader/code").package();
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
   /***********
   JS PROCESSOR
   ***********/
@@ -23,7 +25,6 @@ define(["exports"], function (_exports2) {
   /**************
   FILE: camera.js
   **************/
-
 
   const camera = new function () {
     const camera = navigator.camera;
@@ -64,7 +65,7 @@ define(["exports"], function (_exports2) {
   FILE: draganddrop.js
   *******************/
 
-  _exports2.camera = camera;
+  _exports.camera = camera;
 
   class DragAndDropUploader {
     constructor(parent, files, specs) {
@@ -139,7 +140,7 @@ define(["exports"], function (_exports2) {
   *************/
 
 
-  _exports2.ResourceSelectorError = ResourceSelectorError;
+  _exports.ResourceSelectorError = ResourceSelectorError;
 
   function UploadFiles(parent, specs) {
     this._loaded = 0;
@@ -457,7 +458,7 @@ define(["exports"], function (_exports2) {
   ****************/
 
 
-  _exports2.resizePicture = resizePicture;
+  _exports.resizePicture = resizePicture;
 
   function JidaUploader(specs) {
     const events = new Events({
@@ -629,19 +630,20 @@ define(["exports"], function (_exports2) {
     this.abort = () => xhr ? xhr.abort() : null;
   }
 
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

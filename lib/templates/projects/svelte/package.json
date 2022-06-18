@@ -5,11 +5,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@beyond-js/kernel": "^0.0.15",
+    "@beyond-js/kernel": "^0.0.17",
+    "@beyond-js/widgets": "^0.0.6",
+    "@beyond-js/svelte-widgets": "^0.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "svelte": "^3.44.2",
-    "socket.io": "^4.3.1"
+    "svelte": "^3.44.2"
   },
   "devDependencies": {
     "@types/react": "^17.0.34",

@@ -1,31 +1,29 @@
-define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], function (_exports2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/backend/client/ts", "@beyond-js/plm/core/ts", "@beyond-js/kernel/bundle/ts"], function (_exports, dependency_0, dependency_1, dependency_2, dependency_3) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.TransversalDependency = _exports2.TransversalDependencies = _exports2.TemplateProcessorsSources = _exports2.TemplateProcessorsSource = _exports2.TemplateProcessor = _exports2.TemplateOverwrites = _exports2.TemplateOverwrite = _exports2.TemplateGlobals = _exports2.TemplateGlobalSources = _exports2.TemplateGlobalSource = _exports2.TemplateGlobal = _exports2.TemplateApplicationsSources = _exports2.TemplateApplicationsSource = _exports2.TemplateApplication = _exports2.Template = _exports2.RunTimeManager = _exports2.RunTimeError = _exports2.ReactiveModel = _exports2.ProcessorSources = _exports2.ProcessorSource = _exports2.ProcessorOverwrites = _exports2.ProcessorOverwrite = _exports2.ProcessorDependency = _exports2.ProcessorDependencies = _exports2.ProcessorCompilers = _exports2.ProcessorCompiler = _exports2.Processor = _exports2.Modules = _exports2.ModuleTexts = _exports2.ModuleStatics = _exports2.ModuleStatic = _exports2.ModuleDeclarations = _exports2.Module = _exports2.LibraryModules = _exports2.LibraryModule = _exports2.Library = _exports2.LibrariesStatics = _exports2.LibrariesStatic = _exports2.Libraries = _exports2.GlobalBundles = _exports2.GlobalBundle = _exports2.Declarations = _exports2.Declaration = _exports2.Dashboard = _exports2.Consumers = _exports2.Consumer = _exports2.BundleDependency = _exports2.BundleDependencies = _exports2.Bundle = _exports2.Bee = _exports2.Applications = _exports2.ApplicationStatics = _exports2.ApplicationStatic = _exports2.ApplicationModules = _exports2.ApplicationModule = _exports2.ApplicationLibrary = _exports2.ApplicationLibraries = _exports2.ApplicationDistributions = _exports2.ApplicationDistribution = _exports2.ApplicationDeployments = _exports2.ApplicationDeployment = _exports2.ApplicationDeclarations = _exports2.Application = void 0;
-  const dependencies = new Map();
-  dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
-  dependencies.set('@beyond-js/plm/core/ts', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard-lib/models/ts', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.hmr = _exports.TransversalDependency = _exports.TransversalDependencies = _exports.TemplateProcessorsSources = _exports.TemplateProcessorsSource = _exports.TemplateProcessor = _exports.TemplateOverwrites = _exports.TemplateOverwrite = _exports.TemplateGlobals = _exports.TemplateGlobalSources = _exports.TemplateGlobalSource = _exports.TemplateGlobal = _exports.TemplateApplicationsSources = _exports.TemplateApplicationsSource = _exports.TemplateApplication = _exports.Template = _exports.RunTimeManager = _exports.RunTimeError = _exports.ReactiveModel = _exports.ProcessorSources = _exports.ProcessorSource = _exports.ProcessorOverwrites = _exports.ProcessorOverwrite = _exports.ProcessorDependency = _exports.ProcessorDependencies = _exports.ProcessorCompilers = _exports.ProcessorCompiler = _exports.Processor = _exports.Modules = _exports.ModuleTexts = _exports.ModuleStatics = _exports.ModuleStatic = _exports.ModuleDeclarations = _exports.Module = _exports.LibraryModules = _exports.LibraryModule = _exports.Library = _exports.LibrariesStatics = _exports.LibrariesStatic = _exports.Libraries = _exports.GlobalBundles = _exports.GlobalBundle = _exports.Declarations = _exports.Declaration = _exports.Dashboard = _exports.Consumers = _exports.Consumer = _exports.BundleDependency = _exports.BundleDependencies = _exports.Bundle = _exports.Bees = _exports.Bee = _exports.Applications = _exports.ApplicationStatics = _exports.ApplicationStatic = _exports.ApplicationModules = _exports.ApplicationModule = _exports.ApplicationLibrary = _exports.ApplicationLibraries = _exports.ApplicationDistributions = _exports.ApplicationDistribution = _exports.ApplicationDeployments = _exports.ApplicationDeployment = _exports.ApplicationDeclarations = _exports.Application = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const modules = new Map();
+  const __pkg = new __Bundle("@beyond-js/dashboard-lib/models/ts").package();
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
+  const ims = new Map();
   /**********************************************
   INTERNAL MODULE: ./applications/builder/builder
   **********************************************/
 
-  modules.set('./applications/builder/builder', {
-    hash: 1003959201,
+  ims.set('./applications/builder/builder', {
+    hash: 468537396,
     creator: function (require, exports) {
       "use strict";
 
@@ -39,6 +37,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       var _beyond_context = require("beyond_context");
 
       var _builds = require("./builds");
+
+      var _ts2 = require("@beyond-js/backend/client/ts");
 
       class ApplicationBuilder extends _ts.Events {
         #application;
@@ -96,7 +96,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           this.#prepared = true;
 
           try {
-            const socket = await _beyond_context.module.socket;
+            const library = _ts2.backends.get('@beyond-js/dashboard-lib/legacy');
+
+            const socket = await library.socket;
             socket.on(`builder:${this.#application.id}`, this.onMessage);
           } catch (exc) {
             console.error(exc.stack);
@@ -115,26 +117,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           }
 
           await this.prepare();
-          const specs = {
-            name: distribution.name ?? 'unnamed',
-            platform: distribution.platform,
-            ssr: distribution.ssr,
-            environment: environment,
-            compress: !!distribution.compress,
-            icons: distribution.icons
-          };
-
-          if (distribution.name === 'npm') {
-            specs.npm = true;
-            specs.platforms = {
-              node: true,
-              web: true
-            };
-          }
-
           await _beyond_context.module.execute('/build', {
             application: this.#application.path,
-            distribution: specs
+            distribution: distribution.name
           });
           this.#completed = true;
           this.#processing = false;
@@ -155,7 +140,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/builder/builds
   *********************************************/
 
-  modules.set('./applications/builder/builds', {
+  ims.set('./applications/builder/builds', {
     hash: 158024195,
     creator: function (require, exports) {
       "use strict";
@@ -187,7 +172,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/collection
   *****************************************/
 
-  modules.set('./applications/collection', {
+  ims.set('./applications/collection', {
     hash: 2012231745,
     creator: function (require, exports) {
       "use strict";
@@ -217,8 +202,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/declarations
   *******************************************/
 
-  modules.set('./applications/declarations', {
-    hash: 889764594,
+  ims.set('./applications/declarations', {
+    hash: 1443966059,
     creator: function (require, exports) {
       "use strict";
 
@@ -227,9 +212,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       });
       exports.ApplicationDeclarations = void 0;
 
-      var _ts = require("@beyond-js/kernel/core/ts");
-
       var _beyond_context = require("beyond_context");
+
+      var _ts = require("@beyond-js/backend/client/ts");
 
       var _reactiveModel = require("../reactive-model");
       /*bundle*/
@@ -309,7 +294,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         }
 
         async initialise() {
-          const socket = await _ts.beyond.libraries.get('@beyond-js/dashboard-lib').getSocket();
+          const socket = await _ts.backends.get('@beyond-js/dashboard-lib/legacy').socket;
           socket.on(`declaration-save:${this.#application.id}`, this.onDeclarationSave);
         }
 
@@ -357,7 +342,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/deployments/collection
   *****************************************************/
 
-  modules.set('./applications/deployments/collection', {
+  ims.set('./applications/deployments/collection', {
     hash: 3131748020,
     creator: function (require, exports) {
       "use strict";
@@ -387,7 +372,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/deployments/distributions/collection
   *******************************************************************/
 
-  modules.set('./applications/deployments/distributions/collection', {
+  ims.set('./applications/deployments/distributions/collection', {
     hash: 1364804100,
     creator: function (require, exports) {
       "use strict";
@@ -417,8 +402,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/deployments/distributions/item
   *************************************************************/
 
-  modules.set('./applications/deployments/distributions/item', {
-    hash: 1900963609,
+  ims.set('./applications/deployments/distributions/item', {
+    hash: 2939457631,
     creator: function (require, exports) {
       "use strict";
 
@@ -476,6 +461,10 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('default').value;
         }
 
+        get npm() {
+          return this.fields.get('npm').value;
+        }
+
         constructor(specs) {
           super('applications-distributions', specs);
         }
@@ -489,8 +478,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/deployments/distributions/register
   *****************************************************************/
 
-  modules.set('./applications/deployments/distributions/register', {
-    hash: 906694623,
+  ims.set('./applications/deployments/distributions/register', {
+    hash: 2604019600,
     creator: function (require, exports) {
       "use strict";
 
@@ -501,7 +490,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       const specs = {};
       specs.module = _beyond_context.module;
       specs.cache = false;
-      specs.fields = ['id', 'name', 'local', 'ssr', 'port', 'ts', 'amd', 'platform', 'environment', 'compress', 'default'];
+      specs.fields = ['id', 'name', 'local', 'ssr', 'port', 'ts', 'amd', 'platform', 'environment', 'compress', 'default', 'npm'];
       specs.batch = {
         actions: {
           list: 'applications/deployments/distributions/list',
@@ -522,7 +511,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/deployments/item
   ***********************************************/
 
-  modules.set('./applications/deployments/item', {
+  ims.set('./applications/deployments/item', {
     hash: 2098909840,
     creator: function (require, exports) {
       "use strict";
@@ -582,7 +571,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/deployments/register
   ***************************************************/
 
-  modules.set('./applications/deployments/register', {
+  ims.set('./applications/deployments/register', {
     hash: 2542186834,
     creator: function (require, exports) {
       "use strict";
@@ -627,8 +616,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/item
   ***********************************/
 
-  modules.set('./applications/item', {
-    hash: 161798820,
+  ims.set('./applications/item', {
+    hash: 2992222215,
     creator: function (require, exports) {
       "use strict";
 
@@ -710,9 +699,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return libraries && libraries.value;
         }
 
-        get bee() {
-          const bee = this.properties.get('bee');
-          return bee && bee.value;
+        get bees() {
+          const bees = this.properties.get('bees');
+          return bees && bees.value;
         }
 
         get template() {
@@ -813,7 +802,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/libraries/collection
   ***************************************************/
 
-  modules.set('./applications/libraries/collection', {
+  ims.set('./applications/libraries/collection', {
     hash: 161087978,
     creator: function (require, exports) {
       "use strict";
@@ -844,7 +833,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/libraries/item
   *********************************************/
 
-  modules.set('./applications/libraries/item', {
+  ims.set('./applications/libraries/item', {
     hash: 296527257,
     creator: function (require, exports) {
       "use strict";
@@ -903,7 +892,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/libraries/register
   *************************************************/
 
-  modules.set('./applications/libraries/register', {
+  ims.set('./applications/libraries/register', {
     hash: 867729569,
     creator: function (require, exports) {
       "use strict";
@@ -965,7 +954,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/modules/bundle
   *********************************************/
 
-  modules.set('./applications/modules/bundle', {
+  ims.set('./applications/modules/bundle', {
     hash: 1126817507,
     creator: function (require, exports) {
       "use strict";
@@ -1024,7 +1013,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/modules/collection
   *************************************************/
 
-  modules.set('./applications/modules/collection', {
+  ims.set('./applications/modules/collection', {
     hash: 528015512,
     creator: function (require, exports) {
       "use strict";
@@ -1103,7 +1092,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/modules/item
   *******************************************/
 
-  modules.set('./applications/modules/item', {
+  ims.set('./applications/modules/item', {
     hash: 2585905232,
     creator: function (require, exports) {
       "use strict";
@@ -1292,7 +1281,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/modules/register
   ***********************************************/
 
-  modules.set('./applications/modules/register', {
+  ims.set('./applications/modules/register', {
     hash: 2966258795,
     creator: function (require, exports) {
       "use strict";
@@ -1364,8 +1353,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/register
   ***************************************/
 
-  modules.set('./applications/register', {
-    hash: 1467085930,
+  ims.set('./applications/register', {
+    hash: 1746729416,
     creator: function (require, exports) {
       "use strict";
 
@@ -1373,17 +1362,17 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
       var _beyond_context = require("beyond_context");
 
-      var _item = require("../bees/item");
+      var _collection = require("../bees/collection");
 
-      var _item2 = require("../templates/item");
+      var _item = require("../templates/item");
 
-      var _collection = require("./static/collection");
+      var _collection2 = require("./static/collection");
 
-      var _collection2 = require("./modules/collection");
+      var _collection3 = require("./modules/collection");
 
-      var _item3 = require("./deployments/item");
+      var _item2 = require("./deployments/item");
 
-      var _collection3 = require("./libraries/collection");
+      var _collection4 = require("./libraries/collection");
 
       const specs = {};
       specs.cache = false;
@@ -1392,7 +1381,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       specs.fields = ['id', 'path', 'name', 'title', 'description', 'developer', 'version', 'connect', 'hosts', 'port', 'static', 'modulesPath', 'bee', 'errors', 'warnings', 'servers', 'builds', 'declarations'];
       specs.properties = {
         am: {
-          Collection: _collection2.ApplicationModules,
+          Collection: _collection3.ApplicationModules,
           table: 'applications-modules',
           filter: [{
             field: 'application',
@@ -1400,24 +1389,23 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           }]
         },
         libraries: {
-          Collection: _collection3.ApplicationLibraries,
+          Collection: _collection4.ApplicationLibraries,
           table: 'applications-libraries',
           filter: [{
             field: 'application',
             source: 'id'
           }]
         },
-        bee: {
-          Item: _item.Bee,
+        bees: {
+          Collection: _collection.Bees,
           table: 'bees',
-          immutable: true,
-          identifier: [{
-            field: 'id',
-            source: 'bee'
+          filter: [{
+            field: 'application',
+            source: 'id'
           }]
         },
         template: {
-          Item: _item2.Template,
+          Item: _item.Template,
           table: 'templates',
           immutable: true,
           identifier: [{
@@ -1426,7 +1414,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           }]
         },
         static: {
-          Collection: _collection.ApplicationStatics,
+          Collection: _collection2.ApplicationStatics,
           table: 'applications-static',
           filter: [{
             field: 'application',
@@ -1434,7 +1422,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           }]
         },
         deployment: {
-          Item: _item3.ApplicationDeployment,
+          Item: _item2.ApplicationDeployment,
           table: 'applications-deployments',
           immutable: true,
           identifier: [{
@@ -1467,7 +1455,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/static/collection
   ************************************************/
 
-  modules.set('./applications/static/collection', {
+  ims.set('./applications/static/collection', {
     hash: 1775327297,
     creator: function (require, exports) {
       "use strict";
@@ -1497,7 +1485,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/static/item
   ******************************************/
 
-  modules.set('./applications/static/item', {
+  ims.set('./applications/static/item', {
     hash: 851612974,
     creator: function (require, exports) {
       "use strict";
@@ -1557,7 +1545,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./applications/static/register
   **********************************************/
 
-  modules.set('./applications/static/register', {
+  ims.set('./applications/static/register', {
     hash: 1982790997,
     creator: function (require, exports) {
       "use strict";
@@ -1593,8 +1581,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bees/builder/builder
   **************************************/
 
-  modules.set('./bees/builder/builder', {
-    hash: 1869070163,
+  ims.set('./bees/builder/builder', {
+    hash: 3911797762,
     creator: function (require, exports) {
       "use strict";
 
@@ -1608,6 +1596,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       var _beyond_context = require("beyond_context");
 
       var _builds = require("./builds");
+
+      var _ts2 = require("@beyond-js/backend/client/ts");
 
       class ServiceBuilder extends _ts.Events {
         #bee;
@@ -1642,7 +1632,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           try {
             //TODO validar con @box la para importar beyond
             // await beyond.rpc.prepare();
-            const socket = await _beyond_context.module.socket;
+            const library = _ts2.backends.get('@beyond-js/dashboard-lib/legacy');
+
+            const socket = await library.socket;
             const event = `server:build-service-${this.id()}`;
             socket.on(event, this.onMessage);
           } catch (exc) {
@@ -1682,7 +1674,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bees/builder/builds
   *************************************/
 
-  modules.set('./bees/builder/builds', {
+  ims.set('./bees/builder/builds', {
     hash: 491302476,
     creator: function (require, exports) {
       "use strict";
@@ -1710,12 +1702,42 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       exports.ServiceBuilds = ServiceBuilds;
     }
   });
+  /*********************************
+  INTERNAL MODULE: ./bees/collection
+  *********************************/
+
+  ims.set('./bees/collection', {
+    hash: 4040769444,
+    creator: function (require, exports) {
+      "use strict";
+
+      Object.defineProperty(exports, "__esModule", {
+        value: true
+      });
+      exports.Bees = void 0;
+
+      var _ts = require("@beyond-js/plm/core/ts");
+
+      var _item = require("./item");
+      /*bundle*/
+
+
+      class Bees extends _ts.Collection {
+        constructor(specs) {
+          super('bees', _item.Bee, specs);
+        }
+
+      }
+
+      exports.Bees = Bees;
+    }
+  });
   /***************************
   INTERNAL MODULE: ./bees/item
   ***************************/
 
-  modules.set('./bees/item', {
-    hash: 2261579261,
+  ims.set('./bees/item', {
+    hash: 2833244939,
     creator: function (require, exports) {
       "use strict";
 
@@ -1737,40 +1759,24 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           return this.fields.get('id').value;
         }
 
-        get path() {
-          return this.fields.get('path').value;
-        }
-
-        get version() {
-          return this.fields.get('version').value;
-        }
-
-        get name() {
-          return this.fields.get('name').value;
-        }
-
-        get enabled() {
-          return this.fields.get('enabled').value;
-        }
-
         get status() {
           return this.fields.get('status').value;
         }
 
-        get builds() {
-          return this.fields.get('builds').value;
+        get pid() {
+          return this.fields.get('pid').value;
         }
 
-        get exception() {
-          return this.fields.get('exception').value;
+        get path() {
+          return this.fields.get('path').value;
         }
 
         get port() {
           return this.fields.get('port').value;
         }
 
-        get pid() {
-          return this.fields.get('pid').value;
+        get ports() {
+          return this.fields.get('ports').value;
         }
 
         get errors() {
@@ -1825,8 +1831,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bees/register
   *******************************/
 
-  modules.set('./bees/register', {
-    hash: 1826232712,
+  ims.set('./bees/register', {
+    hash: 1390940770,
     creator: function (require, exports) {
       "use strict";
 
@@ -1836,12 +1842,11 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
       const specs = {};
       specs.module = _beyond_context.module;
-      specs.cache = false; //TODO @ftovar agregar field is
-
-      specs.fields = ['id', 'path', 'version', 'name', 'enabled', 'status', 'builds', 'exception', 'port', 'pid', 'errors'];
+      specs.cache = false;
+      specs.fields = ['id', 'status', 'pid', 'path', 'port', 'ports', 'errors'];
       specs.batch = {
         actions: {
-          list: '',
+          list: 'bees/list',
           data: 'bees/data'
         }
       };
@@ -1849,6 +1854,12 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
         id: {
           fields: ['id'],
           primary: true
+        },
+        application: {
+          fields: ['application'],
+          batches: {
+            application: ['list', 'count']
+          }
         }
       };
 
@@ -1859,7 +1870,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/consumers/collection
   **********************************************/
 
-  modules.set('./bundles/consumers/collection', {
+  ims.set('./bundles/consumers/collection', {
     hash: 2259325720,
     creator: function (require, exports) {
       "use strict";
@@ -1889,7 +1900,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/consumers/item
   ****************************************/
 
-  modules.set('./bundles/consumers/item', {
+  ims.set('./bundles/consumers/item', {
     hash: 2941718289,
     creator: function (require, exports) {
       "use strict";
@@ -1934,7 +1945,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/consumers/register
   ********************************************/
 
-  modules.set('./bundles/consumers/register', {
+  ims.set('./bundles/consumers/register', {
     hash: 3532777880,
     creator: function (require, exports) {
       "use strict";
@@ -1985,7 +1996,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/dependencies/collection
   *************************************************/
 
-  modules.set('./bundles/dependencies/collection', {
+  ims.set('./bundles/dependencies/collection', {
     hash: 2455078234,
     creator: function (require, exports) {
       "use strict";
@@ -2015,7 +2026,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/dependencies/item
   *******************************************/
 
-  modules.set('./bundles/dependencies/item', {
+  ims.set('./bundles/dependencies/item', {
     hash: 2288309038,
     creator: function (require, exports) {
       "use strict";
@@ -2047,7 +2058,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/dependencies/register
   ***********************************************/
 
-  modules.set('./bundles/dependencies/register', {
+  ims.set('./bundles/dependencies/register', {
     hash: 1887403145,
     creator: function (require, exports) {
       "use strict";
@@ -2080,7 +2091,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/globals/collection
   ********************************************/
 
-  modules.set('./bundles/globals/collection', {
+  ims.set('./bundles/globals/collection', {
     hash: 409546233,
     creator: function (require, exports) {
       "use strict";
@@ -2110,7 +2121,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/globals/item
   **************************************/
 
-  modules.set('./bundles/globals/item', {
+  ims.set('./bundles/globals/item', {
     hash: 1304775341,
     creator: function (require, exports) {
       "use strict";
@@ -2154,7 +2165,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/globals/register
   ******************************************/
 
-  modules.set('./bundles/globals/register', {
+  ims.set('./bundles/globals/register', {
     hash: 3706387622,
     creator: function (require, exports) {
       "use strict";
@@ -2187,7 +2198,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/item
   ******************************/
 
-  modules.set('./bundles/item', {
+  ims.set('./bundles/item', {
     hash: 3634067425,
     creator: function (require, exports) {
       "use strict";
@@ -2309,7 +2320,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./bundles/register
   **********************************/
 
-  modules.set('./bundles/register', {
+  ims.set('./bundles/register', {
     hash: 830194215,
     creator: function (require, exports) {
       "use strict";
@@ -2388,7 +2399,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./dashboard/model
   *********************************/
 
-  modules.set('./dashboard/model', {
+  ims.set('./dashboard/model', {
     hash: 494242649,
     creator: function (require, exports) {
       "use strict";
@@ -2488,7 +2499,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./declarations/collection
   *****************************************/
 
-  modules.set('./declarations/collection', {
+  ims.set('./declarations/collection', {
     hash: 581029645,
     creator: function (require, exports) {
       "use strict";
@@ -2518,7 +2529,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./declarations/item
   ***********************************/
 
-  modules.set('./declarations/item', {
+  ims.set('./declarations/item', {
     hash: 281899466,
     creator: function (require, exports) {
       "use strict";
@@ -2566,7 +2577,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./declarations/register
   ***************************************/
 
-  modules.set('./declarations/register', {
+  ims.set('./declarations/register', {
     hash: 3629953601,
     creator: function (require, exports) {
       "use strict";
@@ -2599,7 +2610,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./file/file
   ***************************/
 
-  modules.set('./file/file', {
+  ims.set('./file/file', {
     hash: 2203955401,
     creator: function (require, exports) {
       "use strict";
@@ -2638,8 +2649,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/builder
   ***********************************/
 
-  modules.set('./libraries/builder', {
-    hash: 4091023898,
+  ims.set('./libraries/builder', {
+    hash: 3549860053,
     creator: function (require, exports) {
       "use strict";
 
@@ -2651,6 +2662,8 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
       var _beyond_context = require("beyond_context");
 
       var _ts = require("@beyond-js/kernel/core/ts");
+
+      var _ts2 = require("@beyond-js/backend/client/ts");
 
       class LibraryBuilder extends _ts.Events {
         #library;
@@ -2679,7 +2692,9 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
           try {
             //TODO validar con @box la para importar beyond
             // await beyond.rpc.prepare();
-            const socket = await _beyond_context.module.socket;
+            const library = _ts2.backends.get('@beyond-js/dashboard-lib/legacy');
+
+            const socket = await library.socket;
             const event = `server:build-library-${this.#library}-server`;
             socket.on(event, this.onMessage);
           } catch (exc) {
@@ -2709,7 +2724,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/collection
   **************************************/
 
-  modules.set('./libraries/collection', {
+  ims.set('./libraries/collection', {
     hash: 4079938874,
     creator: function (require, exports) {
       "use strict";
@@ -2739,7 +2754,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/item
   ********************************/
 
-  modules.set('./libraries/item', {
+  ims.set('./libraries/item', {
     hash: 2648880293,
     creator: function (require, exports) {
       "use strict";
@@ -2848,7 +2863,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/modules/collection
   **********************************************/
 
-  modules.set('./libraries/modules/collection', {
+  ims.set('./libraries/modules/collection', {
     hash: 1012036264,
     creator: function (require, exports) {
       "use strict";
@@ -2879,7 +2894,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/modules/item
   ****************************************/
 
-  modules.set('./libraries/modules/item', {
+  ims.set('./libraries/modules/item', {
     hash: 2039537654,
     creator: function (require, exports) {
       "use strict";
@@ -2921,7 +2936,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/modules/register
   ********************************************/
 
-  modules.set('./libraries/modules/register', {
+  ims.set('./libraries/modules/register', {
     hash: 4126334953,
     creator: function (require, exports) {
       "use strict";
@@ -2983,7 +2998,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/register
   ************************************/
 
-  modules.set('./libraries/register', {
+  ims.set('./libraries/register', {
     hash: 897350189,
     creator: function (require, exports) {
       "use strict";
@@ -3053,7 +3068,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/static/collection
   *********************************************/
 
-  modules.set('./libraries/static/collection', {
+  ims.set('./libraries/static/collection', {
     hash: 1432429389,
     creator: function (require, exports) {
       "use strict";
@@ -3083,7 +3098,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/static/item
   ***************************************/
 
-  modules.set('./libraries/static/item', {
+  ims.set('./libraries/static/item', {
     hash: 1875209156,
     creator: function (require, exports) {
       "use strict";
@@ -3143,7 +3158,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./libraries/static/register
   *******************************************/
 
-  modules.set('./libraries/static/register', {
+  ims.set('./libraries/static/register', {
     hash: 3468431867,
     creator: function (require, exports) {
       "use strict";
@@ -3176,7 +3191,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/collection
   ************************************/
 
-  modules.set('./modules/collection', {
+  ims.set('./modules/collection', {
     hash: 2089886534,
     creator: function (require, exports) {
       "use strict";
@@ -3206,7 +3221,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/declarations
   **************************************/
 
-  modules.set('./modules/declarations', {
+  ims.set('./modules/declarations', {
     hash: 1279662994,
     creator: function (require, exports) {
       "use strict";
@@ -3287,7 +3302,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/item
   ******************************/
 
-  modules.set('./modules/item', {
+  ims.set('./modules/item', {
     hash: 3461676182,
     creator: function (require, exports) {
       "use strict";
@@ -3428,7 +3443,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/register
   **********************************/
 
-  modules.set('./modules/register', {
+  ims.set('./modules/register', {
     hash: 1846741188,
     creator: function (require, exports) {
       "use strict";
@@ -3517,7 +3532,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/static/collection
   *******************************************/
 
-  modules.set('./modules/static/collection', {
+  ims.set('./modules/static/collection', {
     hash: 614819323,
     creator: function (require, exports) {
       "use strict";
@@ -3547,7 +3562,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/static/item
   *************************************/
 
-  modules.set('./modules/static/item', {
+  ims.set('./modules/static/item', {
     hash: 531806800,
     creator: function (require, exports) {
       "use strict";
@@ -3651,7 +3666,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/static/register
   *****************************************/
 
-  modules.set('./modules/static/register', {
+  ims.set('./modules/static/register', {
     hash: 381746544,
     creator: function (require, exports) {
       "use strict";
@@ -3687,7 +3702,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./modules/texts
   *******************************/
 
-  modules.set('./modules/texts', {
+  ims.set('./modules/texts', {
     hash: 2654663686,
     creator: function (require, exports) {
       "use strict";
@@ -3734,7 +3749,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/compilers/collection
   *************************************************/
 
-  modules.set('./processors/compilers/collection', {
+  ims.set('./processors/compilers/collection', {
     hash: 356220319,
     creator: function (require, exports) {
       "use strict";
@@ -3764,7 +3779,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/compilers/item
   *******************************************/
 
-  modules.set('./processors/compilers/item', {
+  ims.set('./processors/compilers/item', {
     hash: 2150884602,
     creator: function (require, exports) {
       "use strict";
@@ -3806,7 +3821,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/compilers/register
   ***********************************************/
 
-  modules.set('./processors/compilers/register', {
+  ims.set('./processors/compilers/register', {
     hash: 2956075404,
     creator: function (require, exports) {
       "use strict";
@@ -3839,7 +3854,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/dependencies/collection
   ****************************************************/
 
-  modules.set('./processors/dependencies/collection', {
+  ims.set('./processors/dependencies/collection', {
     hash: 4201768079,
     creator: function (require, exports) {
       "use strict";
@@ -3877,7 +3892,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/dependencies/item
   **********************************************/
 
-  modules.set('./processors/dependencies/item', {
+  ims.set('./processors/dependencies/item', {
     hash: 685844589,
     creator: function (require, exports) {
       "use strict";
@@ -3955,7 +3970,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/dependencies/register
   **************************************************/
 
-  modules.set('./processors/dependencies/register', {
+  ims.set('./processors/dependencies/register', {
     hash: 662943395,
     creator: function (require, exports) {
       "use strict";
@@ -4015,7 +4030,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/item
   *********************************/
 
-  modules.set('./processors/item', {
+  ims.set('./processors/item', {
     hash: 2271235667,
     creator: function (require, exports) {
       "use strict";
@@ -4109,7 +4124,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/overwrites/collection
   **************************************************/
 
-  modules.set('./processors/overwrites/collection', {
+  ims.set('./processors/overwrites/collection', {
     hash: 3793641523,
     creator: function (require, exports) {
       "use strict";
@@ -4139,7 +4154,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/overwrites/item
   ********************************************/
 
-  modules.set('./processors/overwrites/item', {
+  ims.set('./processors/overwrites/item', {
     hash: 2279906987,
     creator: function (require, exports) {
       "use strict";
@@ -4203,7 +4218,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/overwrites/register
   ************************************************/
 
-  modules.set('./processors/overwrites/register', {
+  ims.set('./processors/overwrites/register', {
     hash: 146353019,
     creator: function (require, exports) {
       "use strict";
@@ -4239,7 +4254,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/register
   *************************************/
 
-  modules.set('./processors/register', {
+  ims.set('./processors/register', {
     hash: 3702589436,
     creator: function (require, exports) {
       "use strict";
@@ -4314,7 +4329,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/sources/collection
   ***********************************************/
 
-  modules.set('./processors/sources/collection', {
+  ims.set('./processors/sources/collection', {
     hash: 2393305574,
     creator: function (require, exports) {
       "use strict";
@@ -4344,7 +4359,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/sources/item
   *****************************************/
 
-  modules.set('./processors/sources/item', {
+  ims.set('./processors/sources/item', {
     hash: 1809354523,
     creator: function (require, exports) {
       "use strict";
@@ -4412,7 +4427,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./processors/sources/register
   *********************************************/
 
-  modules.set('./processors/sources/register', {
+  ims.set('./processors/sources/register', {
     hash: 930421227,
     creator: function (require, exports) {
       "use strict";
@@ -4448,7 +4463,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./reactive-model
   ********************************/
 
-  modules.set('./reactive-model', {
+  ims.set('./reactive-model', {
     hash: 1181350949,
     creator: function (require, exports) {
       "use strict";
@@ -4521,20 +4536,20 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./realtime/realtime
   ***********************************/
 
-  modules.set('./realtime/realtime', {
-    hash: 197407449,
+  ims.set('./realtime/realtime', {
+    hash: 1620985295,
     creator: function (require, exports) {
       "use strict";
 
-      var _ts = require("@beyond-js/kernel/core/ts");
+      var _ts = require("@beyond-js/plm/core/ts");
 
-      var _ts2 = require("@beyond-js/plm/core/ts");
+      var _ts2 = require("@beyond-js/backend/client/ts");
 
       const {
         reports
-      } = _ts2.realtime;
+      } = _ts.realtime;
       (async () => {
-        const library = _ts.beyond.libraries.get('@beyond-js/dashboard-lib');
+        const library = _ts2.backends.get('@beyond-js/dashboard-lib/legacy');
 
         const socket = await library.socket;
         socket.on('client:plm/list/update', message => reports.list.update(message.table, message.filter));
@@ -4554,7 +4569,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./run-time/item
   *******************************/
 
-  modules.set('./run-time/item', {
+  ims.set('./run-time/item', {
     hash: 251167295,
     creator: function (require, exports) {
       "use strict";
@@ -4643,7 +4658,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./run-time/manager
   **********************************/
 
-  modules.set('./run-time/manager', {
+  ims.set('./run-time/manager', {
     hash: 2366243968,
     creator: function (require, exports) {
       "use strict";
@@ -4703,7 +4718,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./server/config
   *******************************/
 
-  modules.set('./server/config', {
+  ims.set('./server/config', {
     hash: 742659936,
     creator: function (require, exports) {
       "use strict";
@@ -4747,7 +4762,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./server/server
   *******************************/
 
-  modules.set('./server/server', {
+  ims.set('./server/server', {
     hash: 2530801849,
     creator: function (require, exports) {
       "use strict";
@@ -4776,7 +4791,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./sources/source
   ********************************/
 
-  modules.set('./sources/source', {
+  ims.set('./sources/source', {
     hash: 4106738092,
     creator: function (require, exports) {
       "use strict";
@@ -4834,7 +4849,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/applications/item
   *********************************************/
 
-  modules.set('./templates/applications/item', {
+  ims.set('./templates/applications/item', {
     hash: 3663225759,
     creator: function (require, exports) {
       "use strict";
@@ -4902,7 +4917,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/applications/register
   *************************************************/
 
-  modules.set('./templates/applications/register', {
+  ims.set('./templates/applications/register', {
     hash: 4181221135,
     creator: function (require, exports) {
       "use strict";
@@ -4947,7 +4962,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/applications/sources/collection
   ***********************************************************/
 
-  modules.set('./templates/applications/sources/collection', {
+  ims.set('./templates/applications/sources/collection', {
     hash: 4205541512,
     creator: function (require, exports) {
       "use strict";
@@ -4977,7 +4992,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/applications/sources/item
   *****************************************************/
 
-  modules.set('./templates/applications/sources/item', {
+  ims.set('./templates/applications/sources/item', {
     hash: 1493905177,
     creator: function (require, exports) {
       "use strict";
@@ -5049,7 +5064,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/applications/sources/register
   *********************************************************/
 
-  modules.set('./templates/applications/sources/register', {
+  ims.set('./templates/applications/sources/register', {
     hash: 3823324052,
     creator: function (require, exports) {
       "use strict";
@@ -5085,7 +5100,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/global/collection
   *********************************************/
 
-  modules.set('./templates/global/collection', {
+  ims.set('./templates/global/collection', {
     hash: 1642872420,
     creator: function (require, exports) {
       "use strict";
@@ -5115,7 +5130,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/global/item
   ***************************************/
 
-  modules.set('./templates/global/item', {
+  ims.set('./templates/global/item', {
     hash: 3769045535,
     creator: function (require, exports) {
       "use strict";
@@ -5172,7 +5187,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/global/register
   *******************************************/
 
-  modules.set('./templates/global/register', {
+  ims.set('./templates/global/register', {
     hash: 1899777398,
     creator: function (require, exports) {
       "use strict";
@@ -5217,7 +5232,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/global/sources/collection
   *****************************************************/
 
-  modules.set('./templates/global/sources/collection', {
+  ims.set('./templates/global/sources/collection', {
     hash: 2345468065,
     creator: function (require, exports) {
       "use strict";
@@ -5247,7 +5262,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/global/sources/item
   ***********************************************/
 
-  modules.set('./templates/global/sources/item', {
+  ims.set('./templates/global/sources/item', {
     hash: 1681286304,
     creator: function (require, exports) {
       "use strict";
@@ -5319,7 +5334,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/global/sources/register
   ***************************************************/
 
-  modules.set('./templates/global/sources/register', {
+  ims.set('./templates/global/sources/register', {
     hash: 1192373719,
     creator: function (require, exports) {
       "use strict";
@@ -5355,7 +5370,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/item
   ********************************/
 
-  modules.set('./templates/item', {
+  ims.set('./templates/item', {
     hash: 789131316,
     creator: function (require, exports) {
       "use strict";
@@ -5418,7 +5433,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/overwrites/collection
   *************************************************/
 
-  modules.set('./templates/overwrites/collection', {
+  ims.set('./templates/overwrites/collection', {
     hash: 2688068975,
     creator: function (require, exports) {
       "use strict";
@@ -5448,7 +5463,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/overwrites/item
   *******************************************/
 
-  modules.set('./templates/overwrites/item', {
+  ims.set('./templates/overwrites/item', {
     hash: 2552662024,
     creator: function (require, exports) {
       "use strict";
@@ -5504,7 +5519,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/overwrites/register
   ***********************************************/
 
-  modules.set('./templates/overwrites/register', {
+  ims.set('./templates/overwrites/register', {
     hash: 2319517019,
     creator: function (require, exports) {
       "use strict";
@@ -5540,7 +5555,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/processors/item
   *******************************************/
 
-  modules.set('./templates/processors/item', {
+  ims.set('./templates/processors/item', {
     hash: 3511013553,
     creator: function (require, exports) {
       "use strict";
@@ -5604,7 +5619,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/processors/register
   ***********************************************/
 
-  modules.set('./templates/processors/register', {
+  ims.set('./templates/processors/register', {
     hash: 1816533686,
     creator: function (require, exports) {
       "use strict";
@@ -5649,7 +5664,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/processors/sources/collection
   *********************************************************/
 
-  modules.set('./templates/processors/sources/collection', {
+  ims.set('./templates/processors/sources/collection', {
     hash: 1917979699,
     creator: function (require, exports) {
       "use strict";
@@ -5679,7 +5694,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/processors/sources/item
   ***************************************************/
 
-  modules.set('./templates/processors/sources/item', {
+  ims.set('./templates/processors/sources/item', {
     hash: 2732755072,
     creator: function (require, exports) {
       "use strict";
@@ -5759,7 +5774,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/processors/sources/register
   *******************************************************/
 
-  modules.set('./templates/processors/sources/register', {
+  ims.set('./templates/processors/sources/register', {
     hash: 4206445310,
     creator: function (require, exports) {
       "use strict";
@@ -5795,7 +5810,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./templates/register
   ************************************/
 
-  modules.set('./templates/register', {
+  ims.set('./templates/register', {
     hash: 1138966643,
     creator: function (require, exports) {
       "use strict";
@@ -5870,7 +5885,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./transversal/dependencies/collection
   *****************************************************/
 
-  modules.set('./transversal/dependencies/collection', {
+  ims.set('./transversal/dependencies/collection', {
     hash: 2768575698,
     creator: function (require, exports) {
       "use strict";
@@ -5900,7 +5915,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./transversal/dependencies/item
   ***********************************************/
 
-  modules.set('./transversal/dependencies/item', {
+  ims.set('./transversal/dependencies/item', {
     hash: 30485053,
     creator: function (require, exports) {
       "use strict";
@@ -5932,7 +5947,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
   INTERNAL MODULE: ./transversal/dependencies/register
   ***************************************************/
 
-  modules.set('./transversal/dependencies/register', {
+  ims.set('./transversal/dependencies/register', {
     hash: 2309688522,
     creator: function (require, exports) {
       "use strict";
@@ -5960,204 +5975,400 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
       _ts.tables.register('transversal-dependencies', specs);
     }
-  }); // Exports managed by beyond bundle objects
+  });
+  __pkg.exports.descriptor = [{
+    "im": "./applications/collection",
+    "from": "Applications",
+    "name": "Applications"
+  }, {
+    "im": "./applications/declarations",
+    "from": "ApplicationDeclarations",
+    "name": "ApplicationDeclarations"
+  }, {
+    "im": "./applications/deployments/collection",
+    "from": "ApplicationDeployments",
+    "name": "ApplicationDeployments"
+  }, {
+    "im": "./applications/deployments/distributions/collection",
+    "from": "ApplicationDistributions",
+    "name": "ApplicationDistributions"
+  }, {
+    "im": "./applications/deployments/distributions/item",
+    "from": "ApplicationDistribution",
+    "name": "ApplicationDistribution"
+  }, {
+    "im": "./applications/deployments/item",
+    "from": "ApplicationDeployment",
+    "name": "ApplicationDeployment"
+  }, {
+    "im": "./applications/item",
+    "from": "Application",
+    "name": "Application"
+  }, {
+    "im": "./applications/libraries/collection",
+    "from": "ApplicationLibraries",
+    "name": "ApplicationLibraries"
+  }, {
+    "im": "./applications/libraries/item",
+    "from": "ApplicationLibrary",
+    "name": "ApplicationLibrary"
+  }, {
+    "im": "./applications/modules/collection",
+    "from": "ApplicationModules",
+    "name": "ApplicationModules"
+  }, {
+    "im": "./applications/modules/item",
+    "from": "ApplicationModule",
+    "name": "ApplicationModule"
+  }, {
+    "im": "./applications/static/collection",
+    "from": "ApplicationStatics",
+    "name": "ApplicationStatics"
+  }, {
+    "im": "./applications/static/item",
+    "from": "ApplicationStatic",
+    "name": "ApplicationStatic"
+  }, {
+    "im": "./bees/collection",
+    "from": "Bees",
+    "name": "Bees"
+  }, {
+    "im": "./bees/item",
+    "from": "Bee",
+    "name": "Bee"
+  }, {
+    "im": "./bundles/consumers/collection",
+    "from": "Consumers",
+    "name": "Consumers"
+  }, {
+    "im": "./bundles/consumers/item",
+    "from": "Consumer",
+    "name": "Consumer"
+  }, {
+    "im": "./bundles/dependencies/collection",
+    "from": "BundleDependencies",
+    "name": "BundleDependencies"
+  }, {
+    "im": "./bundles/dependencies/item",
+    "from": "BundleDependency",
+    "name": "BundleDependency"
+  }, {
+    "im": "./bundles/globals/collection",
+    "from": "GlobalBundles",
+    "name": "GlobalBundles"
+  }, {
+    "im": "./bundles/globals/item",
+    "from": "GlobalBundle",
+    "name": "GlobalBundle"
+  }, {
+    "im": "./bundles/item",
+    "from": "Bundle",
+    "name": "Bundle"
+  }, {
+    "im": "./dashboard/model",
+    "from": "Dashboard",
+    "name": "Dashboard"
+  }, {
+    "im": "./declarations/collection",
+    "from": "Declarations",
+    "name": "Declarations"
+  }, {
+    "im": "./declarations/item",
+    "from": "Declaration",
+    "name": "Declaration"
+  }, {
+    "im": "./libraries/collection",
+    "from": "Libraries",
+    "name": "Libraries"
+  }, {
+    "im": "./libraries/item",
+    "from": "Library",
+    "name": "Library"
+  }, {
+    "im": "./libraries/modules/collection",
+    "from": "LibraryModules",
+    "name": "LibraryModules"
+  }, {
+    "im": "./libraries/modules/item",
+    "from": "LibraryModule",
+    "name": "LibraryModule"
+  }, {
+    "im": "./libraries/static/collection",
+    "from": "LibrariesStatics",
+    "name": "LibrariesStatics"
+  }, {
+    "im": "./libraries/static/item",
+    "from": "LibrariesStatic",
+    "name": "LibrariesStatic"
+  }, {
+    "im": "./modules/collection",
+    "from": "Modules",
+    "name": "Modules"
+  }, {
+    "im": "./modules/declarations",
+    "from": "ModuleDeclarations",
+    "name": "ModuleDeclarations"
+  }, {
+    "im": "./modules/item",
+    "from": "Module",
+    "name": "Module"
+  }, {
+    "im": "./modules/static/collection",
+    "from": "ModuleStatics",
+    "name": "ModuleStatics"
+  }, {
+    "im": "./modules/static/item",
+    "from": "ModuleStatic",
+    "name": "ModuleStatic"
+  }, {
+    "im": "./modules/texts",
+    "from": "ModuleTexts",
+    "name": "ModuleTexts"
+  }, {
+    "im": "./processors/compilers/collection",
+    "from": "ProcessorCompilers",
+    "name": "ProcessorCompilers"
+  }, {
+    "im": "./processors/compilers/item",
+    "from": "ProcessorCompiler",
+    "name": "ProcessorCompiler"
+  }, {
+    "im": "./processors/dependencies/collection",
+    "from": "ProcessorDependencies",
+    "name": "ProcessorDependencies"
+  }, {
+    "im": "./processors/dependencies/item",
+    "from": "ProcessorDependency",
+    "name": "ProcessorDependency"
+  }, {
+    "im": "./processors/item",
+    "from": "Processor",
+    "name": "Processor"
+  }, {
+    "im": "./processors/overwrites/collection",
+    "from": "ProcessorOverwrites",
+    "name": "ProcessorOverwrites"
+  }, {
+    "im": "./processors/overwrites/item",
+    "from": "ProcessorOverwrite",
+    "name": "ProcessorOverwrite"
+  }, {
+    "im": "./processors/sources/collection",
+    "from": "ProcessorSources",
+    "name": "ProcessorSources"
+  }, {
+    "im": "./processors/sources/item",
+    "from": "ProcessorSource",
+    "name": "ProcessorSource"
+  }, {
+    "im": "./reactive-model",
+    "from": "ReactiveModel",
+    "name": "ReactiveModel"
+  }, {
+    "im": "./run-time/item",
+    "from": "RunTimeError",
+    "name": "RunTimeError"
+  }, {
+    "im": "./run-time/manager",
+    "from": "RunTimeManager",
+    "name": "RunTimeManager"
+  }, {
+    "im": "./templates/applications/item",
+    "from": "TemplateApplication",
+    "name": "TemplateApplication"
+  }, {
+    "im": "./templates/applications/sources/collection",
+    "from": "TemplateApplicationsSources",
+    "name": "TemplateApplicationsSources"
+  }, {
+    "im": "./templates/applications/sources/item",
+    "from": "TemplateApplicationsSource",
+    "name": "TemplateApplicationsSource"
+  }, {
+    "im": "./templates/global/collection",
+    "from": "TemplateGlobals",
+    "name": "TemplateGlobals"
+  }, {
+    "im": "./templates/global/item",
+    "from": "TemplateGlobal",
+    "name": "TemplateGlobal"
+  }, {
+    "im": "./templates/global/sources/collection",
+    "from": "TemplateGlobalSources",
+    "name": "TemplateGlobalSources"
+  }, {
+    "im": "./templates/global/sources/item",
+    "from": "TemplateGlobalSource",
+    "name": "TemplateGlobalSource"
+  }, {
+    "im": "./templates/item",
+    "from": "Template",
+    "name": "Template"
+  }, {
+    "im": "./templates/overwrites/collection",
+    "from": "TemplateOverwrites",
+    "name": "TemplateOverwrites"
+  }, {
+    "im": "./templates/overwrites/item",
+    "from": "TemplateOverwrite",
+    "name": "TemplateOverwrite"
+  }, {
+    "im": "./templates/processors/item",
+    "from": "TemplateProcessor",
+    "name": "TemplateProcessor"
+  }, {
+    "im": "./templates/processors/sources/collection",
+    "from": "TemplateProcessorsSources",
+    "name": "TemplateProcessorsSources"
+  }, {
+    "im": "./templates/processors/sources/item",
+    "from": "TemplateProcessorsSource",
+    "name": "TemplateProcessorsSource"
+  }, {
+    "im": "./transversal/dependencies/collection",
+    "from": "TransversalDependencies",
+    "name": "TransversalDependencies"
+  }, {
+    "im": "./transversal/dependencies/item",
+    "from": "TransversalDependency",
+    "name": "TransversalDependency"
+  }];
+  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bees, Bee, Consumers, Consumer, BundleDependencies, BundleDependency, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, ReactiveModel, RunTimeError, RunTimeManager, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource, TransversalDependencies, TransversalDependency; // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {
-    _exports.Applications = require('./applications/collection').Applications;
-    _exports.ApplicationDeclarations = require('./applications/declarations').ApplicationDeclarations;
-    _exports.ApplicationDeployments = require('./applications/deployments/collection').ApplicationDeployments;
-    _exports.ApplicationDistributions = require('./applications/deployments/distributions/collection').ApplicationDistributions;
-    _exports.ApplicationDistribution = require('./applications/deployments/distributions/item').ApplicationDistribution;
-    _exports.ApplicationDeployment = require('./applications/deployments/item').ApplicationDeployment;
-    _exports.Application = require('./applications/item').Application;
-    _exports.ApplicationLibraries = require('./applications/libraries/collection').ApplicationLibraries;
-    _exports.ApplicationLibrary = require('./applications/libraries/item').ApplicationLibrary;
-    _exports.ApplicationModules = require('./applications/modules/collection').ApplicationModules;
-    _exports.ApplicationModule = require('./applications/modules/item').ApplicationModule;
-    _exports.ApplicationStatics = require('./applications/static/collection').ApplicationStatics;
-    _exports.ApplicationStatic = require('./applications/static/item').ApplicationStatic;
-    _exports.Bee = require('./bees/item').Bee;
-    _exports.Consumers = require('./bundles/consumers/collection').Consumers;
-    _exports.Consumer = require('./bundles/consumers/item').Consumer;
-    _exports.BundleDependencies = require('./bundles/dependencies/collection').BundleDependencies;
-    _exports.BundleDependency = require('./bundles/dependencies/item').BundleDependency;
-    _exports.GlobalBundles = require('./bundles/globals/collection').GlobalBundles;
-    _exports.GlobalBundle = require('./bundles/globals/item').GlobalBundle;
-    _exports.Bundle = require('./bundles/item').Bundle;
-    _exports.Dashboard = require('./dashboard/model').Dashboard;
-    _exports.Declarations = require('./declarations/collection').Declarations;
-    _exports.Declaration = require('./declarations/item').Declaration;
-    _exports.Libraries = require('./libraries/collection').Libraries;
-    _exports.Library = require('./libraries/item').Library;
-    _exports.LibraryModules = require('./libraries/modules/collection').LibraryModules;
-    _exports.LibraryModule = require('./libraries/modules/item').LibraryModule;
-    _exports.LibrariesStatics = require('./libraries/static/collection').LibrariesStatics;
-    _exports.LibrariesStatic = require('./libraries/static/item').LibrariesStatic;
-    _exports.Modules = require('./modules/collection').Modules;
-    _exports.ModuleDeclarations = require('./modules/declarations').ModuleDeclarations;
-    _exports.Module = require('./modules/item').Module;
-    _exports.ModuleStatics = require('./modules/static/collection').ModuleStatics;
-    _exports.ModuleStatic = require('./modules/static/item').ModuleStatic;
-    _exports.ModuleTexts = require('./modules/texts').ModuleTexts;
-    _exports.ProcessorCompilers = require('./processors/compilers/collection').ProcessorCompilers;
-    _exports.ProcessorCompiler = require('./processors/compilers/item').ProcessorCompiler;
-    _exports.ProcessorDependencies = require('./processors/dependencies/collection').ProcessorDependencies;
-    _exports.ProcessorDependency = require('./processors/dependencies/item').ProcessorDependency;
-    _exports.Processor = require('./processors/item').Processor;
-    _exports.ProcessorOverwrites = require('./processors/overwrites/collection').ProcessorOverwrites;
-    _exports.ProcessorOverwrite = require('./processors/overwrites/item').ProcessorOverwrite;
-    _exports.ProcessorSources = require('./processors/sources/collection').ProcessorSources;
-    _exports.ProcessorSource = require('./processors/sources/item').ProcessorSource;
-    _exports.ReactiveModel = require('./reactive-model').ReactiveModel;
-    _exports.RunTimeError = require('./run-time/item').RunTimeError;
-    _exports.RunTimeManager = require('./run-time/manager').RunTimeManager;
-    _exports.TemplateApplication = require('./templates/applications/item').TemplateApplication;
-    _exports.TemplateApplicationsSources = require('./templates/applications/sources/collection').TemplateApplicationsSources;
-    _exports.TemplateApplicationsSource = require('./templates/applications/sources/item').TemplateApplicationsSource;
-    _exports.TemplateGlobals = require('./templates/global/collection').TemplateGlobals;
-    _exports.TemplateGlobal = require('./templates/global/item').TemplateGlobal;
-    _exports.TemplateGlobalSources = require('./templates/global/sources/collection').TemplateGlobalSources;
-    _exports.TemplateGlobalSource = require('./templates/global/sources/item').TemplateGlobalSource;
-    _exports.Template = require('./templates/item').Template;
-    _exports.TemplateOverwrites = require('./templates/overwrites/collection').TemplateOverwrites;
-    _exports.TemplateOverwrite = require('./templates/overwrites/item').TemplateOverwrite;
-    _exports.TemplateProcessor = require('./templates/processors/item').TemplateProcessor;
-    _exports.TemplateProcessorsSources = require('./templates/processors/sources/collection').TemplateProcessorsSources;
-    _exports.TemplateProcessorsSource = require('./templates/processors/sources/item').TemplateProcessorsSource;
-    _exports.TransversalDependencies = require('./transversal/dependencies/collection').TransversalDependencies;
-    _exports.TransversalDependency = require('./transversal/dependencies/item').TransversalDependency;
-  };
+  _exports.TransversalDependency = TransversalDependency;
+  _exports.TransversalDependencies = TransversalDependencies;
+  _exports.TemplateProcessorsSource = TemplateProcessorsSource;
+  _exports.TemplateProcessorsSources = TemplateProcessorsSources;
+  _exports.TemplateProcessor = TemplateProcessor;
+  _exports.TemplateOverwrite = TemplateOverwrite;
+  _exports.TemplateOverwrites = TemplateOverwrites;
+  _exports.Template = Template;
+  _exports.TemplateGlobalSource = TemplateGlobalSource;
+  _exports.TemplateGlobalSources = TemplateGlobalSources;
+  _exports.TemplateGlobal = TemplateGlobal;
+  _exports.TemplateGlobals = TemplateGlobals;
+  _exports.TemplateApplicationsSource = TemplateApplicationsSource;
+  _exports.TemplateApplicationsSources = TemplateApplicationsSources;
+  _exports.TemplateApplication = TemplateApplication;
+  _exports.RunTimeManager = RunTimeManager;
+  _exports.RunTimeError = RunTimeError;
+  _exports.ReactiveModel = ReactiveModel;
+  _exports.ProcessorSource = ProcessorSource;
+  _exports.ProcessorSources = ProcessorSources;
+  _exports.ProcessorOverwrite = ProcessorOverwrite;
+  _exports.ProcessorOverwrites = ProcessorOverwrites;
+  _exports.Processor = Processor;
+  _exports.ProcessorDependency = ProcessorDependency;
+  _exports.ProcessorDependencies = ProcessorDependencies;
+  _exports.ProcessorCompiler = ProcessorCompiler;
+  _exports.ProcessorCompilers = ProcessorCompilers;
+  _exports.ModuleTexts = ModuleTexts;
+  _exports.ModuleStatic = ModuleStatic;
+  _exports.ModuleStatics = ModuleStatics;
+  _exports.Module = Module;
+  _exports.ModuleDeclarations = ModuleDeclarations;
+  _exports.Modules = Modules;
+  _exports.LibrariesStatic = LibrariesStatic;
+  _exports.LibrariesStatics = LibrariesStatics;
+  _exports.LibraryModule = LibraryModule;
+  _exports.LibraryModules = LibraryModules;
+  _exports.Library = Library;
+  _exports.Libraries = Libraries;
+  _exports.Declaration = Declaration;
+  _exports.Declarations = Declarations;
+  _exports.Dashboard = Dashboard;
+  _exports.Bundle = Bundle;
+  _exports.GlobalBundle = GlobalBundle;
+  _exports.GlobalBundles = GlobalBundles;
+  _exports.BundleDependency = BundleDependency;
+  _exports.BundleDependencies = BundleDependencies;
+  _exports.Consumer = Consumer;
+  _exports.Consumers = Consumers;
+  _exports.Bee = Bee;
+  _exports.Bees = Bees;
+  _exports.ApplicationStatic = ApplicationStatic;
+  _exports.ApplicationStatics = ApplicationStatics;
+  _exports.ApplicationModule = ApplicationModule;
+  _exports.ApplicationModules = ApplicationModules;
+  _exports.ApplicationLibrary = ApplicationLibrary;
+  _exports.ApplicationLibraries = ApplicationLibraries;
+  _exports.Application = Application;
+  _exports.ApplicationDeployment = ApplicationDeployment;
+  _exports.ApplicationDistribution = ApplicationDistribution;
+  _exports.ApplicationDistributions = ApplicationDistributions;
+  _exports.ApplicationDeployments = ApplicationDeployments;
+  _exports.ApplicationDeclarations = ApplicationDeclarations;
+  _exports.Applications = Applications;
 
-  let Applications, ApplicationDeclarations, ApplicationDeployments, ApplicationDistributions, ApplicationDistribution, ApplicationDeployment, Application, ApplicationLibraries, ApplicationLibrary, ApplicationModules, ApplicationModule, ApplicationStatics, ApplicationStatic, Bee, Consumers, Consumer, BundleDependencies, BundleDependency, GlobalBundles, GlobalBundle, Bundle, Dashboard, Declarations, Declaration, Libraries, Library, LibraryModules, LibraryModule, LibrariesStatics, LibrariesStatic, Modules, ModuleDeclarations, Module, ModuleStatics, ModuleStatic, ModuleTexts, ProcessorCompilers, ProcessorCompiler, ProcessorDependencies, ProcessorDependency, Processor, ProcessorOverwrites, ProcessorOverwrite, ProcessorSources, ProcessorSource, ReactiveModel, RunTimeError, RunTimeManager, TemplateApplication, TemplateApplicationsSources, TemplateApplicationsSource, TemplateGlobals, TemplateGlobal, TemplateGlobalSources, TemplateGlobalSource, Template, TemplateOverwrites, TemplateOverwrite, TemplateProcessor, TemplateProcessorsSources, TemplateProcessorsSource, TransversalDependencies, TransversalDependency; // Module exports
-
-  _exports2.TransversalDependency = TransversalDependency;
-  _exports2.TransversalDependencies = TransversalDependencies;
-  _exports2.TemplateProcessorsSource = TemplateProcessorsSource;
-  _exports2.TemplateProcessorsSources = TemplateProcessorsSources;
-  _exports2.TemplateProcessor = TemplateProcessor;
-  _exports2.TemplateOverwrite = TemplateOverwrite;
-  _exports2.TemplateOverwrites = TemplateOverwrites;
-  _exports2.Template = Template;
-  _exports2.TemplateGlobalSource = TemplateGlobalSource;
-  _exports2.TemplateGlobalSources = TemplateGlobalSources;
-  _exports2.TemplateGlobal = TemplateGlobal;
-  _exports2.TemplateGlobals = TemplateGlobals;
-  _exports2.TemplateApplicationsSource = TemplateApplicationsSource;
-  _exports2.TemplateApplicationsSources = TemplateApplicationsSources;
-  _exports2.TemplateApplication = TemplateApplication;
-  _exports2.RunTimeManager = RunTimeManager;
-  _exports2.RunTimeError = RunTimeError;
-  _exports2.ReactiveModel = ReactiveModel;
-  _exports2.ProcessorSource = ProcessorSource;
-  _exports2.ProcessorSources = ProcessorSources;
-  _exports2.ProcessorOverwrite = ProcessorOverwrite;
-  _exports2.ProcessorOverwrites = ProcessorOverwrites;
-  _exports2.Processor = Processor;
-  _exports2.ProcessorDependency = ProcessorDependency;
-  _exports2.ProcessorDependencies = ProcessorDependencies;
-  _exports2.ProcessorCompiler = ProcessorCompiler;
-  _exports2.ProcessorCompilers = ProcessorCompilers;
-  _exports2.ModuleTexts = ModuleTexts;
-  _exports2.ModuleStatic = ModuleStatic;
-  _exports2.ModuleStatics = ModuleStatics;
-  _exports2.Module = Module;
-  _exports2.ModuleDeclarations = ModuleDeclarations;
-  _exports2.Modules = Modules;
-  _exports2.LibrariesStatic = LibrariesStatic;
-  _exports2.LibrariesStatics = LibrariesStatics;
-  _exports2.LibraryModule = LibraryModule;
-  _exports2.LibraryModules = LibraryModules;
-  _exports2.Library = Library;
-  _exports2.Libraries = Libraries;
-  _exports2.Declaration = Declaration;
-  _exports2.Declarations = Declarations;
-  _exports2.Dashboard = Dashboard;
-  _exports2.Bundle = Bundle;
-  _exports2.GlobalBundle = GlobalBundle;
-  _exports2.GlobalBundles = GlobalBundles;
-  _exports2.BundleDependency = BundleDependency;
-  _exports2.BundleDependencies = BundleDependencies;
-  _exports2.Consumer = Consumer;
-  _exports2.Consumers = Consumers;
-  _exports2.Bee = Bee;
-  _exports2.ApplicationStatic = ApplicationStatic;
-  _exports2.ApplicationStatics = ApplicationStatics;
-  _exports2.ApplicationModule = ApplicationModule;
-  _exports2.ApplicationModules = ApplicationModules;
-  _exports2.ApplicationLibrary = ApplicationLibrary;
-  _exports2.ApplicationLibraries = ApplicationLibraries;
-  _exports2.Application = Application;
-  _exports2.ApplicationDeployment = ApplicationDeployment;
-  _exports2.ApplicationDistribution = ApplicationDistribution;
-  _exports2.ApplicationDistributions = ApplicationDistributions;
-  _exports2.ApplicationDeployments = ApplicationDeployments;
-  _exports2.ApplicationDeclarations = ApplicationDeclarations;
-  _exports2.Applications = Applications;
-
-  __pkg.exports.process = function (require) {
-    _exports2.Applications = Applications = require('./applications/collection').Applications;
-    _exports2.ApplicationDeclarations = ApplicationDeclarations = require('./applications/declarations').ApplicationDeclarations;
-    _exports2.ApplicationDeployments = ApplicationDeployments = require('./applications/deployments/collection').ApplicationDeployments;
-    _exports2.ApplicationDistributions = ApplicationDistributions = require('./applications/deployments/distributions/collection').ApplicationDistributions;
-    _exports2.ApplicationDistribution = ApplicationDistribution = require('./applications/deployments/distributions/item').ApplicationDistribution;
-    _exports2.ApplicationDeployment = ApplicationDeployment = require('./applications/deployments/item').ApplicationDeployment;
-    _exports2.Application = Application = require('./applications/item').Application;
-    _exports2.ApplicationLibraries = ApplicationLibraries = require('./applications/libraries/collection').ApplicationLibraries;
-    _exports2.ApplicationLibrary = ApplicationLibrary = require('./applications/libraries/item').ApplicationLibrary;
-    _exports2.ApplicationModules = ApplicationModules = require('./applications/modules/collection').ApplicationModules;
-    _exports2.ApplicationModule = ApplicationModule = require('./applications/modules/item').ApplicationModule;
-    _exports2.ApplicationStatics = ApplicationStatics = require('./applications/static/collection').ApplicationStatics;
-    _exports2.ApplicationStatic = ApplicationStatic = require('./applications/static/item').ApplicationStatic;
-    _exports2.Bee = Bee = require('./bees/item').Bee;
-    _exports2.Consumers = Consumers = require('./bundles/consumers/collection').Consumers;
-    _exports2.Consumer = Consumer = require('./bundles/consumers/item').Consumer;
-    _exports2.BundleDependencies = BundleDependencies = require('./bundles/dependencies/collection').BundleDependencies;
-    _exports2.BundleDependency = BundleDependency = require('./bundles/dependencies/item').BundleDependency;
-    _exports2.GlobalBundles = GlobalBundles = require('./bundles/globals/collection').GlobalBundles;
-    _exports2.GlobalBundle = GlobalBundle = require('./bundles/globals/item').GlobalBundle;
-    _exports2.Bundle = Bundle = require('./bundles/item').Bundle;
-    _exports2.Dashboard = Dashboard = require('./dashboard/model').Dashboard;
-    _exports2.Declarations = Declarations = require('./declarations/collection').Declarations;
-    _exports2.Declaration = Declaration = require('./declarations/item').Declaration;
-    _exports2.Libraries = Libraries = require('./libraries/collection').Libraries;
-    _exports2.Library = Library = require('./libraries/item').Library;
-    _exports2.LibraryModules = LibraryModules = require('./libraries/modules/collection').LibraryModules;
-    _exports2.LibraryModule = LibraryModule = require('./libraries/modules/item').LibraryModule;
-    _exports2.LibrariesStatics = LibrariesStatics = require('./libraries/static/collection').LibrariesStatics;
-    _exports2.LibrariesStatic = LibrariesStatic = require('./libraries/static/item').LibrariesStatic;
-    _exports2.Modules = Modules = require('./modules/collection').Modules;
-    _exports2.ModuleDeclarations = ModuleDeclarations = require('./modules/declarations').ModuleDeclarations;
-    _exports2.Module = Module = require('./modules/item').Module;
-    _exports2.ModuleStatics = ModuleStatics = require('./modules/static/collection').ModuleStatics;
-    _exports2.ModuleStatic = ModuleStatic = require('./modules/static/item').ModuleStatic;
-    _exports2.ModuleTexts = ModuleTexts = require('./modules/texts').ModuleTexts;
-    _exports2.ProcessorCompilers = ProcessorCompilers = require('./processors/compilers/collection').ProcessorCompilers;
-    _exports2.ProcessorCompiler = ProcessorCompiler = require('./processors/compilers/item').ProcessorCompiler;
-    _exports2.ProcessorDependencies = ProcessorDependencies = require('./processors/dependencies/collection').ProcessorDependencies;
-    _exports2.ProcessorDependency = ProcessorDependency = require('./processors/dependencies/item').ProcessorDependency;
-    _exports2.Processor = Processor = require('./processors/item').Processor;
-    _exports2.ProcessorOverwrites = ProcessorOverwrites = require('./processors/overwrites/collection').ProcessorOverwrites;
-    _exports2.ProcessorOverwrite = ProcessorOverwrite = require('./processors/overwrites/item').ProcessorOverwrite;
-    _exports2.ProcessorSources = ProcessorSources = require('./processors/sources/collection').ProcessorSources;
-    _exports2.ProcessorSource = ProcessorSource = require('./processors/sources/item').ProcessorSource;
-    _exports2.ReactiveModel = ReactiveModel = require('./reactive-model').ReactiveModel;
-    _exports2.RunTimeError = RunTimeError = require('./run-time/item').RunTimeError;
-    _exports2.RunTimeManager = RunTimeManager = require('./run-time/manager').RunTimeManager;
-    _exports2.TemplateApplication = TemplateApplication = require('./templates/applications/item').TemplateApplication;
-    _exports2.TemplateApplicationsSources = TemplateApplicationsSources = require('./templates/applications/sources/collection').TemplateApplicationsSources;
-    _exports2.TemplateApplicationsSource = TemplateApplicationsSource = require('./templates/applications/sources/item').TemplateApplicationsSource;
-    _exports2.TemplateGlobals = TemplateGlobals = require('./templates/global/collection').TemplateGlobals;
-    _exports2.TemplateGlobal = TemplateGlobal = require('./templates/global/item').TemplateGlobal;
-    _exports2.TemplateGlobalSources = TemplateGlobalSources = require('./templates/global/sources/collection').TemplateGlobalSources;
-    _exports2.TemplateGlobalSource = TemplateGlobalSource = require('./templates/global/sources/item').TemplateGlobalSource;
-    _exports2.Template = Template = require('./templates/item').Template;
-    _exports2.TemplateOverwrites = TemplateOverwrites = require('./templates/overwrites/collection').TemplateOverwrites;
-    _exports2.TemplateOverwrite = TemplateOverwrite = require('./templates/overwrites/item').TemplateOverwrite;
-    _exports2.TemplateProcessor = TemplateProcessor = require('./templates/processors/item').TemplateProcessor;
-    _exports2.TemplateProcessorsSources = TemplateProcessorsSources = require('./templates/processors/sources/collection').TemplateProcessorsSources;
-    _exports2.TemplateProcessorsSource = TemplateProcessorsSource = require('./templates/processors/sources/item').TemplateProcessorsSource;
-    _exports2.TransversalDependencies = TransversalDependencies = require('./transversal/dependencies/collection').TransversalDependencies;
-    _exports2.TransversalDependency = TransversalDependency = require('./transversal/dependencies/item').TransversalDependency;
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {
+    (require || prop === 'Applications') && (_exports.Applications = Applications = require ? require('./applications/collection').Applications : value);
+    (require || prop === 'ApplicationDeclarations') && (_exports.ApplicationDeclarations = ApplicationDeclarations = require ? require('./applications/declarations').ApplicationDeclarations : value);
+    (require || prop === 'ApplicationDeployments') && (_exports.ApplicationDeployments = ApplicationDeployments = require ? require('./applications/deployments/collection').ApplicationDeployments : value);
+    (require || prop === 'ApplicationDistributions') && (_exports.ApplicationDistributions = ApplicationDistributions = require ? require('./applications/deployments/distributions/collection').ApplicationDistributions : value);
+    (require || prop === 'ApplicationDistribution') && (_exports.ApplicationDistribution = ApplicationDistribution = require ? require('./applications/deployments/distributions/item').ApplicationDistribution : value);
+    (require || prop === 'ApplicationDeployment') && (_exports.ApplicationDeployment = ApplicationDeployment = require ? require('./applications/deployments/item').ApplicationDeployment : value);
+    (require || prop === 'Application') && (_exports.Application = Application = require ? require('./applications/item').Application : value);
+    (require || prop === 'ApplicationLibraries') && (_exports.ApplicationLibraries = ApplicationLibraries = require ? require('./applications/libraries/collection').ApplicationLibraries : value);
+    (require || prop === 'ApplicationLibrary') && (_exports.ApplicationLibrary = ApplicationLibrary = require ? require('./applications/libraries/item').ApplicationLibrary : value);
+    (require || prop === 'ApplicationModules') && (_exports.ApplicationModules = ApplicationModules = require ? require('./applications/modules/collection').ApplicationModules : value);
+    (require || prop === 'ApplicationModule') && (_exports.ApplicationModule = ApplicationModule = require ? require('./applications/modules/item').ApplicationModule : value);
+    (require || prop === 'ApplicationStatics') && (_exports.ApplicationStatics = ApplicationStatics = require ? require('./applications/static/collection').ApplicationStatics : value);
+    (require || prop === 'ApplicationStatic') && (_exports.ApplicationStatic = ApplicationStatic = require ? require('./applications/static/item').ApplicationStatic : value);
+    (require || prop === 'Bees') && (_exports.Bees = Bees = require ? require('./bees/collection').Bees : value);
+    (require || prop === 'Bee') && (_exports.Bee = Bee = require ? require('./bees/item').Bee : value);
+    (require || prop === 'Consumers') && (_exports.Consumers = Consumers = require ? require('./bundles/consumers/collection').Consumers : value);
+    (require || prop === 'Consumer') && (_exports.Consumer = Consumer = require ? require('./bundles/consumers/item').Consumer : value);
+    (require || prop === 'BundleDependencies') && (_exports.BundleDependencies = BundleDependencies = require ? require('./bundles/dependencies/collection').BundleDependencies : value);
+    (require || prop === 'BundleDependency') && (_exports.BundleDependency = BundleDependency = require ? require('./bundles/dependencies/item').BundleDependency : value);
+    (require || prop === 'GlobalBundles') && (_exports.GlobalBundles = GlobalBundles = require ? require('./bundles/globals/collection').GlobalBundles : value);
+    (require || prop === 'GlobalBundle') && (_exports.GlobalBundle = GlobalBundle = require ? require('./bundles/globals/item').GlobalBundle : value);
+    (require || prop === 'Bundle') && (_exports.Bundle = Bundle = require ? require('./bundles/item').Bundle : value);
+    (require || prop === 'Dashboard') && (_exports.Dashboard = Dashboard = require ? require('./dashboard/model').Dashboard : value);
+    (require || prop === 'Declarations') && (_exports.Declarations = Declarations = require ? require('./declarations/collection').Declarations : value);
+    (require || prop === 'Declaration') && (_exports.Declaration = Declaration = require ? require('./declarations/item').Declaration : value);
+    (require || prop === 'Libraries') && (_exports.Libraries = Libraries = require ? require('./libraries/collection').Libraries : value);
+    (require || prop === 'Library') && (_exports.Library = Library = require ? require('./libraries/item').Library : value);
+    (require || prop === 'LibraryModules') && (_exports.LibraryModules = LibraryModules = require ? require('./libraries/modules/collection').LibraryModules : value);
+    (require || prop === 'LibraryModule') && (_exports.LibraryModule = LibraryModule = require ? require('./libraries/modules/item').LibraryModule : value);
+    (require || prop === 'LibrariesStatics') && (_exports.LibrariesStatics = LibrariesStatics = require ? require('./libraries/static/collection').LibrariesStatics : value);
+    (require || prop === 'LibrariesStatic') && (_exports.LibrariesStatic = LibrariesStatic = require ? require('./libraries/static/item').LibrariesStatic : value);
+    (require || prop === 'Modules') && (_exports.Modules = Modules = require ? require('./modules/collection').Modules : value);
+    (require || prop === 'ModuleDeclarations') && (_exports.ModuleDeclarations = ModuleDeclarations = require ? require('./modules/declarations').ModuleDeclarations : value);
+    (require || prop === 'Module') && (_exports.Module = Module = require ? require('./modules/item').Module : value);
+    (require || prop === 'ModuleStatics') && (_exports.ModuleStatics = ModuleStatics = require ? require('./modules/static/collection').ModuleStatics : value);
+    (require || prop === 'ModuleStatic') && (_exports.ModuleStatic = ModuleStatic = require ? require('./modules/static/item').ModuleStatic : value);
+    (require || prop === 'ModuleTexts') && (_exports.ModuleTexts = ModuleTexts = require ? require('./modules/texts').ModuleTexts : value);
+    (require || prop === 'ProcessorCompilers') && (_exports.ProcessorCompilers = ProcessorCompilers = require ? require('./processors/compilers/collection').ProcessorCompilers : value);
+    (require || prop === 'ProcessorCompiler') && (_exports.ProcessorCompiler = ProcessorCompiler = require ? require('./processors/compilers/item').ProcessorCompiler : value);
+    (require || prop === 'ProcessorDependencies') && (_exports.ProcessorDependencies = ProcessorDependencies = require ? require('./processors/dependencies/collection').ProcessorDependencies : value);
+    (require || prop === 'ProcessorDependency') && (_exports.ProcessorDependency = ProcessorDependency = require ? require('./processors/dependencies/item').ProcessorDependency : value);
+    (require || prop === 'Processor') && (_exports.Processor = Processor = require ? require('./processors/item').Processor : value);
+    (require || prop === 'ProcessorOverwrites') && (_exports.ProcessorOverwrites = ProcessorOverwrites = require ? require('./processors/overwrites/collection').ProcessorOverwrites : value);
+    (require || prop === 'ProcessorOverwrite') && (_exports.ProcessorOverwrite = ProcessorOverwrite = require ? require('./processors/overwrites/item').ProcessorOverwrite : value);
+    (require || prop === 'ProcessorSources') && (_exports.ProcessorSources = ProcessorSources = require ? require('./processors/sources/collection').ProcessorSources : value);
+    (require || prop === 'ProcessorSource') && (_exports.ProcessorSource = ProcessorSource = require ? require('./processors/sources/item').ProcessorSource : value);
+    (require || prop === 'ReactiveModel') && (_exports.ReactiveModel = ReactiveModel = require ? require('./reactive-model').ReactiveModel : value);
+    (require || prop === 'RunTimeError') && (_exports.RunTimeError = RunTimeError = require ? require('./run-time/item').RunTimeError : value);
+    (require || prop === 'RunTimeManager') && (_exports.RunTimeManager = RunTimeManager = require ? require('./run-time/manager').RunTimeManager : value);
+    (require || prop === 'TemplateApplication') && (_exports.TemplateApplication = TemplateApplication = require ? require('./templates/applications/item').TemplateApplication : value);
+    (require || prop === 'TemplateApplicationsSources') && (_exports.TemplateApplicationsSources = TemplateApplicationsSources = require ? require('./templates/applications/sources/collection').TemplateApplicationsSources : value);
+    (require || prop === 'TemplateApplicationsSource') && (_exports.TemplateApplicationsSource = TemplateApplicationsSource = require ? require('./templates/applications/sources/item').TemplateApplicationsSource : value);
+    (require || prop === 'TemplateGlobals') && (_exports.TemplateGlobals = TemplateGlobals = require ? require('./templates/global/collection').TemplateGlobals : value);
+    (require || prop === 'TemplateGlobal') && (_exports.TemplateGlobal = TemplateGlobal = require ? require('./templates/global/item').TemplateGlobal : value);
+    (require || prop === 'TemplateGlobalSources') && (_exports.TemplateGlobalSources = TemplateGlobalSources = require ? require('./templates/global/sources/collection').TemplateGlobalSources : value);
+    (require || prop === 'TemplateGlobalSource') && (_exports.TemplateGlobalSource = TemplateGlobalSource = require ? require('./templates/global/sources/item').TemplateGlobalSource : value);
+    (require || prop === 'Template') && (_exports.Template = Template = require ? require('./templates/item').Template : value);
+    (require || prop === 'TemplateOverwrites') && (_exports.TemplateOverwrites = TemplateOverwrites = require ? require('./templates/overwrites/collection').TemplateOverwrites : value);
+    (require || prop === 'TemplateOverwrite') && (_exports.TemplateOverwrite = TemplateOverwrite = require ? require('./templates/overwrites/item').TemplateOverwrite : value);
+    (require || prop === 'TemplateProcessor') && (_exports.TemplateProcessor = TemplateProcessor = require ? require('./templates/processors/item').TemplateProcessor : value);
+    (require || prop === 'TemplateProcessorsSources') && (_exports.TemplateProcessorsSources = TemplateProcessorsSources = require ? require('./templates/processors/sources/collection').TemplateProcessorsSources : value);
+    (require || prop === 'TemplateProcessorsSource') && (_exports.TemplateProcessorsSource = TemplateProcessorsSource = require ? require('./templates/processors/sources/item').TemplateProcessorsSource : value);
+    (require || prop === 'TransversalDependencies') && (_exports.TransversalDependencies = TransversalDependencies = require ? require('./transversal/dependencies/collection').TransversalDependencies : value);
+    (require || prop === 'TransversalDependency') && (_exports.TransversalDependency = TransversalDependency = require ? require('./transversal/dependencies/item').TransversalDependency : value);
   };
 
   const hmr = new function () {
@@ -6165,7 +6376,7 @@ define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/plm/core/ts"], funct
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

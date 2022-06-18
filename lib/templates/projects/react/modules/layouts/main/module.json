@@ -5,8 +5,8 @@
     "element": {
       "name": "main-layout"
     },
-    "scss": {
-      "path": "scss",
+    "sass": {
+      "path": "sass",
       "files": [
         "*"
       ]

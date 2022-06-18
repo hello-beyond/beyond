@@ -1,27 +1,25 @@
-define(["exports", "@beyond-js/dashboard-lib/models/ts", "react", "react-dom"], function (_exports2, _ts, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/ts", "react", "react-dom"], function (_exports, _ts, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Page = Page;
-  _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/library/modules/page', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.Page = Page;
+  _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/library/modules/page").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /*********
   header.jsx
   *********/
@@ -137,22 +135,22 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "react", "react-dom"], 
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.modules-content-lib{position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;overflow:hidden;display:grid;grid-template-rows:auto 1fr;padding:15px 0}.modules-content-lib .logo{position:absolute;top:45px;left:auto;bottom:auto;right:57px}.modules-content-lib h2{text-align:left;margin:100px auto 10px 60px;color:var(--beyond-text-color)}.modules-content-lib h2 strong{color:var(--beyond-primary-accent-color);display:block}.modules-content-lib .list{height:100%;color:var(--beyond-text-color);overflow-y:auto;margin:15px auto auto;width:100%;padding-bottom:30px}.modules-content-lib .list h4{margin:auto auto 15px 60px}.modules-content-lib .list .items{margin:auto auto auto 60px;padding:0 0 15px}@media (max-width:600px){.modules-content-lib{display:block;padding:15px}.modules-content-lib h2{margin:auto;text-align:center}.modules-content-lib h4{margin:auto auto 15px 0!important}.modules-content-lib .list{margin:15px auto auto;text-align:left}.modules-content-lib .list .items{margin:auto}}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/unnamed/library/modules/page', '.modules-content-lib{position:absolute;top:0;left:0;bottom:0;right:0;margin:auto;overflow:hidden;display:grid;grid-template-rows:auto 1fr;padding:15px 0}.modules-content-lib .logo{position:absolute;top:45px;left:auto;bottom:auto;right:57px}.modules-content-lib h2{text-align:left;margin:100px auto 10px 60px;color:var(--beyond-text-color)}.modules-content-lib h2 strong{color:var(--beyond-primary-accent-color);display:block}.modules-content-lib .list{height:100%;color:var(--beyond-text-color);overflow-y:auto;margin:15px auto auto;width:100%;padding-bottom:30px}.modules-content-lib .list h4{margin:auto auto 15px 60px}.modules-content-lib .list .items{margin:auto auto auto 60px;padding:0 0 15px}@media (max-width:600px){.modules-content-lib{display:block;padding:15px}.modules-content-lib h2{margin:auto;text-align:center}.modules-content-lib h4{margin:auto auto 15px 0!important}.modules-content-lib .list{margin:15px auto auto;text-align:left}.modules-content-lib .list .items{margin:auto}}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

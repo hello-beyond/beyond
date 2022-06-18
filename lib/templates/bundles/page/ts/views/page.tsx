@@ -3,8 +3,6 @@ import * as React from "react";
 export /*bundle*/
 function Page() {
     return (
-        <>
-            Hi page
-        </>
+        <h2>Hello i'm a page</h2>
     );
 }

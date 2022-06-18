@@ -1,9 +1,8 @@
 {
+  "name": "main",
   "bundle": "ts",
   "platforms": "*",
-  "name": "main",
   "path": "client",
-  "transpile": false,
   "files": "*",
   "server": "./server"
 }

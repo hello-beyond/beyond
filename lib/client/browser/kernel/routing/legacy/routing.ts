@@ -44,7 +44,7 @@ export class Routing {
         return this.#initialised;
     }
 
-    setUp(routingMode: RoutingMode) {
+    setup(routingMode: RoutingMode) {
         if (this.#initialised) {
             throw new Error('Routing setUp method can only be called once');
         }

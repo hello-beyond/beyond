@@ -1,28 +1,26 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/components/notify/js", "@beyond-js/dashboard/unnamed/layout/toolbar/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/ui/toast/code", "react", "react-dom"], function (_exports2, _js, _js2, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/unnamed/components/notify/js", "@beyond-js/dashboard/unnamed/layout/toolbar/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/form/code", "@beyond-js/ui/image/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/ui/toast/code", "react", "react-dom"], function (_exports, _js, _js2, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.DsDocs = void 0;
-  _exports2.Layout = Layout;
-  _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/layout/dashboard/layout', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.DsDocs = void 0;
+  _exports.Layout = Layout;
+  _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/layout/dashboard/layout").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   docs\app.jsx
   ***********/
@@ -210,7 +208,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/u
   FILE: layout.js
   **************/
 
-  _exports2.DsDocs = DsDocs;
+  _exports.DsDocs = DsDocs;
 
   function Layout() {
     this.control = ReactDOM.render(React.createElement(Control, {
@@ -224,22 +222,22 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/u
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds-modal.ds-modal-doc .modal-content .img-list{display:flex;gap:15px;justify-content:center}.ds-modal.ds-modal-doc .modal-content .img-list .beyond-element-image img{object-fit:cover;height:50px;width:50px}.beyond-dashboard-layout{min-width:800px;overflow-x:hidden}.beyond-dashboard-layout .dashboard-scroll-container{height:100vh;display:grid;grid-template-rows:auto 1fr auto;transition:all .3s ease-in}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/unnamed/layout/dashboard/layout', '.ds-modal.ds-modal-doc .modal-content .img-list{display:flex;gap:15px;justify-content:center}.ds-modal.ds-modal-doc .modal-content .img-list .beyond-element-image img{object-fit:cover;height:50px;width:50px}.beyond-dashboard-layout{min-width:800px;overflow-x:hidden}.beyond-dashboard-layout .dashboard-scroll-container{height:100vh;display:grid;grid-template-rows:auto 1fr auto;transition:all .3s ease-in}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

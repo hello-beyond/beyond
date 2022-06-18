@@ -14,8 +14,7 @@
         "*"
       ]
     },
-    "scss": {
-      "dom": true,
+    "sass": {
       "path": "scss",
       "files": [
         "*"

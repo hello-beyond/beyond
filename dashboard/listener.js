@@ -27,10 +27,8 @@ module.exports = config => function (req, resp) {
                 let content = await fs.readFile(resource, 'utf8');
 
                 if (url.pathname === '/config.js') {
-                    const port = config.service.port;
-                    content = content.replace(
-                        '##beyond-host-namespace-[beyond-js/dashboard-lib]##',
-                        `http://localhost:${port}/beyond-js/dashboard-lib`);
+                    const {port} = config.backend;
+                    content = content.replace('##dashboard-lib-host##', `http://localhost:${port}`);
                 }
 
                 resp.writeHead(200, {

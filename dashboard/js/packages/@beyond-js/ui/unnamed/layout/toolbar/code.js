@@ -1,27 +1,25 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/components/core/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/modal/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/components/core/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/modal/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Page = Page;
-  _exports2.svgs = _exports2.hmr = _exports2.Toolbar = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/layout/toolbar/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.Page = Page;
+  _exports.svgs = _exports.hmr = _exports.Toolbar = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/unnamed/layout/toolbar/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /**********
   toolbar.jsx
   **********/
@@ -73,7 +71,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   *************/
 
 
-  _exports2.Toolbar = Toolbar;
+  _exports.Toolbar = Toolbar;
   const bell = `<path class="a"
           d="M12.514,28.6a3.575,3.575,0,0,0,3.574-3.576H8.94A3.575,3.575,0,0,0,12.514,28.6Zm12.034-8.364c-1.079-1.16-3.1-2.9-3.1-8.62A8.823,8.823,0,0,0,14.3,2.952V1.788a1.787,1.787,0,1,0-3.573,0V2.952a8.823,8.823,0,0,0-7.148,8.669c0,5.715-2.02,7.46-3.1,8.62A1.746,1.746,0,0,0,0,21.454a1.789,1.789,0,0,0,1.793,1.788H23.235a1.789,1.789,0,0,0,1.793-1.788A1.745,1.745,0,0,0,24.547,20.241Z"
           transform="translate(0.001)"/>`;
@@ -99,7 +97,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   FILE: page.js
   ************/
 
-  _exports2.svgs = svgs;
+  _exports.svgs = svgs;
 
   function Page() {
     ReactDOM.render(React.createElement(AppHome, {
@@ -113,22 +111,22 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds-toolbar{display:flex;position:sticky;align-items:center;justify-content:center;height:60px;top:0;transition:all .3s ease-in;background:#0c1423;z-index:2;box-shadow:0 5px 5px -5px #333}.ds-toolbar .beyond-element-image.app-logo{height:70%;padding:0;margin:0}.ds-toolbar .beyond-element-image.app-logo img{height:100%}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/unnamed/layout/toolbar/code', '.ds-toolbar{display:flex;position:sticky;align-items:center;justify-content:center;height:60px;top:0;transition:all .3s ease-in;background:#0c1423;z-index:2;box-shadow:0 5px 5px -5px #333}.ds-toolbar .beyond-element-image.app-logo{height:70%;padding:0;margin:0}.ds-toolbar .beyond-element-image.app-logo img{height:100%}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

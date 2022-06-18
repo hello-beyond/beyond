@@ -1,7 +1,13 @@
 {
   "name": "empty-app",
   "version": "1.0.0",
-  "backend": {},
+  "languages": {
+    "default": "en",
+    "supported": [
+      "en",
+      "es"
+    ]
+  },
   "modules": {
     "path": "./modules"
   },

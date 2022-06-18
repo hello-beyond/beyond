@@ -1,37 +1,31 @@
-define(["exports", "emmet-monaco-es", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "react", "react-dom"], function (_exports2, _emmetMonacoEs, _code, _js, _code2, _code3, dependency_0, dependency_1) {
+define(["exports", "emmet-monaco-es", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "react", "react-dom"], function (_exports, _emmetMonacoEs, _code, _js, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Editor = void 0;
-  _exports2.EditorView = EditorView;
-  _exports2.MonacoDependency = void 0;
-  _exports2.getEditorManager = getEditorManager;
-  _exports2.monacoDependency = _exports2.hmr = void 0;
+  _exports.Editor = void 0;
+  _exports.EditorView = EditorView;
+  _exports.MonacoDependency = void 0;
+  _exports.getEditorManager = getEditorManager;
+  _exports.monacoDependency = _exports.hmr = void 0;
+
   //dashboard
   //models
   //CONTEXTS
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/ds-editor/code', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/ds-editor/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -46,7 +40,7 @@ define(["exports", "emmet-monaco-es", "@beyond-js/dashboard/core-components/code
    */
 
   const BUNDLE_DEPENDENCY = `
-import {Bundle, Module} from '@beyond-js/kernel/core/ts';
+import {Bundle, Module} from '@beyond-js/kernel/bundle/ts';
 export const bundle = <Bundle>null;
 export const module = <Module>null;
 `;
@@ -163,7 +157,7 @@ export const module = <Module>null;
 
   }
 
-  _exports2.MonacoDependency = MonacoDependency;
+  _exports.MonacoDependency = MonacoDependency;
   const monacoDependency = new MonacoDependency();
   /**************
   FILE: editor.js
@@ -174,7 +168,7 @@ export const module = <Module>null;
    *
    */
 
-  _exports2.monacoDependency = monacoDependency;
+  _exports.monacoDependency = monacoDependency;
 
   class Editor extends _js.ReactiveModel {
     #type;
@@ -512,7 +506,7 @@ export const module = <Module>null;
      */
 
     _setActions() {
-      this.instance.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+      this.instance.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
         this.save();
       }); //adding possibility to increase font size with "ctrl" + "+"
 
@@ -651,7 +645,7 @@ export const module = <Module>null;
    */
 
 
-  _exports2.Editor = Editor;
+  _exports.Editor = Editor;
   const managers = new Map();
   /**
    * Manages the editor instances created by the panels
@@ -1021,22 +1015,22 @@ export const module = <Module>null;
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds-editor__container{display:flex;flex-wrap:wrap;flex-basis:100%;position:relative;width:100%;height:100%}.ds-editor__container .vs-editor{width:100%;height:100%}.ds-editor__container:not(:last-child){border-right:1px solid var(--beyond-primary-dark-color)}.ds-editor__container .ds-editor__icons{position:absolute;right:20px;top:20px;z-index:200;fill:var(--beyond-primary-dark-color)}.beyond-element-modal.ds-modal .ds-modal-editor{padding:30px}.beyond-element-modal.ds-modal .ds-modal-editor form{width:100%;display:grid;grid-gap:15px}.beyond-element-modal.ds-modal .ds-modal-editor .beyond-alert{margin-bottom:30px}.beyond-element-modal.ds-modal .ds-modal-editor input{border:1px solid #e4e5dc;outline:0;padding:8px;width:100%}.beyond-element-modal.ds-modal .ds-modal-editor input:focus,.beyond-element-modal.ds-modal .ds-modal-editor input:hover{border:1px solid #82837f}.beyond-element-modal.ds-modal .ds-modal-editor .actions{display:grid;justify-items:center}.beyond-element-modal.ds-modal .ds-modal-editor .actions .beyond-button{margin-top:30px;min-width:200px}.ds-page.ds-editor-page .preload-content{display:flex;height:100%;width:100%;align-items:center;justify-content:center}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/ds-editor/code', '.ds-editor__container{display:flex;flex-wrap:wrap;flex-basis:100%;position:relative;width:100%;height:100%}.ds-editor__container .vs-editor{width:100%;height:100%}.ds-editor__container:not(:last-child){border-right:1px solid var(--beyond-primary-dark-color)}.ds-editor__container .ds-editor__icons{position:absolute;right:20px;top:20px;z-index:200;fill:var(--beyond-primary-dark-color)}.beyond-element-modal.ds-modal .ds-modal-editor{padding:30px}.beyond-element-modal.ds-modal .ds-modal-editor form{width:100%;display:grid;grid-gap:15px}.beyond-element-modal.ds-modal .ds-modal-editor .beyond-alert{margin-bottom:30px}.beyond-element-modal.ds-modal .ds-modal-editor input{border:1px solid #e4e5dc;outline:0;padding:8px;width:100%}.beyond-element-modal.ds-modal .ds-modal-editor input:focus,.beyond-element-modal.ds-modal .ds-modal-editor input:hover{border:1px solid #82837f}.beyond-element-modal.ds-modal .ds-modal-editor .actions{display:grid;justify-items:center}.beyond-element-modal.ds-modal .ds-modal-editor .actions .beyond-button{margin-top:30px;min-width:200px}.ds-page.ds-editor-page .preload-content{display:flex;height:100%;width:100%;align-items:center;justify-content:center}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

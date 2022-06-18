@@ -1,45 +1,37 @@
-define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/alert/code", "@beyond-js/ui/form/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/core-components/code", "react", "react-dom"], function (_exports2, _code, _js, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/alert/code", "@beyond-js/ui/form/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/kernel/texts/ts", "react", "react-dom"], function (_exports, _code, _js, _code2, _code3, _code4, _code5, _code6, _code7, _code8, _code9, _ts, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Compilation = Compilation;
-  _exports2.CompileBoard = CompileBoard;
-  _exports2.CompilerContext = void 0;
-  _exports2.Finished = Finished;
-  _exports2.Footer = Footer;
-  _exports2.useCompilerContext = _exports2.hmr = void 0;
+  _exports.Compilation = Compilation;
+  _exports.CompileBoard = CompileBoard;
+  _exports.CompilerContext = void 0;
+  _exports.Finished = Finished;
+  _exports.Footer = Footer;
+  _exports.useCompilerContext = _exports.hmr = void 0;
 
-  /**
-   * CORE
-   */
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
+  // CORE
+  //  @beyond-js Texts
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/app-compile/code', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/app-compile/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   _context.jsx
   ***********/
 
   const CompilerContext = React.createContext();
-  _exports2.CompilerContext = CompilerContext;
+  _exports.CompilerContext = CompilerContext;
 
   const useCompilerContext = () => React.useContext(CompilerContext);
   /********
@@ -47,7 +39,7 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@
   ********/
 
 
-  _exports2.useCompilerContext = useCompilerContext;
+  _exports.useCompilerContext = useCompilerContext;
 
   function CompileBoard(props) {
     const [ready, setReady] = React.useState(controller.ready);
@@ -60,7 +52,7 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@
       if (props.specs.id) controller.getApp([props.specs.id]);
       setReady(controller.ready);
     }, [props.specs]);
-    if (!ready || props.specs.id !== controller.application?.id) return /*#__PURE__*/React.createElement(_code9.DsFetchingBlock, null);
+    if (!ready || props.specs.projectId !== controller.application?.id) return /*#__PURE__*/React.createElement(_code9.DsFetchingBlock, null);
     const {
       texts,
       application,
@@ -132,11 +124,13 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@
       const {
         name,
         platform,
+        npm,
         environment
       } = dist;
       application.builder.build({
         name,
         platform,
+        npm,
         environment
       }).then(() => {
         setFetching(false);
@@ -293,12 +287,14 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@
 
 
   const controller = new class extends _js.ReactiveModel {
+    #texts;
+
     get texts() {
-      return module.texts.current.value;
+      return this.#texts?.value;
     }
 
     get ready() {
-      return module.texts.current.ready && (this.#application || this.#error);
+      return this.#texts.ready && (this.#application || this.#error);
     }
 
     #application;
@@ -315,7 +311,9 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@
 
     constructor() {
       super();
-      module.texts.current.bind('change', this.triggerEvent);
+      const module = __pkg.bundle.module.resource;
+      this.#texts = new _ts.CurrentTexts(module, true);
+      this.#texts.bind('change', this.triggerEvent);
     }
 
     async getApp(id) {
@@ -335,22 +333,22 @@ define(["exports", "@beyond-js/dashboard/unnamed/components/breadcrumb/code", "@
   SCSS STYLES
   **********/
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.board__compile .distributions__list{list-style:none;padding:0;display:grid;gap:1rem}.board__compile .distributions__list .item-distribution{padding:1rem 2rem;cursor:pointer;display:grid;flex-grow:2;grid-template-columns:1fr 60px;border:1px solid var(--ds-border-element-color);align-items:center}.board__compile .distributions__list .item-distribution.item--selected{background:var(--ds-bg-selected)}.board__compile .distributions__list .item-distribution h3{font-size:1.6rem;text-transform:uppercase;padding:0}.board__compile .distributions__list .item-distribution.selected,.board__compile .distributions__list .item-distribution:hover{background:rgba(18,31,54,.3)}.board__compile .distributions__list .item-distribution.selected .col__right .beyond-icon,.board__compile .distributions__list .item-distribution:hover .col__right .beyond-icon{display:flex}.board__compile .distributions__list .item-distribution .col__right{display:flex;gap:15px}.board__compile .distributions__list .item-distribution .col__right .beyond-icon{display:none;background:var(--beyond-primary-color);border-radius:50%;padding:5px;height:20px;width:20px}.board__compile .compile__action{padding:2rem;display:flex;justify-content:flex-end}.board__compile .action__end{display:flex;align-self:flex-end;justify-content:flex-end;margin:1rem 0;color:var(--beyond-primary-accent-color);text-decoration:none}.compile__trace__list{list-style:none;display:grid;gap:2px;padding:0}.compile__trace__list li{padding:4px;cursor:pointer;transition:all 150ms ease-in}.compile__trace__list li:hover{background:var(--ds-element-hover)}.compile__trace__list .message__error{background:var(--beyond-error-color)}.compile__trace__list .message__error:hover{background:var(--beyond-error-darken-color)}.app-application-compile-page header{padding:15px;margin-bottom:30px}.app-application-compile-page header h4,.app-application-compile-page header h5{padding:0;margin:0}.app-application-compile-page header h5{margin-top:8px;color:var(--beyond-primary-color)}.app-application-compile-page .panels{display:grid}.app-application-compile-page .panels .form-container{display:grid;grid-auto-flow:column}.app-application-compile-page .panels .form-section{display:grid;grid-template-rows:50px auto}.app-application-compile-page .panels .form-section:nth-child(2) .block-options figure.active{background:#ff7142}.app-application-compile-page .panels .form-section:nth-child(2) .block-options figure.active:hover{background:#ff612d}.app-application-compile-page .panels .form-section:nth-child(3) .block-options figure.active{background:#ff5a23}.app-application-compile-page .panels .form-section:nth-child(3) .block-options figure.active:hover{background:var(--beyond-primary-color)}.app-application-compile-page .block-options{display:flex;display:flex}.app-application-compile-page .block-options p{font-size:12px}.app-application-compile-page .block-options figure{flex:1 1 0;display:grid;flex-direction:column;text-align:center;align-items:center;padding:40px;cursor:pointer;gap:8px;margin:0;justify-content:center;transition:all 150ms ease-in}.app-application-compile-page .block-options figure h4{padding:0 0 8px}.app-application-compile-page .block-options figure svg{height:4rem;width:4rem;margin:auto;fill:var(--beyond-primary-color)}.app-application-compile-page .block-options figure.active,.app-application-compile-page .block-options figure:hover{transition:all 150ms ease-in;background:var(--beyond-primary-color);color:var(--beyond-text-modal-color)}.app-application-compile-page .block-options figure.active svg,.app-application-compile-page .block-options figure:hover svg{fill:var(--beyond-text-on-primary)}.app-application-compile-page .block-options figure.active:hover,.app-application-compile-page .block-options figure:hover:hover{background:rgba(0,0,0,.5)}.app-application-compile-page .block-options figure.active:hover svg,.app-application-compile-page .block-options figure:hover:hover svg{fill:var(--beyond-primary-color)}.app-application-compile-page .block-options figure.active.active:hover,.app-application-compile-page .block-options figure:hover.active:hover{background:#ff6d3d}.app-application-compile-page .block-options figure.active.active:hover svg,.app-application-compile-page .block-options figure:hover.active:hover svg{fill:var(--beyond-text-on-primary)}.app-application-compile-page .block-options figure{flex:1}.app-application-compile-page .block-options figure:hover h4{color:var(--beyond-primary-color)}.app-application-compile-page .block-options figure.active:hover h4{color:#fff}.app-application-compile-page .checkbox-section,.app-application-compile-page .flex-column{display:flex;gap:15px}.app-application-compile-page .flex-column{padding:8px 15px}.app-application-compile-page .flex-column+.app-application-compile-page .flex-column{padding-left:30px}.app-application-compile-page .column__right-content{display:flex;justify-content:flex-end}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/app-compile/code', '.board__compile .distributions__list{list-style:none;padding:0;display:grid;gap:1rem}.board__compile .distributions__list .item-distribution{padding:1rem 2rem;cursor:pointer;display:grid;flex-grow:2;grid-template-columns:1fr 60px;border:1px solid var(--ds-border-element-color);align-items:center}.board__compile .distributions__list .item-distribution.item--selected{background:var(--ds-bg-selected)}.board__compile .distributions__list .item-distribution h3{font-size:1.6rem;text-transform:uppercase;padding:0}.board__compile .distributions__list .item-distribution.selected,.board__compile .distributions__list .item-distribution:hover{background:rgba(18,31,54,.3)}.board__compile .distributions__list .item-distribution.selected .col__right .beyond-icon,.board__compile .distributions__list .item-distribution:hover .col__right .beyond-icon{display:flex}.board__compile .distributions__list .item-distribution .col__right{display:flex;gap:15px}.board__compile .distributions__list .item-distribution .col__right .beyond-icon{display:none;background:var(--beyond-primary-color);border-radius:50%;padding:5px;height:20px;width:20px}.board__compile .compile__action{padding:2rem;display:flex;justify-content:flex-end}.board__compile .action__end{display:flex;align-self:flex-end;justify-content:flex-end;margin:1rem 0;color:var(--beyond-primary-accent-color);text-decoration:none}.compile__trace__list{list-style:none;display:grid;gap:2px;padding:0}.compile__trace__list li{padding:4px;cursor:pointer;transition:all 150ms ease-in}.compile__trace__list li:hover{background:var(--ds-element-hover)}.compile__trace__list .message__error{background:var(--beyond-error-color)}.compile__trace__list .message__error:hover{background:var(--beyond-error-darken-color)}.app-application-compile-page header{padding:15px;margin-bottom:30px}.app-application-compile-page header h4,.app-application-compile-page header h5{padding:0;margin:0}.app-application-compile-page header h5{margin-top:8px;color:var(--beyond-primary-color)}.app-application-compile-page .panels{display:grid}.app-application-compile-page .panels .form-container{display:grid;grid-auto-flow:column}.app-application-compile-page .panels .form-section{display:grid;grid-template-rows:50px auto}.app-application-compile-page .panels .form-section:nth-child(2) .block-options figure.active{background:#ff7142}.app-application-compile-page .panels .form-section:nth-child(2) .block-options figure.active:hover{background:#ff612d}.app-application-compile-page .panels .form-section:nth-child(3) .block-options figure.active{background:#ff5a23}.app-application-compile-page .panels .form-section:nth-child(3) .block-options figure.active:hover{background:var(--beyond-primary-color)}.app-application-compile-page .block-options{display:flex;display:flex}.app-application-compile-page .block-options p{font-size:12px}.app-application-compile-page .block-options figure{flex:1 1 0;display:grid;flex-direction:column;text-align:center;align-items:center;padding:40px;cursor:pointer;gap:8px;margin:0;justify-content:center;transition:all 150ms ease-in}.app-application-compile-page .block-options figure h4{padding:0 0 8px}.app-application-compile-page .block-options figure svg{height:4rem;width:4rem;margin:auto;fill:var(--beyond-primary-color)}.app-application-compile-page .block-options figure.active,.app-application-compile-page .block-options figure:hover{transition:all 150ms ease-in;background:var(--beyond-primary-color);color:var(--beyond-text-modal-color)}.app-application-compile-page .block-options figure.active svg,.app-application-compile-page .block-options figure:hover svg{fill:var(--beyond-text-on-primary)}.app-application-compile-page .block-options figure.active:hover,.app-application-compile-page .block-options figure:hover:hover{background:rgba(0,0,0,.5)}.app-application-compile-page .block-options figure.active:hover svg,.app-application-compile-page .block-options figure:hover:hover svg{fill:var(--beyond-primary-color)}.app-application-compile-page .block-options figure.active.active:hover,.app-application-compile-page .block-options figure:hover.active:hover{background:#ff6d3d}.app-application-compile-page .block-options figure.active.active:hover svg,.app-application-compile-page .block-options figure:hover.active:hover svg{fill:var(--beyond-text-on-primary)}.app-application-compile-page .block-options figure{flex:1}.app-application-compile-page .block-options figure:hover h4{color:var(--beyond-primary-color)}.app-application-compile-page .block-options figure.active:hover h4{color:#fff}.app-application-compile-page .checkbox-section,.app-application-compile-page .flex-column{display:flex;gap:15px}.app-application-compile-page .flex-column{padding:8px 15px}.app-application-compile-page .flex-column+.app-application-compile-page .flex-column{padding-left:30px}.app-application-compile-page .column__right-content{display:flex;justify-content:flex-end}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

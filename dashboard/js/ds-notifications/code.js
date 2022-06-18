@@ -1,33 +1,28 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/models/code", "react", "react-dom"], function (_exports2, _js, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/models/code", "@beyond-js/kernel/texts/ts", "react", "react-dom"], function (_exports, _js, _code, _code2, _code3, _code4, _ts, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.DsNotificationContext = _exports2.DSNotifications = void 0;
-  _exports2.ModulesList = ModulesList;
-  _exports2.NotificationPanel = NotificationPanel;
-  _exports2.useDsNotificationContext = _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/ds-notifications/code', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.DsNotificationContext = _exports.DSNotifications = void 0;
+  _exports.ModulesList = ModulesList;
+  _exports.NotificationPanel = NotificationPanel;
+  _exports.useDsNotificationContext = _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  //  @beyond-js Texts
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/dashboard/ds-notifications/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -65,11 +60,11 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/c
 
 
   const DsNotificationContext = React.createContext(null);
-  _exports2.DsNotificationContext = DsNotificationContext;
+  _exports.DsNotificationContext = DsNotificationContext;
 
   const useDsNotificationContext = () => React.useContext(DsNotificationContext);
 
-  _exports2.useDsNotificationContext = useDsNotificationContext;
+  _exports.useDsNotificationContext = useDsNotificationContext;
 
   function NotificationPanel() {
     const [toggle, setToggle] = React.useState(false);
@@ -716,11 +711,13 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/c
     }
 
     get ready() {
-      return module?.texts?.ready;
+      return this.#texts?.ready;
     }
 
+    #texts;
+
     get texts() {
-      return module?.texts?.value;
+      return this.#texts?.value;
     }
 
     #projects = new Map();
@@ -751,7 +748,9 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/c
 
     constructor() {
       super();
-      module.texts.current.bind('change', this.triggerEvent);
+      const module = __pkg.bundle.module.resource;
+      this.#texts = new _ts.CurrentTexts(module, true);
+      this.#texts.bind('change', this.triggerEvent);
       window.ns = this;
     }
 
@@ -772,7 +771,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/c
   FILE: notification\application.js
   ********************************/
 
-  _exports2.DSNotifications = DSNotifications;
+  _exports.DSNotifications = DSNotifications;
 
   class ApplicationItemModel extends ItemNotificationModel {
     get message() {
@@ -797,22 +796,22 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/c
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds-notification__container .ds-notification__badge{position:absolute;top:10px;right:10px;width:10px;height:10px;background:#d2281e;color:#fff;display:flex;justify-content:center;align-items:center;border-radius:50%}.dashboard-layout .ds-toolbar .ds-notification__list{position:absolute;top:3.8rem;max-width:350px;right:0;background-color:#000;border:1px solid #121f36;overflow:hidden;z-index:9;display:none;width:100%;transition:.3s ease-in all;border-radius:5px}.dashboard-layout .ds-toolbar .ds-notification__list.is-opened{display:flex;flex-direction:column}.ds-notification__container .empty__item{display:grid;justify-items:center;color:#5e5f5c}.ds-notification__container .empty__item span{display:grid;padding:15px}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container{height:100%}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container{position:relative;display:flex;align-items:center;justify-content:center;justify-items:center;border:none;height:100%;outline:0;text-align:center;padding:0 10px 0 15px;cursor:pointer}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container.is-opened{background:rgba(5,9,16,.8)}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container .beyond-icon{fill:#FFFFFF;transition:all .3s ease-in}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container.list--unread .beyond-icon{fill:var(--beyond-primary-accent-color)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item{height:auto;text-decoration-line:none;display:flex;align-items:center;transition:background .5s;cursor:pointer;padding:15px;border-top:1px solid var(--beyond-secondary-light-color)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item svg{height:3rem;width:3rem;fill:#D2281E}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .error{fill:#D2281E}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .warning{fill:var(--beyond-secondary-accent-color)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .icon-button{margin-right:.5rem}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .icon-button:hover{filter:none}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item:hover{background:rgba(255,128,86,.3)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .icon-right{margin-left:auto}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .item__title{text-transform:uppercase;font-size:.9rem}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .item__information{display:flex;justify-content:space-between;width:90%;flex-direction:column;flex-wrap:wrap;padding-left:1rem}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .item__data{display:flex;gap:10px;max-width:100%;overflow:hidden}.ds-notification__list ul{padding:0;list-style:none;margin:0}.ds-resume.ds-resume__panel{padding:15px}.ds-resume.ds-resume__panel header .title{padding:0;text-transform:uppercase;color:var(--beyond-primary-accent-color)}.ds-resume.ds-resume__panel.ds-resume__panel--projects li{display:grid}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__header{display:flex;justify-content:space-between;padding:2px 0;cursor:pointer}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__header:hover{color:var(--beyond-secondary-accent-color)}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__notifications{overflow:hidden;height:0;transition:height .5s ease-in-out}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__notifications.project__notifications--opened{height:auto}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .item__detail .label{padding:0 10px}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/ds-notifications/code', '.ds-notification__container .ds-notification__badge{position:absolute;top:10px;right:10px;width:10px;height:10px;background:#d2281e;color:#fff;display:flex;justify-content:center;align-items:center;border-radius:50%}.dashboard-layout .ds-toolbar .ds-notification__list{position:absolute;top:3.8rem;max-width:350px;right:0;background-color:#000;border:1px solid #121f36;overflow:hidden;z-index:9;display:none;width:100%;transition:.3s ease-in all;border-radius:5px}.dashboard-layout .ds-toolbar .ds-notification__list.is-opened{display:flex;flex-direction:column}.ds-notification__container .empty__item{display:grid;justify-items:center;color:#5e5f5c}.ds-notification__container .empty__item span{display:grid;padding:15px}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container{height:100%}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container{position:relative;display:flex;align-items:center;justify-content:center;justify-items:center;border:none;height:100%;outline:0;text-align:center;padding:0 10px 0 15px;cursor:pointer}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container.is-opened{background:rgba(5,9,16,.8)}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container .beyond-icon{fill:#FFFFFF;transition:all .3s ease-in}.dashboard-layout .ds-toolbar .group-items-toolbar .ds-notification__container .ds-notification__button__container.list--unread .beyond-icon{fill:var(--beyond-primary-accent-color)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item{height:auto;text-decoration-line:none;display:flex;align-items:center;transition:background .5s;cursor:pointer;padding:15px;border-top:1px solid var(--beyond-secondary-light-color)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item svg{height:3rem;width:3rem;fill:#D2281E}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .error{fill:#D2281E}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .warning{fill:var(--beyond-secondary-accent-color)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .icon-button{margin-right:.5rem}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .icon-button:hover{filter:none}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item:hover{background:rgba(255,128,86,.3)}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .icon-right{margin-left:auto}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .item__title{text-transform:uppercase;font-size:.9rem}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .item__information{display:flex;justify-content:space-between;width:90%;flex-direction:column;flex-wrap:wrap;padding-left:1rem}.dashboard-layout .ds-toolbar .ds-notification__container .ds-notification__list-item .item__data{display:flex;gap:10px;max-width:100%;overflow:hidden}.ds-notification__list ul{padding:0;list-style:none;margin:0}.ds-resume.ds-resume__panel{padding:15px}.ds-resume.ds-resume__panel header .title{padding:0;text-transform:uppercase;color:var(--beyond-primary-accent-color)}.ds-resume.ds-resume__panel.ds-resume__panel--projects li{display:grid}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__header{display:flex;justify-content:space-between;padding:2px 0;cursor:pointer}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__header:hover{color:var(--beyond-secondary-accent-color)}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__notifications{overflow:hidden;height:0;transition:height .5s ease-in-out}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .project__notifications.project__notifications--opened{height:auto}.ds-resume.ds-resume__panel.ds-resume__panel--projects li .item__detail .label{padding:0 10px}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

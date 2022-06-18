@@ -50,6 +50,7 @@ module.exports = function (ipc) {
         const app = await getApp(params.applicationId);
         await app.load();
 
+        if (!app.static) app.static = {includes: []};
         if (!Array.isArray(app.static.includes)) {
             throw 'La entrada includes no es un array';
         }

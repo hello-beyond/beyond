@@ -21,7 +21,6 @@ module.exports = class {
 
     setValues(specs) {
         // console.log('VALIDATOR ', specs) esta entrando 2 veces a este metodo para agregar los scss
-
         for (const property in specs) {
             if (!specs.hasOwnProperty(property)) continue;
             if (!this.skeleton.includes(property) && !this.hasOwnProperty(`_${property}`)) continue;

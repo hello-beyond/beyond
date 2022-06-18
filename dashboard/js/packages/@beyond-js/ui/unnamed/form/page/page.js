@@ -1,27 +1,25 @@
-define(["exports", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/select/code", "@beyond-js/ui/import/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyond-js/ui/select/code", "@beyond-js/ui/import/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Page = Page;
-  _exports2.hmr = _exports2.View = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/form/page/page', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.Page = Page;
+  _exports.hmr = _exports.View = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/unnamed/form/page/page").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -265,23 +263,23 @@ define(["exports", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "@beyon
   **********/
 
 
-  _exports2.View = View;
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '#beyond-elements-form-page{margin:auto;overflow:auto;color:#fff}#beyond-elements-form-page header p{color:#b7b7b6;width:80%}#beyond-elements-form-page .beyond-checkbox .checkmark{height:15px;width:22px}#beyond-elements-form-page .beyond-element-input label{font-size:12px;color:#fff}#beyond-elements-form-page .beyond-element-input input{border-bottom:1px solid #fff}#beyond-elements-form-page .form-container{overflow:auto;position:relative}#beyond-elements-form-page .beyond-element-radio label:before{top:4px;border:2px solid #fff}#beyond-elements-form-page .beyond-element-radio label:after{background:#e36152}#beyond-elements-form-page .beyond-element-textarea textarea{border-radius:10px;color:#000}#beyond-elements-form-page .beyond-element-textarea textarea::placeholder{color:gray}#beyond-elements-form-page .select-options{border:solid 2px #fff}#beyond-elements-form-page .select-options svg{fill:white}#beyond-elements-form-page .beyond-element-radio label:after{top:8px;left:4px;width:7px;height:7px}#beyond-elements-form-page .radio-horizontal{display:contents}#beyond-elements-form-page .beyond-element-input{margin-top:5px}#beyond-elements-form-page button{margin:auto}#beyond-elements-form-page .container-buttons{display:inline-flex}#beyond-elements-form-page .container-buttons button{margin-right:15px;height:55px}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  _exports.View = View;
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/unnamed/form/page/page', '#beyond-elements-form-page{margin:auto;overflow:auto;color:#fff}#beyond-elements-form-page header p{color:#b7b7b6;width:80%}#beyond-elements-form-page .beyond-checkbox .checkmark{height:15px;width:22px}#beyond-elements-form-page .beyond-element-input label{font-size:12px;color:#fff}#beyond-elements-form-page .beyond-element-input input{border-bottom:1px solid #fff}#beyond-elements-form-page .form-container{overflow:auto;position:relative}#beyond-elements-form-page .beyond-element-radio label:before{top:4px;border:2px solid #fff}#beyond-elements-form-page .beyond-element-radio label:after{background:#e36152}#beyond-elements-form-page .beyond-element-textarea textarea{border-radius:10px;color:#000}#beyond-elements-form-page .beyond-element-textarea textarea::placeholder{color:gray}#beyond-elements-form-page .select-options{border:solid 2px #fff}#beyond-elements-form-page .select-options svg{fill:white}#beyond-elements-form-page .beyond-element-radio label:after{top:8px;left:4px;width:7px;height:7px}#beyond-elements-form-page .radio-horizontal{display:contents}#beyond-elements-form-page .beyond-element-input{margin-top:5px}#beyond-elements-form-page button{margin:auto}#beyond-elements-form-page .container-buttons{display:inline-flex}#beyond-elements-form-page .container-buttons button{margin-right:15px;height:55px}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

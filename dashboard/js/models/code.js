@@ -1,22 +1,24 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/plm/plm-indexed-db/code", "@beyond-js/dashboard/hooks/code"], function (_exports2, _js, _ts, _code, _code2, _code3, _code4, _code5, _code6) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard/ds-editor/code", "@beyond-js/dashboard/workspace-tree/code", "@beyond-js/dashboard/unnamed/workspace/components/favorites/code", "@beyond-js/dashboard/ds-notifications/code", "@beyond-js/plm/plm-indexed-db/code", "@beyond-js/dashboard/hooks/code"], function (_exports, _js, _ts, _code, _code2, _code3, _code4, _code5, _code6) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.BundleManager = void 0;
-  _exports2.DSDatabase = DSDatabase;
-  _exports2.projectsFactory = _exports2.hmr = _exports2.ModuleModel = _exports2.ModuleManager = _exports2.DSUser = _exports2.DSModel = void 0;
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/models/code', false, {});
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.BundleManager = void 0;
+  _exports.DSDatabase = DSDatabase;
+  _exports.projectsFactory = _exports.hmr = _exports.ModuleModel = _exports.ModuleManager = _exports.DSUser = _exports.DSModel = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/models/code").package();
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
   /***********
   JS PROCESSOR
   ***********/
@@ -24,7 +26,6 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   /*******************
   FILE: application.js
   *******************/
-
 
   class ApplicationModel extends _js.ReactiveModel {
     #bundles = ['layout', 'page', 'code', 'all', 'widget'];
@@ -241,12 +242,9 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
         project: this,
         object: this.application.am,
         listener: () => {
-          const items = this.itemsByContainer('application').map(module => module); // console.log(0.1, this.am.tree.landed, this.items.length, items.length, this.#modulesTree.elements.length)
-
+          const items = this.itemsByContainer('application').map(module => module);
           if (!this.items || !this.am.tree.landed) return;
-          if (this.items.length === this.#modulesTree.elements.length) return; // console.log(0.2, items);
-          // items.forEach(item => console.log(0.21, item.name, item.module?.pathname, item.id, item.module?.name));
-
+          if (this.items.length === this.#modulesTree.elements.length) return;
           this.#modulesTree.setElements(items);
         },
         items: items
@@ -510,7 +508,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   FILE: factory.js
   ***************/
 
-  _exports2.DSModel = DSModel;
+  _exports.DSModel = DSModel;
 
   class ProjectsFactory {
     _applications = new Map();
@@ -535,7 +533,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   FILE: module\bundles\bundles-manager.js
   **************************************/
 
-  _exports2.projectsFactory = projectsFactory;
+  _exports.projectsFactory = projectsFactory;
 
   class BundlesManager extends _js.ReactiveModel {
     #applicationModel;
@@ -1049,7 +1047,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
    */
 
 
-  _exports2.BundleManager = BundleManager;
+  _exports.BundleManager = BundleManager;
   window.models = [];
 
   class ModuleManager extends _js.ReactiveModel {
@@ -1076,7 +1074,8 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
 
     get total() {
-      return this.#application.am.items.length;
+      !this.#application.am && console.warn('Application not load AM', this.#application);
+      return this.#application.am ? this.#application.am?.items.length : 0;
     }
 
     #processed = new Set();
@@ -1241,7 +1240,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
    */
 
 
-  _exports2.ModuleManager = ModuleManager;
+  _exports.ModuleManager = ModuleManager;
 
   class ModuleModel extends _js.ReactiveModel {
     #tree = {
@@ -1422,7 +1421,8 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
         this.#am = undefined;
       }
 
-      moduleId = concat ? `${this.#applicationModel.id}//${moduleId}` : moduleId;
+      moduleId = concat ? `${this.#applicationModel.id}//${moduleId}` : moduleId; //Instanciar TemplateApplicationsSource
+
       this.#am = new _ts.ApplicationModule({
         identifier: {
           id: moduleId
@@ -1589,7 +1589,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
   ********************************/
 
 
-  _exports2.ModuleModel = ModuleModel;
+  _exports.ModuleModel = ModuleModel;
 
   class ProcessorManager extends _js.ReactiveModel {
     constructor() {
@@ -1606,7 +1606,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
     tree: {
       properties: {
         static: true,
-        bee: true,
+        bees: true,
         deployment: {
           properties: {
             distributions: true
@@ -1736,20 +1736,21 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard-l
 
   }
 
-  _exports2.DSUser = DSUser;
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  _exports.DSUser = DSUser;
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

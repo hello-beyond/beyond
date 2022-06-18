@@ -1,0 +1,29 @@
+{
+  "scope": "beyond-js",
+  "name": "widgets",
+  "version": "0.0.6",
+  "modules": {
+    "path": "./"
+  },
+  "deployment": {
+    "distributions": [
+      {
+        "name": "npm",
+        "npm": {
+          "platforms": {
+            "web": "web",
+            "node": "node"
+          }
+        }
+      },
+      {
+        "name": "web-tsc",
+        "platform": "web",
+        "port": 9992,
+        "ts": {
+          "compiler": "tsc"
+        }
+      }
+    ]
+  }
+}

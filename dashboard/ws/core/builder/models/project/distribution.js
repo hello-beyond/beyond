@@ -5,9 +5,16 @@ module.exports = class Distribution extends require('../file-manager') {
         "name", "platform", "environment",
         {name: "port", type: 'number'},
         {name: "inspectPort", type: 'number'},
-        {name: "ssr", type: 'boolean'},
-        {name: "ts", type: 'boolean'},
         {name: "compress", type: 'boolean'},
+        {name: "ports", type: 'object'},
+        {name: "ts", type: 'boolean'},
+        {name: "ssr", type: 'boolean'},
+        {name: "ssr", type: 'string'},
+        {name: "backend", type: 'string'},
+        {name: "minify", type: 'object'},
+        {name: "gzip", type: 'boolean'},
+        {name: "maps", type: 'string'},
+        {name: "development", type: 'object'},
         {name: "default", type: 'boolean'},
     ];
 

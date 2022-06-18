@@ -1,38 +1,33 @@
-define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/preload-text/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports2, _ts, _js, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/ui/preload-text/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/kernel/texts/ts", "react", "react-dom"], function (_exports, _ts, _js, _code, _code2, _code3, _code4, _code5, _code6, _ts2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.ApplicationsBoard = ApplicationsBoard;
-  _exports2.hmr = void 0;
+  _exports.ApplicationsBoard = ApplicationsBoard;
+  _exports.hmr = void 0;
+
   //WORKSPACE CONTEXT
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
+  //  @beyond-js Texts
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/applications-board/code', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/applications-board/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /**********
   actions.jsx
   **********/
 
-  function ApplicationActions({
-    application
+  function ProjectActions({
+    project
   }) {
     const {
       texts
@@ -45,25 +40,26 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-l
       event.stopPropagation();
       event.preventDefault();
       workspace.openBoard('compile', {
-        id: application.id
+        id: `${project.id}.compile`,
+        projectId: project.id
       });
     };
 
     return /*#__PURE__*/React.createElement("article", {
       className: "right-col actions"
     }, /*#__PURE__*/React.createElement(BeeActions, {
-      bee: application.bee,
+      bee: project.bee,
       texts: texts.actions
-    }), !!application.errors.length && /*#__PURE__*/React.createElement(_code5.DSIconButton, {
+    }), !!project.errors.length && /*#__PURE__*/React.createElement(_code5.DSIconButton, {
       icon: "error",
-      title: `total: ${application.errors.length}`,
+      title: `total: ${project.errors.length}`,
       className: "circle error-icon",
-      onClick: event => compile(event, 'client', application)
+      onClick: event => compile(event, 'client', project)
     }), /*#__PURE__*/React.createElement(_code5.DSIconButton, {
       icon: "compile",
       title: texts.actions.compile,
       className: "circle",
-      onClick: event => compile(event, 'client', application)
+      onClick: event => compile(event, 'client', project)
     }));
   }
   /**************
@@ -108,8 +104,8 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-l
       target: "_blank"
     }, `localhost:${application.port}`), /*#__PURE__*/React.createElement("p", {
       className: "p2 primary-dark-color"
-    }, application.path)), /*#__PURE__*/React.createElement(ApplicationActions, {
-      application: application
+    }, application.path)), /*#__PURE__*/React.createElement(ProjectActions, {
+      project: application
     }));
   }
   /*************
@@ -392,7 +388,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-l
     #firstTime;
 
     get ready() {
-      let isReady = (this.#firstTime || this.applications?.tree.landed) && module.texts.current.ready;
+      let isReady = (this.#firstTime || this.applications?.tree.landed) && this.#texts.ready;
 
       if (!this.#firstTime && isReady) {
         this.#firstTime = true;
@@ -401,8 +397,10 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-l
       return isReady;
     }
 
+    #texts;
+
     get texts() {
-      return module.texts.current.value;
+      return this.#texts?.value;
     }
 
     get items() {
@@ -411,7 +409,9 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-l
 
     constructor() {
       super();
-      module.texts.current.bind('change', this.triggerEvent);
+      const module = __pkg.bundle.module.resource;
+      this.#texts = new _ts2.CurrentTexts(module, true);
+      this.#texts.bind('change', this.triggerEvent);
     }
 
     setApplications(applications) {
@@ -424,22 +424,22 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/dashboard-l
   SCSS STYLES
   **********/
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.after-loading{animation:show 1s 1}@keyframes show{0%{opacity:0}100%{height:100%;opacity:1}}.no-scroll{overflow:hidden!important}.preload-container{display:flex;position:absolute;position:absolute;top:0;left:0;bottom:0;right:0;background:#000;z-index:3;align-items:center;justify-content:center;transition:all .3s ease-in}.preload-container .animation-container{display:flex;align-items:center;justify-content:center}.preload-container.finishing-preload{background:#ff0}.preload-container .overlay{position:absolute;bottom:-100px;left:0;background:red;z-index:5;transform:skewY(11deg);width:100%;transition:all 2ms ease-in;opacity:0;height:0}.preload-container .overlay.close{transition:all .3s ease-in;height:130vh;opacity:1}.actions .beyond-icon-button.bee--action,.ds-projects-board .item-information .beyond-icon-button.bee--action{border:1px solid var(--beyond-secondary-color);border-radius:50%;display:flex;align-content:center;justify-items:center;height:2.5rem;width:2.5rem;background:var(--beyond-secondary-dark-color);fill:#fff;transition:all .3s ease-in}.actions .beyond-icon-button.bee--action.action--play,.ds-projects-board .item-information .beyond-icon-button.bee--action.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.actions .beyond-icon-button.bee--action.action--stop,.ds-projects-board .item-information .beyond-icon-button.bee--action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.actions .beyond-icon-button.bee--action[disabled],.ds-projects-board .item-information .beyond-icon-button.bee--action[disabled]{opacity:.3;cursor:not-allowed}.ds-board__list-container .ds-item_list{background:var(--beyond-element-primary-background-color);border-bottom:1px solid #f0f0f0;padding:20px;display:grid;justify-content:space-between;align-items:center;flex-flow:row;cursor:pointer;transition:all .2s ease-in;grid-template-columns:1fr 1fr}.ds-board__list-container .ds-item_list:last-child{border-bottom:none;margin-bottom:20px}.ds-board__list-container .ds-item_list:hover{transition:all .2s ease-in-out;background:var(--beyond-element-primary-hover-background-color)}.ds-board__list-container .ds-item_list .p2{padding:0}.ds-board__list-container .ds-item_list .right-col{text-align:right;justify-content:flex-end}.ds-board__list-container .ds-item_list .p1,.ds-board__list-container .ds-item_list h3,.ds-board__list-container .ds-item_list h4{margin:0;padding:0}.ds-board__list-container .ds-item_list .actions,.ds-board__list-container .ds-item_list .item-information{display:flex;gap:8px}.ds-board__list-container .ds-item_list .actions .action-icon:hover .beyond-icon,.ds-board__list-container .ds-item_list .item-information .action-icon:hover .beyond-icon{border:1px solid var(--beyond-primary-accent-color);background:var(--beyond-primary-accent-color);transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.error-icon .beyond-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.error-icon .beyond-icon{background:#d2281e}.ds-board__list-container .ds-item_list .actions .beyond-icon-button,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button{border:1px solid var(--beyond-secondary-color);border-radius:50%;padding:10px;height:3.2rem;width:3.2rem;background:var(--beyond-secondary-dark-color);fill:#fff;transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button .beyond-ripple,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button .beyond-ripple{border-radius:50%}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.error-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.error-icon{background:#d2281e}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.warning-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.warning-icon{fill:#F7D994}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action{border:1px solid var(--beyond-secondary-color);border-radius:50%;display:flex;align-content:center;justify-items:center;background:var(--beyond-secondary-dark-color);fill:#fff;transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action.action--play,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action.action--stop,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.ds-board__list-container .ds-item_list .blank-page{min-height:50vh;display:grid;align-items:center;justify-content:center;text-align:center}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-projects-board{height:100%}.ds-projects-board .beyond-icon-button.button--fetching{height:3.2rem;width:3.2rem;border:1px solid var(--beyond-secondary-color);opacity:.5}.ds-projects-board .ds-board__list-container{height:100%}.ds-projects-board .ds-board__list-container.empty-container{height:calc(100% - 100px)}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/applications-board/code', '.after-loading{animation:show 1s 1}@keyframes show{0%{opacity:0}100%{height:100%;opacity:1}}.no-scroll{overflow:hidden!important}.preload-container{display:flex;position:absolute;position:absolute;top:0;left:0;bottom:0;right:0;background:#000;z-index:3;align-items:center;justify-content:center;transition:all .3s ease-in}.preload-container .animation-container{display:flex;align-items:center;justify-content:center}.preload-container.finishing-preload{background:#ff0}.preload-container .overlay{position:absolute;bottom:-100px;left:0;background:red;z-index:5;transform:skewY(11deg);width:100%;transition:all 2ms ease-in;opacity:0;height:0}.preload-container .overlay.close{transition:all .3s ease-in;height:130vh;opacity:1}.ds-board__list-container .ds-item_list{background:var(--beyond-element-primary-background-color);border-bottom:1px solid #f0f0f0;padding:20px;display:grid;justify-content:space-between;align-items:center;flex-flow:row;cursor:pointer;transition:all .2s ease-in;grid-template-columns:1fr 1fr}.ds-board__list-container .ds-item_list:last-child{border-bottom:none;margin-bottom:20px}.ds-board__list-container .ds-item_list:hover{transition:all .2s ease-in-out;background:var(--beyond-element-primary-hover-background-color)}.ds-board__list-container .ds-item_list .p2{padding:0}.ds-board__list-container .ds-item_list .right-col{text-align:right;justify-content:flex-end}.ds-board__list-container .ds-item_list .p1,.ds-board__list-container .ds-item_list h3,.ds-board__list-container .ds-item_list h4{margin:0;padding:0}.ds-board__list-container .ds-item_list .actions,.ds-board__list-container .ds-item_list .item-information{display:flex;gap:8px}.ds-board__list-container .ds-item_list .actions .action-icon:hover .beyond-icon,.ds-board__list-container .ds-item_list .item-information .action-icon:hover .beyond-icon{border:1px solid var(--beyond-primary-accent-color);background:var(--beyond-primary-accent-color);transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.error-icon .beyond-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.error-icon .beyond-icon{background:#d2281e}.ds-board__list-container .ds-item_list .actions .beyond-icon-button,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button{border:1px solid var(--beyond-secondary-color);border-radius:50%;padding:10px;height:3.2rem;width:3.2rem;background:var(--beyond-secondary-dark-color);fill:#fff;transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button .beyond-ripple,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button .beyond-ripple{border-radius:50%}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.error-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.error-icon{background:#d2281e}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.warning-icon,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.warning-icon{fill:#F7D994}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action{border:1px solid var(--beyond-secondary-color);border-radius:50%;display:flex;align-content:center;justify-items:center;background:var(--beyond-secondary-dark-color);fill:#fff;transition:all .3s ease-in}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action.action--play,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action.action--play{fill:green;border:1px solid rgba(0,128,0,.2)}.ds-board__list-container .ds-item_list .actions .beyond-icon-button.bee--action.action--stop,.ds-board__list-container .ds-item_list .item-information .beyond-icon-button.bee--action.action--stop{fill:red;border:1px solid rgba(255,0,0,.2);background:rgba(255,0,0,.2)}.ds-board__list-container .ds-item_list .blank-page{min-height:50vh;display:grid;align-items:center;justify-content:center;text-align:center}.preload-container{height:100vh;width:100vw;overflow:hidden}.ds-projects-board{height:100%;box-shadow:-1px -4px 25px -3px rgba(0,0,0,.39)}.ds-projects-board .beyond-icon-button.button--fetching{height:3.2rem;width:3.2rem;border:1px solid var(--beyond-secondary-color);opacity:.5}.ds-projects-board .ds-board__list-container{height:100%}.ds-projects-board .ds-board__list-container.empty-container{height:calc(100% - 100px)}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

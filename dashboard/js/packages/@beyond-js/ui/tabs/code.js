@@ -1,26 +1,24 @@
-define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.TabsContent = _exports2.Tabs = _exports2.BeyondTabs = _exports2.BeyondTab = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/tabs/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.hmr = _exports.TabsContent = _exports.Tabs = _exports.BeyondTabs = _exports.BeyondTab = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/tabs/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -55,7 +53,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
   **********/
 
 
-  _exports2.BeyondTabs = BeyondTabs;
+  _exports.BeyondTabs = BeyondTabs;
   const TabsContext = React.createContext();
 
   function TabsContextProvider({
@@ -121,7 +119,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
   ***************/
 
 
-  _exports2.BeyondTab = BeyondTab;
+  _exports.BeyondTab = BeyondTab;
 
   class TabsContent extends React.Component {
     render() {
@@ -136,7 +134,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
 
   }
 
-  _exports2.TabsContent = TabsContent;
+  _exports.TabsContent = TabsContent;
   TabsContent.contextType = TabsContext;
   /*******
   tabs.jsx
@@ -197,28 +195,28 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
 
   }
 
-  _exports2.Tabs = Tabs;
+  _exports.Tabs = Tabs;
   Tabs.contextType = TabsContext;
   /**********
   SCSS STYLES
   **********/
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.beyond-tabs .beyond-tabs-content{position:relative}.beyond-tabs-container{display:flex;height:100%;width:100%;position:relative;flex-direction:column}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items{width:50px;height:100%;position:relative}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items .tabs-container{position:sticky;top:8px}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items{display:flex;background:#d3d3d3;height:100%}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items .tabs-container{width:100%;display:flex}.beyond-tabs-container .beyond-tabs-items{z-index:999}.beyond-tabs-container .beyond-tabs-items .beyond-tab{display:flex;align-items:center;justify-content:center;position:relative;padding:15px;flex-grow:1}.beyond-tabs-container .beyond-tabs-items .beyond-tab.tab-active svg{fill:white}.beyond-tabs-container .beyond-tabs-items .beyond-tab svg{margin:auto;cursor:pointer}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/tabs/code', '.beyond-tabs .beyond-tabs-content{position:relative}.beyond-tabs-container{display:flex;height:100%;width:100%;position:relative;flex-direction:column}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items{width:50px;height:100%;position:relative}.beyond-tabs-container.beyond-tabs-vertical .beyond-tabs-items .tabs-container{position:sticky;top:8px}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items{display:flex;background:#d3d3d3;height:100%}.beyond-tabs-container.beyond-tabs-horizontal .beyond-tabs-items .tabs-container{width:100%;display:flex}.beyond-tabs-container .beyond-tabs-items{z-index:999}.beyond-tabs-container .beyond-tabs-items .beyond-tab{display:flex;align-items:center;justify-content:center;position:relative;padding:15px;flex-grow:1}.beyond-tabs-container .beyond-tabs-items .beyond-tab.tab-active svg{fill:white}.beyond-tabs-container .beyond-tabs-items .beyond-tab svg{margin:auto;cursor:pointer}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

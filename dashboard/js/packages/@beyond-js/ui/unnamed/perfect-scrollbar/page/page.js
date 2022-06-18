@@ -1,27 +1,25 @@
-define(["exports", "/libraries/beyond-ui/perfect-scrollbar/code", "/libraries/beyond-ui/import/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "/libraries/beyond-ui/perfect-scrollbar/code", "/libraries/beyond-ui/import/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Page = Page;
-  _exports2.hmr = _exports2.View = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/perfect-scrollbar/page/page', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.Page = Page;
+  _exports.hmr = _exports.View = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/unnamed/perfect-scrollbar/page/page").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -69,23 +67,23 @@ define(["exports", "/libraries/beyond-ui/perfect-scrollbar/code", "/libraries/be
   **********/
 
 
-  _exports2.View = View;
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '#beyond-elements-scroll-page .beyond-perfect-scrollbar{border:solid 1px #fff;border-radius:4px;margin-top:20px}#beyond-elements-scroll-page .myContent{padding:20px;height:200px;text-align:justify;font-size:16px;line-height:30px}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  _exports.View = View;
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/unnamed/perfect-scrollbar/page/page', '#beyond-elements-scroll-page .beyond-perfect-scrollbar{border:solid 1px #fff;border-radius:4px;margin-top:20px}#beyond-elements-scroll-page .myContent{padding:20px;height:200px;text-align:justify;font-size:16px;line-height:30px}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

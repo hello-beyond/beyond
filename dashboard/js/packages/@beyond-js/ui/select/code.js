@@ -1,26 +1,24 @@
-define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.ListOptions = _exports2.BeyondSelect = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/select/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.hmr = _exports.ListOptions = _exports.BeyondSelect = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/select/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***************
   list-options.jsx
   ***************/
@@ -107,7 +105,7 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
    */
 
 
-  _exports2.ListOptions = ListOptions;
+  _exports.ListOptions = ListOptions;
   const OptionItem = React.memo(({
     value,
     label,
@@ -213,23 +211,23 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/ui/ripple/code", "reac
   **********/
 
 
-  _exports2.BeyondSelect = BeyondSelect;
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.beyond-element-options .options-content{position:relative;align-self:center;width:95%;max-height:90%;overflow-y:auto;border:1px solid #ff8056;align-items:center;background:#000;color:#ff8056;overflow:auto}.beyond-element-options .options-content:first-letter{text-transform:uppercase}.beyond-element-options .options-content.exit{transition:all 150ms ease-in;opacity:.3;height:0;top:0;position:absolute}.beyond-element-options .option{text-align:left;cursor:pointer;display:grid;align-items:center;position:relative;padding:20px;border-bottom:solid 1px #fff;font-size:16px}.beyond-element-options .option.selected{background:#a2000a;color:#fff}.beyond-element-options .option:first-letter{text-transform:uppercase}.beyond-element-options{display:none;position:absolute;top:0;left:0;bottom:0;right:0;z-index:1;overflow:auto;background-color:rgba(0,0,0,.4)}.beyond-element-options.show-options{display:flex;align-items:center;justify-content:center;z-index:99999}.select-options{border:solid 2px #fff;border-radius:12px;padding:12px;display:grid;grid-template-columns:95% 5%;width:100%;margin:auto;position:relative;font-size:14px;align-items:center}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  _exports.BeyondSelect = BeyondSelect;
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/select/code', '.beyond-element-options .options-content{position:relative;align-self:center;width:95%;max-height:90%;overflow-y:auto;border:1px solid #ff8056;align-items:center;background:#000;color:#ff8056;overflow:auto}.beyond-element-options .options-content:first-letter{text-transform:uppercase}.beyond-element-options .options-content.exit{transition:all 150ms ease-in;opacity:.3;height:0;top:0;position:absolute}.beyond-element-options .option{text-align:left;cursor:pointer;display:grid;align-items:center;position:relative;padding:20px;border-bottom:solid 1px #fff;font-size:16px}.beyond-element-options .option.selected{background:#a2000a;color:#fff}.beyond-element-options .option:first-letter{text-transform:uppercase}.beyond-element-options{display:none;position:absolute;top:0;left:0;bottom:0;right:0;z-index:1;overflow:auto;background-color:rgba(0,0,0,.4)}.beyond-element-options.show-options{display:flex;align-items:center;justify-content:center;z-index:99999}.select-options{border:solid 2px #fff;border-radius:12px;padding:12px;display:grid;grid-template-columns:95% 5%;width:100%;margin:auto;position:relative;font-size:14px;align-items:center}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

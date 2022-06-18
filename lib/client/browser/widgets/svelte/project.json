@@ -1,0 +1,28 @@
+{
+  "scope": "beyond-js",
+  "name": "svelte-widgets",
+  "version": "0.0.2",
+  "modules": {
+    "path": "./"
+  },
+  "deployment": {
+    "distributions": [
+      {
+        "name": "npm",
+        "npm": {
+          "platforms": {
+            "web": "web",
+            "node": "node"
+          }
+        }
+      },
+      {
+        "name": "web-tsc",
+        "platform": "web",
+        "ts": {
+          "compiler": "tsc"
+        }
+      }
+    ]
+  }
+}

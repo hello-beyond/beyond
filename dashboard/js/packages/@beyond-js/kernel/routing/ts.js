@@ -1,29 +1,28 @@
-define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency_0) {
+define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/bundle/ts"], function (_exports, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.routing = _exports2.PageContainer = _exports2.LayoutContainer = _exports2.IContainerControl = void 0;
-  const dependencies = new Map();
-  dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/kernel/routing/ts', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.routing = _exports.PageContainer = _exports.LayoutContainer = _exports.IContainerControl = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const modules = new Map();
+  const __pkg = new __Bundle("@beyond-js/kernel/routing/ts").package();
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
+  const ims = new Map();
   /*******************************
   INTERNAL MODULE: ./config/config
   *******************************/
 
-  modules.set('./config/config', {
+  ims.set('./config/config', {
     hash: 539937088,
     creator: function (require, exports) {
       "use strict";
@@ -59,7 +58,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./config/layouts
   ********************************/
 
-  modules.set('./config/layouts', {
+  ims.set('./config/layouts', {
     hash: 1325939906,
     creator: function (require, exports) {
       "use strict";
@@ -123,7 +122,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./config/pages
   ******************************/
 
-  modules.set('./config/pages', {
+  ims.set('./config/pages', {
     hash: 198396567,
     creator: function (require, exports) {
       "use strict";
@@ -195,7 +194,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./history/history
   *********************************/
 
-  modules.set('./history/history', {
+  ims.set('./history/history', {
     hash: 1392004946,
     creator: function (require, exports) {
       "use strict";
@@ -309,7 +308,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./history/position
   **********************************/
 
-  modules.set('./history/position', {
+  ims.set('./history/position', {
     hash: 3297864936,
     creator: function (require, exports) {
       "use strict";
@@ -420,7 +419,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./history/records
   *********************************/
 
-  modules.set('./history/records', {
+  ims.set('./history/records', {
     hash: 587652707,
     creator: function (require, exports) {
       "use strict";
@@ -511,7 +510,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/abstract-classes/layouts/layout
   *********************************************************/
 
-  modules.set('./layouts/abstract-classes/layouts/layout', {
+  ims.set('./layouts/abstract-classes/layouts/layout', {
     hash: 1360728010,
     creator: function (require, exports) {
       "use strict";
@@ -547,7 +546,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/abstract-classes/layouts/legacy
   *********************************************************/
 
-  modules.set('./layouts/abstract-classes/layouts/legacy', {
+  ims.set('./layouts/abstract-classes/layouts/legacy', {
     hash: 2180641383,
     creator: function (require, exports) {
       "use strict";
@@ -591,7 +590,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/abstract-classes/pages/legacy
   *******************************************************/
 
-  modules.set('./layouts/abstract-classes/pages/legacy', {
+  ims.set('./layouts/abstract-classes/pages/legacy', {
     hash: 1713806598,
     creator: function (require, exports) {
       "use strict";
@@ -654,7 +653,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/abstract-classes/pages/page-container
   ***************************************************************/
 
-  modules.set('./layouts/abstract-classes/pages/page-container', {
+  ims.set('./layouts/abstract-classes/pages/page-container', {
     hash: 3651745821,
     creator: function (require, exports) {
       "use strict";
@@ -719,7 +718,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/layout-manager/layout-manager
   *******************************************************/
 
-  modules.set('./layouts/layout-manager/layout-manager', {
+  ims.set('./layouts/layout-manager/layout-manager', {
     hash: 480716395,
     creator: function (require, exports) {
       "use strict";
@@ -849,7 +848,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/layout-manager/load
   *********************************************/
 
-  modules.set('./layouts/layout-manager/load', {
+  ims.set('./layouts/layout-manager/load', {
     hash: 2997887930,
     creator: function (require, exports) {
       "use strict";
@@ -966,7 +965,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/layout-manager/pages/page-manager/loader
   ******************************************************************/
 
-  modules.set('./layouts/layout-manager/pages/page-manager/loader', {
+  ims.set('./layouts/layout-manager/pages/page-manager/loader', {
     hash: 88288278,
     creator: function (require, exports) {
       "use strict";
@@ -1084,7 +1083,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/layout-manager/pages/page-manager/page-manager
   ************************************************************************/
 
-  modules.set('./layouts/layout-manager/pages/page-manager/page-manager', {
+  ims.set('./layouts/layout-manager/pages/page-manager/page-manager', {
     hash: 3283275834,
     creator: function (require, exports) {
       "use strict";
@@ -1158,7 +1157,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/layout-manager/pages/pages
   ****************************************************/
 
-  modules.set('./layouts/layout-manager/pages/pages', {
+  ims.set('./layouts/layout-manager/pages/pages', {
     hash: 1685652701,
     creator: function (require, exports) {
       "use strict";
@@ -1230,7 +1229,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./layouts/layouts
   *********************************/
 
-  modules.set('./layouts/layouts', {
+  ims.set('./layouts/layouts', {
     hash: 320378259,
     creator: function (require, exports) {
       "use strict";
@@ -1317,8 +1316,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./routing
   *************************/
 
-  modules.set('./routing', {
-    hash: 1696938853,
+  ims.set('./routing', {
+    hash: 392689598,
     creator: function (require, exports) {
       "use strict";
 
@@ -1386,7 +1385,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           return this.#initialised;
         }
 
-        setUp(routingMode) {
+        setup(routingMode) {
           if (this.#initialised) {
             throw new Error('Routing setUp method can only be called once');
           }
@@ -1480,7 +1479,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./uri/querystring
   *********************************/
 
-  modules.set('./uri/querystring', {
+  ims.set('./uri/querystring', {
     hash: 341598707,
     creator: function (require, exports) {
       "use strict";
@@ -1513,7 +1512,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./uri/route
   ***************************/
 
-  modules.set('./uri/route', {
+  ims.set('./uri/route', {
     hash: 1632476785,
     creator: function (require, exports) {
       "use strict";
@@ -1613,7 +1612,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./uri/uri
   *************************/
 
-  modules.set('./uri/uri', {
+  ims.set('./uri/uri', {
     hash: 2888599651,
     creator: function (require, exports) {
       "use strict";
@@ -1712,28 +1711,41 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
       exports.URI = URI;
     }
-  }); // Exports managed by beyond bundle objects
-
-  __pkg.exports.managed = function (require, _exports) {
-    _exports.IContainerControl = require('./layouts/abstract-classes/layouts/layout').IContainerControl;
-    _exports.LayoutContainer = require('./layouts/abstract-classes/layouts/layout').LayoutContainer;
-    _exports.PageContainer = require('./layouts/abstract-classes/pages/page-container').PageContainer;
-    _exports.routing = require('./routing').routing;
-  };
-
+  });
+  __pkg.exports.descriptor = [{
+    "im": "./layouts/abstract-classes/layouts/layout",
+    "from": "IContainerControl",
+    "name": "IContainerControl"
+  }, {
+    "im": "./layouts/abstract-classes/layouts/layout",
+    "from": "LayoutContainer",
+    "name": "LayoutContainer"
+  }, {
+    "im": "./layouts/abstract-classes/pages/page-container",
+    "from": "PageContainer",
+    "name": "PageContainer"
+  }, {
+    "im": "./routing",
+    "from": "routing",
+    "name": "routing"
+  }];
   let IContainerControl, LayoutContainer, PageContainer, routing; // Module exports
 
-  _exports2.routing = routing;
-  _exports2.PageContainer = PageContainer;
-  _exports2.LayoutContainer = LayoutContainer;
-  _exports2.IContainerControl = IContainerControl;
+  _exports.routing = routing;
+  _exports.PageContainer = PageContainer;
+  _exports.LayoutContainer = LayoutContainer;
+  _exports.IContainerControl = IContainerControl;
 
-  __pkg.exports.process = function (require) {
-    _exports2.IContainerControl = IContainerControl = require('./layouts/abstract-classes/layouts/layout').IContainerControl;
-    _exports2.LayoutContainer = LayoutContainer = require('./layouts/abstract-classes/layouts/layout').LayoutContainer;
-    _exports2.PageContainer = PageContainer = require('./layouts/abstract-classes/pages/page-container').PageContainer;
-    _exports2.routing = routing = require('./routing').routing;
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {
+    (require || prop === 'IContainerControl') && (_exports.IContainerControl = IContainerControl = require ? require('./layouts/abstract-classes/layouts/layout').IContainerControl : value);
+    (require || prop === 'LayoutContainer') && (_exports.LayoutContainer = LayoutContainer = require ? require('./layouts/abstract-classes/layouts/layout').LayoutContainer : value);
+    (require || prop === 'PageContainer') && (_exports.PageContainer = PageContainer = require ? require('./layouts/abstract-classes/pages/page-container').PageContainer : value);
+    (require || prop === 'routing') && (_exports.routing = routing = require ? require('./routing').routing : value);
   };
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

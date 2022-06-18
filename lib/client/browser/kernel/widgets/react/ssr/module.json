@@ -1,7 +1,0 @@
-{
-  "name": "react-widget",
-  "platforms": "ssr",
-  "bundle": "ts",
-  "transpile": false,
-  "files": "*"
-}

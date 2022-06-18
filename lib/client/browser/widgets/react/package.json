@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@beyond-js/kernel": "0.0.17",
+    "@beyond-js/widgets": "0.0.6",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "socket.io-client": "^4.4.1"
+  }
+}

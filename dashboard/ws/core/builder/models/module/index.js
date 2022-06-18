@@ -136,9 +136,8 @@ module.exports = class Module extends require('../file-manager') {
      * @returns {Promise<void>}
      */
     async create(specs = {}) {
-        specs.hmr = true;
         this._checkProperties(specs);
-        this.#bundlesManager.add(specs)
+        this.#bundlesManager.add(specs);
 
         if (!this.#bundlesManager.items.size) throw Error('The module type cannot be undefined')
 
@@ -148,7 +147,7 @@ module.exports = class Module extends require('../file-manager') {
 
             // add platforms if module have bundle bridge
             if (specs.bundles.includes('bridge')) {
-                json.platforms = ['web', 'backend'];
+                json.platforms = ['*'];
             }
 
             await this.#bundlesManager.build(specs);

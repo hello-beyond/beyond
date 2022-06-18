@@ -90,14 +90,14 @@ module.exports = class extends require('../../file-manager') {
     }
 
     add(specs) {
-        let {bundles, multilanguage, processors} = specs;
+        let {bundles, multilanguage} = specs;
 
         if (!bundles) return;
         if (typeof bundles === 'string') bundles = [bundles];
         if (multilanguage) this.items.set('txt', this.get('txt', {...{create: true}}));
         for (let bundle of bundles) {
             if (this.items.has(bundle)) continue;
-            this.addItem(bundle, specs)
+            this.addItem(bundle, specs);
         }
     }
 

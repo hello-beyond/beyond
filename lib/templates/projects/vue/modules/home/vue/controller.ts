@@ -1,8 +1,9 @@
-import {VueWidgetController} from '@beyond-js/kernel/vue-widget/ts';
+import {PageVueWidgetController} from '@beyond-js/vue-widgets/controllers/ts/ts';
+import Page from "./page.vue";
 
 export /*bundle*/
-class Controller extends VueWidgetController {
+class Controller extends PageVueWidgetController {
     get Widget() {
-        return require('./page').default;
+        return Page;
     }
 }

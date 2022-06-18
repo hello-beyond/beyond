@@ -5,17 +5,20 @@
   "modules": {
     "path": "./modules"
   },
+  "libraries": {
+    "imports": [
+      "@beyond-js/kernel",
+      "@beyond-js/widgets"
+    ]
+  },
   "deployment": {
     "distributions": [
       {
         "name": "npm",
-        "npm": true,
-        "environment": "development",
-        "platform": "ssr",
-        "port": 9992,
-        "platforms": {
-          "ssr": true,
-          "web.ssr": true
+        "npm": {
+          "platforms": {
+            "ssr": "ssr"
+          }
         }
       }
     ]

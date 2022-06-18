@@ -1,18 +1,40 @@
 import {BackendServer} from '@beyond-js/backend/server/ts';
 
 interface IBeeSpecs {
-    container: {
+    id: string,
+    engine: string,
+    dashboard: boolean,
+    project: {
         id: number,
-        is: string,
-        dashboard: boolean,
         path: string,
-        package: string
-    };
-    is: string;
-    port: number
+        pkg: string
+    },
+    distribution: {
+        name: string,
+        local: boolean,
+        platform: string,
+        bundles: {
+            mode: string
+        },
+        imports: [string, string][]
+    },
+    ports: {
+        bundles: number,
+        server: number,
+        http: number
+    }
 }
 
-export /*bundle*/ function listen(): void {
-    const specs = <IBeeSpecs>(globalThis as any).__beeSpecs;
-    new BackendServer(specs.port);
+export /*bundle*/ function listen(port: number): void {
+    if (typeof (<any>globalThis).__bee === 'object') {
+        const specs: IBeeSpecs = (<any>globalThis).__bee.specs;
+        port = specs.ports.http;
+    }
+
+    if (!port) {
+        console.log('Port must be specified');
+        return;
+    }
+
+    new BackendServer(port);
 }

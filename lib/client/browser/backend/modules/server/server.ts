@@ -1,13 +1,12 @@
 import * as http from 'http';
 import {Server, ServerOptions, Socket} from 'socket.io';
-import {beyond} from '@beyond-js/kernel/core/ts';
 import {Connection} from './connection/connection';
 
 // import {instrument} from '@socket.io/admin-ui';
 
 export /* bundle */
 class BackendServer {
-    #ns;
+    #server: Server;
     #connections: Map<string, Connection> = new Map();
 
     #onConnection = async (socket: Socket) => {
@@ -36,15 +35,13 @@ class BackendServer {
         };
 
         const server = http.createServer();
-        const io = new Server(server, options);
+        const io = this.#server = new Server(server, options);
 
         // instrument(io, {auth: false});
-
-        const {id} = beyond.application.package;
-        const namespace = '/' + id.startsWith('@') ? id.substr(1) : id;
-        this.#ns = io.of(namespace);
-        this.#ns.on('connection', this.#onConnection);
+        io.on('connection', this.#onConnection);
 
         server.listen(port);
+
+        process.send({type: 'ready'});
     }
 }

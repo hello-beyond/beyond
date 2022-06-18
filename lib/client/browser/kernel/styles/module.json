@@ -1,0 +1,11 @@
+{
+  "name": "styles",
+  "platforms": [
+    "web",
+    "android",
+    "ios",
+    "ssr"
+  ],
+  "bundle": "ts",
+  "files": "*"
+}

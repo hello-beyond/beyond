@@ -1,32 +1,26 @@
-define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/icon/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard/unnamed/modules/list/page", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports2, _ts, _code, _code2, _page, _code3, _code4, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/icon/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard/unnamed/modules/list/page", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/form/code", "react", "react-dom"], function (_exports, _ts, _code, _code2, _page, _code3, _code4, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.ListModules = void 0;
-  _exports2.Page = Page;
-  _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/library/view/page', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.ListModules = void 0;
+  _exports.Page = Page;
+  _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/library/view/page").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /**********
   actions.jsx
   **********/
@@ -465,7 +459,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/icon/cod
   ******************/
 
 
-  _exports2.ListModules = ListModules;
+  _exports.ListModules = ListModules;
 
   class Modules extends React.Component {
     onClickModules(library) {
@@ -507,15 +501,15 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/icon/cod
     constructor(props) {
       super(props);
       this.state = {
-        'library': this.props.library,
-        'actions': props.actions,
-        'texts': props.texts.value,
-        'ready': props.texts.ready
+        library: this.props.library,
+        actions: props.actions,
+        texts: props.texts.value,
+        ready: props.texts.ready
       };
 
       this.update = () => this.setState({
-        'ready': props.texts.ready,
-        'texts': props.texts.value
+        ready: props.texts.ready,
+        texts: props.texts.value
       });
     }
 
@@ -619,22 +613,22 @@ define(["exports", "@beyond-js/dashboard-lib/models/ts", "@beyond-js/ui/icon/cod
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/unnamed/library/view/page', '');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

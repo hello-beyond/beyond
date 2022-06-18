@@ -1,21 +1,21 @@
 import {beyond} from '@beyond-js/kernel/core/ts';
 
-declare class LocalBridges {
+interface ILocalBridges {
     get: (module: string) => Promise<any>
 }
-
-declare const __bridges: LocalBridges;
 
 type MethodsSpecs = Map<string, {}>;
 export type BridgeSpecs = Map<string, MethodsSpecs>;
 type BridgesSpecs = Map<string, BridgeSpecs>;
 
 class Bridges {
-    #bridges: BridgesSpecs;
+    // The bridges specification in production environment (not requested to the BEE)
+    readonly #bridges: BridgesSpecs;
 
     constructor() {
-        if (typeof __bridges === 'object') return;
+        if (typeof (<any>globalThis).__bee === 'object') return;
 
+        // In production environment get the actions from the actions.specs.json file
         const specs: any = beyond.require(`${beyond.application.package.id}/actions.specs.json`);
         if (!specs) return;
         this.#bridges = new Map(specs);
@@ -29,7 +29,10 @@ class Bridges {
             const classes: BridgeSpecs = this.#bridges.get(module);
             return Promise.resolve({classes});
         }
-        const response = await __bridges.get(module);
+
+        // In development environment, request the bridges to the BEE
+        const bridges: ILocalBridges = (<any>globalThis).__bee.bridges;
+        const response = await bridges.get(module);
         if (!response) return;
 
         const {error} = response;

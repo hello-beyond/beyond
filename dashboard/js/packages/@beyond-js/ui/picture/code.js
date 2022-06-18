@@ -1,28 +1,26 @@
-define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.BeyondPicture = void 0;
-  _exports2.BeyondPictureModel = BeyondPictureModel;
-  _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/picture/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.BeyondPicture = void 0;
+  _exports.BeyondPictureModel = BeyondPictureModel;
+  _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/picture/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /**********
   picture.jsx
   **********/
@@ -102,7 +100,7 @@ define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@b
   ***************/
 
 
-  _exports2.BeyondPicture = BeyondPicture;
+  _exports.BeyondPicture = BeyondPicture;
 
   function BeyondPictureModel() {
     let url;
@@ -244,22 +242,22 @@ define(["exports", "@beyond-js/ui/overlay/code", "@beyond-js/ui/image/code", "@b
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.content-picture{display:flex;position:relative}.content-picture .upload-picture{position:absolute;right:50px;bottom:20px;border:var(--beyond-text-on-primary) 2px solid}.content-picture .upload-picture svg{position:absolute;top:6px;left:6px;height:23px;width:23px;fill:var(--beyond-text-on-primary)}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/picture/code', '.content-picture{display:flex;position:relative}.content-picture .upload-picture{position:absolute;right:50px;bottom:20px;border:var(--beyond-text-on-primary) 2px solid}.content-picture .upload-picture svg{position:absolute;top:6px;left:6px;height:23px;width:23px;fill:var(--beyond-text-on-primary)}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

@@ -1,26 +1,24 @@
-define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports2, _code, _code2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "react", "react-dom"], function (_exports, _code, _code2, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.hmr = _exports2.BeyondToolbar = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/toolbar/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.hmr = _exports.BeyondToolbar = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/toolbar/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   children.jsx
   ***********/
@@ -121,23 +119,23 @@ define(["exports", "@beyond-js/ui/spinner/code", "@beyond-js/ui/icon/code", "rea
   **********/
 
 
-  _exports2.BeyondToolbar = BeyondToolbar;
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.beyond-element-toolbar{height:50px;padding:0 15px;background:#ff8056;display:grid;align-items:center;justify-content:left;grid-template-columns:45px 1fr 40px auto;grid-gap:1px;color:#fff;font-weight:500;letter-spacing:.24px;z-index:1}.beyond-element-toolbar.no-back{grid-template-columns:1fr 40px auto}.beyond-element-toolbar .beyond-icon-button{display:grid;justify-content:center;align-items:center}.beyond-element-toolbar button svg,.beyond-element-toolbar svg{display:inline-grid;justify-self:center;fill:#fff}.beyond-element-toolbar span{display:block;justify-self:left;white-space:nowrap;text-overflow:ellipsis;line-height:1;flex:1}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  _exports.BeyondToolbar = BeyondToolbar;
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/toolbar/code', '.beyond-element-toolbar{height:50px;padding:0 15px;background:#ff8056;display:grid;align-items:center;justify-content:left;grid-template-columns:45px 1fr 40px auto;grid-gap:1px;color:#fff;font-weight:500;letter-spacing:.24px;z-index:1}.beyond-element-toolbar.no-back{grid-template-columns:1fr 40px auto}.beyond-element-toolbar .beyond-icon-button{display:grid;justify-content:center;align-items:center}.beyond-element-toolbar button svg,.beyond-element-toolbar svg{display:inline-grid;justify-self:center;fill:#fff}.beyond-element-toolbar span{display:block;justify-self:left;white-space:nowrap;text-overflow:ellipsis;line-height:1;flex:1}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

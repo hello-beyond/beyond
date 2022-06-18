@@ -1,35 +1,30 @@
-define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/unnamed/components/notify/js", "@beyond-js/dashboard/hooks/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard-lib/models/js", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _js, _code4, _code5, _code6, _code7, _js2, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/image/code", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/unnamed/components/notify/js", "@beyond-js/dashboard/hooks/code", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/kernel/texts/ts", "react", "react-dom"], function (_exports, _code, _code2, _code3, _js, _code4, _code5, _code6, _code7, _js2, _ts, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.ApplicationCreate = void 0;
-  _exports2.IconInfo = IconInfo;
-  _exports2.hmr = void 0;
+  _exports.ApplicationCreate = void 0;
+  _exports.IconInfo = IconInfo;
+  _exports.hmr = void 0;
+
   //  APP
   //  Library Beyond-UI
   //  Library beyond-Dashboard
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
+  //  @beyond-js Texts
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/project-create/code', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/project-create/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -456,7 +451,7 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
   ******************/
 
 
-  _exports2.ApplicationCreate = ApplicationCreate;
+  _exports.ApplicationCreate = ApplicationCreate;
   const createController = new class Controller extends _js2.ReactiveModel {
     #model;
 
@@ -464,20 +459,24 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
       return this.#model;
     }
 
+    #texts;
+
     get texts() {
-      return module.texts.current?.value;
+      return this.#texts?.value;
     }
 
     get ready() {
-      return module.texts.current.ready && this.#model.ready;
+      return this.#texts.ready && this.#model.ready;
     }
 
     constructor(props) {
       super(props);
       const model = new _js2.ApplicationBuilder();
       this.#model = model;
-      module.texts.current.bind('change', this.triggerEvent);
       model.bind('change', this.triggerEvent);
+      const module = __pkg.bundle.module.resource;
+      this.#texts = new _ts.CurrentTexts(module, true);
+      this.#texts.bind('change', this.triggerEvent);
     }
 
   }();
@@ -485,22 +484,22 @@ define(["exports", "@beyond-js/dashboard/core-components/code", "@beyond-js/ui/i
   SCSS STYLES
   **********/
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds-modal.ds-app-create_modal .ds-create-app__fields{padding:20px 60px}.ds-app-create_modal .block-selected{display:flex;align-items:center;background:var(--beyond-primary-light-color);transition:.2s all ease-in;cursor:pointer}.ds-app-create_modal .block-selected:hover{background:var(--beyond-primary-dark-color)}.ds-app-create_modal .block-selected svg{padding:30px;height:120px;width:120px}.ds-app-create_modal .switch-option{display:flex;align-items:center;grid-gap:8px}.ds-app-create_modal .form__field-port{margin-bottom:10px}.ds-app-create_modal .form__field-port span{position:absolute;bottom:-10px}.ds-app-create_modal .form__field-port .item{margin-top:15px}.ds-app-create_modal .form__field-port .item.two-columns{display:grid;grid-template-columns:1fr 1fr}.section-group{position:relative}.section-group svg{fill:var(--beyond-gray-dark-color);cursor:pointer}.section-group .beyond-icon.form__info{position:absolute;right:0;top:15px}.ds-app-create_modal .projects__types{padding:20px}.ds-app-create_modal .projects__types>h4{padding:15px}.ds-app-create_modal .projects__types ul{list-style:none;padding:0;margin-top:15px;grid-template-columns:1fr 1fr 1fr;display:grid;flex-wrap:wrap}.ds-app-create_modal .projects__types ul li{padding:10px 15px 10px;display:grid;width:300px;grid-template-columns:auto 1fr;align-items:center;justify-items:left;grid-gap:15px;transition:.2s all ease-in;cursor:pointer}.ds-app-create_modal .projects__types ul li.disabled{opacity:.3}.ds-app-create_modal .projects__types ul li h4{padding:0;font-size:1.1rem;margin-bottom:5px}.ds-app-create_modal .projects__types ul li p{margin:0;font-size:.9rem}.ds-app-create_modal .projects__types ul li .beyond-element-image,.ds-app-create_modal .projects__types ul li .beyond-element-image img{height:30px!important;aspect-ratio:1/1;object-fit:cover}.ds-app-create_modal .projects__types ul li:hover:not(.disabled){background:#f0f0f0}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/project-create/code', '.ds-modal.ds-app-create_modal .ds-create-app__fields{padding:20px 60px}.ds-app-create_modal .block-selected{display:flex;align-items:center;background:var(--beyond-primary-light-color);transition:.2s all ease-in;cursor:pointer}.ds-app-create_modal .block-selected:hover{background:var(--beyond-primary-dark-color)}.ds-app-create_modal .block-selected svg{padding:30px;height:120px;width:120px}.ds-app-create_modal .switch-option{display:flex;align-items:center;grid-gap:8px}.ds-app-create_modal .form__field-port{margin-bottom:10px}.ds-app-create_modal .form__field-port span{position:absolute;bottom:-10px}.ds-app-create_modal .form__field-port .item{margin-top:15px}.ds-app-create_modal .form__field-port .item.two-columns{display:grid;grid-template-columns:1fr 1fr}.section-group{position:relative}.section-group svg{fill:var(--beyond-gray-dark-color);cursor:pointer}.section-group .beyond-icon.form__info{position:absolute;right:0;top:15px}.ds-app-create_modal .projects__types{padding:20px}.ds-app-create_modal .projects__types>h4{padding:15px}.ds-app-create_modal .projects__types ul{list-style:none;padding:0;margin-top:15px;grid-template-columns:1fr 1fr 1fr;display:grid;flex-wrap:wrap}.ds-app-create_modal .projects__types ul li{padding:10px 15px 10px;display:grid;width:300px;grid-template-columns:auto 1fr;align-items:center;justify-items:left;grid-gap:15px;transition:.2s all ease-in;cursor:pointer}.ds-app-create_modal .projects__types ul li.disabled{opacity:.3}.ds-app-create_modal .projects__types ul li h4{padding:0;font-size:1.1rem;margin-bottom:5px}.ds-app-create_modal .projects__types ul li p{margin:0;font-size:.9rem}.ds-app-create_modal .projects__types ul li .beyond-element-image,.ds-app-create_modal .projects__types ul li .beyond-element-image img{height:30px!important;aspect-ratio:1/1;object-fit:cover}.ds-app-create_modal .projects__types ul li:hover:not(.disabled){background:#f0f0f0}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

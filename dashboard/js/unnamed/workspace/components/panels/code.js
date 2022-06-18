@@ -1,34 +1,32 @@
-define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code", "react", "react-dom"], function (_exports2, _code, _js, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard-lib/models/js", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/context-menu/code", "@beyond-js/dashboard/ds-editor/code", "react", "react-dom"], function (_exports, _code, _js, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.PanelTab = PanelTab;
-  _exports2.PanelView = PanelView;
-  _exports2.Panels = Panels;
-  _exports2.PanelsManager = void 0;
-  _exports2.TabIcon = TabIcon;
-  _exports2.hmr = void 0;
+  _exports.PanelTab = PanelTab;
+  _exports.PanelView = PanelView;
+  _exports.Panels = Panels;
+  _exports.PanelsManager = void 0;
+  _exports.TabIcon = TabIcon;
+  _exports.hmr = void 0;
+
   //BEYOND
   //DASHBOARD LIB
   //CONTEXT
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/panels/code', false, {}, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/workspace/components/panels/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -241,7 +239,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
        */
 
       module = module ?? (await project.moduleManager.load(moduleId));
-      if (!this.editor) await this.createEditor(application, type);
+      if (!this.editor) await this.createEditor(project, type);
       this.editor.addFile({
         type,
         processor,
@@ -604,7 +602,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
 
   }
 
-  _exports2.PanelsManager = PanelsManager;
+  _exports.PanelsManager = PanelsManager;
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -816,7 +814,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
     const {
       activeTab
     } = state;
-    const tab = panel.tabs.get(activeTab);
+    const tab = panel.tabs.get(panel.activeItem);
     const ref = React.useRef(null);
     (0, _code5.useBinder)([panel], () => {
       setState({ ...state,
@@ -950,22 +948,22 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/dashboard
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds__content-panel{padding:20px;width:100%}.ds__content-panel header{border-bottom:1px solid var(--beyond-primary-accent-color);margin-bottom:30px}.ds__content-panel .form-column{display:flex;gap:10px;align-items:center}.ds__content-panel .form-column select{background:0 0;color:var(--beyond-text-on-secondary);padding:8px}.ds__content-panel .form-column select option{color:#000}.panels__container .ds__panel{display:grid;grid-template-rows:auto 1fr;width:100%;flex-grow:0;overflow:auto;height:100%}.panels__container .ds__panel+.ds__panel{border-left:solid 2px #050910}@media (max-width:600px){.panels__container .ds__panel{flex-direction:row}}.panels__container .ds__panel>div{min-height:100%}.panels__container .ds-panels__actions{position:absolute;top:0;right:15px;z-index:1;height:34px}.panels__container .ds-panels__actions .beyond-icon-button{height:100%;width:30px;background:0 0;fill:#FFFFFF}.ds-application-view-layout .panels__container{display:grid;width:100%;height:calc(100vh - 81px);overflow:hidden;position:relative;z-index:2}.ds-application-view-layout .panels__container.panels--vertical{grid-auto-flow:row}.ds-application-view-layout .ds__tabs-container{display:flex;background:var(--beyond-secondary-color)}.ds-application-view-layout .ds__tabs-container .ds__tab{height:34px;padding:8px 15px;background:#1a1a1a;display:flex;gap:8px;border-bottom:2px solid transparent;align-items:center;font-size:.9rem;cursor:pointer}.ds-application-view-layout .ds__tabs-container .ds__tab:hover{background:var(--ds-tabs-hover)}.ds-application-view-layout .ds__tabs-container .ds__tab:hover .beyond-icon.tab__icon{stroke-width:15px;stroke:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab.item-active{border-left:.5px solid var(--ds-tabs-hover);border-right:.5px solid var(--ds-tabs-hover);border-bottom-color:#ff8056;background:var(--ds-tabs-hover)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon{margin:0 -10px 0 0;height:15px;width:15px;padding:0}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon.tab--unpublished:not(:hover){background:var(--beyond-primary-color);border-radius:50%;fill:var(--beyond-primary-color)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon{height:.8rem;width:.8rem;transition:all .2s linear;fill:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon:hover{stroke-width:15px;stroke:#fff}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/unnamed/workspace/components/panels/code', '.ds__content-panel{padding:20px;width:100%}.ds__content-panel header{border-bottom:1px solid var(--beyond-primary-accent-color);margin-bottom:30px}.ds__content-panel .form-column{display:flex;gap:10px;align-items:center}.ds__content-panel .form-column select{background:0 0;color:var(--beyond-text-on-secondary);padding:8px}.ds__content-panel .form-column select option{color:#000}.panels__container .ds__panel{display:grid;grid-template-rows:auto 1fr;width:100%;flex-grow:0;box-shadow:var(--shadow-5);overflow:auto;height:100%}.panels__container .ds__panel .panels__container{box-shadow:-1px -4px 25px -3px rgba(0,0,0,.8)}.panels__container .ds__panel+.ds__panel{border-left:solid 2px #050910}@media (max-width:600px){.panels__container .ds__panel{flex-direction:row}}.panels__container .ds__panel>div{min-height:100%}.panels__container .ds-panels__actions{position:absolute;top:0;right:15px;z-index:1;height:34px}.panels__container .ds-panels__actions .beyond-icon-button{height:100%;width:30px;background:0 0;fill:#FFFFFF}.ds-application-view-layout .panels__container{display:grid;width:100%;height:calc(100vh - 81px);overflow:hidden;position:relative;z-index:2}.ds-application-view-layout .panels__container.panels--vertical{grid-auto-flow:row}.ds-application-view-layout .ds__tabs-container{display:flex;background:var(--beyond-secondary-color)}.ds-application-view-layout .ds__tabs-container .ds__tab{height:34px;padding:8px 15px;background:#1a1a1a;display:flex;gap:8px;border-bottom:2px solid transparent;align-items:center;font-size:.9rem;cursor:pointer}.ds-application-view-layout .ds__tabs-container .ds__tab:hover{background:var(--ds-tabs-hover)}.ds-application-view-layout .ds__tabs-container .ds__tab:hover .beyond-icon.tab__icon{stroke-width:15px;stroke:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab.item-active{border-left:.5px solid var(--ds-tabs-hover);border-right:.5px solid var(--ds-tabs-hover);border-bottom-color:#ff8056;background:var(--ds-tabs-hover)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon{margin:0 -10px 0 0;height:15px;width:15px;padding:0}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon-button.tab__icon.tab--unpublished:not(:hover){background:var(--beyond-primary-color);border-radius:50%;fill:var(--beyond-primary-color)}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon{height:.8rem;width:.8rem;transition:all .2s linear;fill:#fff}.ds-application-view-layout .ds__tabs-container .ds__tab .beyond-icon:hover{stroke-width:15px;stroke:#fff}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

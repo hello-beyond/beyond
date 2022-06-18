@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "title": "Landing page",
   "description": "APP Básica con menú para empezar el desarrollo",
-  "languages": [
-    "en"
-  ],
+  "languages": {
+    "default": "en",
+    "supported": [
+      "en",
+      "es"
+    ]
+  },
   "layout": "main-layout",
   "template": "template/template.json",
   "modules": {

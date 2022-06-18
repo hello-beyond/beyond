@@ -4,9 +4,13 @@
   "title": "Node JS Basic Application",
   "description": "Node JS Basic application",
   "node": {},
-  "languages": [
-    "en"
-  ],
+  "languages": {
+    "default": "en",
+    "supported": [
+      "en",
+      "es"
+    ]
+  },
   "modules": {
     "path": "modules"
   }

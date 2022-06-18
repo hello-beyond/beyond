@@ -1,9 +1,10 @@
-import {SvelteWidgetController} from '@beyond-js/kernel/svelte-widget/ts';
+import {PageSvelteWidgetController} from '@beyond-js/svelte-widgets/controllers/code';
 import type {SvelteComponent} from 'svelte';
+import Widget from "./widget.svelte";
 
 export /*bundle*/
-class Controller extends SvelteWidgetController {
+class Controller extends PageSvelteWidgetController {
     get Widget(): SvelteComponent {
-        return require('./widget').default;
+        return Widget;
     }
 }

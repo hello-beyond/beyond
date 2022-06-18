@@ -6,42 +6,39 @@
  *
  * @type {module.Bundle|{}}
  */
-const Bundle = require('./bundle');
-module.exports = class Text extends Bundle {
+const {join} = require("path");
+module.exports = class Text extends require('./bundle') {
     _identifier = 'txt';
     multilanguage = true;
+    files = '*';
 
     _defaultName = 'texts.json';
     skeleton = [
-        'hmr', 'multilanguage', 'files'
+        'path', 'multilanguage', 'files'
     ];
+
     _name = 'txt';
 
     constructor(module, specs = {}) {
+        delete specs.processors;
         super(module, 'txt', specs);
+        this._create = specs.create;
     }
 
-    async create(path) {
-        const name = this._name;
-        path = this.joinPath(path, name);
-
-        if (!await this._fs.exists(path)) {
-            this._fs.mkdir(path);
-        }
+    async create() {
         const tplPath = await this.templatesPath();
-        const tplFile = this.joinPath(tplPath, 'processors', `${this._name}.txt`);
+        const finalPath = join(tplPath, 'bundles', this._name);
 
-        // checks if the processor has default files and add to it.
-        if (await this._fs.exists(tplFile)) {
-            const content = await this._fs.readFile(tplFile, 'utf8');
-            const dest = this.joinPath(path, this._defaultName);
-            this._write(dest, content);
+        /**
+         * if the folders exists the process is ignored.
+         */
+        const path = this.path === false ? this.file.dirname : this.file.file;
+        if (!await this._fs.exists(path)) {
+            await this._fs.copy(finalPath, path);
         }
-
     }
 
-    async build(path) {
-        if (this._create) this.create(path);
+    async build() {
+        this._create && await this.create();
     }
-
 }

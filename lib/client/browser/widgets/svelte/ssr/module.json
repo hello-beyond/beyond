@@ -1,0 +1,11 @@
+{
+  "name": "controllers",
+  "platforms": "ssr",
+  "bundle": "code",
+  "svelte": {
+    "files": "*"
+  },
+  "ts": {
+    "files": "*"
+  }
+}

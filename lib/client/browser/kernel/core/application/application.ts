@@ -1,13 +1,11 @@
 import type {Beyond} from "../beyond";
 import type {Require} from "../import/requirejs";
 import {ILanguagesConfig, Languages} from "./languages";
-import {Modules} from "../modules/modules";
 import {PackageData} from "../package/data";
-import {IServiceConfig, Service} from "../service/service";
 
 declare const amd_require: Require;
 
-export interface IApplicationConfig extends IServiceConfig {
+export interface IApplicationConfig {
     package: string,
     version: string,
     layout: string,
@@ -15,7 +13,7 @@ export interface IApplicationConfig extends IServiceConfig {
     languages: ILanguagesConfig
 }
 
-export class Application extends Service {
+export class Application {
     get is() {
         return 'application';
     }
@@ -23,7 +21,6 @@ export class Application extends Service {
     readonly #beyond: Beyond;
 
     constructor(beyond: Beyond) {
-        super();
         this.#beyond = beyond;
     }
 
@@ -44,17 +41,6 @@ export class Application extends Service {
     #layout: string;
     get layout() {
         return this.#layout;
-    }
-
-    readonly #modules = new Modules(this);
-    get modules() {
-        return this.#modules;
-    }
-
-    // External modules are standalone packages that do not have a container
-    readonly #externals = new Modules();
-    get externals() {
-        return this.#externals;
     }
 
     #params: object;
@@ -82,7 +68,5 @@ export class Application extends Service {
             paths[config.package] = this.#beyond.baseUrl;
             amd_require.config({paths});
         }
-
-        super.setup(config);
     }
 }

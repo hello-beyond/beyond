@@ -23,17 +23,14 @@ module.exports = class Project extends require('../file-manager') {
         board: './projects/board',
         express: './projects/express',
         'web-backend': './projects/web-backend',
+        'web-backend-app': './projects/web-backend-app',
         empty: './projects/empty'
     };
 
     skeleton = [
-        'version',
-        'scope', 'name', 'title', 'description',
+        'version', 'scope', 'name', 'title', 'description',
         'layout', 'template', 'languages', 'params',
         {name: 'modules', type: 'object'},
-        {name: 'backend', type: 'object'},
-        {name: 'node', type: 'object'},
-        {name: 'ssr', type: 'object'},
         {name: 'externals', type: 'object'},
         'deployment', 'static'
     ];

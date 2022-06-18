@@ -1,0 +1,10 @@
+{
+  "name": "controllers",
+  "platforms": [
+    "web",
+    "android",
+    "ios"
+  ],
+  "bundle": "ts",
+  "files": "*"
+}

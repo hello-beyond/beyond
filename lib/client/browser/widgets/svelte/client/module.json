@@ -1,0 +1,15 @@
+{
+  "name": "controllers",
+  "platforms": [
+    "web",
+    "android",
+    "ios"
+  ],
+  "bundle": "code",
+  "svelte": {
+    "files": "*"
+  },
+  "ts": {
+    "files": "*"
+  }
+}

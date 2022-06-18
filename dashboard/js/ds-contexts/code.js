@@ -1,30 +1,28 @@
-define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, dependency_0, dependency_1) {
+define(["exports", "react", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/bundle/ts"], function (_exports, dependency_0, dependency_1, dependency_2) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.useWorkspacePanelsContext = _exports2.useDSWorkspaceContext = _exports2.useDSAsideContext = _exports2.useConfigContext = _exports2.useAppContext = _exports2.hmr = _exports2.WorkspacePanelsContext = _exports2.DSWorkspaceContext = _exports2.DSPreAside = _exports2.DSBoards = _exports2.DSAsideContext = _exports2.ConfigContext = _exports2.AppContext = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('@beyond-js/kernel/core/ts', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/ds-contexts/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.useWorkspacePanelsContext = _exports.useDSWorkspaceContext = _exports.useDSAsideContext = _exports.useConfigContext = _exports.useAppContext = _exports.hmr = _exports.WorkspacePanelsContext = _exports.DSWorkspaceContext = _exports.DSPreAside = _exports.DSBoards = _exports.DSAsideContext = _exports.ConfigContext = _exports.AppContext = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const modules = new Map();
+  const __pkg = new __Bundle("@beyond-js/dashboard/ds-contexts/code").package();
+
+  externals.register(new Map([["react", dependency_0]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const ims = new Map();
   /*************************
   INTERNAL MODULE: ./context
   *************************/
 
-  modules.set('./context', {
+  ims.set('./context', {
     hash: 3743684182,
     creator: function (require, exports) {
       "use strict";
@@ -131,7 +129,7 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
   INTERNAL MODULE: ./preaside
   **************************/
 
-  modules.set('./preaside', {
+  ims.set('./preaside', {
     hash: 2495865331,
     creator: function (require, exports) {
       "use strict";
@@ -190,7 +188,7 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
   INTERNAL MODULE: ./use-controller
   ********************************/
 
-  modules.set('./use-controller', {
+  ims.set('./use-controller', {
     hash: 1319212642,
     creator: function (require, exports) {
       // import React from "react";
@@ -205,51 +203,88 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
       // }
       "use strict";
     }
-  }); // Exports managed by beyond bundle objects
-
-  __pkg.exports.managed = function (require, _exports) {
-    _exports.DSBoards = require('./context').DSBoards;
-    _exports.DSWorkspaceContext = require('./context').DSWorkspaceContext;
-    _exports.useDSWorkspaceContext = require('./context').useDSWorkspaceContext;
-    _exports.DSAsideContext = require('./context').DSAsideContext;
-    _exports.useDSAsideContext = require('./context').useDSAsideContext;
-    _exports.WorkspacePanelsContext = require('./context').WorkspacePanelsContext;
-    _exports.useWorkspacePanelsContext = require('./context').useWorkspacePanelsContext;
-    _exports.AppContext = require('./context').AppContext;
-    _exports.useAppContext = require('./context').useAppContext;
-    _exports.ConfigContext = require('./context').ConfigContext;
-    _exports.useConfigContext = require('./context').useConfigContext;
-    _exports.DSPreAside = require('./preaside').DSPreAside;
-  };
-
+  });
+  __pkg.exports.descriptor = [{
+    "im": "./context",
+    "from": "DSBoards",
+    "name": "DSBoards"
+  }, {
+    "im": "./context",
+    "from": "DSWorkspaceContext",
+    "name": "DSWorkspaceContext"
+  }, {
+    "im": "./context",
+    "from": "useDSWorkspaceContext",
+    "name": "useDSWorkspaceContext"
+  }, {
+    "im": "./context",
+    "from": "DSAsideContext",
+    "name": "DSAsideContext"
+  }, {
+    "im": "./context",
+    "from": "useDSAsideContext",
+    "name": "useDSAsideContext"
+  }, {
+    "im": "./context",
+    "from": "WorkspacePanelsContext",
+    "name": "WorkspacePanelsContext"
+  }, {
+    "im": "./context",
+    "from": "useWorkspacePanelsContext",
+    "name": "useWorkspacePanelsContext"
+  }, {
+    "im": "./context",
+    "from": "AppContext",
+    "name": "AppContext"
+  }, {
+    "im": "./context",
+    "from": "useAppContext",
+    "name": "useAppContext"
+  }, {
+    "im": "./context",
+    "from": "ConfigContext",
+    "name": "ConfigContext"
+  }, {
+    "im": "./context",
+    "from": "useConfigContext",
+    "name": "useConfigContext"
+  }, {
+    "im": "./preaside",
+    "from": "DSPreAside",
+    "name": "DSPreAside"
+  }];
   let DSBoards, DSWorkspaceContext, useDSWorkspaceContext, DSAsideContext, useDSAsideContext, WorkspacePanelsContext, useWorkspacePanelsContext, AppContext, useAppContext, ConfigContext, useConfigContext, DSPreAside; // Module exports
 
-  _exports2.DSPreAside = DSPreAside;
-  _exports2.useConfigContext = useConfigContext;
-  _exports2.ConfigContext = ConfigContext;
-  _exports2.useAppContext = useAppContext;
-  _exports2.AppContext = AppContext;
-  _exports2.useWorkspacePanelsContext = useWorkspacePanelsContext;
-  _exports2.WorkspacePanelsContext = WorkspacePanelsContext;
-  _exports2.useDSAsideContext = useDSAsideContext;
-  _exports2.DSAsideContext = DSAsideContext;
-  _exports2.useDSWorkspaceContext = useDSWorkspaceContext;
-  _exports2.DSWorkspaceContext = DSWorkspaceContext;
-  _exports2.DSBoards = DSBoards;
+  _exports.DSPreAside = DSPreAside;
+  _exports.useConfigContext = useConfigContext;
+  _exports.ConfigContext = ConfigContext;
+  _exports.useAppContext = useAppContext;
+  _exports.AppContext = AppContext;
+  _exports.useWorkspacePanelsContext = useWorkspacePanelsContext;
+  _exports.WorkspacePanelsContext = WorkspacePanelsContext;
+  _exports.useDSAsideContext = useDSAsideContext;
+  _exports.DSAsideContext = DSAsideContext;
+  _exports.useDSWorkspaceContext = useDSWorkspaceContext;
+  _exports.DSWorkspaceContext = DSWorkspaceContext;
+  _exports.DSBoards = DSBoards;
 
-  __pkg.exports.process = function (require) {
-    _exports2.DSBoards = DSBoards = require('./context').DSBoards;
-    _exports2.DSWorkspaceContext = DSWorkspaceContext = require('./context').DSWorkspaceContext;
-    _exports2.useDSWorkspaceContext = useDSWorkspaceContext = require('./context').useDSWorkspaceContext;
-    _exports2.DSAsideContext = DSAsideContext = require('./context').DSAsideContext;
-    _exports2.useDSAsideContext = useDSAsideContext = require('./context').useDSAsideContext;
-    _exports2.WorkspacePanelsContext = WorkspacePanelsContext = require('./context').WorkspacePanelsContext;
-    _exports2.useWorkspacePanelsContext = useWorkspacePanelsContext = require('./context').useWorkspacePanelsContext;
-    _exports2.AppContext = AppContext = require('./context').AppContext;
-    _exports2.useAppContext = useAppContext = require('./context').useAppContext;
-    _exports2.ConfigContext = ConfigContext = require('./context').ConfigContext;
-    _exports2.useConfigContext = useConfigContext = require('./context').useConfigContext;
-    _exports2.DSPreAside = DSPreAside = require('./preaside').DSPreAside;
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {
+    (require || prop === 'DSBoards') && (_exports.DSBoards = DSBoards = require ? require('./context').DSBoards : value);
+    (require || prop === 'DSWorkspaceContext') && (_exports.DSWorkspaceContext = DSWorkspaceContext = require ? require('./context').DSWorkspaceContext : value);
+    (require || prop === 'useDSWorkspaceContext') && (_exports.useDSWorkspaceContext = useDSWorkspaceContext = require ? require('./context').useDSWorkspaceContext : value);
+    (require || prop === 'DSAsideContext') && (_exports.DSAsideContext = DSAsideContext = require ? require('./context').DSAsideContext : value);
+    (require || prop === 'useDSAsideContext') && (_exports.useDSAsideContext = useDSAsideContext = require ? require('./context').useDSAsideContext : value);
+    (require || prop === 'WorkspacePanelsContext') && (_exports.WorkspacePanelsContext = WorkspacePanelsContext = require ? require('./context').WorkspacePanelsContext : value);
+    (require || prop === 'useWorkspacePanelsContext') && (_exports.useWorkspacePanelsContext = useWorkspacePanelsContext = require ? require('./context').useWorkspacePanelsContext : value);
+    (require || prop === 'AppContext') && (_exports.AppContext = AppContext = require ? require('./context').AppContext : value);
+    (require || prop === 'useAppContext') && (_exports.useAppContext = useAppContext = require ? require('./context').useAppContext : value);
+    (require || prop === 'ConfigContext') && (_exports.ConfigContext = ConfigContext = require ? require('./context').ConfigContext : value);
+    (require || prop === 'useConfigContext') && (_exports.useConfigContext = useConfigContext = require ? require('./context').useConfigContext : value);
+    (require || prop === 'DSPreAside') && (_exports.DSPreAside = DSPreAside = require ? require('./preaside').DSPreAside : value);
   };
 
   const hmr = new function () {
@@ -257,7 +292,7 @@ define(["exports", "react", "@beyond-js/kernel/core/ts"], function (_exports2, d
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

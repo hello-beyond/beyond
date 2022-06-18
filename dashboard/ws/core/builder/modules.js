@@ -101,8 +101,6 @@ module.exports = function (ipc) {
         if (!Array.isArray(params)) return {error: 'PARAMS_NOT_VALID'};
 
         const dependencies = params.join(', ');
-        console.log('server install ', params, dependencies)
-        return;
         return new Promise((resolve, reject) => {
             const {exec} = require('child_process');
             exec('npm install', {

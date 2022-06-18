@@ -6,17 +6,17 @@ module.exports = class {
     #http;
 
     #initialise = async () => {
-        const info = await ipc.exec('main', 'dashboard/info');
-        this.#ports.ws = info.port;
+        const specs = await ipc.exec('main', 'dashboard/specs');
+        this.#ports.ws = specs.ports.http;
 
-        this.#http = http.createServer(require('./listener')({service: {port: this.#ports.ws}}));
+        this.#http = http.createServer(require('./listener')({backend: {port: this.#ports.ws}}));
         this.#http.listen(this.#ports.http, null,
             error => error && console.log(`Error running dashboard: ${error.message}`)
         );
     }
 
-    constructor(port) {
-        this.#ports.http = port;
+    constructor(ports) {
+        this.#ports = ports;
         this.#initialise().catch(exc => console.log(exc.stack));
     }
 }

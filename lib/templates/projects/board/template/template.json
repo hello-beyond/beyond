@@ -1,20 +1,20 @@
 {
   "application": {
-    "processor": "scss",
+    "processor": "sass",
     "path": "application",
     "files": [
       "*"
     ]
   },
   "global": {
-    "processor": "scss",
+    "processor": "sass",
     "path": "global",
     "files": [
       "*"
     ]
   },
   "processors": {
-    "scss": {
+    "sass": {
       "path": "scss",
       "files": [
         "*"

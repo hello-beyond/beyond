@@ -1,28 +1,26 @@
-define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dependency_1) {
+define(["exports", "react", "react-dom"], function (_exports, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.BeyondPopover = BeyondPopover;
-  _exports2.BeyondPopper = BeyondPopper;
-  _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/popover/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.BeyondPopover = BeyondPopover;
+  _exports.BeyondPopper = BeyondPopper;
+  _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/popover/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -231,22 +229,22 @@ define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dep
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.beyond-popover__content{display:none;background:#121f36;color:#fff}.beyond-popover__content[data-show]{display:grid;position:absolute;top:0;left:0}.beyond-popover__content .popover__container{position:relative}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/popover/code', '.beyond-popover__content{display:none;background:#121f36;color:#fff}.beyond-popover__content[data-show]{display:grid;position:absolute;top:0;left:0}.beyond-popover__content .popover__container{position:relative}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

@@ -1,32 +1,26 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyond-js/ui/icon/code", "/libraries/beyond-dashboard/ui/layout/search/code", "@beyond-js/ui/perfect-scrollbar/code", "@beyond-js/ui/ripple/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, _code6, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.COMPONENTS = void 0;
-  _exports2.Page = Page;
-  _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/home/page', false, {
-    "txt": {
-      "multilanguage": true
-    }
-  }, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.COMPONENTS = void 0;
+  _exports.Page = Page;
+  _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/unnamed/home/page").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /*************
   components.jsx
   *************/
@@ -257,7 +251,7 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   FILE: page.js
   ************/
 
-  _exports2.COMPONENTS = COMPONENTS;
+  _exports.COMPONENTS = COMPONENTS;
 
   function Page() {
     const wrapper = document.createElement('div');
@@ -272,22 +266,22 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/form/code", "@beyo
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.home-beyond-ui header{padding-bottom:15px;border-bottom:solid 1px gray}.home-beyond-ui header h1{padding-bottom:20px;padding-top:0}.home-beyond-ui header p{color:#b7b7b6;width:80%}.home-beyond-ui .container-components{padding-top:40px;display:grid;grid-template-columns:1fr 1fr 1fr;grid-gap:40px}.home-beyond-ui .container-components .component{position:relative;padding:15px;border-radius:4px;box-shadow:2px .175em .5em rgba(2,8,20,.1),0 .085em .375em;cursor:pointer;transition:.5s background}.home-beyond-ui .container-components .component:hover{background:#e36152}.home-beyond-ui .container-components .component svg{background:#fff;border-radius:50%;padding:8px}.home-beyond-ui .container-components .component p{font-size:12px;text-align:justify}.home-beyond-ui .container-components .component .beyond-icon{height:40px;width:40px;position:relative;fill:#1e2d42}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/unnamed/home/page', '.home-beyond-ui header{padding-bottom:15px;border-bottom:solid 1px gray}.home-beyond-ui header h1{padding-bottom:20px;padding-top:0}.home-beyond-ui header p{color:#b7b7b6;width:80%}.home-beyond-ui .container-components{padding-top:40px;display:grid;grid-template-columns:1fr 1fr 1fr;grid-gap:40px}.home-beyond-ui .container-components .component{position:relative;padding:15px;border-radius:4px;box-shadow:2px .175em .5em rgba(2,8,20,.1),0 .085em .375em;cursor:pointer;transition:.5s background}.home-beyond-ui .container-components .component:hover{background:#e36152}.home-beyond-ui .container-components .component svg{background:#fff;border-radius:50%;padding:8px}.home-beyond-ui .container-components .component p{font-size:12px;text-align:justify}.home-beyond-ui .container-components .component .beyond-icon{height:40px;width:40px;position:relative;fill:#1e2d42}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

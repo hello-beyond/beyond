@@ -1,28 +1,26 @@
-define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dependency_1) {
+define(["exports", "react", "react-dom"], function (_exports, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.ToastContext = void 0;
-  _exports2.ToastContextProvider = ToastContextProvider;
-  _exports2.useToastContext = _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/toast/code', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.ToastContext = void 0;
+  _exports.ToastContextProvider = ToastContextProvider;
+  _exports.useToastContext = _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/toast/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /************
   container.jsx
   ************/
@@ -55,7 +53,7 @@ define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dep
 
 
   const ToastContext = React.createContext();
-  _exports2.ToastContext = ToastContext;
+  _exports.ToastContext = ToastContext;
 
   function ToastContextProvider({
     children
@@ -88,7 +86,7 @@ define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dep
   ********/
 
 
-  _exports2.useToastContext = useToastContext;
+  _exports.useToastContext = useToastContext;
 
   const Toast = ({
     children
@@ -102,22 +100,22 @@ define(["exports", "react", "react-dom"], function (_exports2, dependency_0, dep
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.beyond-element-toast{position:relative;-webkit-box-shadow:0 1px 4px rgba(0,0,0,.3),0 0 40px rgba(0,0,0,.1) inset;-moz-box-shadow:0 1px 4px rgba(0,0,0,.3),0 0 40px rgba(0,0,0,.1) inset;box-shadow:0 1px 4px rgba(0,0,0,.3),0 0 40px rgba(0,0,0,.1) inset}.beyond-element-toast:after,.beyond-element-toast:before{content:"";position:absolute;z-index:-1;-webkit-box-shadow:0 0 20px rgba(0,0,0,.8);-moz-box-shadow:0 0 20px rgba(0,0,0,.8);box-shadow:0 0 20px rgba(0,0,0,.8);top:50%;bottom:0;left:10px;right:10px;-moz-border-radius:100px/10px;border-radius:100px/10px}.beyond-element-toast:after{right:10px;left:auto;-webkit-transform:skew(8deg) rotate(3deg);-moz-transform:skew(8deg) rotate(3deg);-ms-transform:skew(8deg) rotate(3deg);-o-transform:skew(8deg) rotate(3deg);transform:skew(8deg) rotate(3deg)}.beyond-element-toast-container{position:fixed;bottom:30px;left:30px}.beyond-element-toast-container .beyond-element-toast{padding:15px;width:200px;color:#fff;background:#e36152;margin-top:8px}.beyond-element-toast-container .beyond-element-toast.accent{background:#a2000a;color:#fff}.beyond-element-toast-container .beyond-element-toast.primary{background:#ff8056;color:#fff}.beyond-element-toast-container .beyond-element-toast.secondary{background:#121f36;color:#fff}.beyond-element-toast-container .beyond-element-toast.success{background:#6aac7d;color:#fff}.beyond-element-toast-container .beyond-element-toast.warning{background:#f7d994;color:#fff}.beyond-element-toast-container .beyond-element-toast.info{background:#4d66a9;color:#fff}.beyond-element-toast-container .beyond-element-toast.error{background:#d2281e;color:#fff}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/toast/code', '.beyond-element-toast{position:relative;-webkit-box-shadow:0 1px 4px rgba(0,0,0,.3),0 0 40px rgba(0,0,0,.1) inset;-moz-box-shadow:0 1px 4px rgba(0,0,0,.3),0 0 40px rgba(0,0,0,.1) inset;box-shadow:0 1px 4px rgba(0,0,0,.3),0 0 40px rgba(0,0,0,.1) inset}.beyond-element-toast:after,.beyond-element-toast:before{content:"";position:absolute;z-index:-1;-webkit-box-shadow:0 0 20px rgba(0,0,0,.8);-moz-box-shadow:0 0 20px rgba(0,0,0,.8);box-shadow:0 0 20px rgba(0,0,0,.8);top:50%;bottom:0;left:10px;right:10px;-moz-border-radius:100px/10px;border-radius:100px/10px}.beyond-element-toast:after{right:10px;left:auto;-webkit-transform:skew(8deg) rotate(3deg);-moz-transform:skew(8deg) rotate(3deg);-ms-transform:skew(8deg) rotate(3deg);-o-transform:skew(8deg) rotate(3deg);transform:skew(8deg) rotate(3deg)}.beyond-element-toast-container{position:fixed;bottom:30px;left:30px}.beyond-element-toast-container .beyond-element-toast{padding:15px;width:200px;color:#fff;background:#e36152;margin-top:8px}.beyond-element-toast-container .beyond-element-toast.accent{background:#a2000a;color:#fff}.beyond-element-toast-container .beyond-element-toast.primary{background:#ff8056;color:#fff}.beyond-element-toast-container .beyond-element-toast.secondary{background:#121f36;color:#fff}.beyond-element-toast-container .beyond-element-toast.success{background:#6aac7d;color:#fff}.beyond-element-toast-container .beyond-element-toast.warning{background:#f7d994;color:#fff}.beyond-element-toast-container .beyond-element-toast.info{background:#4d66a9;color:#fff}.beyond-element-toast-container .beyond-element-toast.error{background:#d2281e;color:#fff}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

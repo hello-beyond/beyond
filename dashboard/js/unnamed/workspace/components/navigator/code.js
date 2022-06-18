@@ -1,31 +1,29 @@
-define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-components/code", "@beyond-js/dashboard/ds-contexts/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Iframe = Iframe;
-  _exports2.NavigatorBoard = NavigatorBoard;
-  _exports2.NavigatorContext = void 0;
-  _exports2.OLDNavigatorBoard = OLDNavigatorBoard;
-  _exports2.useNavigatorContext = _exports2.hmr = void 0;
+  _exports.Iframe = Iframe;
+  _exports.NavigatorBoard = NavigatorBoard;
+  _exports.NavigatorContext = void 0;
+  _exports.OLDNavigatorBoard = OLDNavigatorBoard;
+  _exports.useNavigatorContext = _exports.hmr = void 0;
+
   //Beyond  UI
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/navigator/code', false, {}, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/workspace/components/navigator/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /***********
   JS PROCESSOR
   ***********/
@@ -212,11 +210,11 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-compone
 
 
   const NavigatorContext = React.createContext();
-  _exports2.NavigatorContext = NavigatorContext;
+  _exports.NavigatorContext = NavigatorContext;
 
   const useNavigatorContext = () => React.useContext(NavigatorContext);
 
-  _exports2.useNavigatorContext = useNavigatorContext;
+  _exports.useNavigatorContext = useNavigatorContext;
 
   function NavigatorBoard({
     specs
@@ -337,22 +335,22 @@ define(["exports", "@beyond-js/ui/icon/code", "@beyond-js/dashboard/core-compone
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.ds-navigator__container.is-fetching .ds-navigator__bar .ds-navigator__form input{background:rgba(255,255,255,.1)}.ds-navigator__container .ds-navigator__bar{display:flex;align-items:center;width:100%;z-index:1000}.ds-navigator__container .ds-navigator__bar .ds-navigator__form{width:100%;display:grid;padding:5px 0;grid-gap:5px;grid-template-columns:auto 1fr auto}.ds-navigator__container .ds-navigator__bar .ds-navigator__form input{width:100%;padding:8px;color:#fff;outline:0;border:none;background:#000;box-shadow:none}.ds-navigator__container .ds-navigator__bar .ds-navigator__form .beyond-icon-button{background:#333}.ds-navigator__container .ds-navigator__bar .ds-navigator__form .beyond-icon-button svg{fill:#fff}.ds-navigator__container .navigator__fetching-container{position:absolute;top:0;left:0;bottom:0;right:0;display:flex;align-self:center;justify-content:center;justify-items:center}.ds-navigator__container .navigator__fetching-container .ds-spinner__container{display:flex;align-self:center;justify-content:center;justify-items:center}.ds-navigator__container{display:grid;height:100%;width:100%;grid-template-rows:auto 1fr;position:relative;overflow-x:auto;grid-gap:0}.ds-navigator__container .ds-navigator__iframe__container{display:flex;align-items:center;justify-content:center;flex-basis:max-content;align-items:center}.ds-navigator__container .ds-navigator__iframe__container iframe{height:100%;width:100%}.ds-navigator__container .ds-navigator__iframe__container iframe.iframe--responsive{height:142mm;width:72.5mm}.ds-navigator__container .ds-navigator__iframe__container{align-items:center}.ds-navigator__container .ds-navigator__resizer{position:absolute;top:0;bottom:0;left:0;z-index:2;height:100%;width:15px;cursor:col-resize;background:#333}.ds-navigator__container .ds-navigator__resizer:hover{background:#343434}.ds-navigator__container.is-resizing .ds-navigator__resizer__shadow{display:block}.ds-navigator__container .ds-navigator__resizer__shadow{position:absolute;top:0;left:0;bottom:15px;right:0;display:none}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/unnamed/workspace/components/navigator/code', '.ds-navigator__container.is-fetching .ds-navigator__bar .ds-navigator__form input{background:rgba(255,255,255,.1)}.ds-navigator__container .ds-navigator__bar{display:flex;align-items:center;width:100%;z-index:1000}.ds-navigator__container .ds-navigator__bar .ds-navigator__form{width:100%;display:grid;padding:5px 0;grid-gap:5px;grid-template-columns:auto 1fr auto}.ds-navigator__container .ds-navigator__bar .ds-navigator__form input{width:100%;padding:8px;color:#fff;outline:0;border:none;background:#000;box-shadow:none}.ds-navigator__container .ds-navigator__bar .ds-navigator__form .beyond-icon-button{background:#333}.ds-navigator__container .ds-navigator__bar .ds-navigator__form .beyond-icon-button svg{fill:#fff}.ds-navigator__container .navigator__fetching-container{position:absolute;top:0;left:0;bottom:0;right:0;display:flex;align-self:center;justify-content:center;justify-items:center}.ds-navigator__container .navigator__fetching-container .ds-spinner__container{display:flex;align-self:center;justify-content:center;justify-items:center}.ds-navigator__container{display:grid;height:100%;width:100%;grid-template-rows:auto 1fr;position:relative;overflow-x:auto;grid-gap:0}.ds-navigator__container .ds-navigator__iframe__container{display:flex;align-items:center;justify-content:center;flex-basis:max-content;align-items:center}.ds-navigator__container .ds-navigator__iframe__container iframe{height:100%;width:100%}.ds-navigator__container .ds-navigator__iframe__container iframe.iframe--responsive{height:142mm;width:72.5mm}.ds-navigator__container .ds-navigator__iframe__container{align-items:center}.ds-navigator__container .ds-navigator__resizer{position:absolute;top:0;bottom:0;left:0;z-index:2;height:100%;width:15px;cursor:col-resize;background:#333}.ds-navigator__container .ds-navigator__resizer:hover{background:#343434}.ds-navigator__container.is-resizing .ds-navigator__resizer__shadow{display:block}.ds-navigator__container .ds-navigator__resizer__shadow{position:absolute;top:0;left:0;bottom:15px;right:0;display:none}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

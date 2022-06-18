@@ -1,30 +1,28 @@
-define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/workspace-tree/code", "react", "react-dom"], function (_exports2, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/code", "@beyond-js/ui/spinner/code", "@beyond-js/ui/form/code", "@beyond-js/dashboard/hooks/code", "@beyond-js/dashboard/models/code", "@beyond-js/dashboard/ds-contexts/code", "@beyond-js/dashboard/workspace-tree/code", "react", "react-dom"], function (_exports, _js, _code, _code2, _code3, _code4, _code5, _code6, _code7, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.AsideFavorites = AsideFavorites;
-  _exports2.hmr = _exports2.FavoritesModel = _exports2.FavoritesFactory = _exports2.FavoriteChildren = void 0;
+  _exports.AsideFavorites = AsideFavorites;
+  _exports.hmr = _exports.FavoritesModel = _exports.FavoritesFactory = _exports.FavoriteChildren = void 0;
+
   //models
   //beyond-ui
   //CONTEXT
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
   const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/dashboard/unnamed/workspace/components/favorites/code', false, {}, dependencies);
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
+
+  const __pkg = new __Bundle("@beyond-js/dashboard/unnamed/workspace/components/favorites/code").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
   const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
-
-  const __pkg = bundle.package();
-
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
 
   function _extends() {
     _extends = Object.assign || function (target) {
@@ -244,7 +242,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
       this._ready = true;
     }
 
-    async add(name, specs) {
+    add = async (name, specs) => {
       try {
         const identifier = name.replace(/ /g, '-').toLowerCase();
         const favorite = this.items.has(name) ? this.items.get(name) : new FavoritesList(this, this._moduleManager, {
@@ -258,7 +256,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
       } catch (e) {
         console.error(103, e);
       }
-    }
+    };
 
     async remove(id) {
       if (!this.items.has(id)) return;
@@ -278,7 +276,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
   ****************/
 
 
-  _exports2.FavoritesModel = FavoritesModel;
+  _exports.FavoritesModel = FavoritesModel;
 
   class FavoriteChildren extends _js.ReactiveModel {
     _bundle;
@@ -374,7 +372,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
    */
 
 
-  _exports2.FavoriteChildren = FavoriteChildren;
+  _exports.FavoriteChildren = FavoriteChildren;
 
   class Factory extends _js.ReactiveModel {
     _items = new Map();
@@ -404,7 +402,7 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
   FILE: list-base.js
   *****************/
 
-  _exports2.FavoritesFactory = FavoritesFactory;
+  _exports.FavoritesFactory = FavoritesFactory;
 
   class FavoritesListBase extends _js.ReactiveModel {
     _name;
@@ -822,19 +820,20 @@ define(["exports", "@beyond-js/dashboard-lib/models/js", "@beyond-js/ui/modal/co
 
   }
 
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

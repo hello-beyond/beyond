@@ -1,29 +1,28 @@
-define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency_0) {
+define(["exports", "@beyond-js/kernel/core/ts", "@beyond-js/kernel/bundle/ts"], function (_exports, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.tables = _exports2.realtime = _exports2.hmr = _exports2.auth = _exports2.TableSpecs = _exports2.NotSet = _exports2.ListUpdateFilterReport = _exports2.ItemsProperty = _exports2.ItemSpecs = _exports2.ItemSelectorProperty = _exports2.ItemProperty = _exports2.Item = _exports2.DataSource = _exports2.ConditionOperand = _exports2.CollectionSpecs = _exports2.CollectionProperty = _exports2.Collection = void 0;
-  const dependencies = new Map();
-  dependencies.set('@beyond-js/kernel/core/ts', dependency_0);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/plm/core/ts', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.tables = _exports.realtime = _exports.hmr = _exports.auth = _exports.TableSpecs = _exports.NotSet = _exports.ListUpdateFilterReport = _exports.ItemsProperty = _exports.ItemSpecs = _exports.ItemSelectorProperty = _exports.ItemProperty = _exports.Item = _exports.DataSource = _exports.ConditionOperand = _exports.CollectionSpecs = _exports.CollectionProperty = _exports.Collection = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const modules = new Map();
+  const __pkg = new __Bundle("@beyond-js/plm/core/ts").package();
+
+  externals.register(new Map([]));
+  const {
+    module
+  } = __pkg.bundle;
+  const ims = new Map();
   /***************************
   INTERNAL MODULE: ./auth/auth
   ***************************/
 
-  modules.set('./auth/auth', {
+  ims.set('./auth/auth', {
     hash: 2495452891,
     creator: function (require, exports) {
       "use strict";
@@ -61,7 +60,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./auth/get-access-token
   ***************************************/
 
-  modules.set('./auth/get-access-token', {
+  ims.set('./auth/get-access-token', {
     hash: 3814648084,
     creator: function (require, exports) {
       "use strict";
@@ -99,7 +98,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./auth/session
   ******************************/
 
-  modules.set('./auth/session', {
+  ims.set('./auth/session', {
     hash: 1207406251,
     creator: function (require, exports) {
       "use strict";
@@ -143,7 +142,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./auth/sessions
   *******************************/
 
-  modules.set('./auth/sessions', {
+  ims.set('./auth/sessions', {
     hash: 642400809,
     creator: function (require, exports) {
       "use strict";
@@ -179,7 +178,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./constants
   ***************************/
 
-  modules.set('./constants', {
+  ims.set('./constants', {
     hash: 1333982119,
     creator: function (require, exports) {
       "use strict";
@@ -208,7 +207,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/collection/collection
   ************************************************/
 
-  modules.set('./elements/collection/collection', {
+  ims.set('./elements/collection/collection', {
     hash: 4280748620,
     creator: function (require, exports) {
       "use strict";
@@ -349,7 +348,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/collection/counters/counter
   ******************************************************/
 
-  modules.set('./elements/collection/counters/counter', {
+  ims.set('./elements/collection/counters/counter', {
     hash: 1792567981,
     creator: function (require, exports) {
       "use strict";
@@ -402,7 +401,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/collection/counters/counters
   *******************************************************/
 
-  modules.set('./elements/collection/counters/counters', {
+  ims.set('./elements/collection/counters/counters', {
     hash: 1131517711,
     creator: function (require, exports) {
       "use strict";
@@ -457,7 +456,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/collection/items/items
   *************************************************/
 
-  modules.set('./elements/collection/items/items', {
+  ims.set('./elements/collection/items/items', {
     hash: 3223693365,
     creator: function (require, exports) {
       "use strict";
@@ -559,7 +558,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/collection/tree
   ******************************************/
 
-  modules.set('./elements/collection/tree', {
+  ims.set('./elements/collection/tree', {
     hash: 3980109007,
     creator: function (require, exports) {
       "use strict";
@@ -596,7 +595,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/element
   **********************************/
 
-  modules.set('./elements/element', {
+  ims.set('./elements/element', {
     hash: 2829845709,
     creator: function (require, exports) {
       "use strict";
@@ -700,7 +699,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/fields/field
   ********************************************/
 
-  modules.set('./elements/item/fields/field', {
+  ims.set('./elements/item/fields/field', {
     hash: 3159573088,
     creator: function (require, exports) {
       "use strict";
@@ -744,7 +743,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/fields/fields
   *********************************************/
 
-  modules.set('./elements/item/fields/fields', {
+  ims.set('./elements/item/fields/fields', {
     hash: 2163016256,
     creator: function (require, exports) {
       "use strict";
@@ -777,7 +776,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/item
   ************************************/
 
-  modules.set('./elements/item/item', {
+  ims.set('./elements/item/item', {
     hash: 2854753821,
     creator: function (require, exports) {
       "use strict";
@@ -937,7 +936,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/collection/filter
   ************************************************************/
 
-  modules.set('./elements/item/properties/collection/filter', {
+  ims.set('./elements/item/properties/collection/filter', {
     hash: 3183572785,
     creator: function (require, exports) {
       "use strict";
@@ -1028,7 +1027,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/collection/property
   **************************************************************/
 
-  modules.set('./elements/item/properties/collection/property', {
+  ims.set('./elements/item/properties/collection/property', {
     hash: 1972327078,
     creator: function (require, exports) {
       "use strict";
@@ -1117,7 +1116,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/collection/tree
   **********************************************************/
 
-  modules.set('./elements/item/properties/collection/tree', {
+  ims.set('./elements/item/properties/collection/tree', {
     hash: 476448367,
     creator: function (require, exports) {
       "use strict";
@@ -1148,7 +1147,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/item-selector/property
   *****************************************************************/
 
-  modules.set('./elements/item/properties/item-selector/property', {
+  ims.set('./elements/item/properties/item-selector/property', {
     hash: 2240180738,
     creator: function (require, exports) {
       "use strict";
@@ -1231,7 +1230,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/item-selector/tree
   *************************************************************/
 
-  modules.set('./elements/item/properties/item-selector/tree', {
+  ims.set('./elements/item/properties/item-selector/tree', {
     hash: 3729187936,
     creator: function (require, exports) {
       "use strict";
@@ -1262,7 +1261,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/item/identifier
   **********************************************************/
 
-  modules.set('./elements/item/properties/item/identifier', {
+  ims.set('./elements/item/properties/item/identifier', {
     hash: 1191197271,
     creator: function (require, exports) {
       "use strict";
@@ -1339,7 +1338,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/item/property
   ********************************************************/
 
-  modules.set('./elements/item/properties/item/property', {
+  ims.set('./elements/item/properties/item/property', {
     hash: 2014729253,
     creator: function (require, exports) {
       "use strict";
@@ -1429,7 +1428,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/item/tree
   ****************************************************/
 
-  modules.set('./elements/item/properties/item/tree', {
+  ims.set('./elements/item/properties/item/tree', {
     hash: 2961426029,
     creator: function (require, exports) {
       "use strict";
@@ -1460,7 +1459,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/items/property
   *********************************************************/
 
-  modules.set('./elements/item/properties/items/property', {
+  ims.set('./elements/item/properties/items/property', {
     hash: 2467694982,
     creator: function (require, exports) {
       "use strict";
@@ -1590,7 +1589,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/items/tree
   *****************************************************/
 
-  modules.set('./elements/item/properties/items/tree', {
+  ims.set('./elements/item/properties/items/tree', {
     hash: 1066763736,
     creator: function (require, exports) {
       "use strict";
@@ -1624,7 +1623,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/properties
   *****************************************************/
 
-  modules.set('./elements/item/properties/properties', {
+  ims.set('./elements/item/properties/properties', {
     hash: 3553928775,
     creator: function (require, exports) {
       "use strict";
@@ -1710,7 +1709,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/properties/property
   ***************************************************/
 
-  modules.set('./elements/item/properties/property', {
+  ims.set('./elements/item/properties/property', {
     hash: 2546207792,
     creator: function (require, exports) {
       "use strict";
@@ -1724,7 +1723,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/item/tree
   ************************************/
 
-  modules.set('./elements/item/tree', {
+  ims.set('./elements/item/tree', {
     hash: 30503873,
     creator: function (require, exports) {
       "use strict";
@@ -1761,7 +1760,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./elements/realtime
   ***********************************/
 
-  modules.set('./elements/realtime', {
+  ims.set('./elements/realtime', {
     hash: 2022675178,
     creator: function (require, exports) {
       "use strict";
@@ -1798,7 +1797,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/counter/counter
   *********************************************/
 
-  modules.set('./tables/data/counter/counter', {
+  ims.set('./tables/data/counter/counter', {
     hash: 1520738300,
     creator: function (require, exports) {
       "use strict";
@@ -1898,7 +1897,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/counter/fetch
   *******************************************/
 
-  modules.set('./tables/data/counter/fetch', {
+  ims.set('./tables/data/counter/fetch', {
     hash: 2851854299,
     creator: function (require, exports) {
       "use strict";
@@ -1952,7 +1951,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/counter/local-store
   *************************************************/
 
-  modules.set('./tables/data/counter/local-store', {
+  ims.set('./tables/data/counter/local-store', {
     hash: 1873218828,
     creator: function (require, exports) {
       "use strict";
@@ -1997,7 +1996,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/counter/manager
   *********************************************/
 
-  modules.set('./tables/data/counter/manager', {
+  ims.set('./tables/data/counter/manager', {
     hash: 2047409176,
     creator: function (require, exports) {
       "use strict";
@@ -2029,7 +2028,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/factory/compare-objects
   *****************************************************/
 
-  modules.set('./tables/data/factory/compare-objects', {
+  ims.set('./tables/data/factory/compare-objects', {
     hash: 2669127418,
     creator: function (require, exports) {
       "use strict";
@@ -2067,7 +2066,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/factory/factory
   *********************************************/
 
-  modules.set('./tables/data/factory/factory', {
+  ims.set('./tables/data/factory/factory', {
     hash: 156948480,
     creator: function (require, exports) {
       "use strict";
@@ -2160,7 +2159,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/factory/product
   *********************************************/
 
-  modules.set('./tables/data/factory/product', {
+  ims.set('./tables/data/factory/product', {
     hash: 3204950323,
     creator: function (require, exports) {
       "use strict";
@@ -2241,7 +2240,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/filter/filter
   *******************************************/
 
-  modules.set('./tables/data/filter/filter', {
+  ims.set('./tables/data/filter/filter', {
     hash: 1271509135,
     creator: function (require, exports) {
       "use strict";
@@ -2342,7 +2341,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/fetch
   *****************************************/
 
-  modules.set('./tables/data/lists/fetch', {
+  ims.set('./tables/data/lists/fetch', {
     hash: 3221551207,
     creator: function (require, exports) {
       "use strict";
@@ -2416,7 +2415,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/list
   ****************************************/
 
-  modules.set('./tables/data/lists/list', {
+  ims.set('./tables/data/lists/list', {
     hash: 517810145,
     creator: function (require, exports) {
       "use strict";
@@ -2560,7 +2559,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/local-store
   ***********************************************/
 
-  modules.set('./tables/data/lists/local-store', {
+  ims.set('./tables/data/lists/local-store', {
     hash: 250894529,
     creator: function (require, exports) {
       "use strict";
@@ -2605,7 +2604,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/manager/manager
   ***************************************************/
 
-  modules.set('./tables/data/lists/manager/manager', {
+  ims.set('./tables/data/lists/manager/manager', {
     hash: 585864089,
     creator: function (require, exports) {
       "use strict";
@@ -2662,7 +2661,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/manager/realtime/realtime
   *************************************************************/
 
-  modules.set('./tables/data/lists/manager/realtime/realtime', {
+  ims.set('./tables/data/lists/manager/realtime/realtime', {
     hash: 2873257050,
     creator: function (require, exports) {
       "use strict";
@@ -2694,8 +2693,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/manager/realtime/reports
   ************************************************************/
 
-  modules.set('./tables/data/lists/manager/realtime/reports', {
-    hash: 4249643312,
+  ims.set('./tables/data/lists/manager/realtime/reports', {
+    hash: 78249837,
     creator: function (require, exports) {
       "use strict";
 
@@ -2753,7 +2752,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
         update(filter) {
           for (const entry of this.#manager.registries.filters.values()) {
-            if (filter && entry.filter.specs && !this.#checkFilter(filter, entry.filter.specs)) return;
+            if (filter && entry.filter.specs && !this.#checkFilter(filter, entry.filter.specs)) continue;
             entry.lists.forEach(list => list.landed && list.invalidate());
           }
         }
@@ -2767,7 +2766,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/manager/registries/filter
   *************************************************************/
 
-  modules.set('./tables/data/lists/manager/registries/filter', {
+  ims.set('./tables/data/lists/manager/registries/filter', {
     hash: 2522735486,
     creator: function (require, exports) {
       "use strict";
@@ -2818,7 +2817,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/manager/registries/registries
   *****************************************************************/
 
-  modules.set('./tables/data/lists/manager/registries/registries', {
+  ims.set('./tables/data/lists/manager/registries/registries', {
     hash: 1636734906,
     creator: function (require, exports) {
       "use strict";
@@ -2861,7 +2860,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/order
   *****************************************/
 
-  modules.set('./tables/data/lists/order', {
+  ims.set('./tables/data/lists/order', {
     hash: 4054939735,
     creator: function (require, exports) {
       "use strict";
@@ -2918,7 +2917,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/lists/records
   *******************************************/
 
-  modules.set('./tables/data/lists/records', {
+  ims.set('./tables/data/lists/records', {
     hash: 1169534636,
     creator: function (require, exports) {
       "use strict";
@@ -3006,7 +3005,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/realtime/realtime
   ***********************************************/
 
-  modules.set('./tables/data/realtime/realtime', {
+  ims.set('./tables/data/realtime/realtime', {
     hash: 3629346848,
     creator: function (require, exports) {
       "use strict";
@@ -3035,7 +3034,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/realtime/reports/list
   ***************************************************/
 
-  modules.set('./tables/data/realtime/reports/list', {
+  ims.set('./tables/data/realtime/reports/list', {
     hash: 3728706255,
     creator: function (require, exports) {
       "use strict";
@@ -3068,7 +3067,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/realtime/reports/record
   *****************************************************/
 
-  modules.set('./tables/data/realtime/reports/record', {
+  ims.set('./tables/data/realtime/reports/record', {
     hash: 2510156693,
     creator: function (require, exports) {
       "use strict";
@@ -3115,7 +3114,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/realtime/reports/reports
   ******************************************************/
 
-  modules.set('./tables/data/realtime/reports/reports', {
+  ims.set('./tables/data/realtime/reports/reports', {
     hash: 107636444,
     creator: function (require, exports) {
       "use strict";
@@ -3151,7 +3150,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/factory
   **************************************************/
 
-  modules.set('./tables/data/records/data/factory', {
+  ims.set('./tables/data/records/data/factory', {
     hash: 3526622083,
     creator: function (require, exports) {
       "use strict";
@@ -3247,7 +3246,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/fetcher
   **************************************************/
 
-  modules.set('./tables/data/records/data/fetcher', {
+  ims.set('./tables/data/records/data/fetcher', {
     hash: 1107725940,
     creator: function (require, exports) {
       "use strict";
@@ -3353,7 +3352,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/fields/field
   *******************************************************/
 
-  modules.set('./tables/data/records/data/fields/field', {
+  ims.set('./tables/data/records/data/fields/field', {
     hash: 2081975081,
     creator: function (require, exports) {
       "use strict";
@@ -3462,7 +3461,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/fields/fields
   ********************************************************/
 
-  modules.set('./tables/data/records/data/fields/fields', {
+  ims.set('./tables/data/records/data/fields/fields', {
     hash: 1590311372,
     creator: function (require, exports) {
       "use strict";
@@ -3539,7 +3538,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/fields/setter
   ********************************************************/
 
-  modules.set('./tables/data/records/data/fields/setter', {
+  ims.set('./tables/data/records/data/fields/setter', {
     hash: 1387037198,
     creator: function (require, exports) {
       "use strict";
@@ -3604,7 +3603,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/fields/sources/memory
   ****************************************************************/
 
-  modules.set('./tables/data/records/data/fields/sources/memory', {
+  ims.set('./tables/data/records/data/fields/sources/memory', {
     hash: 1124919465,
     creator: function (require, exports) {
       "use strict";
@@ -3630,7 +3629,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/fields/sources/published
   *******************************************************************/
 
-  modules.set('./tables/data/records/data/fields/sources/published', {
+  ims.set('./tables/data/records/data/fields/sources/published', {
     hash: 1639330156,
     creator: function (require, exports) {
       "use strict";
@@ -3658,7 +3657,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/fields/sources/source
   ****************************************************************/
 
-  modules.set('./tables/data/records/data/fields/sources/source', {
+  ims.set('./tables/data/records/data/fields/sources/source', {
     hash: 3270809056,
     creator: function (require, exports) {
       "use strict";
@@ -3751,8 +3750,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/identifiers
   ******************************************************/
 
-  modules.set('./tables/data/records/data/identifiers', {
-    hash: 1512918363,
+  ims.set('./tables/data/records/data/identifiers', {
+    hash: 1796365917,
     creator: function (require, exports) {
       "use strict";
 
@@ -3808,7 +3807,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           this.#record = record;
           this.#indices = record.table.indices;
           if (!initial || initial.localId) return;
-          const index = this.getIndex(initial); // console.log('index ', index, initial, this.#identifiers, this.#indices, this)
+          const index = this.getIndex(initial);
 
           if (!index) {
             console.error('Identifier:', initial);
@@ -3929,7 +3928,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/loader
   *************************************************/
 
-  modules.set('./tables/data/records/data/loader', {
+  ims.set('./tables/data/records/data/loader', {
     hash: 1384738338,
     creator: function (require, exports) {
       "use strict";
@@ -4002,7 +4001,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/record
   *************************************************/
 
-  modules.set('./tables/data/records/data/record', {
+  ims.set('./tables/data/records/data/record', {
     hash: 1434966283,
     creator: function (require, exports) {
       "use strict";
@@ -4171,7 +4170,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/data/unpublished
   ******************************************************/
 
-  modules.set('./tables/data/records/data/unpublished', {
+  ims.set('./tables/data/records/data/unpublished', {
     hash: 1550269948,
     creator: function (require, exports) {
       "use strict";
@@ -4214,7 +4213,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/manager
   *********************************************/
 
-  modules.set('./tables/data/records/manager', {
+  ims.set('./tables/data/records/manager', {
     hash: 3803602193,
     creator: function (require, exports) {
       "use strict";
@@ -4285,7 +4284,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/realtime/realtime
   *******************************************************/
 
-  modules.set('./tables/data/records/realtime/realtime', {
+  ims.set('./tables/data/records/realtime/realtime', {
     hash: 3868646380,
     creator: function (require, exports) {
       "use strict";
@@ -4317,7 +4316,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/realtime/reports
   ******************************************************/
 
-  modules.set('./tables/data/records/realtime/reports', {
+  ims.set('./tables/data/records/realtime/reports', {
     hash: 2951830057,
     creator: function (require, exports) {
       "use strict";
@@ -4372,7 +4371,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/wrapped/factory
   *****************************************************/
 
-  modules.set('./tables/data/records/wrapped/factory', {
+  ims.set('./tables/data/records/wrapped/factory', {
     hash: 3965804558,
     creator: function (require, exports) {
       "use strict";
@@ -4415,7 +4414,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/wrapped/fields/field
   **********************************************************/
 
-  modules.set('./tables/data/records/wrapped/fields/field', {
+  ims.set('./tables/data/records/wrapped/fields/field', {
     hash: 3140957279,
     creator: function (require, exports) {
       "use strict";
@@ -4459,7 +4458,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/wrapped/fields/fields
   ***********************************************************/
 
-  modules.set('./tables/data/records/wrapped/fields/fields', {
+  ims.set('./tables/data/records/wrapped/fields/fields', {
     hash: 2527122907,
     creator: function (require, exports) {
       "use strict";
@@ -4492,7 +4491,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/records/wrapped/record
   ****************************************************/
 
-  modules.set('./tables/data/records/wrapped/record', {
+  ims.set('./tables/data/records/wrapped/record', {
     hash: 538147968,
     creator: function (require, exports) {
       "use strict";
@@ -4616,7 +4615,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/data/uuid
   **********************************/
 
-  modules.set('./tables/data/uuid', {
+  ims.set('./tables/data/uuid', {
     hash: 3597707760,
     creator: function (require, exports) {
       "use strict";
@@ -4640,7 +4639,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/indices/index
   **************************************/
 
-  modules.set('./tables/indices/index', {
+  ims.set('./tables/indices/index', {
     hash: 118857724,
     creator: function (require, exports) {
       "use strict";
@@ -4744,7 +4743,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/indices/indices
   ****************************************/
 
-  modules.set('./tables/indices/indices', {
+  ims.set('./tables/indices/indices', {
     hash: 4208019504,
     creator: function (require, exports) {
       "use strict";
@@ -4818,7 +4817,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/counters/counters
   *********************************************************/
 
-  modules.set('./tables/local-database/counters/counters', {
+  ims.set('./tables/local-database/counters/counters', {
     hash: 3506280268,
     creator: function (require, exports) {
       "use strict";
@@ -4928,7 +4927,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/counters/memory
   *******************************************************/
 
-  modules.set('./tables/local-database/counters/memory', {
+  ims.set('./tables/local-database/counters/memory', {
     hash: 447541486,
     creator: function (require, exports) {
       "use strict";
@@ -4947,7 +4946,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/lists/lists
   ***************************************************/
 
-  modules.set('./tables/local-database/lists/lists', {
+  ims.set('./tables/local-database/lists/lists', {
     hash: 128161166,
     creator: function (require, exports) {
       "use strict";
@@ -5061,7 +5060,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/lists/memory
   ****************************************************/
 
-  modules.set('./tables/local-database/lists/memory', {
+  ims.set('./tables/local-database/lists/memory', {
     hash: 1311343063,
     creator: function (require, exports) {
       "use strict";
@@ -5080,7 +5079,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/local-database
   ******************************************************/
 
-  modules.set('./tables/local-database/local-database', {
+  ims.set('./tables/local-database/local-database', {
     hash: 1877598121,
     creator: function (require, exports) {
       "use strict";
@@ -5207,7 +5206,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/records/memory
   ******************************************************/
 
-  modules.set('./tables/local-database/records/memory', {
+  ims.set('./tables/local-database/records/memory', {
     hash: 628666919,
     creator: function (require, exports) {
       "use strict";
@@ -5256,7 +5255,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/records/records
   *******************************************************/
 
-  modules.set('./tables/local-database/records/records', {
+  ims.set('./tables/local-database/records/records', {
     hash: 1001634314,
     creator: function (require, exports) {
       "use strict";
@@ -5422,7 +5421,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/local-database/records/unpublished
   ***********************************************************/
 
-  modules.set('./tables/local-database/records/unpublished', {
+  ims.set('./tables/local-database/records/unpublished', {
     hash: 3016430800,
     creator: function (require, exports) {
       "use strict";
@@ -5493,7 +5492,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/properties/properties
   **********************************************/
 
-  modules.set('./tables/properties/properties', {
+  ims.set('./tables/properties/properties', {
     hash: 3016071899,
     creator: function (require, exports) {
       "use strict";
@@ -5570,7 +5569,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/properties/property
   ********************************************/
 
-  modules.set('./tables/properties/property', {
+  ims.set('./tables/properties/property', {
     hash: 792239610,
     creator: function (require, exports) {
       "use strict";
@@ -5640,7 +5639,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/properties/types/collection
   ****************************************************/
 
-  modules.set('./tables/properties/types/collection', {
+  ims.set('./tables/properties/types/collection', {
     hash: 1481966213,
     creator: function (require, exports) {
       "use strict";
@@ -5696,7 +5695,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/properties/types/item-selector
   *******************************************************/
 
-  modules.set('./tables/properties/types/item-selector', {
+  ims.set('./tables/properties/types/item-selector', {
     hash: 1649674982,
     creator: function (require, exports) {
       "use strict";
@@ -5745,7 +5744,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/properties/types/item
   **********************************************/
 
-  modules.set('./tables/properties/types/item', {
+  ims.set('./tables/properties/types/item', {
     hash: 2288763140,
     creator: function (require, exports) {
       "use strict";
@@ -5801,7 +5800,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/properties/types/items
   ***********************************************/
 
-  modules.set('./tables/properties/types/items', {
+  ims.set('./tables/properties/types/items', {
     hash: 937206479,
     creator: function (require, exports) {
       "use strict";
@@ -5873,7 +5872,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/queries/batch/batch
   ********************************************/
 
-  modules.set('./tables/queries/batch/batch', {
+  ims.set('./tables/queries/batch/batch', {
     hash: 674774478,
     creator: function (require, exports) {
       "use strict";
@@ -5969,7 +5968,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/queries/batch/request
   **********************************************/
 
-  modules.set('./tables/queries/batch/request', {
+  ims.set('./tables/queries/batch/request', {
     hash: 3368031555,
     creator: function (require, exports) {
       "use strict";
@@ -6015,7 +6014,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/queries/counter
   ****************************************/
 
-  modules.set('./tables/queries/counter', {
+  ims.set('./tables/queries/counter', {
     hash: 2188437533,
     creator: function (require, exports) {
       "use strict";
@@ -6084,8 +6083,8 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/queries/data
   *************************************/
 
-  modules.set('./tables/queries/data', {
-    hash: 109746743,
+  ims.set('./tables/queries/data', {
+    hash: 29645190,
     creator: function (require, exports) {
       "use strict";
 
@@ -6133,7 +6132,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
           if (response === undefined || response === null) {
             if (cached) {
               //Delete to cache
-              this.#table.localDB.records.remove(cached, attributes.accessToken).catch(error => console.error(`Error removing record of table "${this.#table.name}" to local storage.\n\n`, error, '\n', cached));
+              this.#table.localDB.records.remove(cached.data, attributes.accessToken).catch(error => console.error(`Error removing record of table "${this.#table.name}" to local storage.\n\n`, error, '\n', cached));
             }
 
             return;
@@ -6170,7 +6169,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/queries/list
   *************************************/
 
-  modules.set('./tables/queries/list', {
+  ims.set('./tables/queries/list', {
     hash: 1194419818,
     creator: function (require, exports) {
       "use strict";
@@ -6327,7 +6326,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/queries/queries
   ****************************************/
 
-  modules.set('./tables/queries/queries', {
+  ims.set('./tables/queries/queries', {
     hash: 1132816002,
     creator: function (require, exports) {
       "use strict";
@@ -6375,7 +6374,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/table
   ******************************/
 
-  modules.set('./tables/table', {
+  ims.set('./tables/table', {
     hash: 1647223119,
     creator: function (require, exports) {
       "use strict";
@@ -6520,7 +6519,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tables/tables
   *******************************/
 
-  modules.set('./tables/tables', {
+  ims.set('./tables/tables', {
     hash: 3857649849,
     creator: function (require, exports) {
       "use strict";
@@ -6558,7 +6557,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tree/collection
   *********************************/
 
-  modules.set('./tree/collection', {
+  ims.set('./tree/collection', {
     hash: 2038126333,
     creator: function (require, exports) {
       "use strict";
@@ -6630,7 +6629,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tree/item-selector
   ************************************/
 
-  modules.set('./tree/item-selector', {
+  ims.set('./tree/item-selector', {
     hash: 321000369,
     creator: function (require, exports) {
       "use strict";
@@ -6684,7 +6683,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tree/item
   ***************************/
 
-  modules.set('./tree/item', {
+  ims.set('./tree/item', {
     hash: 2904687249,
     creator: function (require, exports) {
       "use strict";
@@ -6733,7 +6732,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tree/items
   ****************************/
 
-  modules.set('./tree/items', {
+  ims.set('./tree/items', {
     hash: 3754893300,
     creator: function (require, exports) {
       "use strict";
@@ -6775,7 +6774,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tree/node
   ***************************/
 
-  modules.set('./tree/node', {
+  ims.set('./tree/node', {
     hash: 2502482559,
     creator: function (require, exports) {
       "use strict";
@@ -6883,7 +6882,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tree/properties
   *********************************/
 
-  modules.set('./tree/properties', {
+  ims.set('./tree/properties', {
     hash: 2822505680,
     creator: function (require, exports) {
       "use strict";
@@ -6961,7 +6960,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
   INTERNAL MODULE: ./tree/specs
   ****************************/
 
-  modules.set('./tree/specs', {
+  ims.set('./tree/specs', {
     hash: 3754493840,
     creator: function (require, exports) {
       "use strict";
@@ -6970,63 +6969,112 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
         value: true
       });
     }
-  }); // Exports managed by beyond bundle objects
-
-  __pkg.exports.managed = function (require, _exports) {
-    _exports.auth = require('./auth/auth').auth;
-    _exports.NotSet = require('./constants').NotSet;
-    _exports.DataSource = require('./constants').DataSource;
-    _exports.CollectionSpecs = require('./elements/collection/collection').CollectionSpecs;
-    _exports.Collection = require('./elements/collection/collection').Collection;
-    _exports.ItemSpecs = require('./elements/item/item').ItemSpecs;
-    _exports.Item = require('./elements/item/item').Item;
-    _exports.CollectionProperty = require('./elements/item/properties/collection/property').CollectionProperty;
-    _exports.ItemSelectorProperty = require('./elements/item/properties/item-selector/property').ItemSelectorProperty;
-    _exports.ItemProperty = require('./elements/item/properties/item/property').ItemProperty;
-    _exports.ItemsProperty = require('./elements/item/properties/items/property').ItemsProperty;
-    _exports.ConditionOperand = require('./tables/data/filter/filter').ConditionOperand;
-    _exports.realtime = require('./tables/data/realtime/realtime').realtime;
-    _exports.ListUpdateFilterReport = require('./tables/data/realtime/reports/list').ListUpdateFilterReport;
-    _exports.TableSpecs = require('./tables/table').TableSpecs;
-    _exports.tables = require('./tables/tables').tables;
-  };
-
+  });
+  __pkg.exports.descriptor = [{
+    "im": "./auth/auth",
+    "from": "auth",
+    "name": "auth"
+  }, {
+    "im": "./constants",
+    "from": "NotSet",
+    "name": "NotSet"
+  }, {
+    "im": "./constants",
+    "from": "DataSource",
+    "name": "DataSource"
+  }, {
+    "im": "./elements/collection/collection",
+    "from": "CollectionSpecs",
+    "name": "CollectionSpecs"
+  }, {
+    "im": "./elements/collection/collection",
+    "from": "Collection",
+    "name": "Collection"
+  }, {
+    "im": "./elements/item/item",
+    "from": "ItemSpecs",
+    "name": "ItemSpecs"
+  }, {
+    "im": "./elements/item/item",
+    "from": "Item",
+    "name": "Item"
+  }, {
+    "im": "./elements/item/properties/collection/property",
+    "from": "CollectionProperty",
+    "name": "CollectionProperty"
+  }, {
+    "im": "./elements/item/properties/item-selector/property",
+    "from": "ItemSelectorProperty",
+    "name": "ItemSelectorProperty"
+  }, {
+    "im": "./elements/item/properties/item/property",
+    "from": "ItemProperty",
+    "name": "ItemProperty"
+  }, {
+    "im": "./elements/item/properties/items/property",
+    "from": "ItemsProperty",
+    "name": "ItemsProperty"
+  }, {
+    "im": "./tables/data/filter/filter",
+    "from": "ConditionOperand",
+    "name": "ConditionOperand"
+  }, {
+    "im": "./tables/data/realtime/realtime",
+    "from": "realtime",
+    "name": "realtime"
+  }, {
+    "im": "./tables/data/realtime/reports/list",
+    "from": "ListUpdateFilterReport",
+    "name": "ListUpdateFilterReport"
+  }, {
+    "im": "./tables/table",
+    "from": "TableSpecs",
+    "name": "TableSpecs"
+  }, {
+    "im": "./tables/tables",
+    "from": "tables",
+    "name": "tables"
+  }];
   let auth, NotSet, DataSource, CollectionSpecs, Collection, ItemSpecs, Item, CollectionProperty, ItemSelectorProperty, ItemProperty, ItemsProperty, ConditionOperand, realtime, ListUpdateFilterReport, TableSpecs, tables; // Module exports
 
-  _exports2.tables = tables;
-  _exports2.TableSpecs = TableSpecs;
-  _exports2.ListUpdateFilterReport = ListUpdateFilterReport;
-  _exports2.realtime = realtime;
-  _exports2.ConditionOperand = ConditionOperand;
-  _exports2.ItemsProperty = ItemsProperty;
-  _exports2.ItemProperty = ItemProperty;
-  _exports2.ItemSelectorProperty = ItemSelectorProperty;
-  _exports2.CollectionProperty = CollectionProperty;
-  _exports2.Item = Item;
-  _exports2.ItemSpecs = ItemSpecs;
-  _exports2.Collection = Collection;
-  _exports2.CollectionSpecs = CollectionSpecs;
-  _exports2.DataSource = DataSource;
-  _exports2.NotSet = NotSet;
-  _exports2.auth = auth;
+  _exports.tables = tables;
+  _exports.TableSpecs = TableSpecs;
+  _exports.ListUpdateFilterReport = ListUpdateFilterReport;
+  _exports.realtime = realtime;
+  _exports.ConditionOperand = ConditionOperand;
+  _exports.ItemsProperty = ItemsProperty;
+  _exports.ItemProperty = ItemProperty;
+  _exports.ItemSelectorProperty = ItemSelectorProperty;
+  _exports.CollectionProperty = CollectionProperty;
+  _exports.Item = Item;
+  _exports.ItemSpecs = ItemSpecs;
+  _exports.Collection = Collection;
+  _exports.CollectionSpecs = CollectionSpecs;
+  _exports.DataSource = DataSource;
+  _exports.NotSet = NotSet;
+  _exports.auth = auth;
 
-  __pkg.exports.process = function (require) {
-    _exports2.auth = auth = require('./auth/auth').auth;
-    _exports2.NotSet = NotSet = require('./constants').NotSet;
-    _exports2.DataSource = DataSource = require('./constants').DataSource;
-    _exports2.CollectionSpecs = CollectionSpecs = require('./elements/collection/collection').CollectionSpecs;
-    _exports2.Collection = Collection = require('./elements/collection/collection').Collection;
-    _exports2.ItemSpecs = ItemSpecs = require('./elements/item/item').ItemSpecs;
-    _exports2.Item = Item = require('./elements/item/item').Item;
-    _exports2.CollectionProperty = CollectionProperty = require('./elements/item/properties/collection/property').CollectionProperty;
-    _exports2.ItemSelectorProperty = ItemSelectorProperty = require('./elements/item/properties/item-selector/property').ItemSelectorProperty;
-    _exports2.ItemProperty = ItemProperty = require('./elements/item/properties/item/property').ItemProperty;
-    _exports2.ItemsProperty = ItemsProperty = require('./elements/item/properties/items/property').ItemsProperty;
-    _exports2.ConditionOperand = ConditionOperand = require('./tables/data/filter/filter').ConditionOperand;
-    _exports2.realtime = realtime = require('./tables/data/realtime/realtime').realtime;
-    _exports2.ListUpdateFilterReport = ListUpdateFilterReport = require('./tables/data/realtime/reports/list').ListUpdateFilterReport;
-    _exports2.TableSpecs = TableSpecs = require('./tables/table').TableSpecs;
-    _exports2.tables = tables = require('./tables/tables').tables;
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {
+    (require || prop === 'auth') && (_exports.auth = auth = require ? require('./auth/auth').auth : value);
+    (require || prop === 'NotSet') && (_exports.NotSet = NotSet = require ? require('./constants').NotSet : value);
+    (require || prop === 'DataSource') && (_exports.DataSource = DataSource = require ? require('./constants').DataSource : value);
+    (require || prop === 'CollectionSpecs') && (_exports.CollectionSpecs = CollectionSpecs = require ? require('./elements/collection/collection').CollectionSpecs : value);
+    (require || prop === 'Collection') && (_exports.Collection = Collection = require ? require('./elements/collection/collection').Collection : value);
+    (require || prop === 'ItemSpecs') && (_exports.ItemSpecs = ItemSpecs = require ? require('./elements/item/item').ItemSpecs : value);
+    (require || prop === 'Item') && (_exports.Item = Item = require ? require('./elements/item/item').Item : value);
+    (require || prop === 'CollectionProperty') && (_exports.CollectionProperty = CollectionProperty = require ? require('./elements/item/properties/collection/property').CollectionProperty : value);
+    (require || prop === 'ItemSelectorProperty') && (_exports.ItemSelectorProperty = ItemSelectorProperty = require ? require('./elements/item/properties/item-selector/property').ItemSelectorProperty : value);
+    (require || prop === 'ItemProperty') && (_exports.ItemProperty = ItemProperty = require ? require('./elements/item/properties/item/property').ItemProperty : value);
+    (require || prop === 'ItemsProperty') && (_exports.ItemsProperty = ItemsProperty = require ? require('./elements/item/properties/items/property').ItemsProperty : value);
+    (require || prop === 'ConditionOperand') && (_exports.ConditionOperand = ConditionOperand = require ? require('./tables/data/filter/filter').ConditionOperand : value);
+    (require || prop === 'realtime') && (_exports.realtime = realtime = require ? require('./tables/data/realtime/realtime').realtime : value);
+    (require || prop === 'ListUpdateFilterReport') && (_exports.ListUpdateFilterReport = ListUpdateFilterReport = require ? require('./tables/data/realtime/reports/list').ListUpdateFilterReport : value);
+    (require || prop === 'TableSpecs') && (_exports.TableSpecs = TableSpecs = require ? require('./tables/table').TableSpecs : value);
+    (require || prop === 'tables') && (_exports.tables = tables = require ? require('./tables/tables').tables : value);
   };
 
   const hmr = new function () {
@@ -7034,7 +7082,7 @@ define(["exports", "@beyond-js/kernel/core/ts"], function (_exports2, dependency
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });

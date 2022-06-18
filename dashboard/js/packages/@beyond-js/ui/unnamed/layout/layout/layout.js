@@ -1,27 +1,25 @@
-define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/layout/toolbar/code", "@beyond-js/ui/layout/footer/code", "@beyond-js/ui/layout/sidenav/code", "@beyond-js/ui/perfect-scrollbar/code", "react", "react-dom"], function (_exports2, _code, _code2, _code3, _code4, _code5, dependency_0, dependency_1) {
+define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/layout/toolbar/code", "@beyond-js/ui/layout/footer/code", "@beyond-js/ui/layout/sidenav/code", "@beyond-js/ui/perfect-scrollbar/code", "react", "react-dom"], function (_exports, _code, _code2, _code3, _code4, _code5, dependency_0, dependency_1) {
   "use strict";
 
-  Object.defineProperty(_exports2, "__esModule", {
+  Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports2.Layout = Layout;
-  _exports2.hmr = void 0;
-  const dependencies = new Map();
-  dependencies.set('react', dependency_0);
-  dependencies.set('react-dom', dependency_1);
-  const {
-    beyond
-  } = globalThis;
-  const bundle = beyond.bundles.obtain('@beyond-js/ui/unnamed/layout/layout/layout', false, {}, dependencies);
-  const {
-    container
-  } = bundle;
-  const module = container.is === 'module' ? container : void 0;
+  _exports.Layout = Layout;
+  _exports.hmr = void 0;
 
-  const __pkg = bundle.package();
+  const {
+    Bundle: __Bundle,
+    externals
+  } = require('@beyond-js/kernel/bundle/ts');
 
-  const React = dependencies.get('react');
-  const ReactDOM = dependencies.get('react-dom');
+  const __pkg = new __Bundle("@beyond-js/ui/unnamed/layout/layout/layout").package();
+
+  externals.register(new Map([["react", dependency_0], ["react-dom", dependency_1]]));
+  const {
+    module
+  } = __pkg.bundle;
+  const React = externals.get('react');
+  const ReactDOM = externals.get('react-dom');
   /*********
   layout.jsx
   *********/
@@ -69,22 +67,22 @@ define(["exports", "@beyond-js/ui/image/code", "@beyond-js/ui/layout/toolbar/cod
   **********/
 
 
-  bundle.styles.processor = 'scss';
-  bundle.styles.value = '.layout-container{background:#1e2d42;color:#fff}.layout-container .container-content{padding:45px;display:grid;grid-template-columns:200px 1fr;grid-gap:20px;min-height:600px}.layout-container .container-content .content{overflow-x:hidden;padding:1px}.layout-container .container-content pre{margin:20px 0;padding:15px;position:relative;transition:all .1s ease-in-out;cursor:pointer}.layout-container .container-content pre:hover{background:#ff8056;color:#fff;transition:all .1s ease-in}.layout-container .container-content pre:before{content:"Copy";position:absolute;padding:15px 20px;top:0;right:0;background:#333;color:#e4e5dc}';
-  bundle.styles.appendToDOM();
-  const modules = new Map(); // Exports managed by beyond bundle objects
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/ui/unnamed/layout/layout/layout', '.layout-container{background:#1e2d42;color:#fff}.layout-container .container-content{padding:45px;display:grid;grid-template-columns:200px 1fr;grid-gap:20px;min-height:600px}.layout-container .container-content .content{overflow-x:hidden;padding:1px}.layout-container .container-content pre{margin:20px 0;padding:15px;position:relative;transition:all .1s ease-in-out;cursor:pointer}.layout-container .container-content pre:hover{background:#ff8056;color:#fff;transition:all .1s ease-in}.layout-container .container-content pre:before{content:"Copy";position:absolute;padding:15px 20px;top:0;right:0;background:#333;color:#e4e5dc}');
+  legacyStyles.appendToDOM();
+  const ims = new Map(); // Module exports
 
-  __pkg.exports.managed = function (require, _exports) {}; // Module exports
-
-
-  __pkg.exports.process = function (require) {};
+  __pkg.exports.process = function ({
+    require,
+    prop,
+    value
+  }) {};
 
   const hmr = new function () {
     this.on = (event, listener) => void 0;
 
     this.off = (event, listener) => void 0;
   }();
-  _exports2.hmr = hmr;
+  _exports.hmr = hmr;
 
-  __pkg.initialise(modules);
+  __pkg.initialise(ims);
 });
