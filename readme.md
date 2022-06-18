@@ -1,44 +1,58 @@
 # Welcome to `BeyondJS`
 
+## The Full Stack Universal Typescript Framework
+
 > A universal web technologies development environment
 > for cross platform projects,
 > over a community-scale modular basis design.
 
-> BeyondJS focuses on making the same coding tools and techniques work for multiple distributions in a simple way.
+With `BeyondJS` it is possible to create: web applications, websites, mobile application, micro-frontends, node js
+applications, npm packages, micro services.
 
-> Easy development of integrated state-of-the-art technologies, with boosted performance.
-> `BeyondJS` integrates out-of-the-box:
-> `typescript`, `react`, `vue`, `svelte`, `socket.io`, `require.js`, `scss`, `less`, and more.
+[Learn more](https://beyondjs.com/docs/intro)
 
-# Request early access
+## Hybrid rendering (Jamstack, static and SSR)
 
-> `BeyondJS` is being launched gradually. \
-> We are actually offering early access for those who are interested to try `BeyondJS`.
-> If you are a tech enthusiast who wants to help us with your appreciated feedback, just contact us.
+Ready to publish static sites, SSR, CSR or [Jamstack architecture](https://jamstack.org/), with the possibility of using
+them together through [micro frontends](https://micro-frontends.org/).
 
-> Get in touch at [hello@beyondjs.com](mailto:hello@beyondjs.com).
-> Please note that you will need an access code to use `BeyondJS` after downloading.
+[Learn more](https://beyondjs.com/docs/rendering)
 
-## One framework for universal solutions
+## Views Frameworks
 
-With `BeyondJS` it is possible to create:
+> Compatible with [React](https://reactjs.org/), [Vue](https://vuejs.org/) and [Svelte](https://svelte.dev/).
 
-**From** just a npm package: like a code library or a widget.
-\
-**To** websites (to distribute over a JAMStack architecture with SSR server side rendering support), cordova mobile
-applications, Node.js applications or backends that can intercommunicate among them with realtime support under
-websockets communication.
+Prepared to include other frameworks or view management libraries.
 
-## Development environment
-
-`BeyondJS` comes with a dashboard that has IDE features for a frictionless getting started, and higher productivity.
-
-## Web technologies in an all-in-one solution
-
-It is a powerful all-in-one environment, where it is easier than ever to jump-start multipurpose, interconnected
-applications.
+[Learn more](https://beyondjs.com/docs/widgets)
 
 # Install
+
+You can install `BeyondJS` in two ways:
+
+> @beyond-js/create-project
+
+To begin with, possibly the easiest way to start a project in BeyondJS is through the beyond-first-project.
+
+```shell
+npx beyond-first-project -name @scope/name [-type node] [-container folderName]
+```
+
+Listed below are the flags that can be selected when installing beyond-first-project:
+
+- name: This allows you to define the scope and naming of the project. Projects follow the NPM standard. Read read more
+  about it here.
+- type: This allows you to define the type of project to create (this is optional), if not, a web-type project will be
+  set by default. Accepted values ​​are:
+    - web
+    - node
+    - backend
+    - library
+    - web-backend
+- container: This allows you to specify if you want to add a project container folder. Remember that BeyondJS supports
+  the ability to handle multiple projects simultaneously.
+
+## Global installation
 
 Install `BeyondJS` and start programming with zero configuration.
 
@@ -46,121 +60,36 @@ Install `BeyondJS` and start programming with zero configuration.
 
 ```shell
 # Once BeyondJS is installed in your computer...
-# Run BeyondJS in an empty folder to start developing applications
-mkdir your_application
-cd your_application
+# Run BeyondJS in an empty folder to start developing projects
+mkdir your_workspace
+cd your_workspace
 beyond
 ```
 
-# `BeyondJS` dashboard
+# Create a project
 
-Welcome to the `BeyondJS` dashboard! A tool that makes things even easier.
+[Follow the tutorial](https://beyondjs.com/tutorial/intro)
 
-__screenshots dashboard__
+## Features
 
-## Create your first application
+Below, we list some of the most relevant features of BeyondJS.
 
-Once `BeyondJS` is running, you can create your first application:
+- Universal deployment: Same code, any environment.
+- Modular and on-demand charging: The code only loads once, when required.
+- Dashboard: a powerful control panel for developers.
+- Modular development.
+- Unique development ecosystem between Backend and Frontend.
+- Real Time ready to deploy with web sockets.
+- Automatic integration with view frameworks like React, Vue, Svelte.
+- Smarter Typescript: transpiling and type checking, in parallel, for better - productivity and performance.
+- Automatic modular HMR for the frontend and the backend. 
+- Modular dependency tree: BeyondJS works under a different paradigm than
+  the one used by packagers like webpack.
+- Hybrid rendering: Jamstack + SSR + static.
+- Projects ready to publish to NPM.
+- Execution environment for services managed by BeyondJS.
+- Multilanguage managed through bundles.
+- Templating: module overwriting of styles sheets and texts.
 
-__screenshot create app__
-
-**`BeyondJS` applications are multi-purpose**:
-
-* **Web application**: Web, Android, iOS application. Both the client code and the backend code coexist in the same
-  application.
-* **Node.js application**: Application that will be compiled to be executed in a Node.js environment.
-* **Backend**: Node.js application that exposes communication interfaces to be consumed by both web clients and other
-  backends.
-* **Library**: Container of client and server modules to be consumed by other applications.
-
-# It's all about modules
-
-Once `BeyondJS` was installed, and you have created your application, then now it is only a matter of developing
-modules.
-
-Building applications in `BeyondJS` is completely geared towards module development. In that way, applications are
-divided into small programs (modules) that package typescript, sass, less, text code with multi-language support.
-Modules can additionally have static files.
-
-`BeyondJS` modules are designed not only to be easily shared among applications, but also to be customized thanks to a
-template scheme that allows overwriting styles, texts and static files such as module images.
-
-## Productivity
-
-The `BeyondJS` dashboard supports multi-app development, module creation, overwrites customization, source code editing
-with fully out-of-the-box real-time update support, all with no configuration required.
-
-### Fast transpiled module replacement / type checking in parallel processing
-
-`BeyondJS` is optimized with internal cache, and also performs parallel type checking processing, so you can have a
-quick view of the code changes in terms of milliseconds, and type error validation running in parallel that you can see
-in the dashboard for a few moments later.
-
-## Template support, modules customization
-
-The style sheets, texts and static files can be overwritten individually in every application without modifying the code
-of the original module.
-
-## About bundles
-
-In `BeyondJS` each module can implement one or more **bundles**, in addition to exposing **static files**:
-
-`BeyondJS` bundles are code packaged from various sources of code files. The native processors that are included
-out-of-the-box in `BeyondJS` are: "ts", "less", "scss", "txt".
-
-Bundles are loaded on demand when required.
-
-A module can implement the following bundles:
-
-* **widget**: Web components that encapsulate code (react, vue, or svelte). They are consumed simply by just adding them
-  to the DOM. `BeyondJS` takes care of loading web components dynamically and on demand. Widgets can be general purpose
-  web components, pages, or layouts.
-* **ts**: For source code development as data access models.
-* **bridge**: It is a special kind of backend code where communication interfaces are automatically created. They work
-  both for client-server communication, as well as server-server communication.
-* **start**: It is a bundle of mixed source code that is injected at the beginning of the application.
-
-### Static files
-
-In addition to the bundles that each module can specify, it can include static files that are distributed along with it.
-
-### Syntax
-
-The typescript code is implemented with es6 import / export syntax typing.
-
-The exports are encapsulated for bundle internal use by default, but they can additionally be defined to be exported by
-the bundle by adding a ```/*bundle*/``` comment, so they can be externally consumed.
-
-### Example
-
-**Application**: @company/application
-\
-**Module**: message
-
-\
-*File*: message.ts
-
-```javascript
-import {user} from 'user';
-
-export /*bundle*/ const message = `Hello ${user}`;
-```
-
-*File*: user.ts
-
-```javascript
-export default `User name`;
-```
-
-**Module**: consumer
-
-```javascript
-// Another bundle importing the 'message' bundle
-import {message} from '@company/application/message';
-
-console.log(message);
-```
-
-# `BeyondJS` outstanding features:
-
-Take a look at a summary list of the most [outstanding features](docs/features/features.md) on `BeyondJS`.
+# Get in touch
+> For aditional questions, contact us at [hello@beyondjs.com](mailto:hello@beyondjs.com). 

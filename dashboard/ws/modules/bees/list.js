@@ -2,8 +2,8 @@ const {ipc} = global.utils;
 
 module.exports = async function (params, session) {
     const requests = new Map(params);
-    const monitor = `${session.monitor}-client`;
-    const action = 'applications/static/list';
+    const monitor = `main`;
+    const action = 'bees/list';
     const {requestProcessed, specs} = setRequest(requests);
 
     return setResponse(requestProcessed, await ipc.exec(monitor, action, specs));
@@ -33,8 +33,7 @@ const setResponse = (requests, ipcData) => {
         const items = [];
         const entry = ipcData.hasOwnProperty(request.id);
         if (entry && ipcData[request.id]) {
-            const sources = ipcData[request.id];
-            for (const source of sources) items.push({tu: Date.now(), data: source});
+            for (const item of ipcData[request.id]) items.push({tu: Date.now(), data: item});
         }
         responses.push([request.requestId, items]);
     }
