@@ -6,23 +6,23 @@
 > for cross platform projects,
 > over a community-scale modular basis design.
 
-With `BeyondJS` it is possible to create: web applications, websites, mobile application, micro-frontends, node js
-applications, npm packages, micro services.
+With `BeyondJS` it is possible to create: web applications, websites, mobile applications, micro-frontends, node js
+applications, npm packages, micro services, under the same base code.
 
 [Learn more](https://beyondjs.com/docs/intro)
 
 ## Hybrid rendering (Jamstack, static and SSR)
 
-Ready to publish static sites, SSR, CSR or [Jamstack architecture](https://jamstack.org/), with the possibility of using
-them together through [micro frontends](https://micro-frontends.org/).
+Ready for hybrid static, SSR, CSR or [Jamstack architecture](https://jamstack.org/), with the possibility of using them
+together through [micro frontends](https://micro-frontends.org/).
 
 [Learn more](https://beyondjs.com/docs/rendering)
 
-## Views Frameworks
+## View Frameworks
 
-> Compatible with [React](https://reactjs.org/), [Vue](https://vuejs.org/) and [Svelte](https://svelte.dev/).
-
-Prepared to include other frameworks or view management libraries.
+Different view frameworks working together.
+> Natively supported: [React](https://reactjs.org/), [Vue](https://vuejs.org/) and [Svelte](https://svelte.dev/).
+> Prepared to include others.
 
 [Learn more](https://beyondjs.com/docs/widgets)
 
@@ -32,7 +32,7 @@ You can install `BeyondJS` in two ways:
 
 > @beyond-js/create-project
 
-To begin with, possibly the easiest way to start a project in BeyondJS is through the beyond-first-project.
+To begin with, the easiest way to start a project in BeyondJS is through the beyond-first-project.
 
 ```shell
 npx beyond-first-project -name @scope/name [-type node] [-container folderName]
@@ -41,7 +41,7 @@ npx beyond-first-project -name @scope/name [-type node] [-container folderName]
 Listed below are the flags that can be selected when installing beyond-first-project:
 
 - name: This allows you to define the scope and naming of the project. Projects follow the NPM standard. Read read more
-  about it here.
+  about it [here](https://docs.npmjs.com/cli/v8/using-npm/scope).
 - type: This allows you to define the type of project to create (this is optional), if not, a web-type project will be
   set by default. Accepted values ​​are:
     - web
@@ -49,8 +49,8 @@ Listed below are the flags that can be selected when installing beyond-first-pro
     - backend
     - library
     - web-backend
-- container: This allows you to specify if you want to add a project container folder. Remember that BeyondJS supports
-  the ability to handle multiple projects simultaneously.
+- container: This allows you to specify if you want to add a project container folder. `BeyondJS` supports the ability
+  to handle multiple projects simultaneously.
 
 ## Global installation
 
@@ -66,30 +66,30 @@ cd your_workspace
 beyond
 ```
 
-# Create a project
+# Create your first project
 
-[Follow the tutorial](https://beyondjs.com/tutorial/intro)
+> [Follow the tutorial](https://beyondjs.com/tutorial/start)
 
-## Features
+# Summary features
 
-Below, we list some of the most relevant features of BeyondJS.
+Below, we list some of the most relevant features of `BeyondJS`.
 
 - Universal deployment: Same code, any environment.
-- Modular and on-demand charging: The code only loads once, when required.
+- Modular and on-demand: The code only loads once, when required.
 - Dashboard: a powerful control panel for developers.
-- Modular development.
+- Modular development. No packagers required.
+- Modular dependency tree: BeyondJS works under a different paradigm than the one used by packagers like webpack.
 - Unique development ecosystem between Backend and Frontend.
-- Real Time ready to deploy with web sockets.
-- Automatic integration with view frameworks like React, Vue, Svelte.
-- Smarter Typescript: transpiling and type checking, in parallel, for better - productivity and performance.
-- Automatic modular HMR for the frontend and the backend. 
-- Modular dependency tree: BeyondJS works under a different paradigm than
-  the one used by packagers like webpack.
-- Hybrid rendering: Jamstack + SSR + static.
+- Real Time ready with web sockets support.
+- Automatic integration with view frameworks: React, Vue, Svelte natively supported.
+- Smarter Typescript: transpiling and type checking in parallel, for better productivity and performance.
+- Automatic modular HMR for the frontend and the backend.
+- Hybrid rendering: Jamstack + SSR + static + CSR.
 - Projects ready to publish to NPM.
 - Execution environment for services managed by BeyondJS.
 - Multilanguage managed through bundles.
 - Templating: module overwriting of styles sheets and texts.
 
 # Get in touch
-> For aditional questions, contact us at [hello@beyondjs.com](mailto:hello@beyondjs.com). 
+
+> For additional questions, contact us at [hello@beyondjs.com](mailto:hello@beyondjs.com). 

@@ -4,7 +4,7 @@
   "author": "BeyondJS",
   "email": "hello@beyondjs.com",
   "version": "1.0.1",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "lib",
   "repository": "https://github.com/hello-beyond/beyond",
   "files": [
