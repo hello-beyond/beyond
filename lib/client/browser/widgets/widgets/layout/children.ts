@@ -1,5 +1,5 @@
-import type {manager as m, Layout} from '@beyond-js/widgets/routing/ts';
-import {widgets, BeyondWidget} from '@beyond-js/widgets/render/ts';
+import type {manager as m, Layout} from '@beyond-js/widgets/routing';
+import {widgets, BeyondWidget} from '@beyond-js/widgets/render';
 import {ssr} from './ssr';
 
 declare const amd_require: any;
@@ -26,8 +26,8 @@ customElements.define('beyond-layout-children', class extends HTMLElement {
         ssr.page ? this.#onssr() : ssr.addEventListener('received', this.#onssr);
 
         const dependencies = [
-            '@beyond-js/widgets/routing/ts',
-            '@beyond-js/kernel/core/ts',
+            '@beyond-js/widgets/routing',
+            '@beyond-js/kernel/core',
             `${__beyond_config.application.package}/start`
         ];
         amd_require(dependencies, (r: any) => {

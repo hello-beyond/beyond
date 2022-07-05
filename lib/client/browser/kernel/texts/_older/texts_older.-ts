@@ -73,7 +73,7 @@ class ModuleTexts<TextsDeclaration> extends Events {
     }
 
     #listenHMR = async () => {
-        const local = <BeyondLocal>(await this.#beyond.import('@beyond/local/main/ts.js')).local;
+        const local = <BeyondLocal>(await this.#beyond.import('@beyond/local/main.js')).local;
         local.on(`processor-update:${this.#module.id}/${this.#bundle}/txt`,
             () => this.#updateHMR().catch(exc => console.error(exc.stack))
         );

@@ -1,5 +1,5 @@
-import {beyond, CancellationToken} from '@beyond-js/kernel/core/ts';
-import {routing, URI} from '@beyond-js/kernel/routing/ts';
+import {beyond, CancellationToken} from '@beyond-js/kernel/core';
+import {routing, URI} from '@beyond-js/kernel/routing';
 import {Layout} from "./layouts/layout";
 import {PageInstance} from "./pages/instance";
 import Pages from "./pages";

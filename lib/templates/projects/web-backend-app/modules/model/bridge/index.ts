@@ -1,4 +1,4 @@
-import {Provider} from "$[scope]$[name]/provider/ts";
+import {Provider} from "$[scope]$[name]/provider";
 
 export /*actions*/ /*bundle*/
 class Model {

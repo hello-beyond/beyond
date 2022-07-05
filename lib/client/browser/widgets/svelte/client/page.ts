@@ -1,5 +1,5 @@
 import {SvelteWidgetController} from "./controller";
-import {PageURI} from '@beyond-js/widgets/controller/ts';
+import {PageURI} from '@beyond-js/widgets/controller';
 
 export /*bundle*/
 abstract class PageSvelteWidgetController extends SvelteWidgetController {

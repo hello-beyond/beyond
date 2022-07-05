@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {StylesManager} from '@beyond-js/widgets/render/ts';
+    import type {StylesManager} from '@beyond-js/widgets/render';
     import type {Wrapper} from './wrapper';
     import Styles from './styles.svelte';
 

@@ -1,4 +1,4 @@
-import {beyond, SingleCall} from '@beyond-js/kernel/core/ts';
+import {beyond, SingleCall} from '@beyond-js/kernel/core';
 import type {Socket} from 'socket.io-client';
 import type {Backend} from '../backend';
 import Initiator from './initiator';

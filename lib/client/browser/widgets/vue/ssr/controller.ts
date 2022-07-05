@@ -1,4 +1,4 @@
-import {WidgetServerController, IWidgetRendered} from "@beyond-js/widgets/controller/ts";
+import {WidgetServerController, IWidgetRendered} from "@beyond-js/widgets/controller";
 import {createSSRApp} from 'vue';
 import {renderToString} from 'vue/server-renderer';
 

@@ -1,4 +1,4 @@
-import {SingleCall, beyond} from "@beyond-js/kernel/core/ts";
+import {SingleCall, beyond} from "@beyond-js/kernel/core";
 import {PageManager} from "./page-manager";
 import {PageContainer} from "../../../abstract-classes/pages/page-container";
 import {PageLegacy} from "../../../abstract-classes/pages/legacy";

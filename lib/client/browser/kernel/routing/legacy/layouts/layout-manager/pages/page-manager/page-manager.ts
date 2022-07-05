@@ -1,4 +1,4 @@
-import {CancellationToken} from "@beyond-js/kernel/core/ts";
+import {CancellationToken} from "@beyond-js/kernel/core";
 import {URI} from "../../../../uri/uri";
 import {PageLoader} from "./loader";
 import {IPageConfig, PageConfig} from "../../../../config/pages";

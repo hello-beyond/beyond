@@ -1,5 +1,5 @@
-import type {prerender as p} from '@beyond-js/widgets/render/ts';
-import type {ssr as s} from '@beyond-js/widgets/layout/ts';
+import type {prerender as p} from '@beyond-js/widgets/render';
+import type {ssr as s} from '@beyond-js/widgets/layout';
 
 declare const amd_require: any;
 
@@ -14,10 +14,10 @@ function createLayout() {
 
 function startup() {
     const dependencies = [
-        '@beyond-js/kernel/core/ts',
-        '@beyond-js/kernel/routing/ts',
-        '@beyond-js/widgets/routing/ts',
-        '@beyond-js/widgets/layout/ts'
+        '@beyond-js/kernel/core',
+        '@beyond-js/kernel/routing',
+        '@beyond-js/widgets/routing',
+        '@beyond-js/widgets/layout'
     ];
     dependencies.push(`${application.package}/start`);
 
@@ -31,13 +31,13 @@ function startup() {
     }
 
     (<any>window).__ssr_fetch.then((ssr: any) => {
-        if (ssr.error) {
-            console.error('Error getting ssr data:', ssr.error);
+        if (!ssr.json || ssr.json.errors?.length) {
+            console.error('Error getting ssr data:', ssr.json.errors);
             startup();
             return;
         }
 
-        const dependencies = ['@beyond-js/widgets/render/ts', '@beyond-js/widgets/layout/ts'];
+        const dependencies = ['@beyond-js/widgets/render', '@beyond-js/widgets/layout'];
         dependencies.push(`${application.package}/start`);
 
         amd_require(dependencies, (render: any, layout: any) => {

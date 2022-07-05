@@ -1,4 +1,4 @@
-import {beyond} from '@beyond-js/kernel/core/ts';
+import {beyond} from '@beyond-js/kernel/core';
 import {Action, IActionRequest} from "./action";
 import {bridges} from "../../bridges";
 
@@ -34,24 +34,23 @@ export class Executor {
 
         // Import the bundle
         let bundle;
-        const bridge = `${module}/bridge`;
         try {
-            bundle = await beyond.import(bridge);
+            bundle = await beyond.import(module);
         } catch (exc) {
-            throw `Error loading bundle "${bridge}": ${exc.message}`;
+            throw `Error loading bundle "${module}": ${exc.message}`;
         }
 
         const Class = bundle[className];
         if (typeof Class !== 'function') {
-            throw `Bridge "${bridge}" does not expose a valid class "${className}", it is not a function`;
+            throw `Bridge "${module}" does not expose a valid class "${className}", it is not a function`;
         }
         if (!Class.prototype.hasOwnProperty(method)) {
-            throw `Class "${className}" of bridge "${bridge}" does not expose a method "${method}"`;
+            throw `Class "${className}" of bridge "${module}" does not expose a method "${method}"`;
         }
 
         const object = new Class();
         if (typeof object[method] !== 'function') {
-            throw `Class "${className}" of bridge "${bridge}" does not expose a method "${method}", it is not a function`;
+            throw `Class "${className}" of bridge "${module}" does not expose a method "${method}", it is not a function`;
         }
 
         return await object[method](...rq.params);

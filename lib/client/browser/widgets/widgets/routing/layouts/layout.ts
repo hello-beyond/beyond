@@ -1,7 +1,7 @@
 import type Layouts from "./";
 import type {PageInstance} from "../pages/instance";
-import {Events} from "@beyond-js/kernel/core/ts";
-import {IWidgetSpecs} from "@beyond-js/widgets/render/ts";
+import {Events} from "@beyond-js/kernel/core";
+import {IWidgetSpecs} from "@beyond-js/widgets/render";
 
 type LayoutChild = Layout | PageInstance;
 

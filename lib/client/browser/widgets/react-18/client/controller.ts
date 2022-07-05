@@ -1,6 +1,6 @@
 import * as React from "react";
 import {createRoot, Root, hydrateRoot} from 'react-dom/client';
-import {WidgetClientController} from '@beyond-js/widgets/controller/ts';
+import {WidgetClientController} from '@beyond-js/widgets/controller';
 import Widget from './widget';
 import {Wrapper} from "./wrapper";
 

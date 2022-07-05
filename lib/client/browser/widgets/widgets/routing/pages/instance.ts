@@ -1,6 +1,6 @@
-import type {URI} from '@beyond-js/kernel/routing/ts';
+import type {URI} from '@beyond-js/kernel/routing';
 import type {Route} from "../route";
-import {widgets, IWidgetSpecs} from '@beyond-js/widgets/render/ts';
+import {widgets, IWidgetSpecs} from '@beyond-js/widgets/render';
 
 export interface IParents {
     error?: string,

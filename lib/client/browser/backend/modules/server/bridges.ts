@@ -1,4 +1,4 @@
-import {beyond} from '@beyond-js/kernel/core/ts';
+import {beyond} from '@beyond-js/kernel/core';
 
 interface ILocalBridges {
     get: (module: string) => Promise<any>

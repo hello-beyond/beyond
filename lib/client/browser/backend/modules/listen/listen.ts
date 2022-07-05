@@ -1,4 +1,4 @@
-import {BackendServer} from '@beyond-js/backend/server/ts';
+import {BackendServer} from '@beyond-js/backend/server';
 
 interface IBeeSpecs {
     id: string,

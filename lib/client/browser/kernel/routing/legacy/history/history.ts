@@ -1,4 +1,4 @@
-import {Events} from "@beyond-js/kernel/core/ts";
+import {Events} from "@beyond-js/kernel/core";
 import {HistoryPosition} from "./position";
 import {HistoryRecords} from "./records";
 import type {Routing, RoutingMode} from "../routing";

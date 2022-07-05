@@ -1,7 +1,7 @@
 import {URI} from "./uri/uri";
 import {Layouts} from "./layouts/layouts";
 import {RoutingConfig} from "./config/config";
-import {CancellationToken, Events} from "@beyond-js/kernel/core/ts";
+import {CancellationToken, Events} from "@beyond-js/kernel/core";
 import {BeyondHistory} from "./history/history";
 
 export enum RoutingMode {Hash, Pathname}

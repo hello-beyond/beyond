@@ -1,7 +1,13 @@
-import {Bundle, Package, IMCreators, IExportsDescriptor} from '@beyond-js/kernel/bundle/ts';
+import {Bundle, Package, IMCreators, IExportsDescriptor} from '@beyond-js/kernel/bundle';
 
 interface BundleCreator {
     (ims: IMCreators, exports: { descriptor?: IExportsDescriptor[] }): { dependencies: Set<string> }
+}
+
+interface BundleDefinition {
+    module: string,
+    multibundle?: boolean,
+    bundle: string
 }
 
 export /*bundle*/
@@ -23,7 +29,7 @@ class Transversal {
 
     #initialised = false;
 
-    initialise(bundles: Map<string, BundleCreator>) {
+    initialise(bundles: Map<BundleDefinition, BundleCreator>) {
         if (this.#initialised) throw new Error(`Transversal "${this.#name}" already initialised`);
         this.#initialised = true;
 
@@ -31,8 +37,8 @@ class Transversal {
 
         // First create the bundles and then initialize them,
         // to allow dependencies among bundles of the same traversal
-        bundles.forEach((bcreator, id) => {
-            const pkg = new Bundle(id).package(this.#language);
+        bundles.forEach((bcreator, definition) => {
+            const pkg = new Bundle(definition).package(this.#language);
 
             const ims: IMCreators = new Map();  // The internal modules map
             const exports: { descriptor?: IExportsDescriptor[] } = {}; // The exports.managed function

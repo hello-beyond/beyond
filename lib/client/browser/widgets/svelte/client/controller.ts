@@ -1,4 +1,4 @@
-import {WidgetClientController} from '@beyond-js/widgets/controller/ts';
+import {WidgetClientController} from '@beyond-js/widgets/controller';
 import {Wrapper} from "./wrapper";
 
 export /*bundle*/

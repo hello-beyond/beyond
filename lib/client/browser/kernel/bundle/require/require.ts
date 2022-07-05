@@ -43,8 +43,8 @@ export class Require {
             return {module: bundle.module, bundle, pkg: this.#pkg};
         }
 
-        // @beyond-js/kernel/transversals/ts requires the Bundle object
-        if (id === '@beyond-js/kernel/bundle/ts') {
+        // @beyond-js/kernel/transversals requires the Bundle object
+        if (id === '@beyond-js/kernel/bundle') {
             const {Bundle} = require('../bundle');
             const {instances} = require('../instances');
             return {Bundle, instances};

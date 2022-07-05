@@ -68,7 +68,7 @@ beyond
 
 # Create your first project
 
-> [Follow the tutorial](https://beyondjs.com/tutorial/start)
+> [Follow the tutorial](https://beyondjs.com/docs/tutorial/start)
 
 # Summary features
 

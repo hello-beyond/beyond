@@ -1,6 +1,6 @@
 import type React from "react";
 import {LayoutManager} from "../../layout-manager/layout-manager";
-import {Events} from "@beyond-js/kernel/core/ts";
+import {Events} from "@beyond-js/kernel/core";
 
 export /*bundle*/
 interface IContainerControl {

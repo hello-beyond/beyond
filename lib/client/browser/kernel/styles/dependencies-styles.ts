@@ -1,5 +1,5 @@
-import {instances as bundles} from '@beyond-js/kernel/bundle/ts';
-import {Events} from '@beyond-js/kernel/core/ts';
+import {instances as bundles} from '@beyond-js/kernel/bundle';
+import {Events} from '@beyond-js/kernel/core';
 import {styles as registry} from './registry';
 import {V1Styles} from './v1';
 
@@ -19,8 +19,13 @@ class DependenciesStyles extends Events {
 
         this.#elements = new Set();
         const recursive = (id: string) => {
-            if (id !== this.#bundle && id.split('/').pop() === 'widget') return;
+            if (!bundles.has(id)) {
+                console.log(`Bundle id "${id}" not found. Try refreshing the page.\n` +
+                    `If the problem still persist, delete the BeyondJS cache and try again.`);
+                return;
+            }
             const bundle = bundles.get(id);
+            if (id !== this.#bundle && bundle.name === 'widget') return;
 
             // Check if the bundle has styles
             const styles = <V1Styles>registry.get(id);

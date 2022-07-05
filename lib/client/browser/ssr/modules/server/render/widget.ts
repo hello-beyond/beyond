@@ -1,6 +1,6 @@
-import {widgets, IWidgetSpecs} from '@beyond-js/widgets/render/ts';
-import type {IWidgetStore, WidgetServerController, PageURI} from '@beyond-js/widgets/controller/ts';
-import {beyond} from '@beyond-js/kernel/core/ts';
+import {widgets, IWidgetSpecs} from '@beyond-js/widgets/render';
+import type {IWidgetStore, WidgetServerController, PageURI} from '@beyond-js/widgets/controller';
+import {beyond} from '@beyond-js/kernel/core';
 import {WidgetAttributes} from './attributes';
 
 export interface IWidgetRenderSpecs {

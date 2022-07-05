@@ -1,9 +1,9 @@
 import {IncomingMessage, ServerResponse} from 'http';
 import {URL} from 'url';
 import render from './render';
-import {URI} from '@beyond-js/kernel/routing/ts';
-import {Route} from '@beyond-js/widgets/routing/ts';
-import {PageURI} from '@beyond-js/widgets/controller/ts';
+import {URI} from '@beyond-js/kernel/routing';
+import {Route} from '@beyond-js/widgets/routing';
+import {PageURI} from '@beyond-js/widgets/controller';
 
 const process = async function (rq: IncomingMessage, response: ServerResponse) {
     const url = new URL(rq.url, 'void://foo');

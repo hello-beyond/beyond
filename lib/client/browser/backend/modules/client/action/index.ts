@@ -1,6 +1,6 @@
 import type {Socket} from 'socket.io-client';
 import type {Backend} from '../backend';
-import {PendingPromise, Events} from '@beyond-js/kernel/core/ts';
+import {PendingPromise, Events} from '@beyond-js/kernel/core';
 import {ExecutionError} from './execution-error';
 import {backends} from '../backends';
 

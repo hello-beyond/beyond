@@ -1,5 +1,5 @@
 import {Transversal} from './transversal';
-import {IDependencies, dependencies} from '@beyond-js/kernel/bundle/ts';
+import {IDependencies, dependencies} from '@beyond-js/kernel/bundle';
 
 export const transversals = new class {
     #transversals: Map<string, Transversal> = new Map();

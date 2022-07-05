@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {renderToString} from 'react-dom/server';
-import {WidgetServerController, IWidgetRendered} from '@beyond-js/widgets/controller/ts';
+import {WidgetServerController, IWidgetRendered} from '@beyond-js/widgets/controller';
 import Widget from './widget';
 
 export /*bundle*/

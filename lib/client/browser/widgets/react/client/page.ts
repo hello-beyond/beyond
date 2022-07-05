@@ -1,5 +1,5 @@
 import {ReactWidgetController} from './controller';
-import {PageURI} from '@beyond-js/widgets/controller/ts';
+import {PageURI} from '@beyond-js/widgets/controller';
 
 export /*bundle*/
 abstract class PageReactWidgetController extends ReactWidgetController {

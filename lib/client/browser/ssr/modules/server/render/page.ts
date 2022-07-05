@@ -1,8 +1,8 @@
-import {beyond} from '@beyond-js/kernel/core/ts';
-import {routing, URI} from '@beyond-js/kernel/routing/ts';
-import {Route, PageInstance} from '@beyond-js/widgets/routing/ts';
-import {widgets, IWidgetSpecs} from '@beyond-js/widgets/render/ts';
-import {PageURI} from '@beyond-js/widgets/controller/ts';
+import {beyond} from '@beyond-js/kernel/core';
+import {routing, URI} from '@beyond-js/kernel/routing';
+import {Route, PageInstance} from '@beyond-js/widgets/routing';
+import {widgets, IWidgetSpecs} from '@beyond-js/widgets/render';
+import {PageURI} from '@beyond-js/widgets/controller';
 import cheerio from "cheerio";
 import renderWidget, {IWidgetRenderSpecs} from './widget';
 

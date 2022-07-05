@@ -1,4 +1,4 @@
-import {beyond, Events} from '@beyond-js/kernel/core/ts';
+import {beyond, Events} from '@beyond-js/kernel/core';
 
 export /*bundle*/
 class V1Styles extends Events {

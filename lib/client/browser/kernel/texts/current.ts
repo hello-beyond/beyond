@@ -1,4 +1,4 @@
-import {beyond, Events} from '@beyond-js/kernel/core/ts';
+import {beyond, Events} from '@beyond-js/kernel/core';
 import {Texts} from './texts';
 
 interface IWidgetStore {
@@ -16,18 +16,9 @@ export /*bundle*/
 class CurrentTexts<TextsDeclaration> extends Events implements IWidgetStore {
     #texts: Map<string, Texts<TextsDeclaration>> = new Map();
 
-    readonly #module: string;
-    get module() {
-        return this.#module;
-    }
-
+    readonly #bundle;
     get bundle() {
-        return 'txt';
-    }
-
-    readonly #multilanguage: boolean;
-    get multilanguage() {
-        return this.#multilanguage;
+        return this.#bundle;
     }
 
     #enabled = false;
@@ -46,7 +37,7 @@ class CurrentTexts<TextsDeclaration> extends Events implements IWidgetStore {
         const {current: language} = beyond.languages;
         if (this.#texts.has(language)) return this.#texts.get(language);
 
-        const texts: Texts<TextsDeclaration> = new Texts(this.#module, 'txt', language);
+        const texts: Texts<TextsDeclaration> = new Texts(this.#bundle, {language});
         this.#texts.set(language, texts);
         return texts;
     }
@@ -73,15 +64,13 @@ class CurrentTexts<TextsDeclaration> extends Events implements IWidgetStore {
     }
 
     /**
-     * Module texts constructor
+     * Current texts constructor
      *
-     * @param {string} module The module that holds the texts bundle
-     * @param {boolean} multilanguage
+     * @param {string} bundle
      */
-    constructor(module: string, multilanguage?: boolean) {
+    constructor(bundle: string) {
         super();
-        this.#module = module;
-        this.#multilanguage = multilanguage;
+        this.#bundle = bundle;
 
         beyond.languages.on('change', this.#change);
         this.#current.on('change', this.#triggerChange);

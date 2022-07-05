@@ -1,6 +1,6 @@
-import {BeyondWidget} from '@beyond-js/widgets/render/ts';
-import {URI} from '@beyond-js/kernel/routing/ts';
-import {Route, manager} from '@beyond-js/widgets/routing/ts';
+import {BeyondWidget} from '@beyond-js/widgets/render';
+import {URI} from '@beyond-js/kernel/routing';
+import {Route, manager} from '@beyond-js/widgets/routing';
 
 export /*bundle*/
 class PageURI {

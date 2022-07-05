@@ -1,4 +1,4 @@
-import {beyond} from '@beyond-js/kernel/core/ts';
+import {beyond} from '@beyond-js/kernel/core';
 import type {Socket} from 'socket.io';
 import {Executor} from './executor/executor';
 import {Cache} from './cache/cache';

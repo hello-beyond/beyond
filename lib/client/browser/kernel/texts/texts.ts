@@ -1,5 +1,5 @@
-import {beyond, Events} from '@beyond-js/kernel/core/ts';
-import {instances as bundles, Package} from '@beyond-js/kernel/bundle/ts';
+import {beyond, Events} from '@beyond-js/kernel/core';
+import {instances as bundles, Package} from '@beyond-js/kernel/bundle';
 
 interface IWidgetStore {
     toJSON(): object | void;
@@ -11,14 +11,34 @@ interface IWidgetStore {
 
 export /*bundle*/
 class Texts<TextsDeclaration> extends Events implements IWidgetStore {
+    /**
+     * The module resource
+     * @type {string}
+     * @private
+     */
     readonly #module: string;
     get module() {
         return this.#module;
     }
 
+    /**
+     * The bundle name. Ex: 'txt'
+     * @type {string}
+     * @private
+     */
     readonly #bundle: string;
     get bundle() {
         return this.#bundle;
+    }
+
+    /**
+     * The transversal bundle name. Ex: 'txt-menu'
+     * @type {string}
+     * @private
+     */
+    readonly #transversal: string;
+    get transversal() {
+        return this.#transversal;
     }
 
     readonly #multilanguage: boolean;
@@ -51,28 +71,33 @@ class Texts<TextsDeclaration> extends Events implements IWidgetStore {
 
     get ready() {
         if (this.#loading) return false;
-        this.load().catch(exc => console.log(exc.stack));
+        this.fetch().catch(exc => console.log(exc.stack));
         return !this.#loading && this.#loaded;
     }
 
     /**
      * Module texts constructor
      *
-     * @param {Module} module The module that holds the texts bundle
-     * @param {string} bundle The bundle name
-     * @param {string=} language
+     * @param {string} module The module resource
+     * @param {{transversal: string, language: string}} specs
      */
-    constructor(module: string, bundle: string, language?: string) {
+    constructor(module: string, specs: { transversal?: string, language?: string, bundle?: string }) {
+        if (!module) throw new Error('Invalid parameters');
+
         super();
         this.#module = module;
-        this.#bundle = bundle;
-        this.#language = language;
+        specs = specs ? specs : {};
+
+        this.#language = specs.language;
+        this.#multilanguage = !!specs.language;
+        this.#bundle = !specs.transversal ? (specs.bundle ? specs.bundle : 'txt') : void 0;
+        this.#transversal = specs.transversal;
     }
 
     // Updated the value of the texts from the exported texts of the bundle package
     // Used by HMR when packaged has been updated
     #update = () => {
-        this.#value = this.#pkg.exports.values.texts;
+        this.#value = this.#pkg.exports.values.txt;
         this.trigger('change');
     }
 
@@ -82,19 +107,13 @@ class Texts<TextsDeclaration> extends Events implements IWidgetStore {
         this.#loading = true;
         this.trigger('change');
 
-        const id = `${this.#module}/${this.#bundle}`;
+        // The bundle id and bundle name
+        const bid = this.#module + '.' + (this.#transversal ? this.#transversal : this.#bundle);
+        let resource = this.#transversal ? `${beyond.application.package.id}/${this.#transversal}` : bid;
+        resource = resource + (this.#language ? `.${this.#language}` : '');
 
-        const resource: { bundle: string, pathname: string } = (() => {
-            const bundle = this.#bundle;
-            const transversal = bundle !== 'txt';
-
-            let pathname = transversal ? `${beyond.application.package.id}/${this.#bundle}` : id;
-            pathname = pathname + (this.#language ? `.${this.#language}` : '');
-            return {bundle, pathname};
-        })();
-
-        await beyond.import(resource.pathname);
-        const bundle = bundles.get(id);
+        await beyond.import(resource);
+        const bundle = bundles.get(bid);
         const pkg: Package = this.#pkg = bundle.package(this.#language);
 
         pkg.hmr.on('change', this.#update);

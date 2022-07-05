@@ -1,4 +1,4 @@
-import {beyond} from '@beyond-js/kernel/core/ts';
+import {beyond} from '@beyond-js/kernel/core';
 
 export default class {
     get engine() {

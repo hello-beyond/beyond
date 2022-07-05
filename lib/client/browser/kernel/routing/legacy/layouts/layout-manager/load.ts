@@ -1,5 +1,5 @@
 import type React from "react";
-import {SingleCall, beyond} from "@beyond-js/kernel/core/ts";
+import {SingleCall, beyond} from "@beyond-js/kernel/core";
 import {LayoutManager} from "./layout-manager";
 import {LayoutContainer} from "../abstract-classes/layouts/layout";
 import {LayoutLegacy} from "../abstract-classes/layouts/legacy";

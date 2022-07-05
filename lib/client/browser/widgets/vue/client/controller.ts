@@ -1,4 +1,4 @@
-import {WidgetClientController} from '@beyond-js/widgets/controller/ts';
+import {WidgetClientController} from '@beyond-js/widgets/controller';
 import {createApp, createSSRApp} from 'vue';
 import {Wrapper} from './wrapper';
 

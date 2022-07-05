@@ -1,7 +1,6 @@
 import {WidgetControllerBase} from "./controller";
-import {beyond} from '@beyond-js/kernel/core/ts';
-import {DependenciesStyles} from '@beyond-js/kernel/styles/ts';
-import type {IWidgetSpecs} from '@beyond-js/widgets/render/ts';
+import {DependenciesStyles} from '@beyond-js/kernel/styles';
+import type {IWidgetSpecs} from '@beyond-js/widgets/render';
 
 export /*bundle*/
 interface IWidgetRendered {
@@ -28,8 +27,7 @@ abstract class WidgetServerController extends WidgetControllerBase {
         const styles = new DependenciesStyles(this.specs.id);
         styles.elements.forEach(({href}) => this.#styles.push(href));
 
-        const baseUrl = typeof window === 'object' ? beyond.baseUrl : '##_!baseUrl!_##';
-        this.#styles.unshift(`${baseUrl}/global.css`);
+        this.#styles.unshift(`##_!baseUrl!_##/global.css`);
     }
 
     abstract render(props: Record<string, any>): Promise<IWidgetRendered> | IWidgetRendered;

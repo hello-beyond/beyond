@@ -1,6 +1,6 @@
-import {beyond} from '@beyond-js/kernel/core/ts';
-import {instances as bundles} from '@beyond-js/kernel/bundle/ts';
-import {backends} from '@beyond-js/backend/client/ts';
+import {beyond} from '@beyond-js/kernel/core';
+import {instances as bundles} from '@beyond-js/kernel/bundle';
+import {backends} from '@beyond-js/backend/client';
 import {Socket} from "socket.io-client";
 
 interface HMRMessage {
@@ -37,7 +37,7 @@ new class {
     async #css(bundle: string) {
         if (typeof window !== 'object') return;
 
-        const {styles} = await beyond.import('@beyond-js/kernel/styles/ts');
+        const {styles} = await beyond.import('@beyond-js/kernel/styles');
         if (!styles.has(bundle)) return;
         (styles.get(bundle)).change();
     }

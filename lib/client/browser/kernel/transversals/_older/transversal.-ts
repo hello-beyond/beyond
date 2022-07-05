@@ -1,5 +1,5 @@
 import {Bundles, Creators} from "./bundles";
-import type {IDependencies} from '@beyond-js/kernel/bundle/ts';
+import type {IDependencies} from '@beyond-js/kernel/bundle';
 
 export class Transversal {
     readonly #name: string;

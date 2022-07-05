@@ -1,6 +1,6 @@
 import {Pages} from "./pages/pages";
 import {LayoutLoader} from "./load";
-import {PendingPromise, CancellationToken} from "@beyond-js/kernel/core/ts";
+import {PendingPromise, CancellationToken} from "@beyond-js/kernel/core";
 import {URI} from "../../uri/uri";
 import {RoutingConfig} from "../../config/config";
 import {LayoutConfig} from "../../config/layouts";

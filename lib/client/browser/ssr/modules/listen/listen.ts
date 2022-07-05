@@ -1,4 +1,4 @@
-import {SSRServer} from '@beyond-js/ssr/server/ts';
+import {SSRServer} from '@beyond-js/ssr/server';
 
 interface IBeeSpecs {
     id: string,

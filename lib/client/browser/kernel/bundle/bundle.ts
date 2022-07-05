@@ -14,10 +14,25 @@ class Bundle extends Map<string, Package> {
         return this.#module;
     }
 
-    constructor(id: string) {
+    readonly #name: string;
+    get name() {
+        return this.#name;
+    }
+
+    readonly #multibundle: boolean;
+    get multibundle() {
+        return this.#multibundle;
+    }
+
+    constructor(params: { module: string, multibundle?: boolean, bundle: string }) {
         super();
-        this.#id = id;
-        this.#module = new Module(id);
+        const {module, multibundle, bundle} = params;
+        if (!module || !bundle) throw new Error('Invalid bundle creation parameters');
+
+        this.#id = multibundle ? `${module}.${bundle}` : module;
+        this.#name = bundle;
+        this.#multibundle = multibundle;
+        this.#module = new Module(module);
         instances.register(this);
     }
 

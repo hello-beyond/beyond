@@ -1,5 +1,5 @@
-import {widgets} from '@beyond-js/widgets/render/ts';
-import {routing} from '@beyond-js/kernel/routing/ts';
+import {widgets} from '@beyond-js/widgets/render';
+import {routing} from '@beyond-js/kernel/routing';
 
 export /*bundle*/
 class Route {

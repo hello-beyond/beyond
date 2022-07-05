@@ -2,7 +2,7 @@ import {LayoutManager} from "../layout-manager";
 import {URI} from "../../../uri/uri";
 import {RoutingConfig} from "../../../config/config";
 import {PageManager} from "./page-manager/page-manager";
-import {CancellationToken} from "@beyond-js/kernel/core/ts";
+import {CancellationToken} from "@beyond-js/kernel/core";
 
 export class Pages {
     readonly #layoutManager: LayoutManager;

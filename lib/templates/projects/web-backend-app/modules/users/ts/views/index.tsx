@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Model} from "$[scope]$[name]/model/bridge";
-import {Header} from "$[scope]$[name]/header/code";
+import {Model} from "$[scope]$[name]/model";
+import {Header} from "$[scope]$[name]/header";
 
 export /*bundle*/
 function Page(): JSX.Element {

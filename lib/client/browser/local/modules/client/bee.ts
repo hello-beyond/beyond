@@ -1,5 +1,5 @@
 import {module} from 'beyond_context';
-import {Events} from '@beyond-js/kernel/core/ts';
+import {Events} from '@beyond-js/kernel/core';
 
 export class BEE extends Events {
     readonly #id: string;

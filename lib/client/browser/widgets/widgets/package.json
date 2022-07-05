@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@beyond-js/kernel": "0.0.17",
+    "@beyond-js/kernel": "0.0.19",
     "socket.io-client": "^4.4.1"
   }
 }

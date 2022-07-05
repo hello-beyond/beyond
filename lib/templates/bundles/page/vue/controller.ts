@@ -1,4 +1,4 @@
-import {PageVueWidgetController} from '@beyond-js/vue-widgets/controllers/ts';
+import {PageVueWidgetController} from '@beyond-js/vue-widgets/controllers';
 import Widget from "./widget.vue";
 
 export /*bundle*/

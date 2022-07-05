@@ -1,4 +1,4 @@
-import {WidgetServerController, IWidgetRendered} from "@beyond-js/widgets/controller/ts";
+import {WidgetServerController, IWidgetRendered} from "@beyond-js/widgets/controller";
 
 export /*bundle*/
 abstract class SvelteWidgetController extends WidgetServerController {

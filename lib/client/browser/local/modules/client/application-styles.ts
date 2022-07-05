@@ -1,5 +1,5 @@
-import {backends} from '@beyond-js/backend/client/ts';
-import {Events} from '@beyond-js/kernel/core/ts';
+import {backends} from '@beyond-js/backend/client';
+import {Events} from '@beyond-js/kernel/core';
 import type {Socket} from "socket.io-client";
 
 typeof window === 'object' &&
@@ -12,6 +12,14 @@ new class ApplicationStyles extends Events {
         document
             .getElementById(`beyond-${is}-styles`)
             .setAttribute('href', `/${resource}.css?updated=${Date.now()}`);
+
+        if (is === 'global') {
+            const {instances} = require('@beyond-js/kernel/bundle');
+            if (instances.has('@beyond-js/widgets/render')) {
+                const {globalcss} = instances.get('@beyond-js/widgets/render').package().exports.values;
+                globalcss.update();
+            }
+        }
 
         this.trigger(`${is}:change`);
     }

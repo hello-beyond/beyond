@@ -1,7 +1,7 @@
 import {URI} from "../uri/uri";
 import {LayoutManager} from "./layout-manager/layout-manager";
 import {RoutingConfig} from "../config/config";
-import {CancellationToken} from "@beyond-js/kernel/core/ts";
+import {CancellationToken} from "@beyond-js/kernel/core";
 
 export class Layouts {
     readonly #config: RoutingConfig;

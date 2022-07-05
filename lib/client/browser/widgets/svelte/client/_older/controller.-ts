@@ -1,4 +1,4 @@
-import {beyond, BeyondWidgetController} from "@beyond-js/kernel/core/ts";
+import {beyond, BeyondWidgetController} from "@beyond-js/kernel/core";
 
 export /*bundle*/
 class SvelteWidgetController extends BeyondWidgetController {

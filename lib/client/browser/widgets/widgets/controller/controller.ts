@@ -1,4 +1,4 @@
-import {IWidgetSpecs, widgets} from '@beyond-js/widgets/render/ts';
+import {IWidgetSpecs, widgets} from '@beyond-js/widgets/render';
 
 export /*bundle*/
 interface IWidgetStore {

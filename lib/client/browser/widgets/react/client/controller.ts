@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {retargetEvents} from "./retarget-events";
-import {WidgetClientController} from '@beyond-js/widgets/controller/ts';
+import {WidgetClientController} from '@beyond-js/widgets/controller';
 import Widget from './widget';
 import {Wrapper} from "./wrapper";
 

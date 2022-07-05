@@ -1,5 +1,5 @@
 import {URI} from "./uri/uri";
-import {Events, CancellationToken} from "@beyond-js/kernel/core/ts";
+import {Events, CancellationToken} from "@beyond-js/kernel/core";
 import {BeyondHistory} from "./history/history";
 
 export enum RoutingMode {Hash, Pathname}

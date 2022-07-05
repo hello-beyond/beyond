@@ -1,9 +1,8 @@
 import {WidgetControllerBase, IWidgetStore} from './controller';
 import {WidgetAttributes} from './attributes';
-import {instances as bundles} from '@beyond-js/kernel/bundle/ts';
-import {StylesManager} from '@beyond-js/widgets/render/ts';
-import {beyond} from '@beyond-js/kernel/core/ts';
-import {DependenciesStyles} from '@beyond-js/kernel/styles/ts';
+import {instances as bundles} from '@beyond-js/kernel/bundle';
+import {StylesManager} from '@beyond-js/widgets/render';
+import {DependenciesStyles} from '@beyond-js/kernel/styles';
 
 /**
  * The client widget react controller
@@ -48,11 +47,7 @@ abstract class WidgetClientController extends WidgetControllerBase {
 
         (() => {
             const styles = new DependenciesStyles(this.specs.id);
-            const links = () => {
-                const links = [...styles.elements].map(style => style.href);
-                links.unshift(`${beyond.baseUrl}/global.css`);
-                return links;
-            }
+            const links = () => [...styles.elements].map(style => style.href);
 
             !this.styles.initialised && this.styles.initialise(links());
             styles.on('change', () => this.styles.update(links()));
@@ -105,6 +100,11 @@ abstract class WidgetClientController extends WidgetControllerBase {
         this.render();
 
         // Attach to hmr changes of bundle of the widget controller
+        if (!bundles.has(this.specs.id)) {
+            console.log(`Bundle id "${this.specs.id}" not found. Try refreshing the page.\n` +
+                `If the problem still persist, delete the BeyondJS cache and try again.`);
+            return;
+        }
         const pkg = bundles.get(this.specs.id).package();
         pkg.hmr.on('change', this.#refresh);
     }

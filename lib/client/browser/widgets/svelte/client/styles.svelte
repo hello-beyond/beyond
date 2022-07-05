@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {StylesManager} from '@beyond-js/widgets/render/ts';
+    import {StylesManager} from '@beyond-js/widgets/render';
 
     export let styles: StylesManager;
 </script>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {routing} from "@beyond-js/kernel/routing/ts";
+import {routing} from "@beyond-js/kernel/routing";
 
 const navigate = event => routing.pushState(event.currentTarget.dataset.url);
 

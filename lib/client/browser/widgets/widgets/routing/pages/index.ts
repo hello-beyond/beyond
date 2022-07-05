@@ -1,5 +1,5 @@
 import {PageInstance} from "./instance";
-import type {URI} from '@beyond-js/kernel/routing/ts';
+import type {URI} from '@beyond-js/kernel/routing';
 import type {Route} from '../route';
 
 type pathname = string;

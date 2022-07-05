@@ -4,6 +4,7 @@
     "web",
     "android",
     "ios",
+    "node",
     "ssr"
   ],
   "bundle": "ts",

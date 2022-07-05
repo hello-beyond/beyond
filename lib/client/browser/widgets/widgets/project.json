@@ -1,7 +1,7 @@
 {
   "scope": "beyond-js",
   "name": "widgets",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "modules": {
     "path": "./"
   },

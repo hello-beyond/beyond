@@ -1,4 +1,4 @@
-import {beyond, Events, PendingPromise} from '@beyond-js/kernel/core/ts';
+import {beyond, Events, PendingPromise} from '@beyond-js/kernel/core';
 import type {Backend} from '../backend';
 
 declare class LocalBEE extends Events {
@@ -37,7 +37,7 @@ export default class {
         this.#promise = new PendingPromise();
 
         if (!beyond.local || this.#local) return;
-        this.#local = <BeyondLocal>(await beyond.import('@beyond-js/local/main/ts')).local;
+        this.#local = <BeyondLocal>(await beyond.import('@beyond-js/local/main')).local;
         this.#promise.resolve();
     }
 

@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" id="beyond-application-styles" href="/styles.css" media="screen" />
     <link rel="stylesheet" type="text/css" id="beyond-global-styles" href="/global.css" media="screen" />
-    <link rel="icon" href="data:;base64,=">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
     <script src="/config.js"></script>
     <script src="/packages/@beyond-js/kernel/vendor/require.min.js"></script>
     <script>
@@ -31,7 +31,7 @@
     })();
     const paths = {'@beyond-js/dashboard': baseUrl};
     requirejs.config({baseUrl: '/packages', paths});
-    require(["@beyond-js/kernel/styles/ts","@beyond-js/dashboard/start"]);
+    require(["@beyond-js/kernel/styles","@beyond-js/dashboard/start"]);
     
     </script>
     

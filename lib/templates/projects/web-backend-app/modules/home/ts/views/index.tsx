@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Header} from "$[scope]$[name]/header/code";
+import {Header} from "$[scope]$[name]/header";
 
 export /*bundle*/
 function View(): JSX.Element {

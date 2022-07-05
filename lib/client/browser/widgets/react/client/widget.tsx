@@ -3,7 +3,7 @@ import Styles from './styles';
 
 export default function ({wrapper, props, styles, holder}: any) {
     const elements: React.ReactElement[] = [];
-    elements.push(<Styles key="styles" styles={styles}/>);
+    elements.push(<Styles key="styles" styles={styles} widget={props.widget}/>);
 
     const rs = React.useState(0);
     const refresh = () => rs[1](rs[0] + 1);

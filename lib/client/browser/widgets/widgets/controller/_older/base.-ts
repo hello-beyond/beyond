@@ -1,5 +1,5 @@
-import {WidgetSpecs, widgets} from '@beyond-js/kernel/widgets/ts';
-import {beyond, Bundle, BundleStyles} from '@beyond-js/kernel/core/ts';
+import {WidgetSpecs, widgets} from '@beyond-js/kernel/widgets';
+import {beyond, Bundle, BundleStyles} from '@beyond-js/kernel/core';
 
 export /*bundle*/
 interface IWidgetStore {
