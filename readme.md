@@ -35,7 +35,7 @@ You can install `BeyondJS` in two ways:
 To begin with, the easiest way to start a project in BeyondJS is through the beyond-first-project.
 
 ```shell
-npx beyond-first-project -name @scope/name [-type node] [-container folderName]
+npx @beyond-js/create-project --name [@my-scope/name] --type [type] [--container folderName]
 ```
 
 Listed below are the flags that can be selected when installing beyond-first-project:
@@ -44,11 +44,11 @@ Listed below are the flags that can be selected when installing beyond-first-pro
   about it [here](https://docs.npmjs.com/cli/v8/using-npm/scope).
 - type: This allows you to define the type of project to create (this is optional), if not, a web-type project will be
   set by default. Accepted values ​​are:
-    - web
-    - node
-    - backend
-    - library
-    - web-backend
+  - web
+  - node
+  - backend
+  - library
+  - web-backend
 - container: This allows you to specify if you want to add a project container folder. `BeyondJS` supports the ability
   to handle multiple projects simultaneously.
 
