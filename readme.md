@@ -7,7 +7,7 @@
 > over a community-scale modular basis design.
 
 With `BeyondJS` it is possible to create: web applications, websites, mobile applications, micro-frontends, node js
-applications, npm packages, micro services, under the same base code.
+applications, npm packages, microservices, under the same base code.
 
 [Learn more](https://beyondjs.com/docs/intro)
 
@@ -40,7 +40,7 @@ npx @beyond-js/create-project --name [@my-scope/name] --type [type] [--container
 
 Listed below are the flags that can be selected when installing beyond-first-project:
 
-- name: This allows you to define the scope and naming of the project. Projects follow the NPM standard. Read read more
+- name: This allows you to define the scope and naming of the project. Projects follow the NPM standard. Read more
   about it [here](https://docs.npmjs.com/cli/v8/using-npm/scope).
 - type: This allows you to define the type of project to create (this is optional), if not, a web-type project will be
   set by default. Accepted values ​​are:

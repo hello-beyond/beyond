@@ -3,7 +3,7 @@
   "description": "The Full Stack Universal Typescript Framework",
   "author": "BeyondJS",
   "email": "hello@beyondjs.com",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "main": "lib",
   "repository": "https://github.com/hello-beyond/beyond",
