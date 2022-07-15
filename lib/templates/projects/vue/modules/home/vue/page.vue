@@ -14,13 +14,12 @@ export default {
 .page__container {
   display: flex;
   padding: 20px;
-  max-width: 1024px;
-  margin: 20px auto;
+  margin: 5px auto;
   flex-direction: row;
-  background: var(--primary-surface);
+  background: var(--bg-element);
 }
 
 .text {
-  color: #FF8056;
+  color: var(--accent-color);
 }
 </style>

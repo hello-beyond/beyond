@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Header from './header';
+    import Header from './header.svelte';
     import {title} from './model';
 </script>
 
@@ -8,12 +8,11 @@
 </div>
 
 <style lang="scss">
-    .page__container {
-        display: flex;
-        padding: 20px;
-        max-width: 1024px;
-        margin: 20px auto;
-        flex-direction: row;
-        background: var(--bg-element);
-    }
+  .page__container {
+    display: flex;
+    padding: 20px;
+    margin: 5px auto;
+    flex-direction: row;
+    background: var(--bg-element);
+  }
 </style>
