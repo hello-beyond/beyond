@@ -5,6 +5,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@beyond-js/kernel": "^0.0.19"
+    "@beyond-js/kernel": "^0.0.20"
+  },
+  "devDependencies": {
+    "@beyond-js/backend": "^0.0.9"
   }
 }

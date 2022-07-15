@@ -6,13 +6,6 @@ define(["exports", "@beyond-js/dashboard/core-components", "@beyond-js/ui/icon",
   });
   _exports.Page = Page;
   _exports.hmr = void 0;
-
-  function A(b) {
-    b.items.forEach(item => {
-      item.ejecutar(() => console.log(item.name));
-    });
-  }
-
   const {
     Bundle: __Bundle,
     externals
@@ -129,8 +122,7 @@ define(["exports", "@beyond-js/dashboard/core-components", "@beyond-js/ui/icon",
 
 
   function Page() {
-    const specs = {};
-    ReactDOM.render(React.createElement(View, specs), this.container);
+    ReactDOM.render(React.createElement(View, {}), this.container);
     this.container.id = 'beyond-element-icons-page';
   }
   /**********

@@ -468,11 +468,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
     }));
 
     const onConfirm = async () => {
-      await item.removeFavoriteItem();
-      setState({ ...state,
-        isFavorite: false,
-        confirmDelete: false
-      });
+      await item.removeFavoriteItem(); // setState({...state, isFavorite: false, confirmDelete: false})
     };
 
     const toggleModal = () => setState(state => ({ ...state,
@@ -492,9 +488,11 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
     }), confirmDelete && /*#__PURE__*/React.createElement(_modal.BeyondConfirmModal, {
       show: true,
       className: "xs ds-modal",
-      onCancel: () => setState({
-        confirmDelete: false
-      }),
+      onCancel: () => {
+        setState({
+          confirmDelete: false
+        });
+      },
       onConfirm: onConfirm,
       text: texts.favorites.actions.delete
     }));
@@ -775,7 +773,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
           fetching: false,
           label: ''
         });
-        response.error ? setState({
+        response.error ? setState({ ...state,
           error: response.message
         }) : closeModal();
       } catch (e) {
@@ -1311,20 +1309,22 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     const onConfirm = async () => {
       try {
-        await item[confirmAction]();
-        setConfirmAction(false);
+        await item[confirmAction](); // setConfirmAction(false);
       } catch (e) {
         console.error("error", e);
       }
     };
 
-    item?.actions?.forEach(action => actions.push( /*#__PURE__*/React.createElement(ActionBranch, {
-      key: action.name,
-      openConfirmAction: setConfirmAction,
-      openModalAction: setModalAction,
-      action: action,
-      item: item
-    })));
+    item?.actions?.forEach(action => {
+      if (!action.name) return;
+      actions.push( /*#__PURE__*/React.createElement(ActionBranch, {
+        key: action.name,
+        openConfirmAction: setConfirmAction,
+        openModalAction: setModalAction,
+        action: action,
+        item: item
+      }));
+    });
     const cls = className ?? 'item__container';
     return /*#__PURE__*/React.createElement("section", {
       ref: ref,
@@ -1339,7 +1339,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       inline: inline,
       setModalAction: setModalAction,
       item: item
-    }), showContextMenu && /*#__PURE__*/React.createElement(_contextMenu.DSContextMenu, {
+    }), showContextMenu && actions.length > 0 && /*#__PURE__*/React.createElement(_contextMenu.DSContextMenu, {
       unmount: toggleContextMenu,
       specs: showContextMenu
     }, /*#__PURE__*/React.createElement("ul", null, actions)), modalAction && /*#__PURE__*/React.createElement(ModalAction, {
@@ -2290,6 +2290,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
     get id() {}
 
     #update;
+    #listener;
     /**
      *
      * @param type
@@ -2328,6 +2329,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       this.#object = object;
       this.#bundle = bundle;
       this.#update = update;
+      this.#listener = listener;
 
       if (project) {
         this.#favorites = _dsFavorites.FavoritesFactory.get(project.application.id, project);
@@ -2337,6 +2339,10 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       if (listener) {
         if (typeof listener !== 'function') {
           throw Error('the listener of the tree must be a function');
+        }
+
+        if (type === 'template') {
+          window.setTimeout(() => project.bind('change', listener), 300);
         }
 
         object.bind('change', listener);
@@ -2410,7 +2416,11 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     subfolderProcess(branch, tree, folders) {
       const folder = folders.shift();
-      const subtree = tree.has(folder) ? tree.get(folder) : branchFactory.get('subtree', branch, this.application, folder);
+      const subtree = tree.has(folder) ? tree.get(folder) : branchFactory.get('subtree', branch, this.application, folder, {
+        listener: this.#listener,
+        object: this.#object,
+        project: this.#project
+      });
 
       if (!folders.length) {
         const type = this.type === 'static' ? 'static' : 'source';
@@ -2651,33 +2661,21 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
     }
 
     get actions() {
-      return [{
-        name: 'addBundle',
-        modal: true,
-        icon: 'add',
-        className: "ds-modal md md-modal"
-      }];
+      return [// {name: 'addBundle', modal: true, icon: 'add', className: "ds-modal md md-modal"},
+      ];
     }
 
-    get emptyAction() {
-      return {
-        name: 'addBundle',
-        modal: true,
-        icon: 'add',
-        className: "ds-modal md md-modal"
-      };
+    get emptyAction() {// return {name: 'addBundle', modal: true, icon: 'add', className: "ds-modal md md-modal"}
     }
 
     get inlineActions() {
       return [{
         name: 'open',
         icon: 'arrowForward'
-      }, {
-        name: 'addBundle',
-        modal: true,
-        icon: 'add',
-        className: "ds-modal md md-modal"
-      }];
+      } // {
+      //     name: 'addBundle', modal: true, icon: 'add', className: "ds-modal md md-modal"
+      // }
+      ];
     }
 
     _module;
@@ -2834,7 +2832,12 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     async create(name) {
       const extension = name.split(["."]).slice(-1)[0];
-      if (extension !== this.item.processor) return {
+      const extensions = {
+        sass: ['scss', 'sass'],
+        less: ['less']
+      };
+      const exts = this.items.processor === 'less' ? extensions.less : extensions.sass;
+      if (!exts.includes(extension)) return {
         error: true,
         message: 'EXT_INVALID'
       };
@@ -3570,7 +3573,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       }];
     }
 
-    constructor(branch, application, folder) {
+    constructor(branch, application, folder, specs) {
       super(branch, application);
       this._label = folder;
       this._id = `${branch.id}.subtree`;
@@ -3805,6 +3808,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
         },
         tree: tree
       });
+      console.log(1, bundle, tree);
       this.setFetching(true);
       bundle.bind('change', _ => {
         if (!bundle.tree.landed) return;

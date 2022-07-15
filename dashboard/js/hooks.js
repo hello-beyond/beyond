@@ -37,21 +37,19 @@ define(["exports", "@beyond-js/kernel/bundle", "react", "react-dom"], function (
    */
 
   function useBinder(objects, onBinder, event = 'change') {
-    React.useEffect(() => {
-      objects.forEach(object => {
-        if (!object) {
-          return;
-        }
-
+    if (!objects) return;
+    objects.forEach(object => {
+      React.useEffect(() => {
+        if (!object) return;
         if (object && object.on) object.on(event, onBinder);
         if (object && object.bind) object.bind(event, onBinder);
-      });
-      return () => objects.forEach(object => {
-        if (!object) return;
-        object && object.off && object.off(event, onBinder);
-        object && object.unbind && object.unbind(event, onBinder);
-      });
-    }, [objects]);
+        return () => {
+          if (!object) return;
+          object && object.off && object.off(event, onBinder);
+          object && object.unbind && object.unbind(event, onBinder);
+        };
+      }, [object]);
+    });
   }
 
   const ims = new Map(); // Module exports

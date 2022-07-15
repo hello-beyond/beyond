@@ -148,7 +148,6 @@ module.exports = class File {
         if (!content) content = this.#content;
         dest = dest ?? this.file;
         const {fs} = global.utils;
-        // return fs.save(dest, content, this.#encoding);
         return fs.savePromises(dest, content, this.#encoding);
     }
 

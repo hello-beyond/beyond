@@ -488,6 +488,10 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/ui/form
       },
       application
     } = (0, _dsContexts.useAppContext)();
+    const {
+      panel,
+      workspace
+    } = (0, _dsContexts.useDSWorkspaceContext)();
     const model = application?.application;
     const [state, setState] = React.useState({});
     const [processed, setProcessed] = React.useState(application.moduleManager.processed);
@@ -513,6 +517,9 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/ui/form
 
     const openDistributions = event => {
       event.preventDefault();
+      workspace.openBoard('settings', {
+        tab: 'apps'
+      });
     };
 
     const compile = event => {
@@ -528,7 +535,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/ui/form
     return /*#__PURE__*/React.createElement("div", {
       className: "application__detail sticky-content"
     }, /*#__PURE__*/React.createElement("section", {
-      className: "board__header "
+      className: "board__header"
     }, /*#__PURE__*/React.createElement("header", null, /*#__PURE__*/React.createElement("h2", null, model.name, " ", /*#__PURE__*/React.createElement("small", null, `(id: ${model.id})`)), /*#__PURE__*/React.createElement("span", {
       className: "pathname"
     }, model.path), model.url && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("a", {

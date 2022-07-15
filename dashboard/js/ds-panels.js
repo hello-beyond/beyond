@@ -270,7 +270,7 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar", "@beyond-js/dashboard-lib/
          *
          * @type {*}
          */
-        module = module ?? (await project.moduleManager.load(moduleId));
+        module = await this.workspace.active.moduleManager.load(moduleId);
       }
 
       const project = await _models2.projectsFactory.get(applicationId ?? application.id);
@@ -364,12 +364,12 @@ define(["exports", "@beyond-js/ui/perfect-scrollbar", "@beyond-js/dashboard-lib/
         path: name,
         control: control.control,
         specs
-      };
-
-      if (projectId) {
-        const application = await _models2.projectsFactory.get(projectId);
-        finalSpecs.label = application.name;
-      }
+      }; // if (projectId) {
+      //     const application = await projectsFactory.get(projectId);
+      //     finalSpecs.label = application.name;
+      //
+      // }
+      // console.log(9.1, finalSpecs)
 
       this.tabs.set(id, finalSpecs); //the activeItem is used by the Panel View component to understand which board must be shown.
       // this.#activeItem = id;

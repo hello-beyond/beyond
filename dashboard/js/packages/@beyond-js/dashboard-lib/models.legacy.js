@@ -356,10 +356,9 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
       }, {
         name: "svelte",
         platforms: ['web']
-      }, // {name: "board", platforms: ['web']},
-      {
+      }, {
         name: "express",
-        platforms: ['backend']
+        platforms: ['node']
       }, {
         name: "web-backend-app",
         platforms: ['web', 'backend']
@@ -386,7 +385,7 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
       platforms: ['web', 'backend']
     }, {
       name: 'node',
-      platforms: ['backend']
+      platforms: ['node']
     }, {
       name: 'backend',
       platforms: ['backend']
@@ -564,7 +563,7 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
     #bundle;
     #applicationId;
     #PROCESSORS = ['sass', 'less'];
-    #BUNDLES = ['page', 'widget', 'layout', 'code', 'bridge', 'typescript'];
+    #BUNDLES = ['page', 'widget', 'layout', 'code', 'start', 'bridge', 'typescript'];
     #TEMPLATES = Object.freeze({
       page: {
         'id': 'page',
@@ -888,6 +887,9 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
       processors: ['ts', 'jsx']
     },
     bridge: {
+      required: ['name']
+    },
+    start: {
       required: ['name']
     },
     ts: {

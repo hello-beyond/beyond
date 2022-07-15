@@ -332,7 +332,6 @@ export const module = <Module>null;
       type
     }) {
       super();
-      window.editor = this;
       this.#project = application;
 
       if (!monacoDependency || !monacoDependency.ready) {
@@ -397,7 +396,7 @@ export const module = <Module>null;
      */
 
 
-    addFile({
+    async addFile({
       module,
       type,
       processor,
@@ -430,6 +429,7 @@ export const module = <Module>null;
         this.#source.bind('change', this.#listenFileChanges);
         this.triggerEvent();
         this.loadFile(this.files.get(source.id));
+        this.loadDependencies(module);
       };
 
       if (!active) return;
@@ -457,24 +457,22 @@ export const module = <Module>null;
       const model = this.#dependency.models.get(type, source, processor);
       this.#source = source;
       this.dependency.setSource(source);
-      this.#source.bind('change', this.#listenFileChanges); // this.#currentModel = model;
-
+      this.#source.bind('change', this.#listenFileChanges);
       this.instance.setModel(model);
       this.instance.updateOptions({
         readOnly: type === 'dependency'
       });
       this.triggerEvent();
-
-      if (this.module) {
-        this.loadDependencies(module);
-      }
+      module && this.loadDependencies(module);
     }
     /***
      *
      */
 
 
-    loadDependencies = module => {
+    loadDependencies = async module => {
+      if (!module.bundles?.loadDependencies) return null;
+      await module.bundles.loadDependencies();
       module?.bundles?.items?.forEach(bundle => {
         const {
           dependencies: {

@@ -1,4 +1,5 @@
 require('colors');
+const p = require('path');
 module.exports = function (ipc) {
     const getPath = async (applicationId) => {
         let appData = await ipc.exec('applications/get', [applicationId]);
@@ -14,7 +15,8 @@ module.exports = function (ipc) {
             const {Project, Module} = (require('./models'));
 
             const app = new Project(applicationPath);
-            const name = params.bundles.includes('layout') ? `layouts/${params.name}` : params.name;
+            const isLayout = !!params.bundles.includes('layout');
+            const name = isLayout ? `layouts/${params.name}` : params.name;
             const module = new Module(app.modules.path, name);
 
             if (module.exists) {
@@ -23,6 +25,12 @@ module.exports = function (ipc) {
 
             await module.load();
             await module.create(params);
+
+            const path = p.join(applicationPath, app.modules.path, 'node_modules', `@${app.scope}`, app.name);
+            const target = p.join(path, isLayout ? 'layout' : '', `${params.name}.d.ts`);
+            await app._fs.mkdir(path, {recursive: true});
+            await module._fs.save(target, '');
+
             return {status: 'ok', data: true};
         }
         catch (exc) {
@@ -41,7 +49,7 @@ module.exports = function (ipc) {
         module = module[params.moduleId];
 
         const current = module.path;
-        const toCreate = require('path').join(application.modulesPath, params.name);
+        const toCreate = p.join(application.modulesPath, params.name);
         try {
             if (!await fs.exists(current)) {
                 console.error({error: true, code: 'FILE_NOT_FOUND'})

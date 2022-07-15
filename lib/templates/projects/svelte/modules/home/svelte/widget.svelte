@@ -14,6 +14,6 @@
         max-width: 1024px;
         margin: 20px auto;
         flex-direction: row;
-        background: var(--element-bg);
+        background: var(--bg-element);
     }
 </style>

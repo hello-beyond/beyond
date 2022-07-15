@@ -17,7 +17,7 @@ export default {
   max-width: 1024px;
   margin: 20px auto;
   flex-direction: row;
-  background: var(--element-bg);
+  background: var(--primary-surface);
 }
 
 .text {

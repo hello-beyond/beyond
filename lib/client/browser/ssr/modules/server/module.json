@@ -1,6 +1,0 @@
-{
-  "name": "server",
-  "bundle": "ts",
-  "platforms": "ssr",
-  "files": "*"
-}

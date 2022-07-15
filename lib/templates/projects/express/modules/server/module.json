@@ -1,9 +1,8 @@
 {
   "name": "server",
+  "bundle": "start",
   "platforms": "node",
-  "start": {
-    "ts": {
-      "files": "*"
-    }
+  "ts": {
+    "files": "*"
   }
 }

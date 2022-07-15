@@ -1,9 +1,10 @@
-define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/dashboard/core-components", "@beyond-js/dashboard/hooks", "@beyond-js/dashboard/texts-binder", "@beyond-js/dashboard/ds-contexts", "@beyond-js/kernel/bundle", "react", "react-dom"], function (_exports, _spinner, _form, _coreComponents, _hooks, _textsBinder, _dsContexts, dependency_0, dependency_1, dependency_2) {
+define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "dayjs", "@beyond-js/dashboard/core-components", "@beyond-js/dashboard/hooks", "@beyond-js/dashboard/texts-binder", "@beyond-js/dashboard/ds-contexts", "@beyond-js/kernel/bundle", "react", "react-dom"], function (_exports, _spinner, _form, dayjs, _coreComponents, _hooks, _textsBinder, _dsContexts, dependency_0, dependency_1, dependency_2) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  _exports.AlertsSection = AlertsSection;
   _exports.ModuleBoard = ModuleBoard;
   _exports.hmr = void 0;
   //Beyond ui
@@ -50,18 +51,52 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
   alerts\diagnostics.jsx
   *********************/
 
+  /*
+   * Returns a string with the corresponding formatted time
+   * @param int $timestamp timestamp to be parsed
+   * @return string
+   */
+
 
   function Diagnostics() {
     const {
-      model
+      model,
+      model: {
+        bundles: {
+          compilers
+        }
+      },
+      texts
     } = useModuleContext();
+    const [fetching, setFetching] = React.useState(compilers?.fetching);
+    const [ready, setReady] = React.useState(false);
+    React.useEffect(() => {
+      compilers.load();
+    }, []);
+    (0, _hooks.useBinder)([compilers], () => {
+      setFetching(compilers.fetching);
+      setReady(dayjs.default());
+    });
+
+    if (!ready || compilers.fetching) {
+      return /*#__PURE__*/React.createElement("div", {
+        className: "flex-container flex-space"
+      }, /*#__PURE__*/React.createElement("h5", {
+        className: "text-info"
+      }, texts.diagnostics.fetching), /*#__PURE__*/React.createElement(_spinner.BeyondSpinner, {
+        active: true
+      }));
+    }
+
     const output = Array.from(model.bundles.items.values()).map(bundle => {
       return /*#__PURE__*/React.createElement(BundleDiagnostics, {
         bundle: bundle,
         key: bundle.id
       });
     });
-    return /*#__PURE__*/React.createElement(React.Fragment, null, output);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "beyond-alert alert-info flex-container flex-space"
+    }, /*#__PURE__*/React.createElement("h5", null, texts.diagnostics.ready, ": ", ready?.format('YYYY/MM/DD'), " ")), output);
   }
   /****************************
   alerts\diagnostics\bundle.jsx
@@ -75,7 +110,7 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
     const {
       texts
     } = useModuleContext();
-    const [diagnostics, setDiagnostics] = React.useState(bundle.compiler.diagnostics ?? {});
+    const [diagnostics, setDiagnostics] = React.useState(bundle.compiler?.diagnostics ?? {});
     const {
       general,
       files,
@@ -182,12 +217,20 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
     data
   }) => {
     if (!data.length) return null;
+    const {
+      model,
+      model: {
+        compilers,
+        module
+      },
+      texts
+    } = useModuleContext();
     const output = data.map((item, i) => /*#__PURE__*/React.createElement("li", {
       key: item.id
     }, item.message));
     return /*#__PURE__*/React.createElement(_coreComponents.BeyondAlert, {
       type: "danger"
-    }, /*#__PURE__*/React.createElement("h5", null, "Errores generales"), /*#__PURE__*/React.createElement("ul", null, output));
+    }, /*#__PURE__*/React.createElement("h5", null, texts.diagnostics.generalTitle), /*#__PURE__*/React.createElement("ul", null, output));
   };
   /************************
   alerts\general-alerts.jsx
@@ -199,8 +242,9 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
       model
     } = useModuleContext(); // let output = [];
 
-    const [total, setTotal] = React.useState(model.alerts.total);
+    const [total, setTotal] = React.useState(model.bundles.alerts.total + model.alerts.total);
     (0, _hooks.useBinder)([model], () => setTotal(model.alerts.total));
+    (0, _hooks.useBinder)([model.bundles], () => setTotal(model.bundles.alerts.total + model.alerts.total));
     if (total < 1) return null;
     return /*#__PURE__*/React.createElement("div", {
       className: "ds-module__alerts-section"
@@ -221,6 +265,16 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
       elements: model.bundles.warnings,
       type: "warning"
     }));
+  }
+  /***************
+  alerts\index.jsx
+  ***************/
+
+
+  function AlertsSection() {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "module__alerts-section"
+    }, /*#__PURE__*/React.createElement(GeneralAlerts, null), /*#__PURE__*/React.createElement(Diagnostics, null));
   }
   /**************
   alerts\item.jsx
@@ -260,7 +314,6 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
 
       const set = module => {
         setModel(module);
-        module.bundles.loadCompilers();
       };
 
       workspace.getModuleManager(specs.projectId, specs.moduleId).then(set);
@@ -283,13 +336,14 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
         model,
         navigateModule,
         texts,
-        application: project
+        application: project,
+        project
       }
     }, /*#__PURE__*/React.createElement("div", {
-      className: "ds-module-view__detail"
-    }, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(Description, null), /*#__PURE__*/React.createElement(Cards, null), /*#__PURE__*/React.createElement("div", {
-      className: "module__alerts-section"
-    }, /*#__PURE__*/React.createElement(GeneralAlerts, null), /*#__PURE__*/React.createElement(Diagnostics, null)), /*#__PURE__*/React.createElement(Consumers, null), /*#__PURE__*/React.createElement(ListDependencies, null)));
+      className: "ds-module-view__detail ds__board"
+    }, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement("div", {
+      className: "board__container"
+    }, /*#__PURE__*/React.createElement(Description, null), /*#__PURE__*/React.createElement(Cards, null), /*#__PURE__*/React.createElement(AlertsSection, null), /*#__PURE__*/React.createElement(Consumers, null), /*#__PURE__*/React.createElement(ListDependencies, null))));
   }
   /********
   cards.jsx
@@ -349,39 +403,10 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
 
   function Description() {
     return /*#__PURE__*/React.createElement("section", {
-      className: "columns-container two-columns"
+      className: "columns-container"
     }, /*#__PURE__*/React.createElement(EditField, {
-      field: "name"
-    }), /*#__PURE__*/React.createElement(EditField, {
       field: "description"
     }));
-  }
-  /*************
-  detail\box.jsx
-  *************/
-
-
-  function DetailBox({
-    children,
-    title,
-    fetching
-  }) {
-    const [toggle, setToggle] = React.useState(false);
-    const icon = toggle ? 'arrowDropDown' : 'arrowDropUp';
-    return /*#__PURE__*/React.createElement("article", {
-      className: "board-box"
-    }, /*#__PURE__*/React.createElement("header", {
-      className: "flex-container flex-space-x",
-      onClick: () => setToggle(!toggle)
-    }, /*#__PURE__*/React.createElement("h3", null, title), fetching ? /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, null, " ", /*#__PURE__*/React.createElement(_spinner.BeyondSpinner, {
-      active: true,
-      className: "on-primary"
-    }), " ") : /*#__PURE__*/React.createElement("div", {
-      className: "actions"
-    }, /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, {
-      className: "circle secondary",
-      icon: icon
-    }))), toggle && children);
   }
   /*******************
   detail\consumers.jsx
@@ -397,19 +422,14 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
       bundlesManager: bundles
     } = model;
     const [items, setItems] = React.useState(bundles?.consumers ? bundles?.consumers : []);
-    const [fetching, setFetching] = React.useState(bundles.fetching);
+    const [fetching, setFetching] = React.useState(bundles.consumers.fetching);
+    const [toggle, setToggle] = React.useState(false);
+    const icon = toggle ? 'arrowDropDown' : 'arrowDropUp';
+    const [played, setPlayed] = React.useState(false);
     (0, _hooks.useBinder)([bundles], () => {
       setItems(items => bundles.consumers);
-      setFetching(bundles.fetching);
+      setFetching(bundles.consumers.fetching);
     });
-
-    if (bundles.fetching) {
-      return /*#__PURE__*/React.createElement(DetailBox, {
-        title: texts.labels.consumers,
-        fetching: true
-      });
-    }
-
     let output = bundles.consumers.map(item => {
       return /*#__PURE__*/React.createElement(DetailItem, {
         type: "consumers",
@@ -418,12 +438,35 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
         item: item
       });
     });
-    if (!output.length) output = [/*#__PURE__*/React.createElement("h4", {
-      key: "empty__elements"
-    }, texts.labels.empty)];
-    return /*#__PURE__*/React.createElement(DetailBox, {
-      title: texts.labels.consumers
-    }, /*#__PURE__*/React.createElement("ul", {
+
+    const onLoad = async event => {
+      setFetching(true);
+      event.stopPropagation();
+      await bundles.loadConsumers();
+      setPlayed(true);
+      setToggle(true);
+      setFetching(false);
+    };
+
+    const analyzerIcon = !played ? "play" : "refresh";
+    return /*#__PURE__*/React.createElement("article", {
+      className: "board-box"
+    }, /*#__PURE__*/React.createElement("header", {
+      className: "flex-container flex-space-x",
+      onClick: () => setToggle(!toggle)
+    }, /*#__PURE__*/React.createElement("h3", null, texts.labels.consumers), /*#__PURE__*/React.createElement("div", {
+      className: "board__header__actions flex-container flex-center-y"
+    }, !!!output.length && /*#__PURE__*/React.createElement("span", null, texts.labels.empty), fetching ? /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, null, " ", /*#__PURE__*/React.createElement(_spinner.BeyondSpinner, {
+      active: true,
+      className: "on-primary"
+    }), " ") : /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, {
+      className: "circle secondary",
+      icon: analyzerIcon,
+      onClick: onLoad
+    }), output.length > 0 && /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, {
+      className: "circle secondary",
+      icon: icon
+    }))), toggle && !!output.length && /*#__PURE__*/React.createElement("ul", {
       className: "ds-item__list-detail"
     }, output));
   }
@@ -441,31 +484,47 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
       bundles
     } = model;
     const [items, setItems] = React.useState(bundles?.dependencies ? bundles?.dependencies : []);
-    const [fetching, setFetching] = React.useState(bundles.fetching);
-    (0, _hooks.useBinder)([bundles], () => {
-      setItems(items => bundles.dependencies);
-      setFetching(bundles.fetching);
-    });
-
-    if (bundles.fetching) {
-      return /*#__PURE__*/React.createElement(DetailBox, {
-        title: texts.labels.consumers,
-        fetching: true
-      });
-    }
-
+    const [fetching, setFetching] = React.useState(false);
+    const [toggle, setToggle] = React.useState(false);
+    const [played, setPlayed] = React.useState(false);
+    const icon = toggle ? 'arrowDropDown' : 'arrowDropUp';
+    const analyzerIcon = !played ? "play" : "refresh";
+    (0, _hooks.useBinder)([bundles], () => setItems(items => bundles.dependencies));
+    if (!bundles.dependencies) return null;
     let output = bundles.dependencies.map(item => /*#__PURE__*/React.createElement(DetailItem, {
       bundles: bundles,
       type: "dependencies",
       key: item.id,
       item: item
     }));
-    if (!output.length) output = [/*#__PURE__*/React.createElement("h4", {
-      key: "empty__elements"
-    }, texts.labels.empty)];
-    return /*#__PURE__*/React.createElement(DetailBox, {
-      title: texts.labels.dependencies
-    }, /*#__PURE__*/React.createElement("ul", {
+
+    const onLoad = async event => {
+      setFetching(true);
+      event.stopPropagation();
+      await bundles.loadDependencies();
+      setFetching(false);
+      setToggle(true);
+      setPlayed(true);
+    };
+
+    return /*#__PURE__*/React.createElement("article", {
+      className: "board-box"
+    }, /*#__PURE__*/React.createElement("header", {
+      className: "flex-container flex-space-x",
+      onClick: () => setToggle(!toggle)
+    }, /*#__PURE__*/React.createElement("h3", null, texts.labels.dependencies), /*#__PURE__*/React.createElement("div", {
+      className: "board__header__actions"
+    }, !!!output.length && /*#__PURE__*/React.createElement("span", null, texts.labels.empty), fetching ? /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, null, " ", /*#__PURE__*/React.createElement(_spinner.BeyondSpinner, {
+      active: true,
+      className: "on-primary"
+    }), " ") : /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, {
+      className: "circle secondary",
+      icon: analyzerIcon,
+      onClick: onLoad
+    }), output.length > 0 && /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, {
+      className: "circle secondary",
+      icon: icon
+    }))), toggle && !!output.length && /*#__PURE__*/React.createElement("ul", {
       className: "ds-item__list-detail"
     }, output));
   }
@@ -476,13 +535,13 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
 
   function DetailItem({
     item,
-    bundles,
     type
   }) {
     const {
       workspace
     } = (0, _dsContexts.useDSWorkspaceContext)();
     const {
+      project,
       model
     } = useModuleContext();
     const [object, setObject] = React.useState(item);
@@ -504,7 +563,8 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
     const openBoard = event => {
       workspace.openBoard('module', {
         label: item.module.name,
-        moduleId: item.module.id
+        moduleId: item.module.id,
+        projectId: project.application.id
       });
     };
 
@@ -515,8 +575,8 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
 
     return /*#__PURE__*/React.createElement("li", {
       className: "board__item"
-    }, /*#__PURE__*/React.createElement("header", null, item.name, /*#__PURE__*/React.createElement("div", {
-      className: "item__actions"
+    }, /*#__PURE__*/React.createElement("header", null, item.name, item.module && /*#__PURE__*/React.createElement("div", {
+      className: "item__actions board__header__actions"
     }, /*#__PURE__*/React.createElement(_coreComponents.DSIconButton, {
       onClick: onCheck,
       className: "sm circle secondary",
@@ -654,26 +714,15 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
       workspace.openNavigator(application.id, link);
     };
 
-    return /*#__PURE__*/React.createElement("header", {
-      className: "am__header"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "flex-container"
-    }, /*#__PURE__*/React.createElement("span", null, texts.labels.bundles, ":"), /*#__PURE__*/React.createElement(BundlesTags, null), /*#__PURE__*/React.createElement(_form.BeyondSwitch, {
-      onChange: changeProperty,
-      name: "hmr",
-      className: "small",
-      value: am.hmr
-    }), /*#__PURE__*/React.createElement("label", null, texts.hmr)), /*#__PURE__*/React.createElement("div", {
-      className: "col col-auto"
-    }, /*#__PURE__*/React.createElement("span", {
-      className: "primary-accent"
-    }, /*#__PURE__*/React.createElement("strong", null, texts.path), " ", am.module?.path), /*#__PURE__*/React.createElement("div", {
-      className: "primary-accent"
-    }, "id: ", am.id), am.route && /*#__PURE__*/React.createElement("a", {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("header", {
+      className: "board__header am__header"
+    }, /*#__PURE__*/React.createElement("section", null, /*#__PURE__*/React.createElement("h2", null, model.am.name), /*#__PURE__*/React.createElement("div", null, "ID: ", am.id, " "), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("strong", null, texts.path, ":"), " ", am.module?.path), /*#__PURE__*/React.createElement("div", null, am.route && /*#__PURE__*/React.createElement("a", {
       onClick: open,
       target: "_blank",
-      className: "link primary-color lower"
-    }, link)));
+      className: "link lower"
+    }, link))), /*#__PURE__*/React.createElement("div", {
+      className: ""
+    }, /*#__PURE__*/React.createElement("span", null, texts.labels.bundles), /*#__PURE__*/React.createElement(BundlesTags, null))));
   }
   /*************
   overwrites.jsx
@@ -1093,7 +1142,7 @@ define(["exports", "@beyond-js/ui/spinner", "@beyond-js/ui/form", "@beyond-js/da
   **********/
 
 
-  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/module-view.code', '.ds-module__alerts-section{margin:15px 0}.ds-module__alerts-section .beyond-alert{flex-basis:max-content;width:100%}@media (max-width:600px){.ds-module__alerts-section{flex-direction:column}}.module__alerts-section h3 .diagnostics__bundle__title{color:var(--beyond-primary-color)}.module__alerts-section .beyond-alert{padding-bottom:0}.module__alerts-section h5{text-transform:uppercase;font-weight:700;padding:0;margin-bottom:15px}.module__alerts-section ul{display:grid;margin:0;padding:0}.module__alerts-section ul li{margin:0 -15px;padding:8px 15px;transition:all .2s ease-in}.module__alerts-section ul li h6{margin:0;padding:0;font-size:1.3rem}.module__alerts-section ul li .item__data{display:flex;grid-gap:15px;color:#e4e5dc}.module__alerts-section ul li:hover{background:var(--beyond-secondary-color);cursor:pointer}.board-box{display:grid;grid-gap:1rem;margin:1rem 0}.board-box>header{padding:.5rem 1rem .5rem 0;border-bottom:1px solid var(--beyond-secondary-color)}.ds-item__list-detail{padding:0;display:grid;grid-gap:5px}.ds-item__list-detail .board__item{background:rgba(18,31,54,.1);border:0;padding:1rem;list-style:none;display:grid;grid-gap:1rem;grid-template-columns:1fr}.ds-item__list-detail .board__item>header{display:flex;justify-content:space-between;align-items:center}.ds-item__list-detail .board__item .item__actions{display:flex;gap:.5rem}.container-cards{display:grid;grid-gap:15px;grid-template-columns:repeat(4,1fr)}.cards-information{margin:15px 0;display:flex;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}@media (max-width:700px){.cards-information{grid-template-columns:1fr 1fr}}.cards-information .card-detail{padding:30px;display:flex;flex-direction:column;background:var(--beyond-secondary-dark-color);border-radius:5px;max-width:300px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.cards-information .card-detail:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.cards-information .card-detail header{font-size:1.2rem;text-align:center;color:var(--beyond-primary-light-color);margin-bottom:15px}.cards-information .card-detail .card__actions{display:flex;justify-content:center;margin-top:30px}.cards-information .card-detail .card__actions .beyond-button{width:60%}.ds-module-view__detail .module__header h4,.ds-module-view__detail .module__header h5{padding:2px 0}.ds-module-view__detail .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.ds-module-view__detail .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.ds-module-view__detail .item-information .description-item:hover{background:#262626}.ds-module-view__detail .item-information .description-item:hover .beyond-icon-button{opacity:1}.ds-module-view__detail .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.ds-module-view__detail .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:var(--beyond-text-on-secondary)}.ds-module-view__detail .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;position:relative;width:100%}.ds-module-view__detail .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:var(--beyond-text-on-secondary);border:0;padding:15px;font-size:16px}.ds-module-view__detail .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.ds-module-view__detail .item-information.item-information--edit .form-group .form__actions{display:flex;position:absolute;right:10px;top:5px;gap:8px;justify-content:flex-end}.ds-module-view__detail .bundle_processor-container{padding-bottom:20px}.ds-module-view__detail .bundle_processor-container header{background-image:linear-gradient(to right,#f0f0f0 0,#82837f 100%);padding:8px;display:flex;border-top-right-radius:15px;align-items:center}.ds-module-view__detail .bundle_processor-container header .col-left,.ds-module-view__detail .bundle_processor-container header .col-right{display:flex;align-items:center}.ds-module-view__detail .bundle_processor-container header .expand-icon{height:25px;width:25px}.ds-module-view__detail .bundle_processor-container header .expand-icon svg{fill:var(--beyond-secondary-color)}.ds-module-view__detail .bundle_processor-container .bundle-processor_title,.ds-module-view__detail .bundle_processor-container .separator{border-bottom:1px solid #e4e5dc}.ds-module-view__detail .bundle_processor-container .bundle-processor_title{display:flex;justify-content:space-between;align-items:center}.ds-module-view__detail .bundle_processor-container .bundle-processor_title .beyond-icon-button{background:#e4e5dc}.ds-module-view__detail .bundle_processor-container .processor_block-data.hide-block{display:none!important;transition:.3s ease-in-out}.ds-module-view__detail .bundle_processor-container .processor_block-data.two-columns{display:grid;grid-template-columns:1fr 1fr;grid-gap:15px}.ds-module-view__detail{background:#000;width:100%;height:100%;padding:20px}.ds-module-view__detail .content-centering{min-height:100px;display:flex;align-items:center;justify-content:center}.ds-module-view__detail .icon-error{fill:#D2281E}.ds-module-view__detail .icon-warning{fill:#F7D994}.ds-module-view__detail .list-icon{padding:0}.ds-module-view__detail .list-icon li{display:grid;grid-template-columns:auto 1fr;grid-gap:8px;margin-bottom:8px}.ds-module-view__detail .list-icon li svg{margin-top:4px;height:14px;width:14px}.ds-module-view__detail .module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,255,255,.5);transition:all .2s ease-in;height:0;display:none}.ds-module-view__detail .module_fetching-block.show{height:100%;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.beyond-element-switch.small .switch{position:relative;display:inline-block;width:40px;height:19px}.beyond-element-switch.small .switch .slider{border-radius:8px}.beyond-element-switch.small .switch .slider:before{top:2.3px;left:2px;bottom:0;right:0;overflow:hidden;content:"";height:13px;width:13px}.beyond-element-switch.small .switch input:checked+.slider:before{left:-4px}');
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/module-view.code', '.ds-module__alerts-section{margin:15px 0}.ds-module__alerts-section .beyond-alert{flex-basis:max-content;width:100%}@media (max-width:600px){.ds-module__alerts-section{flex-direction:column}}.module__alerts-section h3 .diagnostics__bundle__title{color:var(--beyond-primary-color)}.module__alerts-section .beyond-alert{padding-bottom:0}.module__alerts-section h5{text-transform:uppercase;font-weight:700;padding:0;margin-bottom:15px}.module__alerts-section ul{display:grid;margin:0;padding:0}.module__alerts-section ul li{margin:0 -15px;padding:8px 15px;transition:all .2s ease-in}.module__alerts-section ul li h6{margin:0;padding:0;font-size:1.3rem}.module__alerts-section ul li .item__data{display:flex;grid-gap:15px;color:#e4e5dc}.module__alerts-section ul li:hover{background:var(--beyond-secondary-color);cursor:pointer}.board-box{display:grid;grid-gap:1rem;margin:1rem 0}.board-box>header{padding:.5rem 1rem .5rem 0;border-bottom:1px solid var(--beyond-secondary-color)}.ds-item__list-detail{padding:0;display:grid;grid-gap:5px}.ds-item__list-detail .board__item{background:rgba(18,31,54,.1);border:0;padding:1rem;list-style:none;display:grid;grid-gap:1rem;grid-template-columns:1fr}.ds-item__list-detail .board__item>header{display:flex;justify-content:space-between;align-items:center}.ds-item__list-detail .board__item .item__actions{display:flex;gap:.5rem}.container-cards{display:grid;grid-gap:15px;grid-template-columns:repeat(4,1fr)}.cards-information{margin:15px 0;display:flex;grid-template-columns:1fr 1fr 1fr;grid-gap:15px}@media (max-width:700px){.cards-information{grid-template-columns:1fr 1fr}}.cards-information .card-detail{padding:30px;display:flex;flex-direction:column;background:var(--beyond-secondary-dark-color);border-radius:5px;max-width:300px;align-items:center;min-height:250px;justify-content:center;transition:all .2s ease-in;cursor:pointer}.cards-information .card-detail:hover{box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);background:#0c1423}.cards-information .card-detail header{font-size:1.2rem;text-align:center;color:var(--beyond-primary-light-color);margin-bottom:15px}.cards-information .card-detail .card__actions{display:flex;justify-content:center;margin-top:30px}.cards-information .card-detail .card__actions .beyond-button{width:60%}.ds-module-view__detail .module__header h4,.ds-module-view__detail .module__header h5{padding:2px 0}.ds-module-view__detail .item-information{display:grid;grid-gap:8px;align-items:center;margin-top:15px}.ds-module-view__detail .item-information .description-item{background:#333;padding:5px 15px;display:flex;justify-content:space-between;transition:all .2s ease-in;cursor:pointer}.ds-module-view__detail .item-information .description-item:hover{background:#262626}.ds-module-view__detail .item-information .description-item:hover .beyond-icon-button{opacity:1}.ds-module-view__detail .item-information .description-item .beyond-icon-button{opacity:.3;transition:all .2s ease-in}.ds-module-view__detail .item-information .description-item .beyond-icon-button svg{transition:all .2s ease-in;fill:var(--beyond-text-on-secondary)}.ds-module-view__detail .item-information.item-information--edit .form-group{display:grid;grid-template-columns:1fr;grid-gap:5px;position:relative;width:100%}.ds-module-view__detail .item-information.item-information--edit .form-group input{background:#333;outline:0!important;color:var(--beyond-text-on-secondary);border:0;padding:15px;font-size:16px}.ds-module-view__detail .item-information.item-information--edit .form-group input:hover{border-color:#e4e5dc}.ds-module-view__detail .item-information.item-information--edit .form-group .form__actions{display:flex;position:absolute;right:10px;top:5px;gap:8px;justify-content:flex-end}.ds-module-view__detail .bundle_processor-container{padding-bottom:20px}.ds-module-view__detail .bundle_processor-container header{background-image:linear-gradient(to right,#f0f0f0 0,#82837f 100%);padding:8px;display:flex;border-top-right-radius:15px;align-items:center}.ds-module-view__detail .bundle_processor-container header .col-left,.ds-module-view__detail .bundle_processor-container header .col-right{display:flex;align-items:center}.ds-module-view__detail .bundle_processor-container header .expand-icon{height:25px;width:25px}.ds-module-view__detail .bundle_processor-container header .expand-icon svg{fill:var(--beyond-secondary-color)}.ds-module-view__detail .bundle_processor-container .bundle-processor_title,.ds-module-view__detail .bundle_processor-container .separator{border-bottom:1px solid #e4e5dc}.ds-module-view__detail .bundle_processor-container .bundle-processor_title{display:flex;justify-content:space-between;align-items:center}.ds-module-view__detail .bundle_processor-container .bundle-processor_title .beyond-icon-button{background:#e4e5dc}.ds-module-view__detail .bundle_processor-container .processor_block-data.hide-block{display:none!important;transition:.3s ease-in-out}.ds-module-view__detail .bundle_processor-container .processor_block-data.two-columns{display:grid;grid-template-columns:1fr 1fr;grid-gap:15px}.ds-module-view__detail{background:#000;width:100%;height:100%}.ds-module-view__detail .content-centering{min-height:100px;display:flex;align-items:center;justify-content:center}.ds-module-view__detail .icon-error{fill:#D2281E}.ds-module-view__detail .icon-warning{fill:#F7D994}.ds-module-view__detail .list-icon{padding:0}.ds-module-view__detail .list-icon li{display:grid;grid-template-columns:auto 1fr;grid-gap:8px;margin-bottom:8px}.ds-module-view__detail .list-icon li svg{margin-top:4px;height:14px;width:14px}.ds-module-view__detail .module_fetching-block{position:absolute;top:0;left:0;bottom:0;right:0;background:rgba(255,255,255,.5);transition:all .2s ease-in;height:0;display:none}.ds-module-view__detail .module_fetching-block.show{height:100%;transition:all .2s ease-in;display:flex;align-items:center;justify-content:center;align-content:center;display:flex}.beyond-element-switch.small .switch{position:relative;display:inline-block;width:40px;height:19px}.beyond-element-switch.small .switch .slider{border-radius:8px}.beyond-element-switch.small .switch .slider:before{top:2.3px;left:2px;bottom:0;right:0;overflow:hidden;content:"";height:13px;width:13px}.beyond-element-switch.small .switch input:checked+.slider:before{left:-4px}');
   legacyStyles.appendToDOM();
   const ims = new Map(); // Module exports
 

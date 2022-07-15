@@ -27,9 +27,85 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
   *********************/
 
   ims.set('./txt', {
-    hash: 397197191,
+    hash: 102144276,
     creator: function (require, exports) {
       exports.txt = {
+        "title": "Create a new module",
+        "subtitle": "What kind of module do you need?",
+        "additionalFeatures": "Additional Configuration",
+        "types": {
+          "bundles": {
+            "title": "Blank module",
+            "description": "Empty module to start from nothing."
+          },
+          "templates": {
+            "title": "Basic template",
+            "description": "Choose one of the base templates of the module types so that you can guide yourself and advance in a simple way"
+          }
+        },
+        "actions": {
+          "changeModuleType": "Change module type"
+        },
+        "templates": {
+          "title": "Template",
+          "options": [{
+            "id": "page",
+            "title": "Blank page",
+            "description": "Blank page for web projects",
+            "icon": "web"
+          }, {
+            "id": "server_page",
+            "title": "Module with node service",
+            "description": "Page with service and WebSocket connection implemented",
+            "icon": "server"
+          }, {
+            "id": "mobile_login",
+            "title": "Mobile login",
+            "description": "Basic design for mobile projects",
+            "icon": "mobile"
+          }]
+        },
+        "bundles": {
+          "title": "Bundle type",
+          "options": [{
+            "id": "page",
+            "title": "Página",
+            "description": "A module that can be accessed via a URL"
+          }, {
+            "id": "widget",
+            "title": "Widget",
+            "description": "Exports a web component that allows working under micro-frontends or Islands architectures."
+          }, {
+            "id": "layout",
+            "title": "Layout",
+            "description": "Permite definir la estructura general de varias páginas y compartir elementos en común de la aplicación"
+          }, {
+            "id": "code",
+            "title": "Code",
+            "description": "Multipurpose. You can be a logic module or with a graphical interface."
+          }, {
+            "id": "bridge",
+            "title": "Bridge",
+            "description": "Modules that allow to integrate backend logic with the client through websockets automatically"
+          }, {
+            "id": "ts",
+            "title": "Typescript",
+            "description": "Ideal for implementing any type of logic that only requires typescript code and no other processors."
+          }, {
+            "id": "ts",
+            "title": "Start",
+            "description": "They allow you to add logic that must be executed at the beginning of the application."
+          }]
+        },
+        "page": {
+          "layout": "Layout",
+          "input": {
+            "layout": {
+              "placeholder": "Select."
+            }
+          }
+        },
+        "processors": "Processors",
         "form": {
           "steps": {
             "first": "General data",
@@ -68,79 +144,7 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
             "server": "Definicion en el module.json para backend del modulo",
             "styles": "Definicion en el module.json para hojas de estilo con sass"
           }
-        },
-        "title": "Creación de un nuevo módulo",
-        "subtitle": "Indica que tipo de modulo desea crear",
-        "additionalFeatures": "Additional Configuration",
-        "types": {
-          "bundles": {
-            "title": "Modulo en blanco",
-            "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
-          },
-          "templates": {
-            "title": "Basic template",
-            "description": "Elige una de las plantillas bases de los tipos de modulo para que puedas guiarte y avanzar de manera simple"
-          }
-        },
-        "actions": {
-          "changeModuleType": "Cambiar tipo de modulo"
-        },
-        "templates": {
-          "title": "Plantilla",
-          "options": [{
-            "id": "page",
-            "title": "Página en blanco",
-            "description": "Módulo de página basico para web",
-            "icon": "web"
-          }, {
-            "id": "server_page",
-            "title": "Módulo con servicio node",
-            "description": "Página con servicio y conexión webSocket implementada",
-            "icon": "server"
-          }, {
-            "id": "mobile_login",
-            "title": "Mobile login",
-            "description": "Pagina con diseño login para aplicación de telefonos",
-            "icon": "mobile"
-          }]
-        },
-        "bundles": {
-          "title": "Bundle type",
-          "options": [{
-            "id": "page",
-            "title": "Página",
-            "description": "Un modulo que puede ser accedigo por medio de una URL."
-          }, {
-            "id": "widget",
-            "title": "Widget",
-            "description": "Texto para widget"
-          }, {
-            "id": "layout",
-            "title": "Layout",
-            "description": "Permite definir la estructura general de varias páginas y compartir elementos en común de la aplicación"
-          }, {
-            "id": "code",
-            "title": "Código",
-            "description": "Tiene multiples funciones. Puede ser un componente react que será utilizado en múltiples páginas y modulos, o puede ser código para manejo de modelos y lógica."
-          }, {
-            "id": "bridge",
-            "title": "Bridge",
-            "description": "Texto para bridges"
-          }, {
-            "id": "ts",
-            "title": "Typescript",
-            "description": "Texto para typecript"
-          }]
-        },
-        "page": {
-          "layout": "Layout",
-          "input": {
-            "layout": {
-              "placeholder": "Select."
-            }
-          }
-        },
-        "processors": "Processors"
+        }
       };
     }
   });

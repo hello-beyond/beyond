@@ -1490,7 +1490,7 @@ define(["exports", "@beyond-js/kernel/bundle", "@beyond-js/kernel/core", "@beyon
   ******************************************/
 
   ims.set('./applications/static/item', {
-    hash: 662998906,
+    hash: 1491783078,
     creator: function (require, exports) {
       "use strict";
 
@@ -3975,7 +3975,7 @@ define(["exports", "@beyond-js/kernel/bundle", "@beyond-js/kernel/core", "@beyon
   **************************************************/
 
   ims.set('./processors/dependencies/register', {
-    hash: 1970024343,
+    hash: 1469842841,
     creator: function (require, exports) {
       "use strict";
 
@@ -3989,7 +3989,8 @@ define(["exports", "@beyond-js/kernel/bundle", "@beyond-js/kernel/core", "@beyon
 
       const specs = {};
       specs.module = _beyond_context.module;
-      specs.cache = false;
+      specs.cache = false; //TODO revisar campo is, si tiene el nombre de los archivos donde se usa deberia tener otro nombre
+
       specs.fields = ['id', 'is', 'version', 'kind', 'valid', 'resource', 'errors', 'warnings', 'declaration', 'sources', 'module_id', 'bundle_id'];
       specs.properties = {
         bundle: {
@@ -5105,7 +5106,7 @@ define(["exports", "@beyond-js/kernel/bundle", "@beyond-js/kernel/core", "@beyon
   *********************************************/
 
   ims.set('./templates/global/collection', {
-    hash: 1170454917,
+    hash: 3773540169,
     creator: function (require, exports) {
       "use strict";
 
@@ -5135,7 +5136,7 @@ define(["exports", "@beyond-js/kernel/bundle", "@beyond-js/kernel/core", "@beyon
   ***************************************/
 
   ims.set('./templates/global/item', {
-    hash: 732822347,
+    hash: 1710173658,
     creator: function (require, exports) {
       "use strict";
 
@@ -5145,6 +5146,8 @@ define(["exports", "@beyond-js/kernel/bundle", "@beyond-js/kernel/core", "@beyon
       exports.TemplateGlobal = void 0;
 
       var _core = require("@beyond-js/plm/core");
+
+      var _beyond_context = require("beyond_context");
       /*bundle*/
 
 
@@ -5180,6 +5183,15 @@ define(["exports", "@beyond-js/kernel/bundle", "@beyond-js/kernel/core", "@beyon
 
         constructor(specs) {
           super('template-global', specs);
+        }
+
+        async createFile(specs) {
+          const params = {
+            id: this.id,
+            type: 'template-global',
+            filename: specs.filename
+          };
+          return _beyond_context.module.execute('/sources/create', params);
         }
 
       }

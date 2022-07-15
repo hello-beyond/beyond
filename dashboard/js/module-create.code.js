@@ -592,6 +592,62 @@ define(["exports", "@beyond-js/ui/modal", "@beyond-js/ui/spinner", "@beyond-js/d
       children: fields
     }), /*#__PURE__*/React.createElement(FormFooter, null));
   }
+  /*********************
+  form\bundles\start.jsx
+  *********************/
+
+
+  function FormStart({
+    state,
+    handleChange
+  }) {
+    const {
+      bundle,
+      model,
+      texts
+    } = useCreateModuleContext();
+    if (bundle !== 'start') return null;
+    const inputsAttrs = {};
+    if (model.fetching) inputsAttrs.disabled = true;
+    const fields = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item two-columns"
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_form.BeyondInput, _extends({
+      name: "title"
+    }, inputsAttrs, {
+      label: texts.form.title,
+      placeholder: texts.placeholder.title,
+      value: state.title,
+      onChange: handleChange
+    })), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.title)), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(_form.BeyondInput, _extends({
+      name: "description"
+    }, inputsAttrs, {
+      label: texts.form.description,
+      placeholder: texts.placeholder.description,
+      value: state.description,
+      onChange: handleChange
+    })), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.description))), /*#__PURE__*/React.createElement(BlankFields, {
+      state: state
+    }));
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "item"
+    }, /*#__PURE__*/React.createElement(_form.BeyondInput, _extends({
+      required: true,
+      name: "name"
+    }, inputsAttrs, {
+      label: texts.form.name,
+      placeholder: texts.placeholder.name,
+      value: state.name,
+      onChange: handleChange
+    })), /*#__PURE__*/React.createElement("span", {
+      className: "help-block"
+    }, texts.help.name)), /*#__PURE__*/React.createElement(AdditionalFields, {
+      children: fields
+    }), /*#__PURE__*/React.createElement(FormFooter, null));
+  }
   /**************************
   form\bundles\typescript.jsx
   **************************/
@@ -817,7 +873,7 @@ define(["exports", "@beyond-js/ui/modal", "@beyond-js/ui/spinner", "@beyond-js/d
       className: "ds-create-module__template-form"
     }, /*#__PURE__*/React.createElement(_form.BeyondForm, {
       onSubmit: onSubmit
-    }, /*#__PURE__*/React.createElement(FormPage, props), /*#__PURE__*/React.createElement(FormWidget, props), /*#__PURE__*/React.createElement(FormLayout, props), /*#__PURE__*/React.createElement(FormCode, props), /*#__PURE__*/React.createElement(FormBridge, props), /*#__PURE__*/React.createElement(FormTypescript, props)), fetching && /*#__PURE__*/React.createElement(_coreComponents.DSSpinner, {
+    }, /*#__PURE__*/React.createElement(FormPage, props), /*#__PURE__*/React.createElement(FormWidget, props), /*#__PURE__*/React.createElement(FormLayout, props), /*#__PURE__*/React.createElement(FormCode, props), /*#__PURE__*/React.createElement(FormStart, props), /*#__PURE__*/React.createElement(FormBridge, props), /*#__PURE__*/React.createElement(FormTypescript, props)), fetching && /*#__PURE__*/React.createElement(_coreComponents.DSSpinner, {
       ref: spinner,
       active: true,
       className: "absolute-container container-hidden"
@@ -1028,7 +1084,7 @@ define(["exports", "@beyond-js/ui/modal", "@beyond-js/ui/spinner", "@beyond-js/d
   **********/
 
 
-  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/module-create.code', '.ds-create-module .ds-create-module__breadcrumb-form{display:flex;gap:15px;padding:15px;align-items:center;background:var(--beyond-primary-light-color)}.ds-create-module .ds-create-module__breadcrumb-form .beyond-icon{width:44px;height:44px}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb{display:flex;align-items:center;transition:.2s all ease-in}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb a{display:inline-grid;padding:5px;cursor:pointer;transition:all .2s linear}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb a:hover{text-decoration:underline}.ds-create-module .ds-create-module__template-form{padding:20px 40px}.ds-create-module .ds-create-module__template-form .additional-config{display:none}.ds-create-module .ds-create-module__template-form .additional-config.show{display:block}.ds-create-module .two-columns{display:grid;grid-gap:5px;grid-template-columns:1fr 1fr}.ds-create-module .three-columns{display:grid;grid-gap:5px;grid-template-columns:1fr 1fr 1fr}.ds-create-module .text-right{justify-content:end;text-align:right}.ds-create-module .steps{display:grid;grid-template-columns:1fr 1fr;justify-content:center;cursor:pointer}.ds-create-module .steps div{padding:15px;background:#f0f0f0}.ds-create-module .steps div.active{background:var(--beyond-primary-accent-color);color:#fff}.ds-create-module form{display:grid;grid-template-columns:auto}.ds-create-module form .item{margin-top:15px}.ds-create-module form .item.two-columns{display:grid;grid-template-columns:1fr 1fr}.ds-create-module form .switch-option{display:flex;align-items:center;grid-gap:8px}.ds-create-module form .radio-group{display:grid}.ds-create-module form .item-vdir{display:flex;align-items:center;gap:8px;justify-content:center}.ds-create-module form .item-vdir input[type=number]{background:#f0f0f0;border:0;outline:0;padding:8px;width:90px}.ds-create-module form .title-separator{border-bottom:1px solid #f0f0f0}.ds-create-module footer{display:block;text-align:right}.ds-create-module .layout-selection{display:flex;width:100%;justify-content:center;flex-direction:column}.ds-create-module .layout-selection select{outline:0;padding:8px;width:100%;border:1px #82837f}.ds-create-module .ds-create-module_template-list{display:grid;grid-template-columns:1fr 1fr 1fr;grid-gap:8px;justify-content:center;align-self:start;transition:all .2s ease-in-out}.ds-create-module .ds-create-module_template-list .template-list__item{padding:40px;cursor:pointer}.ds-create-module .ds-create-module_template-list .template-list__item.active,.ds-create-module .ds-create-module_template-list .template-list__item:hover{background:#e4e5dc;transition:all .2s ease-in}');
+  const legacyStyles = beyondLegacyStyles.register('@beyond-js/dashboard/module-create.code', '.ds-create-module .ds-create-module__breadcrumb-form{display:flex;gap:15px;padding:15px;align-items:center;background:var(--beyond-primary-light-color)}.ds-create-module .ds-create-module__breadcrumb-form .beyond-icon{width:44px;height:44px}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb{display:flex;align-items:center;transition:.2s all ease-in}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb a{display:inline-grid;padding:5px;cursor:pointer;transition:all .2s linear}.ds-create-module .ds-create-module__breadcrumb-form .breadcrumb a:hover{text-decoration:underline}.ds-create-module .ds-create-module__template-form{padding:20px 40px}.ds-create-module .ds-create-module__template-form .additional-config{display:none}.ds-create-module .ds-create-module__template-form .additional-config.show{display:block}.ds-create-module .two-columns{display:grid;grid-gap:5px;grid-template-columns:1fr 1fr}.ds-create-module .three-columns{display:grid;grid-gap:5px;grid-template-columns:1fr 1fr 1fr}.ds-create-module .text-right{justify-content:end;text-align:right}.ds-create-module .steps{display:grid;grid-template-columns:1fr 1fr;justify-content:center;cursor:pointer}.ds-create-module .steps div{padding:15px;background:#f0f0f0}.ds-create-module .steps div.active{background:var(--beyond-primary-accent-color);color:#fff}.ds-create-module form{display:grid;grid-template-columns:auto}.ds-create-module form .item{margin-top:15px}.ds-create-module form .item.two-columns{display:grid;grid-template-columns:1fr 1fr}.ds-create-module form .switch-option{display:flex;align-items:center;grid-gap:8px}.ds-create-module form .radio-group{display:grid}.ds-create-module form .item-vdir{display:flex;align-items:center;gap:8px;justify-content:center}.ds-create-module form .item-vdir input[type=number]{background:#f0f0f0;border:0;outline:0;padding:8px;width:90px}.ds-create-module form .title-separator{border-bottom:1px solid #f0f0f0}.ds-create-module footer{display:block;text-align:right}.ds-create-module .layout-selection{display:flex;width:100%;justify-content:center;flex-direction:column}.ds-create-module .layout-selection select{outline:0;padding:8px;width:100%;border:1px #82837f}.ds-create-module .ds-create-module_template-list{display:flex;max-width:100%;grid-gap:8px;flex-wrap:wrap;justify-content:center;align-self:start;transition:all .2s ease-in-out}.ds-create-module .ds-create-module_template-list .template-list__item{padding:40px;min-width:200px;flex:1 1 0;cursor:pointer}.ds-create-module .ds-create-module_template-list .template-list__item.active,.ds-create-module .ds-create-module_template-list .template-list__item:hover{background:#e4e5dc;transition:all .2s ease-in}');
   legacyStyles.appendToDOM();
   const ims = new Map(); // Module exports
 

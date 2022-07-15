@@ -3,7 +3,7 @@
   "description": "The Full Stack Universal Typescript Framework",
   "author": "BeyondJS",
   "email": "hello@beyondjs.com",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "lib",
   "repository": "https://github.com/hello-beyond/beyond",
@@ -66,7 +66,8 @@
     "npm": ">=6.0.0"
   },
   "exports": {
-    "./mformat": "./lib/client/mformat/index.js"
+    "./mformat": "./lib/client/mformat/index.js",
+    "./typings": "./lib/client/typings/index.js"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
@@ -108,7 +109,7 @@
     "svelte": "^3.44.2",
     "typescript": "^4.5.5",
     "uglify-js": "^3.14.3",
-    "uimport": "~1.0.10",
+    "uimport": "~1.0.11",
     "vue": "^3.2.31"
   }
 }

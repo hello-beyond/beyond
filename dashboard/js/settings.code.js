@@ -51,14 +51,17 @@ define(["exports", "@beyond-js/ui/modal", "@beyond-js/ui/spinner", "@beyond-js/d
   *********/
 
 
-  function ConfigBoard() {
+  function ConfigBoard({
+    specs
+  }) {
     const [state, setState] = React.useState({});
     const [controller, setController] = React.useState();
     const {
       fetching,
       update
     } = state;
-    const [active, setActive] = React.useState('general');
+    const current = ["general", "apps"].includes(specs.tab) ? specs.tab : 'general';
+    const [active, setActive] = React.useState(current);
     const tabs = {
       general: EditorSettings,
       apps: _projectsSettings.ApplicationsSettings

@@ -339,14 +339,10 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       application
     } = project;
     const output = [];
-    const notifications = React.useRef();
-    project?.modules.forEach(module => {
-      if (!module.id) return;
-      output.push( /*#__PURE__*/React.createElement(ModuleNotifications, {
-        module: module,
-        key: `module-${project.id}-${module.id}`
-      }));
-    });
+    const notifications = React.useRef(null); // project?.modules.forEach(module => {
+    //     if (!module.id) return;
+    //     output.push(<ModuleNotifications module={module} key={`module-${project.id}-${module.id}.${performance.now()}`}/>)
+    // });
 
     const openApp = () => workspace.openApp(application.id);
 
@@ -368,10 +364,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       className: "label"
     }, texts.projects.scanned), /*#__PURE__*/React.createElement("span", {
       className: "detail"
-    }, project.processed, "/", project.total))), /*#__PURE__*/React.createElement("section", {
-      ref: notifications,
-      className: "project__notifications"
-    }, output));
+    }, project.processed, "/", project.total))));
   }
   /******************
   panels\projects.jsx

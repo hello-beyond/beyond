@@ -188,21 +188,6 @@ define(["@beyond-js/kernel/bundle", "@beyond-js/kernel/transversals", "@beyond-j
     "vdir": false,
     "layout": "dashboard"
   }, {
-    "route": "/library/compile",
-    "bundle": "@beyond-js/dashboard/unnamed/library/compile",
-    "vdir": true,
-    "layout": "dashboard"
-  }, {
-    "route": "/library/modules",
-    "bundle": "@beyond-js/dashboard/unnamed/library/modules",
-    "vdir": true,
-    "layout": "dashboard"
-  }, {
-    "route": "/library",
-    "bundle": "@beyond-js/dashboard/unnamed/library/view.page",
-    "vdir": true,
-    "layout": "dashboard"
-  }, {
     "route": "/indexdb",
     "bundle": "@beyond-js/dashboard/unnamed/models/indexeddb/tests/page",
     "vdir": false,

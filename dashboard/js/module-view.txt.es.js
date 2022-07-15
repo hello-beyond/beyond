@@ -27,7 +27,7 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
   *********************/
 
   ims.set('./txt', {
-    hash: 2729914716,
+    hash: 1596627786,
     creator: function (require, exports) {
       exports.txt = {
         "title": "Titulo del modulo",
@@ -46,11 +46,14 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
           "bundles": "Bundles"
         },
         "diagnostics": {
+          "generalTitle": "Errores Generales",
           "title": "Errors and warnings in bundle ",
           "general": "General",
           "files": "Files",
           "overwrites": "Overwrites",
-          "dependencies": "Dependencies"
+          "dependencies": "Dependencies",
+          "fetching": "Validando diagnosticos del módulo",
+          "ready": "Módulo validado el"
         },
         "processors": {
           "alerts": "Errors and Warnings",

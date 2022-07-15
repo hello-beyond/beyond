@@ -174,10 +174,6 @@ module.exports = class Project extends require('../file-manager') {
         super.save({...values, ...json});
     }
 
-    set(object) {
-
-    }
-
     setDistribution = distribution => this.#deployment.setDistribution(distribution);
 
     async readFiles(specs, dirname) {

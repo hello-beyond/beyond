@@ -77,12 +77,6 @@ define(["exports", "@beyond-js/dashboard-lib/models.ts", "@beyond-js/ui/spinner"
     const [modal, showModal] = React.useState(false);
     const module = __pkg.bundle.module.resource;
     const [textsReady, texts] = (0, _textsBinder.useTextsBinder)(module);
-    React.useEffect(() => {
-      const onChange = () => console.log(1, `total: `, application.deployment.distributions.size);
-
-      application.deployment.bind('change', onChange);
-      return () => application.deployment.unbind('change', onChange);
-    });
     if (!textsReady || !texts) return null;
 
     if (!application.deployment) {
@@ -110,10 +104,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.ts", "@beyond-js/ui/spinner"
       className: "header-distributions"
     }, /*#__PURE__*/React.createElement("h3", {
       className: "title-list-distributions"
-    }, texts.platform.title), /*#__PURE__*/React.createElement(_form.BeyondButton, {
-      onClick: handleClick,
-      className: "btn primary beyond-button waves-effect"
-    }, texts.platform.add)), /*#__PURE__*/React.createElement("ul", {
+    }, texts.platform.title)), /*#__PURE__*/React.createElement("ul", {
       className: "list-distributions"
     }, output), modal && /*#__PURE__*/React.createElement(ModalDistributions, {
       application: application,

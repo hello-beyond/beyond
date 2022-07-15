@@ -27,9 +27,85 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
   *********************/
 
   ims.set('./txt', {
-    hash: 3249674105,
+    hash: 50278960,
     creator: function (require, exports) {
       exports.txt = {
+        "title": "Creación de un nuevo módulo",
+        "subtitle": "Indica que tipo de modulo desea crear",
+        "additionalFeatures": "Configuración adicional",
+        "types": {
+          "bundles": {
+            "title": "Modulo en blanco",
+            "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
+          },
+          "templates": {
+            "title": "Basic template",
+            "description": "Elige una de las plantillas bases de los tipos de modulo para que puedas guiarte y avanzar de manera simple"
+          }
+        },
+        "actions": {
+          "changeModuleType": "Cambiar tipo de modulo"
+        },
+        "templates": {
+          "title": "Plantilla",
+          "options": [{
+            "id": "page",
+            "title": "Página en blanco",
+            "description": "Módulo de página basico para web",
+            "icon": "web"
+          }, {
+            "id": "server_page",
+            "title": "Módulo con servicio node",
+            "description": "Página con servicio y conexión webSocket implementada",
+            "icon": "server"
+          }, {
+            "id": "mobile_login",
+            "title": "Mobile login",
+            "description": "Pagina con diseño login para aplicación de telefonos",
+            "icon": "mobile"
+          }]
+        },
+        "bundles": {
+          "title": "Tipo de modulo",
+          "options": [{
+            "id": "page",
+            "title": "Página",
+            "description": "Un modulo que puede ser accedido por medio de una URL."
+          }, {
+            "id": "widget",
+            "title": "Widget",
+            "description": "Exporta un componente web que permite trabajar bajo arquitecturas de micro-frontends o Islands."
+          }, {
+            "id": "layout",
+            "title": "Layout",
+            "description": "Permite definir la estructura general de varias páginas y compartir elementos en común de la aplicación"
+          }, {
+            "id": "code",
+            "title": "Código",
+            "description": "Tiene multiples funciones. Puede ser un componente react que será utilizado en múltiples páginas y modulos, o puede ser código para manejo de modelos y lógica."
+          }, {
+            "id": "bridge",
+            "title": "Bridge",
+            "description": "Módulos que permiten integrar lógica backend con el cliente por medio de websockets automáticamente "
+          }, {
+            "id": "ts",
+            "title": "Typescript",
+            "description": "Ideal para implementar cualquier tipo de lógica que solo requira código typescript y no otros procesadores."
+          }, {
+            "id": "start",
+            "title": "Start",
+            "description": "Permiten agregar lógica que debe ejecutarse al principio de la aplicación."
+          }]
+        },
+        "page": {
+          "layout": "Layout",
+          "input": {
+            "layout": {
+              "placeholder": "Seleccione."
+            }
+          }
+        },
+        "processors": "Procesadores",
         "form": {
           "steps": {
             "first": "Datos Generales",
@@ -71,79 +147,7 @@ define(["exports", "@beyond-js/kernel/bundle"], function (_exports, dependency_0
             "server": "Definicion en el module.json para backend del modulo",
             "styles": "Definicion en el module.json para hojas de estilo con sass"
           }
-        },
-        "title": "Creación de un nuevo módulo",
-        "subtitle": "Indica que tipo de modulo desea crear",
-        "additionalFeatures": "Configuración adicional",
-        "types": {
-          "bundles": {
-            "title": "Modulo en blanco",
-            "description": "Se crea una aplicación configurada y en blanco para que puedas definir lo que consideres necesario desde cero."
-          },
-          "templates": {
-            "title": "Basic template",
-            "description": "Elige una de las plantillas bases de los tipos de modulo para que puedas guiarte y avanzar de manera simple"
-          }
-        },
-        "actions": {
-          "changeModuleType": "Cambiar tipo de modulo"
-        },
-        "templates": {
-          "title": "Plantilla",
-          "options": [{
-            "id": "page",
-            "title": "Página en blanco",
-            "description": "Módulo de página basico para web",
-            "icon": "web"
-          }, {
-            "id": "server_page",
-            "title": "Módulo con servicio node",
-            "description": "Página con servicio y conexión webSocket implementada",
-            "icon": "server"
-          }, {
-            "id": "mobile_login",
-            "title": "Mobile login",
-            "description": "Pagina con diseño login para aplicación de telefonos",
-            "icon": "mobile"
-          }]
-        },
-        "bundles": {
-          "title": "Tipo de modulo",
-          "options": [{
-            "id": "page",
-            "title": "Página",
-            "description": "Un modulo que puede ser accedigo por medio de una URL."
-          }, {
-            "id": "widget",
-            "title": "Widget",
-            "description": "Texto para widget"
-          }, {
-            "id": "layout",
-            "title": "Layout",
-            "description": "Permite definir la estructura general de varias páginas y compartir elementos en común de la aplicación"
-          }, {
-            "id": "code",
-            "title": "Código",
-            "description": "Tiene multiples funciones. Puede ser un componente react que será utilizado en múltiples páginas y modulos, o puede ser código para manejo de modelos y lógica."
-          }, {
-            "id": "bridge",
-            "title": "Bridge",
-            "description": "Texto para bridges"
-          }, {
-            "id": "ts",
-            "title": "Typescript",
-            "description": "Texto para typecript"
-          }]
-        },
-        "page": {
-          "layout": "Layout",
-          "input": {
-            "layout": {
-              "placeholder": "Seleccione."
-            }
-          }
-        },
-        "processors": "Procesadores"
+        }
       };
     }
   });

@@ -247,6 +247,12 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       return fetching;
     }
 
+    #processing;
+
+    get processing() {
+      return this.#processing;
+    }
+
     #items = new Map();
 
     get items() {
@@ -273,6 +279,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       let dependencies = [];
       const set = new Set();
       this.items.forEach(bundle => {
+        if (!bundle.dependencies) return;
         const {
           items
         } = bundle.dependencies;
@@ -313,8 +320,14 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     get errors() {
       let errors = [];
-      [...this.items.values()].forEach(item => errors = errors.concat(item.errors));
+      [...this.items.values()].forEach(item => {
+        errors = errors.concat(item.errors);
+      });
       return errors;
+    }
+
+    get alerts() {
+      return this.errors.length + this.warnings.length;
     }
 
     get warnings() {
@@ -323,12 +336,19 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       return warnings;
     }
 
+    #compilers;
+
+    get compilers() {
+      return this.#compilers;
+    }
+
     constructor(module) {
       super();
       this.#module = module;
       this.#am = module.am;
       const txt = module.am.getBundle('txt');
       this.#applicationModel = module.applicationModel;
+      this.#compilers = new CompilersManager();
       this.#bundles = module.am.bundles;
       this.#txt = txt;
       this.#process();
@@ -362,7 +382,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     #process() {
       this.#am.bundles.forEach(bundle => {
-        if (bundle.name === 'txt') return;
+        if (bundle.name === 'txt' || this.#items.has(bundle.name)) return;
         const bundleManager = new BundleManager(this.#applicationModel, this.#tree, bundle, this.#txt);
 
         const onProcess = () => {
@@ -382,6 +402,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
         bundleManager.bind('change', onProcess);
         bundleManager.bind('change', this.triggerEvent);
         this.items.set(bundle.name, bundleManager);
+        this.compilers.validate(bundleManager);
         if (bundleManager.processed) onProcess();
       });
     }
@@ -407,13 +428,51 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       });
     }
 
-    async loadCompilers() {
-      const promises = [];
-      this.items.forEach(item => {
-        if (!item.compiler) return;
-        promises.push(item.loadCompiler());
-      });
+    async loadConsumers() {
+      const items = [...this.items.values()];
+      this.#processing = true;
+      this.triggerEvent();
+      await Promise.all(items.map(item => {
+        item.consumers.load();
+      }));
+      this.#processing = true;
+      this.triggerEvent();
+    }
+
+    async loadDependencies() {
+      const items = [...this.items.values()].filter(item => !!item.dependencies);
+      this.#processing = true;
+      this.triggerEvent();
+      const promises = items.map(item => item.dependencies.load());
       await Promise.all(promises);
+      this.#processing = true;
+      this.triggerEvent();
+    }
+
+  }
+  /****************************************
+  FILE: module\bundles\compilers-manager.js
+  ****************************************/
+
+
+  class CompilersManager extends _models.ReactiveModel {
+    #items = [];
+
+    get items() {
+      return this.#items;
+    }
+
+    validate(bundleManager) {
+      if (!bundleManager.compiler) return;
+      this.items.push(bundleManager);
+    }
+
+    async load() {
+      this.fetching = true;
+      const promises = this.items.map(item => item.loadCompiler());
+      await Promise.all(promises);
+      this.fetching = false;
+      this.triggerEvent();
     }
 
   }
@@ -460,6 +519,10 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       return this.#bundle;
     }
 
+    get fetching() {
+      return this.#model.fetching;
+    }
+
     constructor(bundle, application, tree, specs = {
       load: false
     }) {
@@ -467,10 +530,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       this.#applicationManager = application;
       this.#bundle = bundle;
       if (specs.load) this.load();
-    }
-
-    load() {
-      const specs = {
+      this.#model = new _models2.Consumers({
         tree: {
           properties: {
             bundle: true
@@ -481,30 +541,39 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
           operand: 0,
           value: this.bundle.id
         }]
-      };
-      this.#model = new _models2.Consumers(specs);
+      });
       this.#model.bind('change', this.#check);
+      window.c = this.#model;
+    }
+
+    async load() {
+      const promise = new PendingPromise();
+
+      const onReady = () => {
+        if (!this.#ready) return;
+        this.#model.unbind('change', onReady);
+        promise.resolve(true);
+      };
+
+      this.#model.bind('change', onReady);
       this.#model.fetch();
+      this.triggerEvent();
+      return promise;
     }
 
     #check = () => {
-      if (!this.#model.tree.landed) return;
-      this.triggerEvent(); // const branch = this.tree.items.get(this.bundle.name);
-      // branch.addConsumers(this.#model);
-
+      const {
+        tree,
+        items
+      } = this.#model;
+      if (!tree.landed) return;
       const {
         moduleManager
       } = this.#applicationManager;
-      this.#model.items.forEach(item => {
-        const module = moduleManager.getItem(item.moduleId);
-
-        if (!module) {
-          /**
-           * TODO: @julio check iterations
-           */
-          return;
-        }
-
+      if (items.length !== this.#entries.size) this.#entries = new Map();
+      items.forEach(item => {
+        const module = this.#applicationManager.moduleManager.getItem(item.moduleId);
+        if (!module || this.#entries.has(item.bundle.id)) return;
         this.#entries.set(item.bundle.id, {
           id: item.bundle.id,
           bundle: item.bundle,
@@ -513,8 +582,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
           module: module
         });
       });
-      this.#ready = true;
-      this.#model.unbind('change', this.#check); //TODO: @julio check events
+      this.#ready = true; //TODO: @julio check events
 
       this.triggerEvent('consumers.loaded');
       this.triggerEvent();
@@ -565,19 +633,21 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     #tree;
     #applicationManager;
+    #processorId;
+
+    get fetching() {
+      return this.#model.fetching;
+    }
 
     constructor(bundle, application, tree, specs = {
-      load: true
+      load: false
     }) {
       super();
       this.#bundle = bundle;
       this.#applicationManager = application;
       this.#tree = tree;
-      if (bundle.processors.has('ts')) this.load(bundle.processors.get('ts').id);
-    }
-
-    load(processorId) {
-      const specs = {
+      this.#processorId = bundle.processors.get('ts').id;
+      this.#model = new _models2.ProcessorDependencies({
         tree: {
           properties: {
             bundle: true,
@@ -587,21 +657,38 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
         filter: [{
           field: 'processor',
           operand: 0,
-          value: processorId
+          value: this.#processorId
         }]
-      };
-      this.#model = new _models2.ProcessorDependencies(specs);
-      this.#model.bind('change', this.#check);
-      this.#model.fetch();
+      });
       window.d = this.#model;
     }
 
-    #check = () => {
-      if (!this.model.tree.landed) return;
-      this.#model.items.forEach(item => {
-        const module = moduleManager.getItem(item.moduleId);
+    async load() {
+      const promise = new PendingPromise();
 
-        if (item.external) {
+      const onReady = () => {
+        this.#model.unbind('dependencies.ready', onReady);
+        promise.resolve(true);
+        this.triggerEvent();
+      };
+
+      this.bind('dependencies.ready', onReady);
+      this.#model.bind('change', this.#check);
+      this.#model.fetch();
+      return promise;
+    }
+
+    #check = () => {
+      const {
+        items,
+        tree
+      } = this.model;
+      if (!tree.landed) return;
+      if (items.length !== this.#entries.size) this.#entries = new Map();
+      items.forEach(item => {
+        const module = this.#applicationManager.moduleManager.getItem(item.moduleId);
+
+        if (item.kind === 'external') {
           this.#entries.set(item.id, {
             id: item.id,
             name: item.resource,
@@ -610,7 +697,11 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
           return;
         }
 
-        if (!module && !item.external) return false;
+        if (!module && item.kind !== 'bundle') {
+          console.log("invalid item", item);
+          return false;
+        }
+
         this.#entries.set(item.bundle.id, {
           id: item.bundle.id,
           bundle: item.bundle,
@@ -619,8 +710,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
           module
         });
       });
-      this.#ready = true;
-      this.#model.unbind('change', this.#check); //TODO: @julio check events
+      this.#ready = true; //TODO: @julio check events
 
       this.triggerEvent('dependencies.ready');
       this.triggerEvent();
@@ -677,6 +767,14 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     get consumers() {
       return this.#consumers;
+    }
+
+    get errors() {
+      return this.#bundle.errors;
+    }
+
+    get warnings() {
+      return this.#bundle.warnings;
     }
 
     #compiler;
@@ -736,10 +834,14 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       this.#tree = tree;
       this.#txt = txt;
       this.#application = application;
-      this.#dependencies = new DependenciesManager(bundle, application, tree);
+
+      if (bundle.processors.has('ts')) {
+        this.#dependencies = new DependenciesManager(bundle, application, tree);
+        this.dependencies.bind('change', this.triggerEvent);
+      }
+
       this.#consumers = new ConsumersManager(bundle, application, tree);
       this.consumers.bind('change', this.triggerEvent);
-      this.dependencies.bind('change', this.triggerEvent);
       if (txt) this.#processors.set('txt', txt.processors.get('txt'));
       this.#createCompiler();
       this.bundle.processors.forEach(processor => this.#processors.set(processor.name, processor));
@@ -759,13 +861,13 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
     #createCompiler() {
       if (!this.bundle.processors.has('ts')) return;
       const processor = this.bundle.processors.get('ts');
-      const compiler = new _models2.ProcessorCompiler({
+      this.#compiler = new _models2.ProcessorCompiler({
         identifier: {
           id: processor.id
         }
       });
-      this.#compiler = compiler;
       this.compiler.bind('change', this.triggerEvent);
+      window.compiler = this.#compiler;
     }
 
     loadCompiler = () => this.#compiler.fetch();
@@ -954,12 +1056,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
      * @returns {*}
      */
 
-    getItem(itemId) {
-      return this.#application.am?.items.find(item => {
-        return item.id === itemId;
-      });
-    }
-
+    getItem = itemId => this.#application.am?.items.find(item => item.id === itemId);
   }
   /***************************
   FILE: module\module-model.js
@@ -1204,7 +1301,7 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
 
     loadStatic() {
       if (!this.am.module?.static) return;
-      const specs = {
+      this.#_static = _workspaceTree.TreeFactory.get('static', {
         project: this.project,
         object: this.am,
         items: this.am.module.static.items,
@@ -1215,10 +1312,10 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
               module
             }
           } = this;
-          if (!am.tree.landed) return; // this.#bundlesTree.setElements(module.static.items);
+          if (!am.tree.landed) return;
+          this.#_static.setElements(module.static.items);
         }
-      };
-      this.#_static = _workspaceTree.TreeFactory.get('static', specs);
+      });
     }
     /**
      * Validates the module and generates de bundleManager instances
@@ -1631,17 +1728,12 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
       super();
       this.#project = project;
       this.#application = project.application;
-      let interval;
       this.#tree = _workspaceTree.TreeFactory.get('static', {
         project: this.#project,
         object: this.#application.static,
         items: this.#application.static.items,
         listener: () => {
-          if (interval) return;
-          interval = setTimeout(() => {
-            this.#tree.setElements(this.#application.static.items);
-            interval = undefined;
-          }, 100);
+          this.#tree.setElements(this.#application.static.items);
         }
       });
     }
@@ -1680,7 +1772,6 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
         template,
         template: {
           application,
-          processors,
           global
         }
       } = this.#project.application;
@@ -1689,28 +1780,20 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
         project: project,
         object: application,
         items: application.sources.items,
-        id: project.id
+        id: project.id,
+        listener: () => {
+          this.#trees.application.setElements(application.sources.items);
+        }
       });
       this.#trees.global = _workspaceTree.TreeFactory.get('template', {
         project: project,
         object: global,
-        items: global.sources.items
+        items: global.sources.items,
+        listener: () => {
+          this.#trees.global.setElements(global.sources.items);
+        }
       });
       this.#trees.processors = new Map();
-      processors.forEach(processor => {
-        if (!processor.path) return;
-
-        const tree = _workspaceTree.TreeFactory.get('template', {
-          project: project,
-          object: processor,
-          id: project.id,
-          items: processor.sources.items,
-          module: template,
-          bundle: template
-        });
-
-        this.#trees.processors.set(processor.processor, tree);
-      });
     }
 
     async getSource(id, type) {
@@ -1754,12 +1837,6 @@ define(["exports", "@beyond-js/dashboard-lib/models.legacy", "@beyond-js/dashboa
                 sources: true
               }
             }
-          }
-        },
-        libraries: {
-          properties: {
-            library: true,
-            application: true
           }
         },
         am: {
